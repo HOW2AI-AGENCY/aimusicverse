@@ -132,6 +132,8 @@ flowchart TB
     Bot --> Client
 ```
 
+Три уровня системы: **Telegram Mini App** (React-фронтенд — страницы, компоненты, хуки, состояние на Zustand и TanStack Query, единый аудио-провайдер), **бэкенд Supabase** (авторизация JWT + RLS, PostgreSQL, 135 Edge Functions, объектное хранилище и realtime-каналы) и **внешние API** (Suno AI v5, Klang.io, Telegram Bot API). Клиент работает с Supabase напрямую, а все обращения к внешним сервисам идут через Edge Functions; бот возвращает пользователя обратно в приложение.
+
 ### Слоёная архитектура (Layered)
 
 ```mermaid
@@ -170,6 +172,8 @@ sequenceDiagram
     FE-->>U: GenerationResultSheet
 ```
 
+Полный цикл генерации трека: пользователь отправляет форму → Mini App вызывает Edge Function `suno-music-generate` → создаётся запись в `generation_tasks` и запускается задание в Suno → приложение опрашивает статус каждые 3 секунды → по готовности сохраняются две версии трека (A/B) в `tracks` и `track_versions`, после чего открывается `GenerationResultSheet`.
+
 ### Схема базы данных
 
 ```mermaid
@@ -184,6 +188,8 @@ erDiagram
     music_projects ||--o{ project_tracks : groups
     playlists ||--o{ playlist_tracks : groups
 ```
+
+Ключевые сущности и связи: профиль владеет треками, каждый трек имеет версии (A/B) и стемы; к профилю привязаны кредиты и роли; треки накапливают комментарии и лайки; проекты и плейлисты объединяют треки через связующие таблицы.
 
 > Подробнее: [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md) · [`docs/DATABASE.md`](docs/DATABASE.md) · [`docs/SUNO_API.md`](docs/SUNO_API.md)
 
@@ -310,20 +316,20 @@ aimusicverse/
 
 ## 📖 Документация
 
-| Раздел                      | Адрес                                                                      | Для кого       |
-| --------------------------- | -------------------------------------------------------------------------- | -------------- |
-| 🤝 **Передача проекта**     | [HANDOFF.md](HANDOFF.md)                                                   | Заказчик       |
-| 📚 **Documentation Index**  | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)                           | Все роли       |
-| 🏛 **Архитектура**           | [ARCHITECTURE_HUB.md](ARCHITECTURE_HUB.md)                                 | Разработчики   |
-| 🗺 **Roadmap**               | [ROADMAP.md](ROADMAP.md)                                                   | PM / инвесторы |
-| 📊 **Статус проекта**       | [PROJECT_STATUS.md](PROJECT_STATUS.md)                                     | Все            |
-| 📝 **Changelog**            | [CHANGELOG.md](CHANGELOG.md)                                               | Все            |
-| 🤝 **Contributing**         | [CONTRIBUTING.md](CONTRIBUTING.md)                                         | Контрибьюторы  |
-| 🔒 **Security**             | [SECURITY.md](SECURITY.md)                                                 | Безопасность   |
-| 🗂 **Структура репозитория** | [REPOSITORY_STRUCTURE.md](REPOSITORY_STRUCTURE.md)                         | Онбординг      |
-| 🛠 **Dev гайд**              | [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md)                         | Разработчики   |
-| 🎨 **Design System**        | [docs/DESIGN_SYSTEM_COMPREHENSIVE.md](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Дизайнеры      |
-| 🤖 **MCP-сервер (агенты)**  | [docs/MCP.md](docs/MCP.md)                                                 | AI-интеграции  |
+| Раздел                      | Адрес                                                                      | Для кого      |
+| --------------------------- | -------------------------------------------------------------------------- | ------------- |
+| 🤝 **Передача проекта**     | [HANDOFF.md](HANDOFF.md)                                                   | Заказчик      |
+| 📚 **Documentation Index**  | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)                           | Все роли      |
+| 🏛 **Архитектура**           | [ARCHITECTURE_HUB.md](ARCHITECTURE_HUB.md)                                 | Разработчики  |
+| 🗺 **Roadmap**               | [ROADMAP.md](ROADMAP.md)                                                   | PM            |
+| 📊 **Статус проекта**       | [PROJECT_STATUS.md](PROJECT_STATUS.md)                                     | Все           |
+| 📝 **Changelog**            | [CHANGELOG.md](CHANGELOG.md)                                               | Все           |
+| 🤝 **Contributing**         | [CONTRIBUTING.md](CONTRIBUTING.md)                                         | Контрибьюторы |
+| 🔒 **Security**             | [SECURITY.md](SECURITY.md)                                                 | Безопасность  |
+| 🗂 **Структура репозитория** | [REPOSITORY_STRUCTURE.md](REPOSITORY_STRUCTURE.md)                         | Онбординг     |
+| 🛠 **Dev гайд**              | [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md)                         | Разработчики  |
+| 🎨 **Design System**        | [docs/DESIGN_SYSTEM_COMPREHENSIVE.md](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Дизайнеры     |
+| 🤖 **MCP-сервер (агенты)**  | [docs/MCP.md](docs/MCP.md)                                                 | AI-интеграции |
 
 ### 🤖 MCP-сервер — управление MusicVerse из AI-ассистентов
 
@@ -349,31 +355,7 @@ Edge Function `supabase/functions/mcp/index.ts` (авто-переписывае
 сборке, редактировать вручную нельзя). Полный справочник инструментов, рецепты
 использования и гайд по добавлению новых — в [docs/MCP.md](docs/MCP.md).
 
-<sub><a href="#📁-структура-проекта">← Назад: Структура</a> · <a href="#top">↑ К началу</a> · <a href="#💰-для-инвесторов">Далее: Инвесторам →</a></sub>
-
----
-
-## 💰 Для инвесторов
-
-| Метрика                        | Значение                            |
-| ------------------------------ | ----------------------------------- |
-| ⭐ GitHub Stars                | Private repo                        |
-| 📦 Eager load (холодный старт) | 508 KB gzip (↓ с 1.19 MB)           |
-| 📦 Всего JS (все чанки)        | 2.11 MB gzip                        |
-| 🧪 Покрытие кода               | 1810 unit tests                     |
-| 🔒 Безопасность                | 6 vulns (1 high, 4 moderate, 1 low) |
-| 📊 Спринтов завершено          | 50+                                 |
-| 🏗 Компонентов                  | 1043                                |
-| 🔧 Хуков                       | 440                                 |
-| 🚀 Стадия                      | Pre-Seed / Active Development       |
-
-**MusicVerse AI** демократизирует создание музыки через AI-powered инструменты прямо в Telegram. Первый продукт, который делает профессиональное музыкальное производство доступным для 900М+ пользователей Telegram.
-
-- **Бизнес-модель**: Freemium + подписка (Stars Payment в Telegram)
-- **Рынок**: MusicTech + AI + Creator Economy ($12B+ к 2027)
-- **Конкурентное преимущество**: Всё в одном — генерация, редактирование, микширование, MIDI, вокальный клон — без выхода из Telegram
-
-<sub><a href="#📖-документация">← Назад: Документация</a> · <a href="#top">↑ К началу</a></sub>
+<sub><a href="#📁-структура-проекта">← Назад: Структура</a> · <a href="#top">↑ К началу</a></sub>
 
 ---
 
@@ -414,7 +396,7 @@ Edge Function `supabase/functions/mcp/index.ts` (авто-переписывае
 Новичок     → README → ARCHITECTURE_HUB → CONTRIBUTING
 Разработчик → CLAUDE.md → REPOSITORY_STRUCTURE → ARCHITECTURE_HUB
 Дизайнер    → DESIGN_SYSTEM → DESIGN_TOKENS → LAYOUT_SYSTEM
-PM/Инвестор → PROJECT_STATUS → ROADMAP → CHANGELOG
+PM          → PROJECT_STATUS → ROADMAP → CHANGELOG
 Контрибьютор→ CONTRIBUTING → Issues → SECURITY
 ```
 
