@@ -12,7 +12,14 @@ import { getGenerationCost } from "../../_shared/economy.ts";
 import { VERSION_LABELS, getVersionType } from "../utils/version-types.ts";
 import { fetchWithRetry } from "../utils/fetch-retry.ts";
 import { logAuditAction } from "../utils/audit-log.ts";
-import { extractClipFields, getAudioUrl, getModelName, validateClip, type SkipReason } from "../../_shared/suno-clip-fields.ts";
+import {
+  extractClipFields,
+  getAudioUrl,
+  getModelName,
+  validateClip,
+  type SkipReason,
+  type SkipReasonCode,
+} from "../../_shared/suno-clip-fields.ts";
 
 const logger = createLogger("complete-callback");
 
@@ -30,9 +37,11 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
 
   let trackTitle = "";
   const skippedClips: SkipReason[] = [];
+  const persistenceFailures: SkipReason[] = [];
   const missingCovers: number[] = [];
   let primaryTrackUpdated = false;
   let primaryVersionId: string | null = null;
+  const savedVersionIds = new Set<string>();
 
   // ── Version creation per clip ──
   for (let i = 0; i < clips.length; i++) {
@@ -84,14 +93,6 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
     const rawTitle = fields.title || task.prompt?.split("\n")[0]?.substring(0, 100) || "Трек";
     trackTitle = sanitizeAndCleanTitle(rawTitle, "Трек");
 
-    // Insert or update version
-    const { data: existing } = await supabase
-      .from("track_versions")
-      .select("id")
-      .eq("track_id", trackId)
-      .eq("version_label", versionLabel)
-      .single();
-
     const clipModelName = fields.modelName;
     const clipImageUrl = fields.imageUrl;
     const clipDuration = typeof fields.duration === "number" ? fields.duration : null;
@@ -114,15 +115,37 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       },
     };
 
-    if (existing) {
-      await supabase
+    const existing = await findExistingVersion(supabase, trackId, versionLabel, i, fields.id);
+    if (existing.error) {
+      persistenceFailures.push(
+        makePersistenceFailure("version_lookup_failed", existing.error.message, i, fields.id, Object.keys(clip)),
+      );
+      continue;
+    }
+
+    if (existing.version) {
+      const { error: versionUpdateError } = await supabase
         .from("track_versions")
         .update({ ...versionData, is_primary: shouldBePrimary })
-        .eq("id", existing.id);
-      if (!primaryVersionId) primaryVersionId = existing.id;
+        .eq("id", existing.version.id);
+      if (versionUpdateError) {
+        logger.error("Failed to update track version from complete callback", versionUpdateError, {
+          trackId,
+          versionId: existing.version.id,
+          clipIndex: i,
+          versionLabel,
+          clipId: fields.id,
+        });
+        persistenceFailures.push(
+          makePersistenceFailure("version_write_failed", versionUpdateError.message, i, fields.id, Object.keys(clip)),
+        );
+        continue;
+      }
+      savedVersionIds.add(existing.version.id);
+      if (!primaryVersionId) primaryVersionId = existing.version.id;
     } else {
       const generationMode = task.generation_mode || task.tracks?.generation_mode;
-      const { data: newVersion } = await supabase
+      const { data: newVersion, error: versionInsertError } = await supabase
         .from("track_versions")
         .insert({
           track_id: trackId,
@@ -135,13 +158,25 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
         .select()
         .single();
 
-      if (newVersion && !primaryVersionId) {
-        primaryVersionId = newVersion.id;
-        await supabase
-          .from("tracks")
-          .update({ active_version_id: newVersion.id })
-          .eq("id", trackId)
-          .is("active_version_id", null);
+      if (versionInsertError) {
+        logger.error("Failed to create track version from complete callback", versionInsertError, {
+          trackId,
+          clipIndex: i,
+          versionLabel,
+          clipId: fields.id,
+          generationMode,
+        });
+        persistenceFailures.push(
+          makePersistenceFailure("version_write_failed", versionInsertError.message, i, fields.id, Object.keys(clip)),
+        );
+        continue;
+      }
+
+      if (newVersion) {
+        savedVersionIds.add(newVersion.id);
+        if (!primaryVersionId) {
+          primaryVersionId = newVersion.id;
+        }
       }
     }
 
@@ -157,7 +192,7 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       const safeProjectId =
         rawProjectId && rawProjectId !== "null" && rawProjectId !== "undefined" ? rawProjectId : null;
 
-      await supabase
+      const { error: trackUpdateError } = await supabase
         .from("tracks")
         .update({
           status: "completed",
@@ -176,10 +211,22 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
           project_track_id: projectTrackId,
         })
         .eq("id", trackId);
-      primaryTrackUpdated = true;
+      if (trackUpdateError) {
+        logger.error("Failed to update primary track fields from complete callback", trackUpdateError, {
+          trackId,
+          clipIndex: i,
+          versionLabel,
+          clipId: fields.id,
+        });
+        persistenceFailures.push(
+          makePersistenceFailure("track_update_failed", trackUpdateError.message, i, fields.id, Object.keys(clip)),
+        );
+      } else {
+        primaryTrackUpdated = true;
+      }
     }
 
-    await supabase.from("track_change_log").insert({
+    const { error: changeLogError } = await supabase.from("track_change_log").insert({
       track_id: trackId,
       user_id: task.user_id,
       change_type: "version_created",
@@ -189,14 +236,33 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       new_value: versionLabel,
       metadata: { version_label: versionLabel, clip_index: i, suno_clip_id: fields.id, title: trackTitle },
     });
+    if (changeLogError) {
+      logger.warn("Failed to write version change log", {
+        trackId,
+        clipIndex: i,
+        versionLabel,
+        error: changeLogError.message,
+      });
+    }
   }
 
   if (primaryVersionId) {
-    await supabase
+    const { error: primaryFlagError } = await supabase
+      .from("track_versions")
+      .update({ is_primary: false })
+      .eq("track_id", trackId)
+      .neq("id", primaryVersionId);
+    if (primaryFlagError) {
+      logger.error("Failed to clear stale primary version flags", primaryFlagError, { trackId, primaryVersionId });
+    }
+
+    const { error: activeVersionError } = await supabase
       .from("tracks")
       .update({ active_version_id: primaryVersionId })
       .eq("id", trackId)
-      .is("active_version_id", null);
+    if (activeVersionError) {
+      logger.error("Failed to set active version after complete callback", activeVersionError, { trackId, primaryVersionId });
+    }
   }
 
   // ── Cover generation ──
@@ -253,16 +319,17 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
 
   // ── Task completion ──
   const expectedClips = task.expected_clips ?? 2;
-  const createdClips = clips.length - skippedClips.length;
+  const createdClips = savedVersionIds.size;
+  const allSkippedClips = [...skippedClips, ...persistenceFailures];
   const deliveryComplete = createdClips >= expectedClips;
-  if (skippedClips.length > 0) {
+  if (allSkippedClips.length > 0) {
     logger.warn("Some clips skipped in complete callback", {
       totalClips: clips.length,
-      skippedCount: skippedClips.length,
-      reasons: skippedClips.map((s) => ({ code: s.code, index: s.clipIndex, keys: s.availableKeys })),
+      skippedCount: allSkippedClips.length,
+      reasons: allSkippedClips.map((s) => ({ code: s.code, index: s.clipIndex, keys: s.availableKeys })),
     });
   }
-  await supabase
+  const { error: taskCompleteError } = await supabase
     .from("generation_tasks")
     .update({
       status: deliveryComplete ? "completed" : createdClips === 0 ? "failed" : "partial_delivery",
@@ -270,11 +337,14 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       callback_received_at: new Date().toISOString(),
       audio_clips: JSON.stringify(clips),
       received_clips: createdClips,
-      error_message: skippedClips.length > 0
-        ? `${skippedClips.length}/${clips.length} clips skipped: ${skippedClips.map((s) => s.code).join(", ")}`
+      error_message: allSkippedClips.length > 0
+        ? `${allSkippedClips.length}/${clips.length} clips skipped: ${allSkippedClips.map((s) => s.code).join(", ")}`
         : null,
     })
     .eq("id", task.id);
+  if (taskCompleteError) {
+    logger.error("Failed to mark generation task complete", taskCompleteError, { taskId: task.id, trackId });
+  }
 
   // ── Audit log ──
   await logAuditAction(supabaseUrl, supabaseServiceKey, {
@@ -329,16 +399,16 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
   }
 
   // ── Notifications ──
-  const hasSkips = skippedClips.length > 0;
+  const hasSkips = allSkippedClips.length > 0;
   const notifTitle = hasSkips
     ? createdClips === 0
       ? "⚠️ Генерация не удалась"
       : "⚠️ Трек готов частично"
     : "🎵 Трек готов!";
   const notifMessage = hasSkips
-    ? `${createdClips}/${clips.length} версий создано. Пропущены: ${skippedClips.map((s) => `#${s.clipIndex + 1} (${s.code})`).join(", ")}`
+    ? `${createdClips}/${clips.length} версий создано. Пропущены: ${allSkippedClips.map((s) => `#${s.clipIndex + 1} (${s.code})`).join(", ")}`
     : `Ваш трек "${trackTitle}" успешно сгенерирован (${clips.length} версии)`;
-  await supabase.from("notifications").insert({
+  const { error: notificationError } = await supabase.from("notifications").insert({
     user_id: task.user_id,
     title: notifTitle,
     message: notifMessage,
@@ -351,12 +421,15 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       trackTitle,
       clipsCount: clips.length,
       createdClips,
-      skippedClips,
+      skippedClips: allSkippedClips,
       missingCovers,
     },
     priority: 8,
     read: false,
   });
+  if (notificationError) {
+    logger.error("Failed to create generation completion notification", notificationError, { taskId: task.id, trackId });
+  }
 
   // ── Telegram notification ──
   if (task.telegram_chat_id && clips.length > 0) {
@@ -391,6 +464,53 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
 }
 
 // ── Inline helpers (ponytail: single-caller, inline until second caller) ──
+
+async function findExistingVersion(
+  supabase: any,
+  trackId: string,
+  versionLabel: string,
+  clipIndex: number,
+  clipId: string | null,
+): Promise<{ version: { id: string } | null; error: Error | null }> {
+  const byClipIndex = await supabase
+    .from("track_versions")
+    .select("id")
+    .eq("track_id", trackId)
+    .eq("clip_index", clipIndex)
+    .limit(1);
+  if (byClipIndex.error) return { version: null, error: byClipIndex.error };
+  if (byClipIndex.data?.[0]) return { version: byClipIndex.data[0], error: null };
+
+  if (clipId) {
+    const bySunoId = await supabase
+      .from("track_versions")
+      .select("id")
+      .eq("track_id", trackId)
+      .eq("metadata->>suno_id", clipId)
+      .limit(1);
+    if (bySunoId.error) return { version: null, error: bySunoId.error };
+    if (bySunoId.data?.[0]) return { version: bySunoId.data[0], error: null };
+  }
+
+  const byLabel = await supabase
+    .from("track_versions")
+    .select("id")
+    .eq("track_id", trackId)
+    .eq("version_label", versionLabel)
+    .limit(1);
+  if (byLabel.error) return { version: null, error: byLabel.error };
+  return { version: byLabel.data?.[0] ?? null, error: null };
+}
+
+function makePersistenceFailure(
+  code: SkipReasonCode,
+  message: string,
+  clipIndex: number,
+  clipId: string | null,
+  availableKeys: string[],
+): SkipReason {
+  return { code, message, clipIndex, clipId, availableKeys };
+}
 
 async function handleStudioInstrumental(
   supabase: any,

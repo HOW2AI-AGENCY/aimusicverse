@@ -1,6 +1,9 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
+import { createLogger } from "../_shared/logger.ts";
+
+const logger = createLogger("retry-track-processing");
 
 /**
  * Retries version/cover reconstruction for a track whose Suno callback was
@@ -75,7 +78,7 @@ serve(async (req) => {
     const summary = Array.isArray(rebuild) ? rebuild[0] : rebuild;
 
     // Emit a metric so we can measure retry success rate
-    await admin.from("generation_skip_metrics").insert({
+    const { error: metricError } = await admin.from("generation_skip_metrics").insert({
       task_id: task.id,
       track_id: trackId,
       user_id: userId,
@@ -83,6 +86,9 @@ serve(async (req) => {
       source: "retry_endpoint",
       message: `created=${summary?.versions_created ?? 0} updated=${summary?.versions_updated ?? 0}`,
     });
+    if (metricError) {
+      logger.warn("Failed to record retry metric", { trackId, taskId: task.id, error: metricError.message });
+    }
 
     return json(
       {
@@ -95,7 +101,7 @@ serve(async (req) => {
       200,
     );
   } catch (err) {
-    console.error("retry-track-processing failed", err);
+    logger.error("retry-track-processing failed", err);
     return json({ error: (err as Error).message ?? "Unknown error" }, 500);
   }
 });

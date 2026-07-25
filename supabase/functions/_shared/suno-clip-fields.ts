@@ -65,7 +65,10 @@ export type SkipReasonCode =
   | "missing_audio_url"
   | "missing_stream_url"
   | "missing_image_url"
-  | "empty_clip";
+  | "empty_clip"
+  | "version_lookup_failed"
+  | "version_write_failed"
+  | "track_update_failed";
 
 export interface SkipReason {
   code: SkipReasonCode;
