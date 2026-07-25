@@ -82,6 +82,14 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
     enabled: open,
   });
 
+  // Диалоги живут в этом компоненте (он смонтирован всегда), но лист действий
+  // должен визуально уйти, чтобы не перекрывать открытый диалог.
+  const anyDialogOpen = Object.values(dialogs).some(Boolean);
+  const handleCloseDialog = (key: Parameters<typeof closeDialog>[0]) => {
+    closeDialog(key);
+    onOpenChange(false);
+  };
+
 
   // Enable video status fetch when sheet opens
   useEffect(() => {
@@ -141,7 +149,7 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
 
   return (
     <>
-      <Sheet open={open} onOpenChange={onOpenChange}>
+      <Sheet open={open && !anyDialogOpen} onOpenChange={onOpenChange}>
         <SheetContent
           side="bottom"
           className="h-[85vh] sm:h-[70vh] max-h-[85vh] sm:max-h-[70vh] rounded-t-2xl flex flex-col pb-0 px-0 bg-background/95 backdrop-blur-xl"
@@ -385,7 +393,7 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
       <TrackDialogsPortal
         track={track}
         dialogs={dialogs}
-        onCloseDialog={closeDialog}
+        onCloseDialog={handleCloseDialog}
         onConfirmDelete={handleConfirmDelete}
         stems={stems}
         activeVersion={activeVersion}
