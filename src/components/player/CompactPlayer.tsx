@@ -50,7 +50,7 @@ const formatTime = (s: number) => {
 export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: CompactPlayerProps) {
   const { t } = useTranslation();
   const reducedMotion = useReducedMotion();
-  const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, closePlayer, queue, volume, setVolume } =
+  const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, closePlayer, queue, volume, setVolume, retryPlayback } =
     usePlayerStore();
   const playbackStatus = usePlayerStore((s) => s.playbackStatus);
   const playbackError = usePlayerStore((s) => s.playbackError);
@@ -265,6 +265,28 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
   const VolumePopover = <VolumeControl volume={volume} setVolume={setVolume} variant={variant} />;
   const ExpandButton = <ExpandBtn onClick={handleExpand} />;
 
+  const ErrorBanner = hasError ? (
+    <div
+      role="alert"
+      className="mx-3 mb-1.5 flex items-center gap-1.5 rounded-md bg-destructive/10 px-2 py-1 text-[0.6875rem] text-destructive"
+    >
+      <AlertCircle className="h-3 w-3 flex-shrink-0" />
+      <span className="line-clamp-1 flex-1">{playbackError || t("player.compact.errorFallback")}</span>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          hapticImpact("light");
+          retryPlayback();
+        }}
+        className="flex-shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 rounded hover:bg-destructive/20 transition-colors"
+        aria-label={t("player.compact.retry")}
+      >
+        <RefreshCw className="h-3 w-3" />
+        <span className="hidden sm:inline">{t("player.compact.retry")}</span>
+      </button>
+    </div>
+  ) : null;
+
   const Waveform = ({ heightClass, isLoading }: { heightClass: string; isLoading?: boolean }) => (
     <div className={cn("flex-1 min-w-0 relative", heightClass)}>
       <PlayerProgress
@@ -319,25 +341,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
             <ChevronUp className="w-4 h-4 text-muted-foreground" />
           </motion.div>
         </div>
-        {hasError && (
-          <div
-            role="alert"
-            className="mx-3 mb-1.5 flex items-center gap-1.5 rounded-md bg-destructive/10 px-2 py-1 text-[0.6875rem] text-destructive"
-          >
-            <AlertCircle className="h-3 w-3 flex-shrink-0" />
-            <span className="line-clamp-1 flex-1">{playbackError || t("player.compact.errorFallback")}</span>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                playTrack(track);
-              }}
-              className="flex-shrink-0 p-0.5 rounded hover:bg-destructive/20 transition-colors"
-              aria-label={t("player.compact.retry")}
-            >
-              <RefreshCw className="h-3 w-3" />
-            </button>
-          </div>
-        )}
+        {ErrorBanner}
         <div className="flex items-center gap-2 px-3 pb-3 min-w-0">
           <div className="flex-shrink-0">{Cover}</div>
           <div className="flex-1 min-w-0">{TitleBlock}</div>
@@ -352,12 +356,14 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
   } else if (variant === "mid") {
     maxWidth = "max-w-3xl";
     body = (
-      <div className="flex items-center gap-3 px-3 py-2.5">
-        {Cover}
-        <div className="flex flex-col flex-1 min-w-0 gap-1">
-          {TitleBlock}
-          <Waveform heightClass="h-5" isLoading={isLoading} />
-        </div>
+      <>
+        {ErrorBanner}
+        <div className="flex items-center gap-3 px-3 py-2.5">
+          {Cover}
+          <div className="flex flex-col flex-1 min-w-0 gap-1">
+            {TitleBlock}
+            <Waveform heightClass="h-5" isLoading={isLoading} />
+          </div>
         <div className="flex items-center gap-0.5 flex-shrink-0">
           {PlayButton}
           {NextButton}
