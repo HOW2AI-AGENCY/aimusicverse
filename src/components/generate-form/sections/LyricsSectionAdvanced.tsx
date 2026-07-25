@@ -282,30 +282,30 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
               <div className="flex items-center gap-1">
                 <div className="flex items-center gap-0.5 p-0.5 rounded-lg bg-muted/40">
                   <Button
-                    variant={viewMode === "text" ? "secondary" : "ghost"}
+                    variant={currentMode === "text" ? "secondary" : "ghost"}
                     size="icon"
                     aria-label="Текстовый редактор"
-                    aria-pressed={viewMode === "text"}
+                    aria-pressed={currentMode === "text"}
                     className="h-7 w-7 rounded-md"
                     onClick={() => switchView("text")}
                   >
                     <AlignLeft className="h-3.5 w-3.5" />
                   </Button>
                   <Button
-                    variant={viewMode === "visual" ? "secondary" : "ghost"}
+                    variant={currentMode === "visual" ? "secondary" : "ghost"}
                     size="icon"
                     aria-label="Визуальный редактор секций"
-                    aria-pressed={viewMode === "visual"}
+                    aria-pressed={currentMode === "visual"}
                     className="h-7 w-7 rounded-md"
                     onClick={() => switchView("visual")}
                   >
                     <LayoutGrid className="h-3.5 w-3.5" />
                   </Button>
                   <Button
-                    variant={viewMode === "preview" ? "secondary" : "ghost"}
+                    variant={currentMode === "preview" ? "secondary" : "ghost"}
                     size="icon"
                     aria-label="Предпросмотр текста"
-                    aria-pressed={viewMode === "preview"}
+                    aria-pressed={currentMode === "preview"}
                     className="h-7 w-7 rounded-md"
                     onClick={() => switchView("preview")}
                   >
