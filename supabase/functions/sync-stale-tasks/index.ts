@@ -544,13 +544,24 @@ serve(async (req) => {
               logger.error("Error downloading files for version", downloadError, { versionLabel });
             }
 
-            // Check if version exists
-            const { data: existingVersion } = await supabase
+            // Check if version exists. maybeSingle avoids treating "not found" as
+            // an error, but real lookup errors must be logged before writes.
+            const { data: existingVersion, error: existingVersionError } = await supabase
               .from("track_versions")
               .select("id")
               .eq("track_id", task.track_id)
               .eq("version_label", versionLabel)
-              .single();
+              .maybeSingle();
+
+            if (existingVersionError) {
+              logger.error("Failed to lookup track version during sync", existingVersionError, {
+                taskId: task.id,
+                trackId: task.track_id,
+                versionLabel,
+                clipIndex: i,
+              });
+              continue;
+            }
 
             const versionData = {
               audio_url: versionLocalAudioUrl || clipAudioUrl,
@@ -604,11 +615,18 @@ serve(async (req) => {
               }
 
               if (i === 0) {
-                await supabase
+                const { error: activeVersionError } = await supabase
                   .from("tracks")
                   .update({ active_version_id: newVersion.id })
                   .eq("id", task.track_id)
                   .is("active_version_id", null);
+                if (activeVersionError) {
+                  logger.error("Failed to set active version during sync", activeVersionError, {
+                    taskId: task.id,
+                    trackId: task.track_id,
+                    versionId: newVersion.id,
+                  });
+                }
               }
             }
 

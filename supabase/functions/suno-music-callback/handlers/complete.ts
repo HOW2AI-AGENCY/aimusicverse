@@ -259,7 +259,7 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
     const { error: activeVersionError } = await supabase
       .from("tracks")
       .update({ active_version_id: primaryVersionId })
-      .eq("id", trackId)
+      .eq("id", trackId);
     if (activeVersionError) {
       logger.error("Failed to set active version after complete callback", activeVersionError, { trackId, primaryVersionId });
     }
