@@ -81,4 +81,9 @@ When the user requests a durable behavior change, record it here or in the relev
 
 ## Child DOX Index
 
-This project is not yet indexed. Before continuing you must scan the project, build the DOX tree and replace this message with the actual index. Go deep and scan files recursively to properly evaluate complexity and create nested DOX files where needed.
+- `src/` — React application source: API layer, hooks, stores, UI components, pages, providers, workers, and app types.
+- `supabase/` — Lovable Cloud backend assets: edge functions and migrations.
+- `tests/`, `src/__tests__/` — Playwright and Vitest coverage.
+- `docs/`, `ADR/`, `specs/`, `SPRINTS/`, `plans/`, `verification/` — durable project documentation, decisions, specifications, sprint records, and verification artifacts.
+- `public/`, `src/assets/`, `assets/` — static and imported media assets.
+- `.github/`, `scripts/`, `eslint-rules/` — CI, local automation, and quality rules.

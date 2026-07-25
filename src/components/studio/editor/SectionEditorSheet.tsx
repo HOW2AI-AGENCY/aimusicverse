@@ -53,6 +53,7 @@ interface SectionEditorSheetProps {
   detectedSections: DetectedSection[];
   sunoTaskId?: string | null;
   sunoId?: string | null;
+  trackLyrics?: string | null;
 }
 
 export function SectionEditorSheet({
@@ -66,10 +67,13 @@ export function SectionEditorSheet({
   detectedSections,
   sunoTaskId,
   sunoId,
+  trackLyrics,
 }: SectionEditorSheetProps) {
   const isMobile = useIsMobile();
   const { selectedSection, customRange, clearSelection, setCustomRange } = useSectionEditorStore();
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
+  const resolvedAudioUrl = audioUrl || null;
+  const safeDuration = duration > 0 ? duration : 180;
 
   // Пул-аудио с привязкой currentTime. Заменяет RAF-цикл: время обновляется
   // через встроенный timeupdate listener, экономя requestAnimationFrame.
@@ -80,8 +84,8 @@ export function SectionEditorSheet({
     isPlaying: hookIsPlaying,
     currentTime: hookCurrentTime,
   } = usePreviewAudio({
-    id: `section-editor-${audioUrl ?? "none"}`,
-    src: audioUrl ?? "",
+    id: `section-editor-${resolvedAudioUrl ?? "none"}`,
+    src: resolvedAudioUrl ?? "",
     priority: AudioPriority.MEDIUM,
   });
 
@@ -114,8 +118,9 @@ export function SectionEditorSheet({
   } = useSectionReplacement({
     trackId,
     trackTags,
-    duration,
+    duration: safeDuration,
     detectedSections,
+    fullLyrics: trackLyrics,
     onSuccess: () => {
       // Don't close immediately - let user select variant
     },
@@ -144,13 +149,14 @@ export function SectionEditorSheet({
   const isPreviewPlaying = hookIsPlaying;
 
   const togglePreview = useCallback(() => {
+    if (!resolvedAudioUrl) return;
     if (isPreviewPlaying) {
       pausePreview();
     } else {
       seekPreview(startTime);
       void playPreview();
     }
-  }, [isPreviewPlaying, startTime, playPreview, pausePreview, seekPreview]);
+  }, [isPreviewPlaying, resolvedAudioUrl, startTime, playPreview, pausePreview, seekPreview]);
 
   // Editor content
   const editorContent = (
@@ -190,7 +196,7 @@ export function SectionEditorSheet({
       )}
 
       {/* Preview player */}
-      {audioUrl && (
+      {resolvedAudioUrl ? (
         <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/30 border border-border/50">
           <Button variant="outline" size="icon" className="h-10 w-10 rounded-full" onClick={togglePreview}>
             {isPreviewPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
@@ -211,6 +217,16 @@ export function SectionEditorSheet({
           >
             <RotateCcw className="h-4 w-4" />
           </Button>
+        </div>
+      ) : (
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/30 border border-border/50">
+          <Loader2 className="h-4 w-4 animate-spin text-primary" />
+          <div className="min-w-0">
+            <p className="text-xs font-medium">Подготавливаем аудио трека</p>
+            <p className="text-[0.625rem] text-muted-foreground">
+              Редактор откроет форму сразу после загрузки дорожки студии.
+            </p>
+          </div>
         </div>
       )}
 
@@ -331,10 +347,10 @@ export function SectionEditorSheet({
       )}
 
       {/* Waveform Range Selector */}
-      {audioUrl && (
+      {resolvedAudioUrl && (
         <WaveformRangeSelector
-          audioUrl={audioUrl}
-          duration={duration}
+          audioUrl={resolvedAudioUrl}
+          duration={safeDuration}
           startTime={startTime}
           endTime={endTime}
           onRangeChange={(start, end) => setCustomRange(start, end)}
@@ -452,7 +468,11 @@ export function SectionEditorSheet({
         <Button variant="outline" onClick={handleClose} className="flex-1">
           Отмена
         </Button>
-        <Button onClick={executeReplacement} disabled={!isValidDuration || isSubmitting} className="flex-1 gap-2">
+        <Button
+          onClick={executeReplacement}
+          disabled={!resolvedAudioUrl || !isValidDuration || isSubmitting}
+          className="flex-1 gap-2"
+        >
           {isSubmitting ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />

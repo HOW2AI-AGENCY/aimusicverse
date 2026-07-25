@@ -10,7 +10,7 @@
  */
 
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { useUnifiedStudioStore } from "@/stores/useUnifiedStudioStore";
 import { useViewStore } from "@/stores/studio";
 import { StudioShellHeader } from "./StudioShellHeader";
@@ -53,6 +53,7 @@ interface StudioShellProps {
 
 export const StudioShell = memo(function StudioShell({ className }: StudioShellProps) {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { pauseTrack: pauseGlobalPlayer } = usePlayerStore();
 
@@ -85,13 +86,18 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
   // ── All dialog / selection state ──────────────────────────────────────
   const dialogs = useStudioShellState();
-  const { selectedSectionIndex, selectSection } = useSectionEditorStore();
+  const { selectedSectionIndex, selectSection, setCustomRange } = useSectionEditorStore();
 
   // Remember previous master volume before muting (F6 fix)
   const [previousMasterVolume, setPreviousMasterVolume] = useState(0.85);
 
   const sourceTrackId = project?.sourceTrackId;
-  const mainAudioUrl = project?.tracks[0]?.audioUrl || project?.tracks[0]?.clips?.[0]?.audioUrl;
+  const mainTrack = project?.tracks[0];
+  const mainAudioUrl =
+    mainTrack?.audioUrl ||
+    mainTrack?.clips?.[0]?.audioUrl ||
+    mainTrack?.versions?.find((v) => v.label === mainTrack.activeVersionLabel)?.audioUrl ||
+    mainTrack?.versions?.[0]?.audioUrl;
 
   // ── Audio track conversion ────────────────────────────────────────────
   const audioTracks = useMemo((): AudioTrack[] => {
@@ -285,6 +291,43 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     loadProject: loadProject as unknown as (id: string) => Promise<void>,
   });
 
+  const openSectionEditorForTrack = useCallback(
+    (track: NonNullable<typeof project>["tracks"][number]) => {
+      const sectionIndex = detectedSections.findIndex(
+        (section) => currentTime >= section.startTime && currentTime <= section.endTime,
+      );
+      const resolvedIndex = sectionIndex >= 0 ? sectionIndex : 0;
+      const section = detectedSections[resolvedIndex];
+
+      if (section) {
+        selectSection(section, resolvedIndex);
+      } else if (duration > 0) {
+        const fallbackEnd = Math.max(5, Math.min(duration * 0.25, duration * 0.5, 30));
+        setCustomRange(0, fallbackEnd);
+      }
+
+      dialogs.setSelectedSectionTrack(track);
+      dialogs.setShowSectionEditor(true);
+    },
+    [currentTime, detectedSections, dialogs, duration, selectSection, setCustomRange],
+  );
+
+  useEffect(() => {
+    if (searchParams.get("mode") !== "replace" || !project || dialogs.showSectionEditor) return;
+
+    const trackWithAudio =
+      project.tracks.find(
+        (track) => track.audioUrl || track.clips?.[0]?.audioUrl || track.versions?.some((version) => version.audioUrl),
+      ) || project.tracks[0];
+
+    if (!trackWithAudio) return;
+
+    openSectionEditorForTrack(trackWithAudio);
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete("mode");
+    setSearchParams(nextParams, { replace: true });
+  }, [dialogs.showSectionEditor, openSectionEditorForTrack, project, searchParams, setSearchParams]);
+
   // ── Track action handler (needs dialog setters) ───────────────────────
   const handleMobileTrackAction = useCallback(
     (trackId: string, action: string) => {
@@ -310,8 +353,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           dialogs.setShowExtendDialog(true);
           break;
         case "replace_section":
-          dialogs.setSelectedSectionTrack(track);
-          dialogs.setShowSectionEditor(true);
+          openSectionEditorForTrack(track);
           break;
         case "transcribe":
           dialogs.setSelectedTranscriptionTrack(track);
@@ -343,7 +385,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           break;
       }
     },
-    [project?.tracks, navigate, dialogs],
+    [project?.tracks, navigate, dialogs, openSectionEditorForTrack],
   );
 
   const handleSectionClick = useCallback(
@@ -351,11 +393,10 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
       selectSection(section, index);
       const mainTrack = project?.tracks[0];
       if (mainTrack) {
-        dialogs.setSelectedSectionTrack(mainTrack);
-        dialogs.setShowSectionEditor(true);
+        openSectionEditorForTrack(mainTrack);
       }
     },
-    [selectSection, project?.tracks, dialogs],
+    [selectSection, project?.tracks, openSectionEditorForTrack],
   );
 
   // ── Display track list ────────────────────────────────────────────────

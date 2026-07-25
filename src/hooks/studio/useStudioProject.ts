@@ -50,19 +50,36 @@ export function useStudioProject(): UseStudioProjectReturn {
         // Fetch track data
         const { data: track, error: trackError } = await supabase
           .from("tracks")
-          .select("title, audio_url, duration_seconds")
+          .select("title, audio_url, streaming_url, local_audio_url, duration_seconds")
           .eq("id", trackId)
           .single();
 
         if (trackError) throw trackError;
         if (!track) throw new Error("Track not found");
 
+        const audioUrl = track.streaming_url || track.local_audio_url || track.audio_url || undefined;
+
         const projectId = await storeCreateProject({
           name: `Проект: ${track.title || "Без названия"}`,
           userId: user?.id,
           sourceTrackId: trackId,
-          sourceAudioUrl: track.audio_url || undefined,
+          sourceAudioUrl: audioUrl,
           duration: track.duration_seconds || undefined,
+          tracks: audioUrl
+            ? [
+                {
+                  name: track.title || "Основной трек",
+                  type: "main",
+                  audioUrl,
+                  volume: 0.85,
+                  pan: 0,
+                  muted: false,
+                  solo: false,
+                  color: TRACK_COLORS.main,
+                  status: "ready",
+                },
+              ]
+            : [],
         });
 
         if (projectId) {
@@ -75,7 +92,7 @@ export function useStudioProject(): UseStudioProjectReturn {
         return null;
       }
     },
-    [storeCreateProject],
+    [storeCreateProject, user?.id],
   );
 
   const createEmptyProject = useCallback(

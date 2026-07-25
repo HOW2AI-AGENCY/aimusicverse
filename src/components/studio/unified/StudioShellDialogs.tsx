@@ -433,9 +433,19 @@ export const StudioShellDialogs = memo(function StudioShellDialogs(props: Studio
           }}
           trackId={sourceTrackId || props.selectedSectionTrack.id}
           trackTitle={props.selectedSectionTrack.name}
-          audioUrl={props.selectedSectionTrack.audioUrl || props.selectedSectionTrack.clips?.[0]?.audioUrl}
+          trackTags={null}
+          audioUrl={
+            props.selectedSectionTrack.audioUrl ||
+            props.selectedSectionTrack.clips?.[0]?.audioUrl ||
+            props.selectedSectionTrack.versions?.find((v) => v.label === props.selectedSectionTrack?.activeVersionLabel)
+              ?.audioUrl ||
+            props.selectedSectionTrack.versions?.[0]?.audioUrl
+          }
           duration={duration}
           detectedSections={detectedSections}
+          sunoTaskId={sourceTrack?.suno_task_id ?? null}
+          sunoId={sourceTrack?.suno_id ?? null}
+          trackLyrics={sourceTrack?.lyrics ?? null}
         />
       )}
 

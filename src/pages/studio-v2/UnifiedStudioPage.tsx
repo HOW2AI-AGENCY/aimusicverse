@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, useLocation } from "react-router";
 import { useStudioProject } from "@/hooks/studio/useStudioProject";
 import { useUnifiedStudioStore } from "@/stores/useUnifiedStudioStore";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 export default function UnifiedStudioPage() {
   const { projectId, trackId } = useParams<{ projectId?: string; trackId?: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const { loadProject, createFromTrack, isLoading, error } = useStudioProject();
   const project = useUnifiedStudioStore((state) => state.project);
   const [initialized, setInitialized] = useState(false);
@@ -31,14 +32,14 @@ export default function UnifiedStudioPage() {
         const newProjectId = await createFromTrack(trackId);
         if (newProjectId) {
           // Replace URL without adding to history
-          navigate(`/studio-v2/project/${newProjectId}`, { replace: true });
+          navigate(`/studio-v2/project/${newProjectId}${location.search}`, { replace: true });
         }
       }
       setInitialized(true);
     };
 
     init();
-  }, [projectId, trackId, loadProject, createFromTrack, navigate]);
+  }, [projectId, trackId, loadProject, createFromTrack, navigate, location.search]);
 
   if (isLoading || !initialized) {
     return (

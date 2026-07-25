@@ -45,6 +45,25 @@ const STATUS_PROGRESS: Record<ReplaceSectionStatus, number> = {
   error: 0,
 };
 
+function getVariantAudioUrl(clip: {
+  audio_url?: string;
+  audioUrl?: string;
+  source_audio_url?: string;
+  sourceAudioUrl?: string;
+  stream_audio_url?: string;
+  streamAudioUrl?: string;
+}) {
+  return (
+    clip.source_audio_url ||
+    clip.sourceAudioUrl ||
+    clip.audio_url ||
+    clip.audioUrl ||
+    clip.stream_audio_url ||
+    clip.streamAudioUrl ||
+    ""
+  );
+}
+
 export function useReplaceSectionProgress() {
   const queryClient = useQueryClient();
   const [state, setState] = useState<ReplaceSectionProgressState>({
@@ -165,7 +184,7 @@ export function useReplaceSectionProgress() {
             return;
           }
 
-          if (task.status === "completed") {
+          if (task.status === "completed" || task.status === "partial_delivery") {
             // Parse audio clips for A/B variants
             try {
               const clips = typeof task.audio_clips === "string" ? JSON.parse(task.audio_clips) : task.audio_clips;
@@ -173,14 +192,23 @@ export function useReplaceSectionProgress() {
               if (Array.isArray(clips) && clips.length > 0) {
                 const variants: SectionVariant[] = clips.map(
                   (
-                    clip: { audio_url?: string; audioUrl?: string; duration_seconds?: number; duration?: number },
+                    clip: {
+                      audio_url?: string;
+                      audioUrl?: string;
+                      source_audio_url?: string;
+                      sourceAudioUrl?: string;
+                      stream_audio_url?: string;
+                      streamAudioUrl?: string;
+                      duration_seconds?: number;
+                      duration?: number;
+                    },
                     idx: number,
                   ) => ({
                     label: String.fromCharCode(65 + idx), // A, B, C...
-                    audioUrl: clip.audio_url || clip.audioUrl || "",
+                    audioUrl: getVariantAudioUrl(clip),
                     duration: clip.duration_seconds ?? clip.duration,
                   }),
-                );
+                ).filter((variant) => !!variant.audioUrl);
 
                 setState((prev) => ({
                   ...prev,
@@ -232,21 +260,30 @@ export function useReplaceSectionProgress() {
 
       if (!task) return;
 
-      if (task.status === "completed" && state.status !== "completed") {
+      if ((task.status === "completed" || task.status === "partial_delivery") && state.status !== "completed") {
         try {
           const clips = typeof task.audio_clips === "string" ? JSON.parse(task.audio_clips) : task.audio_clips;
 
           if (Array.isArray(clips) && clips.length > 0) {
             const variants: SectionVariant[] = clips.map(
               (
-                clip: { audio_url?: string; audioUrl?: string; duration_seconds?: number; duration?: number },
+                clip: {
+                  audio_url?: string;
+                  audioUrl?: string;
+                  source_audio_url?: string;
+                  sourceAudioUrl?: string;
+                  stream_audio_url?: string;
+                  streamAudioUrl?: string;
+                  duration_seconds?: number;
+                  duration?: number;
+                },
                 idx: number,
               ) => ({
                 label: String.fromCharCode(65 + idx),
-                audioUrl: clip.audio_url || clip.audioUrl || "",
+                audioUrl: getVariantAudioUrl(clip),
                 duration: clip.duration_seconds ?? clip.duration,
               }),
-            );
+            ).filter((variant) => !!variant.audioUrl);
 
             setState((prev) => ({
               ...prev,
