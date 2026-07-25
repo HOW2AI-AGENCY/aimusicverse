@@ -456,10 +456,20 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
       });
 
       toast.dismiss(toastId);
+      if (customVoiceId) {
+        // Persist the voice for the user: bump usage_count and remember it as the default.
+        void import("@/api/voice-clone.api").then(({ markVoiceUsed, rememberLastVoice }) => {
+          rememberLastVoice(customVoiceId);
+          return markVoiceUsed(customVoiceId).catch((e) =>
+            logger.warn("Failed to mark voice as used", { error: (e as Error).message }),
+          );
+        });
+      }
       toast.success("Шаг 3/3 · Генерация запущена 🎵", {
         description: `${customVoiceId ? "С кастомным голосом. " : ""}Отслеживайте прогресс в библиотеке (~30–90 сек).`,
         duration: 5000,
       });
+
       logger.info("Generation enqueued successfully", {
         submissionMode,
         hasCustomVoice: !!customVoiceId,
