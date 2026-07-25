@@ -4,6 +4,8 @@
  */
 
 import { memo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getTrackVersionsForUnifiedSelector } from "@/services/generation/track-versions.service";
 import { Track } from "@/types/track";
 import { Play, Pause, Heart, Share2, ListPlus, Music2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
@@ -34,8 +36,21 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({ track, onCl
   const { toggleLike } = useTracks();
   const [localTitle, setLocalTitle] = useState(track.title || "Без названия");
 
-  const coverUrl = track.cover_url;
-  const duration = track.duration_seconds ? formatDuration(track.duration_seconds) : null;
+  // Обложка/длительность берутся из активной версии — иначе при переключении
+  // A/B в шапке остаются данные предыдущей версии (или пустые значения).
+  const { data: versionsData } = useQuery({
+    queryKey: ["track-versions-unified", track.id],
+    queryFn: () => getTrackVersionsForUnifiedSelector(track.id),
+    enabled: !!track.id,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+    retry: 1,
+  });
+  const activeVersion = (versionsData || []).find((v) => v.is_primary) || (versionsData || [])[0] || null;
+
+  const coverUrl = activeVersion?.cover_url || track.cover_url;
+  const durationSeconds = activeVersion?.duration_seconds || track.duration_seconds;
+  const duration = durationSeconds ? formatDuration(durationSeconds) : null;
   const hasHD = !!track.audio_url_hd || track.audio_quality === "hd";
 
   const isCurrentTrack = activeTrack?.id === track.id;
