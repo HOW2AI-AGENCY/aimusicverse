@@ -20,7 +20,7 @@ export function OptimizeToolPanel({ context, onExecute, onClose, isLoading }: To
 
   const hasContent = !!(context.existingLyrics || context.selectedSection?.content);
   const textLength = context.existingLyrics?.length || 0;
-  const hasIssues = textLength > 3000 || (context.globalTags?.length || 0) === 0;
+  const hasIssues = textLength > 5000 || (context.globalTags?.length || 0) === 0;
 
   const toggleOption = (id: string) => {
     setSelectedOptions((prev) => (prev.includes(id) ? prev.filter((o) => o !== id) : [...prev, id]));
@@ -75,15 +75,15 @@ export function OptimizeToolPanel({ context, onExecute, onClose, isLoading }: To
               <div
                 className={cn(
                   "flex items-center gap-2 text-xs p-2 rounded-lg",
-                  textLength > 3000 ? "bg-destructive/10 text-destructive" : "bg-green-500/10 text-green-500",
+                  textLength > 5000 ? "bg-destructive/10 text-destructive" : "bg-green-500/10 text-green-500",
                 )}
               >
-                {textLength > 3000 ? (
+                {textLength > 5000 ? (
                   <AlertTriangle className="w-3.5 h-3.5" />
                 ) : (
                   <CheckCircle2 className="w-3.5 h-3.5" />
                 )}
-                <span>Длина текста: {textLength} / 3000 симв.</span>
+                <span>Длина текста: {textLength} / 5000 симв.</span>
               </div>
 
               <div
