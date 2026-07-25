@@ -32,6 +32,63 @@
 > [!NOTE]
 > Обновляется еженедельно во время ревью спринта. Для статуса CI в реальном времени см. [вкладку Actions](https://github.com/HOW2AI-AGENCY/aimusicverse/actions).
 
+## 🆕 Сессия 2026-07-25 — Sprint 065+ (Hardening & Cleanup) ✅
+
+**Фокус:** безопасность, консистентность жанров, слоевая архитектура, качество кода.
+
+### Выполнено
+
+1. **Security hardening — 7 findings закрыты** ✅
+   - Edge Functions: `authorize()` guards в `recognize-*`, `suno-separate-vocals`, `tinkoff-bot-payment`, `tinkoff-recurrent-charge`.
+   - RLS: ужесточены политики `economy_config` (только auth read), `performance_metrics` / `rum_metrics` (INSERT привязан к `auth.uid()`).
+
+2. **Layer-boundary: 8 нарушений устранено** ✅
+   - Извлечены `src/api/prompt-history.api.ts` и `src/api/track-generation-status.api.ts`.
+   - Компоненты `PromptHistory.tsx` и `TrackGenerationStatusPanel.tsx` больше не вызывают `supabase.from()` напрямую.
+
+3. **Genre consistency — единый источник истины** ✅
+   - `GENRE_QUERIES` в `src/hooks/public-content/constants.ts` теперь канонический источник для ID и БД-ключей.
+   - Добавлены `assertGenreDbValuesMatch`, `getGenreDbValues(id)`, регрессионные тесты в `src/__tests__/hooks/genre-consistency.test.ts`.
+   - Backfill: 223 публичных трека получили `computed_genre` по стилю.
+
+4. **Realtime стабилизация** ✅
+   - `smart-alerts.service.ts`: слушатели регистрируются **до** `subscribe()`, уникальные каналы предотвращают гонки.
+
+5. **UI polish на мобильных** ✅
+   - `PublicProfilePage.tsx` — 1-колоночный список треков вместо сжатой сетки.
+   - `CompactVariant.tsx` — скрыты Like/Queue/Follow на sm-, оставлено меню ⋯.
+   - `Settings.tsx` — sticky-табы с blur, `space-y-5`, safe-area 140px для футера.
+   - Главная: адаптирован `HomeMobileSynthHero` под 360px, glass icon-button «Создать».
+
+6. **Backend & monitoring** ✅
+   - `suno_stuck_completed_tracks` — БД-вью для мониторинга «застрявших» треков.
+   - `sync-stale-tasks` — окно восстановления сужено до 7 дней / 25 задач (защита от «poison pill»).
+   - `suno_generation_events` + daily stats view; correlation-id в логах Edge Functions.
+   - Adaptive polling (`NotificationContext`, `useActiveGenerations`) убрал избыточные запросы при бездействии.
+
+7. **Lint cleanup: 1744 → 525 warnings (−70%)** ✅
+   - Codemod px → rem для `text-[Npx]` / `leading-[Npx]` / `tracking-[Npx]` (1231 замена, поведение идентично).
+   - Удалены 47 бесполезных regex-эскейпов точечным codemod по координатам ESLint.
+   - Автофиксы `prefer-const`, `no-empty`.
+   - Остаток — 408 `react-hooks/*` (требуют семантической проверки) + 84 `react-refresh/only-export-components`.
+
+### Проверенные метрики (2026-07-25)
+
+- **TypeScript:** 0 errors (`npx tsgo --noEmit`)
+- **ESLint:** 0 errors / 525 warnings (было 1744)
+- **Unit-тесты:** 1857 passed / 4 skipped / 31 todo (176 файлов, vitest 4.1.10)
+- **Build:** ✅
+- **Components:** 1048 · **Hooks:** 446 · **API files:** 34 · **Services:** 37 · **E2E specs:** 59
+- **Files >800 LOC в `src/`:** 0
+
+### Следующие шаги
+
+- **Sprint 066** — прогресс по 408 `react-hooks/*` warnings, начиная с `set-state-in-effect` (152).
+- **Sprint 067** — рефакторинг `supabase/functions/` (≥10 файлов >800 LOC).
+- Продолжить трекинг: `react-refresh/only-export-components` (84) — разделение утилит и компонентов по файлам.
+
+---
+
 ## 🆕 Сессия 2026-07-14 — Sprint 065 + сверка расхождений планов 🔄
 
 **Ветка:** `claude/work-plan-task-status-7dfndr` · **План работ:** [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md)
