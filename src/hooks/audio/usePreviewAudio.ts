@@ -26,6 +26,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { audioElementPool, AudioPriority, useAudioElement } from "@/lib/audioElementPool";
 import { registerStudioAudio, unregisterStudioAudio } from "@/hooks/studio/useStudioAudio";
 import { logger } from "@/lib/logger";
+import { recordError } from "@/lib/telemetry";
+
+const truncateUrl = (s: string, max = 200): string => (s.length > max ? `${s.slice(0, max)}…` : s);
 
 export interface UsePreviewAudioOptions {
   /** Уникальный ID (например, `preview-track-${trackId}`). Используется для acquire/release в пуле. */
@@ -110,11 +113,21 @@ export function usePreviewAudio({
       audioRef.current = null;
       return;
     }
-    if (!src) {
+    const isValidSrc = typeof src === "string" && /^(https?:|blob:|data:audio\/|\/)/i.test(src.trim());
+    if (!src || !isValidSrc) {
       // Нет валидного URL — не трогаем элемент, не грузим, не роняем ошибку.
       audioRef.current = audioElement;
       setIsLoading(false);
       setError(null);
+      if (src && !isValidSrc) {
+        logger.warn("usePreviewAudio: invalid src rejected", { id, src: truncateUrl(String(src)) });
+        recordError("preview_audio:invalid_src", "Invalid preview audio source", {
+          id,
+          src: truncateUrl(String(src)),
+        });
+      } else if (src === "") {
+        logger.debug("usePreviewAudio: empty src, skipping load", { id });
+      }
       return;
     }
     audioRef.current = audioElement;
@@ -141,12 +154,24 @@ export function usePreviewAudio({
       onEndedRef.current?.();
     };
     const handleError = () => {
+      const code = audioElement.error?.code ?? null;
+      const nativeMsg = audioElement.error?.message ?? null;
       const msg = "Не удалось загрузить аудио";
       setIsLoading(false);
       setIsPlaying(false);
       setError(msg);
       onErrorRef.current?.(msg);
-      logger.warn("usePreviewAudio: load failed", { id, src });
+      logger.warn("usePreviewAudio: load failed", {
+        id,
+        src: truncateUrl(src),
+        mediaErrorCode: code,
+        nativeMessage: nativeMsg,
+      });
+      recordError(`preview_audio:load_failed:${code ?? "unknown"}`, nativeMsg ?? msg, {
+        id,
+        src: truncateUrl(src),
+        mediaErrorCode: code,
+      });
     };
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
@@ -163,7 +188,11 @@ export function usePreviewAudio({
       audioElement.src = src;
       audioElement.load();
     } catch (err) {
-      logger.warn("usePreviewAudio: failed to set src", { id, src, err });
+      logger.warn("usePreviewAudio: failed to set src", { id, src: truncateUrl(src), err });
+      recordError("preview_audio:set_src_failed", err instanceof Error ? err.message : String(err), {
+        id,
+        src: truncateUrl(src),
+      });
       setError("Не удалось загрузить аудио");
       setIsLoading(false);
     }

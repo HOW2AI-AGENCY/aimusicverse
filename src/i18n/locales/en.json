@@ -227,6 +227,7 @@
       "styleFallback": "No style",
       "menuLabel": "Track menu: ${title || 'Untitled'}",
       "errorFallback": "Playback error",
+      "retry": "Retry",
       "timeLabel": "Current playback time: ${currentTime}",
       "regionLabel": "Music player"
     },

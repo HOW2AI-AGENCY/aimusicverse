@@ -202,6 +202,7 @@
       "styleFallback": "Без стиля",
       "menuLabel": "Меню трека: ${title || 'Без названия'}",
       "errorFallback": "Ошибка воспроизведения",
+      "retry": "Повторить",
       "timeLabel": "Текущее время воспроизведения: ${currentTime}",
       "regionLabel": "Музыкальный плеер"
     },
