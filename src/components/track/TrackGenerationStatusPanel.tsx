@@ -1,10 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { AlertCircle, CheckCircle2, ImageOff, Loader2, MicOff, RefreshCw } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
 import { labelForSkipCode } from "@/lib/generation/skipLabels";
 import { toast } from "sonner";
+import {
+  fetchTrackGenerationStatus,
+  invokeRetryTrackProcessing,
+  type StatusTaskRow as TaskRow,
+  type StatusVersionRow as VersionRow,
+} from "@/api/track-generation-status.api";
 
 interface SkipReason {
   code: string;
@@ -12,25 +17,6 @@ interface SkipReason {
   clipIndex: number;
   clipId: string | null;
   availableKeys?: string[];
-}
-
-interface TaskRow {
-  id: string;
-  status: string;
-  error_message: string | null;
-  received_clips: number | null;
-  expected_clips?: number | null;
-  audio_clips: unknown;
-}
-
-interface VersionRow {
-  id: string;
-  version_label: string;
-  clip_index: number;
-  audio_url: string | null;
-  cover_url: string | null;
-  is_primary: boolean;
-  metadata: Record<string, unknown> | null;
 }
 
 interface Props {
