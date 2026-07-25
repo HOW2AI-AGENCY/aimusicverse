@@ -125,13 +125,9 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
       setIsSwitching(true);
 
       // Optimistic update
-      const previousActiveId = activeVersionId;
-      setActiveVersionId(version.id);
-      setVersions((prev) =>
-        prev.map((v) => ({
-          ...v,
-          isPrimary: v.id === version.id,
-        })),
+      const previousVersions = versions;
+      setOptimisticVersions(
+        versions.map((v) => ({ ...v, isPrimary: v.id === version.id })),
       );
 
       try {
@@ -147,23 +143,20 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
         }
 
         onVersionChange?.(version);
+        // Clear optimistic — react-query cache will be refreshed by version switcher
+        setOptimisticVersions(null);
       } catch (error) {
         // Rollback on error
-        setActiveVersionId(previousActiveId);
-        setVersions((prev) =>
-          prev.map((v) => ({
-            ...v,
-            isPrimary: v.id === previousActiveId,
-          })),
-        );
+        setOptimisticVersions(previousVersions);
         logger.error("Failed to switch version", error);
         toast.error("Ошибка переключения версии");
       } finally {
         setIsSwitching(false);
       }
     },
-    [trackId, activeVersionId, disabled, isSwitching, haptic, activeTrack, playTrack, onVersionChange],
+    [trackId, activeVersionId, disabled, isSwitching, haptic, activeTrack, playTrack, onVersionChange, setPrimaryVersionAsync, versions],
   );
+
 
   // Handle preview play
   const handlePreview = useCallback(
