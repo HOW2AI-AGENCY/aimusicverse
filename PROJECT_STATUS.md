@@ -5,13 +5,13 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Сессия" src="https://img.shields.io/badge/session-2026--07--14_Sprint_065-10B981?style=for-the-badge"/>
-  <img alt="Прогресс" src="https://img.shields.io/badge/overall-99.6%25-10B981?style=for-the-badge"/>
+  <img alt="Сессия" src="https://img.shields.io/badge/session-2026--07--25_Sprint_065%2B-10B981?style=for-the-badge"/>
+  <img alt="Прогресс" src="https://img.shields.io/badge/overall-99.7%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-1810_passing-10B981?style=for-the-badge"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-1857_passing-10B981?style=for-the-badge"/>
+  <img alt="ESLint" src="https://img.shields.io/badge/eslint-0_errors_%2F_525_warnings-10B981?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
   <img alt="Any" src="https://img.shields.io/badge/any-0%2F50_budget-10B981?style=for-the-badge"/>
-  <img alt="Dependencies" src="https://img.shields.io/badge/deps-6_vulnerabilities_(1_high%2C_4_moderate%2C_1_low)-F59E0B?style=for-the-badge"/>
 </p>
 
 <sub>📌 <strong>Метрика `any`</strong>: 0 нарушений ESLint-правила <code>no-explicit-any</code> в production-коде. Whitelist (~85 слотов для типизированных interop-границ: Supabase generated types, JSON-парсеры, audio-context, внешние SDK) живёт в <code>scripts/count-any.mjs</code> и ESLint-конфиге. Сырой <code>grep -E "(\bas any\b|: any\b|<any>|\bany\[\])"</code> по <code>src/</code> даёт ~124 вхождения — большинство из них текстовые (комментарии, JSDoc) или входят в whitelist.</sub>
