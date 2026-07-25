@@ -338,6 +338,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         });
       }
     }
+    // One-shot: consume sessionStorage["templateLyrics"] on open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Restore draft when sheet opens
