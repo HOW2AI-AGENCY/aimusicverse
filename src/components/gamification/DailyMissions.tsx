@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { useDailyActivity, useClaimMissionReward } from "@/hooks/gamification/useDailyMissions";
 import { Target, Music, Share2, Heart, Zap, Check, Gift, Loader2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
 
 interface Mission {

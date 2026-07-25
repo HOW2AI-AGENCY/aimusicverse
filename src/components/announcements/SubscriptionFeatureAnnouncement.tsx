@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { X, Users, Sparkles, Heart } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { useAuth } from "@/hooks/useAuth";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const STORAGE_KEY = "feature_announcement_subscriptions_v1";
 

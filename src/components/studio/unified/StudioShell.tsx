@@ -10,7 +10,7 @@
  */
 
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useUnifiedStudioStore } from "@/stores/useUnifiedStudioStore";
 import { useViewStore } from "@/stores/studio";
 import { StudioShellHeader } from "./StudioShellHeader";

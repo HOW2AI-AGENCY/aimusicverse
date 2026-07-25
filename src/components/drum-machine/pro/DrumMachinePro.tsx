@@ -9,7 +9,7 @@ import { SequencerPro } from "./SequencerPro";
 import { KitSelectorPro } from "./KitSelectorPro";
 import { PatternBrowser } from "./PatternBrowser";
 import { DrumStepLengthSelector } from "../DrumStepLengthSelector";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { ReferenceManager } from "@/services/audio-reference";
 

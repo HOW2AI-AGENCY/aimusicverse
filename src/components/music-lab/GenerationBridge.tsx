@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { QUICK_CREATE_PRESETS, QuickCreatePreset } from "@/constants/quickCreatePresets";
 import { logger } from "@/lib/logger";
 

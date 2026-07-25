@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router";
 import { useTelegram } from "@/contexts/TelegramContext";
 
 interface SettingsButtonConfig {

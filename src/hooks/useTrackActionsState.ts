@@ -7,11 +7,10 @@ import { useAudioUpscale } from "@/hooks/useAudioUpscale";
 import { useTrackStems } from "@/hooks/useTrackStems";
 import { useTrackVersions } from "@/hooks/useTrackVersions";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
 import { ActionId } from "@/config/trackActionsConfig";
 import { TrackActionState, isActionAvailable, isActionDisabled } from "@/lib/trackActionConditions";
-
 
 interface UseTrackActionsStateProps {
   track: Track;
@@ -44,7 +43,13 @@ interface DialogStates {
   mashup: boolean;
 }
 
-export function useTrackActionsState({ track, onDelete, onDownload, onClose, enabled = true }: UseTrackActionsStateProps) {
+export function useTrackActionsState({
+  track,
+  onDelete,
+  onDownload,
+  onClose,
+  enabled = true,
+}: UseTrackActionsStateProps) {
   const navigate = useNavigate();
 
   // Cached queries — deduped across menu/sheet, cached across re-opens.
@@ -108,7 +113,6 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose, ena
   const { addToQueue, queue } = usePlayerStore();
 
   const isLoadingActions = stemsQuery.isLoading || versionsQuery.isLoading;
-
 
   // Check for specific stem types
   const hasVocalStem = stems.some((s) => s.stem_type === "vocal" || s.stem_type === "vocals");
@@ -345,7 +349,6 @@ export function useTrackActionsState({ track, onDelete, onDownload, onClose, ena
     isProcessing,
     isLoadingActions,
     stems,
-
 
     // Dialogs
     dialogs,

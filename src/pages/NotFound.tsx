@@ -2,7 +2,7 @@
  * NotFound - Contextual 404 error page in MusicVerse style
  * Provides relevant messaging based on URL path
  */
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router";
 import { useEffect, useState, useMemo } from "react";
 import { logger } from "@/lib/logger";
 import { useTelegram } from "@/contexts/TelegramContext";

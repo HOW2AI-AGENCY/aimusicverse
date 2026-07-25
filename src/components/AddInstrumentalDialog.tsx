@@ -11,7 +11,7 @@ import { Track } from "@/types/track";
 import { logger } from "@/lib/logger";
 import { GenerationAdvancedSettings, GenerationSettings } from "@/components/common/GenerationAdvancedSettings";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useAddInstrumentalProgress } from "@/hooks/generation/useAddInstrumentalProgress";
 import { GenerationProgressBar } from "@/components/generation/GenerationProgressBar";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";

@@ -1,6 +1,6 @@
 import { LogIn, X } from "@/lib/icons";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "./ui/button";
 import { useGuestMode } from "@/contexts/GuestModeContext";
 import { useTelegram } from "@/contexts/TelegramContext";

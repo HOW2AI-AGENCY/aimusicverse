@@ -6,7 +6,7 @@
  */
 
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { setGlobalNavigate } from "@/hooks/useAppNavigate";
 import { useRoutePreloader } from "@/hooks/useRoutePreloader";
 

@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { SUNO_MODELS, validateModel } from "@/constants/sunoModels";

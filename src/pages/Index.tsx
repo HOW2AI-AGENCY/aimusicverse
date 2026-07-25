@@ -13,7 +13,7 @@
 import { useState, useCallback, useMemo, useEffect, lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Loader2 } from "@/lib/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useProfile } from "@/hooks/useProfile.tsx";

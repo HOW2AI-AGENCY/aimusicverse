@@ -5,7 +5,7 @@
  */
 
 import { useState, useMemo } from "react";
-import { Navigate, useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router";
 import { motion, AnimatePresence } from "@/lib/motion";
 import {
   Crown,

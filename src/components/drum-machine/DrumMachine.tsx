@@ -11,7 +11,7 @@ import { PatternBank } from "./PatternBank";
 import { DrumRecorder } from "./DrumRecorder";
 import { DrumEffects } from "./DrumEffects";
 import { DrumStepLengthSelector } from "./DrumStepLengthSelector";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 type ViewMode = "pads" | "sequencer";

@@ -4,7 +4,7 @@
  */
 import { memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import {
   useUserCredits,
   getLevelProgress,

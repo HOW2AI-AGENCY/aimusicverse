@@ -2,7 +2,7 @@
  * Creator Avatar - Clickable avatar that navigates to creator's profile
  */
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useTelegram } from "@/contexts/TelegramContext";

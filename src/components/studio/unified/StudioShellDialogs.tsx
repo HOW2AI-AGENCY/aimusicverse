@@ -1,5 +1,5 @@
 import { memo, Suspense } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { StudioMixerPanel } from "./StudioMixerPanel";
 import { StudioMusicLabSheet } from "./StudioMusicLabSheet";

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Clock, ChevronRight } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { typographyClass } from "@/lib/design-tokens";

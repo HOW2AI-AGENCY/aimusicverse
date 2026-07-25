@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Music, Wand2, Loader2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { UnifiedDialog } from "@/components/dialog";

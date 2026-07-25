@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useCreditsLimits } from "@/hooks/useCreditsLimits";
 import { SubscriptionUpgradePopup } from "@/components/popups/SubscriptionUpgradePopup";
 

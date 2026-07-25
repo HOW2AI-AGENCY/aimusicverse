@@ -18,7 +18,7 @@ import { saveGuitarAnalysisForTrack } from "@/hooks/useTrackGuitarAnalysis";
 import type { GuitarAnalysisResult } from "@/hooks/useGuitarAnalysis";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 interface LinkToTrackDialogProps {
   open: boolean;

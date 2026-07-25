@@ -4,7 +4,7 @@
  */
 
 import { useCallback, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { useUnifiedStudioStore, TrackType, TRACK_COLORS, StudioTrack } from "@/stores/useUnifiedStudioStore";
 import { useStemSeparation } from "@/hooks/useStemSeparation";

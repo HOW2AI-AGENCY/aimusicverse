@@ -4,7 +4,7 @@
  */
 
 import { memo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Track } from "@/types/track";
 import { Clock, Music2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
@@ -76,7 +76,10 @@ export const TrackSheetHeader = memo(function TrackSheetHeader({
         {/* Duration badge on cover */}
         {duration && (
           <div
-            className={cn("absolute bottom-0.5 right-0.5 text-[0.5625rem] px-1 py-0.5 rounded font-medium", pill.glassDark)}
+            className={cn(
+              "absolute bottom-0.5 right-0.5 text-[0.5625rem] px-1 py-0.5 rounded font-medium",
+              pill.glassDark,
+            )}
           >
             {duration}
           </div>

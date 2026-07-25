@@ -4,7 +4,7 @@
  */
 
 import { memo, ReactNode, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { cn } from "@/lib/utils";
 
 interface MobilePageTransitionProps {

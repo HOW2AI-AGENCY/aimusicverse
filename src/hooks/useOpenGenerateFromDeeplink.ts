@@ -18,7 +18,7 @@
  */
 
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { trackEvent } from "@/services/analytics/events.service";
 

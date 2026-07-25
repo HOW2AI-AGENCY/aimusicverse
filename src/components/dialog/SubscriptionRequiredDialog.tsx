@@ -5,7 +5,7 @@
 
 import { motion } from "@/lib/motion";
 import { Lock, Star, Sparkles, ChevronRight } from "@/lib/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 

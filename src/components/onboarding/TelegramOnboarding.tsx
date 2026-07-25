@@ -7,7 +7,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence, PanInfo } from "@/lib/motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Sparkles, Music2, Layers, Waves, FileMusic, Package, ChevronRight, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useOnboarding } from "@/hooks/useOnboarding";

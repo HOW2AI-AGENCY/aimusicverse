@@ -19,7 +19,7 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
 import { useNotificationSettings } from "@/hooks/useNotificationSettings";

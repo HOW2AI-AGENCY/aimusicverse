@@ -1,7 +1,7 @@
 import { useGuestMode } from "@/contexts/GuestModeContext";
 import { useAuth } from "@/hooks/useAuth";
 import { notify } from "@/lib/notifications";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 /**
  * Hook to manage feature access in guest mode

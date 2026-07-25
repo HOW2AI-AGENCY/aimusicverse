@@ -22,7 +22,7 @@ import {
 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { formatRelative } from "@/lib/date-utils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 

@@ -4,7 +4,7 @@
  */
 
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { preloadCriticalRoutes, preloadRoute } from "@/lib/route-preloader";
 
 // Routes to preload based on current location

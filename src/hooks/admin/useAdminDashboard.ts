@@ -22,7 +22,7 @@
 
 import { useState, useCallback, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useBotMetrics, useRecentMetricEvents } from "@/hooks/useBotMetrics";
 import { useAdminUsers, useAdminStats, useToggleUserRole } from "@/hooks/useAdminUsers";

@@ -38,7 +38,7 @@ import { motion, AnimatePresence } from "@/lib/motion";
 import { toast } from "sonner";
 import type { PublicTrackWithCreator } from "@/hooks/usePublicContent";
 import type { Track } from "@/types/track";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { formatTime } from "@/lib/formatters";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { cn } from "@/lib/utils";

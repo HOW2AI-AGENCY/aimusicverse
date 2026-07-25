@@ -7,7 +7,7 @@
  */
 
 import { useMemo } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Music, Rocket, FileText } from "@/lib/icons";

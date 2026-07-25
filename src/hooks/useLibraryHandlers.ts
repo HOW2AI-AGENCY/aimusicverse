@@ -7,7 +7,7 @@
  */
 
 import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import type { Track } from "@/hooks/useTracks";
 import { logger } from "@/lib/logger";

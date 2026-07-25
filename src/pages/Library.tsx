@@ -12,7 +12,7 @@
 
 import { useState, useEffect, useCallback, lazy, Suspense, useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router";
 import { Input } from "@/components/ui/input";
 import {
   Search,

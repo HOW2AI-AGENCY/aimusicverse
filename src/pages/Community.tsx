@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useRef, forwardRef, memo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { Globe, Music, Users, TrendingUp, Heart, Search, X, RefreshCw, Sparkles, Rocket } from "@/lib/icons";
 import { BrandEmptyState } from "@/components/common/BrandEmptyState";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

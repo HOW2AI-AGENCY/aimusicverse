@@ -3,7 +3,7 @@
  * Common header for both stem and non-stem studio modes
  */
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { ChevronLeft, HelpCircle } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

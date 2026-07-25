@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useGuestMode } from "@/contexts/GuestModeContext";
 import { PageSkeleton } from "@/components/ui/skeleton/PageSkeleton";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ContentHubTabs } from "@/components/content-hub/ContentHubTabs";

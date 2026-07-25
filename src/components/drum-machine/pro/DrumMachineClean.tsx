@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Play, Square, Circle, Volume2, ChevronDown, Trash2, Download, Send } from "@/lib/icons";
 import { useDrumMachine } from "@/hooks/useDrumMachine";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ReferenceManager } from "@/services/audio-reference";

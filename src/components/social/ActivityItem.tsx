@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, Music, MessageSquare, UserPlus, ListMusic, ExternalLink } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow, ru } from "@/lib/date-utils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import type { ActivityFeedItem } from "@/types/activity";
 
 interface ActivityItemProps {

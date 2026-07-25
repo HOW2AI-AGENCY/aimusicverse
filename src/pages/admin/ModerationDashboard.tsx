@@ -1,6 +1,6 @@
 // ModerationDashboard - Sprint 011 Admin (Enhanced - T099)
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import {
   ArrowLeft,
   Shield,

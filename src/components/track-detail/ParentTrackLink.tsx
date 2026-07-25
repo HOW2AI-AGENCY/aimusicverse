@@ -6,7 +6,7 @@
 import { useParentTrackLink } from "@/hooks/track-detail/useParentTrackLink";
 import { Music2, ExternalLink, Disc3 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 interface ParentTrackLinkProps {
   parentTrackId: string;

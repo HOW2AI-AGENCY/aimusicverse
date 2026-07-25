@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { usePlanTrackStore } from "@/stores/planTrackStore";
 import { useGenerateDraft } from "@/hooks/generation/useGenerateDraft";
 import { useAudioReference } from "@/hooks/useAudioReference";

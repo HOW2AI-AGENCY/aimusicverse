@@ -6,7 +6,7 @@
  */
 
 import { memo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { motion } from "@/lib/motion";
 import { Shield } from "@/lib/icons";
 import { cn } from "@/lib/utils";

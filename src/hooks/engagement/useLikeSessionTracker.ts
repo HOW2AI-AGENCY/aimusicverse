@@ -5,7 +5,7 @@
 
 import { useCallback, useRef } from "react";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { ListMusic } from "@/lib/icons";
 

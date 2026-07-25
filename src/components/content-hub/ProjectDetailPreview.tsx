@@ -4,7 +4,7 @@
  */
 
 import { memo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Music2, ExternalLink, Play, Edit, MoreHorizontal, FolderOpen } from "@/lib/icons";

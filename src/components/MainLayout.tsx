@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, lazy, Suspense, useCallback } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router";
 import { ResizablePlayer } from "./ResizablePlayer";
 import { ErrorBoundaryWrapper } from "./ErrorBoundaryWrapper";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
@@ -53,7 +53,6 @@ export const MainLayout = () => {
 
   // Welcome bonus check
   const { shouldShowWelcomeBonus, markWelcomeBonusShown } = useWelcomeBonusCheck();
-
 
   // Track play counts when tracks are played
   usePlaybackTracking();

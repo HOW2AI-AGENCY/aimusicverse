@@ -15,7 +15,7 @@ import { formatTime } from "@/lib/player-utils";
 import { logger } from "@/lib/logger";
 import { useExtendProgress } from "@/hooks/generation/useExtendProgress";
 import { GenerationProgressBar } from "@/components/generation/GenerationProgressBar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { PromptValidationAlert } from "@/components/generate-form/PromptValidationAlert";
 import { validatePromptForGeneration } from "@/lib/errorHandling";

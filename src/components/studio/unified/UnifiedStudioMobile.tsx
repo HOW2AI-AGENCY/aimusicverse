@@ -11,7 +11,7 @@
  */
 
 import { memo, useEffect, useMemo, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { UnifiedDAWLayout } from "./UnifiedDAWLayout";
 import { StudioDialogs } from "./StudioDialogs";
 import { useUnifiedStudio } from "@/hooks/studio/useUnifiedStudio";

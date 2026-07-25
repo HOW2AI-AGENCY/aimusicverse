@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { PageSkeleton } from "@/components/skeletons/PageSkeleton";
 

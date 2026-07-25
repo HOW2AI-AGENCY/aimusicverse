@@ -1,7 +1,7 @@
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Layers, Music2, AlertCircle } from "@/lib/icons";
 import { Track } from "@/types/track";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 interface TrackStudioSectionProps {

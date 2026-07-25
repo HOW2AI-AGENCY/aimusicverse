@@ -1,5 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 import { Card } from "@/components/ui/card";
 import { BarChart3, Music, Play, Heart, TrendingUp, Calendar, CheckCircle2, XCircle, Clock } from "@/lib/icons";
 import { useUserStats } from "@/hooks/useUserStats";

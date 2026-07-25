@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useStudioProject } from "@/hooks/studio/useStudioProject";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { getTelegramHeaderPaddingTop } from "@/lib/telegramSafeArea";

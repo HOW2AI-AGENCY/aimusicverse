@@ -3,7 +3,7 @@
  * Allows selecting master version and shows stems/MIDI/notes for master
  */
 import { memo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {

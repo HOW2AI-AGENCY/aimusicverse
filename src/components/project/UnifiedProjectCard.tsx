@@ -9,7 +9,7 @@
  */
 
 import { memo, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { FolderOpen, MoreVertical, Trash2, Music, Calendar, ChevronRight, Globe, Disc } from "@/lib/icons";
@@ -285,7 +285,10 @@ const GridCard = memo(function GridCard({
         </h2>
         <div className="flex items-center gap-1.5 flex-wrap">
           {project.genre && (
-            <Badge variant="secondary" className={cn(isMobile ? "text-[0.625rem] h-5 px-2" : "text-[0.5625rem] h-4 px-1.5")}>
+            <Badge
+              variant="secondary"
+              className={cn(isMobile ? "text-[0.625rem] h-5 px-2" : "text-[0.5625rem] h-4 px-1.5")}
+            >
               <Music className={cn("mr-0.5", isMobile ? "w-3 h-3" : "w-2.5 h-2.5")} />
               {project.genre}
             </Badge>

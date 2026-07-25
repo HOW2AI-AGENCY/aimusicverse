@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useCallback, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTelegram } from "@/contexts/TelegramContext";
 import {

@@ -21,7 +21,7 @@ import { SaveTemplateDialog } from "../SaveTemplateDialog";
 import { SavedLyricsSelector } from "../SavedLyricsSelector";
 import { SectionLabel, SECTION_HINTS } from "../SectionLabel";
 import { ValidationMessage, checkArtistValidation } from "../ValidationMessage";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { LyricsPreview } from "../LyricsPreview";
 import {
@@ -46,16 +46,7 @@ interface LyricsSectionAdvancedProps {
 }
 
 // Section tag types shown as quick-insert chips above the textarea (in text mode).
-const QUICK_SECTION_TYPES: LyricSectionType[] = [
-  "intro",
-  "verse",
-  "pre",
-  "chorus",
-  "hook",
-  "bridge",
-  "drop",
-  "outro",
-];
+const QUICK_SECTION_TYPES: LyricSectionType[] = ["intro", "verse", "pre", "chorus", "hook", "bridge", "drop", "outro"];
 
 interface ParsedTag {
   id: string;
@@ -234,7 +225,6 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
     },
     [hapticFeedback],
   );
-
 
   return (
     <>
@@ -431,11 +421,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
 
             {/* Parsed section chips — live visualization of tags in the text */}
             {parsedTags.length > 0 && (
-              <div
-                className="flex flex-wrap items-center gap-1"
-                role="list"
-                aria-label="Обнаруженные секции"
-              >
+              <div className="flex flex-wrap items-center gap-1" role="list" aria-label="Обнаруженные секции">
                 <span className="text-[0.625rem] uppercase tracking-wide text-muted-foreground/70 mr-1">
                   Структура · {parsedTags.length}
                 </span>
@@ -461,9 +447,6 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
 
         {/* Prosody / rhyme-meter diagnostics — visible in every editor mode when enabled. */}
         {showProsody && <LyricsProsodyPanel lyrics={lyrics} onJumpToLine={jumpToLine} />}
-
-
-
 
         {/* Validation message */}
         {lyricsValidation && (

@@ -9,7 +9,7 @@ import { Flame } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useUserCredits } from "@/hooks/useUserCredits";
 import { useTelegram } from "@/contexts/TelegramContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface StreakBadgeProps {

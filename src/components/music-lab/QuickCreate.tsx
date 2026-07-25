@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PresetBrowser } from "./PresetBrowser";
 import { QuickCreatePreset } from "@/constants/quickCreatePresets";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { logger } from "@/lib/logger";
 import { CheckCircle, Circle } from "@/lib/icons";
 import { cn } from "@/lib/utils";

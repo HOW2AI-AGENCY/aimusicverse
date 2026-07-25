@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useLeaderboard, useUserCredits } from "@/hooks/useGamification";
 import { useAuth } from "@/hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { cn } from "@/lib/utils";
 import { motion } from "@/lib/motion";
 
@@ -109,7 +109,9 @@ export const LeaderboardWidget = memo(function LeaderboardWidget() {
                 #{position}
               </span>
 
-              <span className="text-[0.5625rem] text-muted-foreground truncate max-w-[50px]">{entry.username || "User"}</span>
+              <span className="text-[0.5625rem] text-muted-foreground truncate max-w-[50px]">
+                {entry.username || "User"}
+              </span>
             </motion.div>
           );
         })}

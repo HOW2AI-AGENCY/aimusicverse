@@ -26,7 +26,7 @@ import { usePromptDJ } from "@/hooks/usePromptDJ";
 import { PromptKnob } from "./PromptKnob";
 import { LiveVisualizer } from "./LiveVisualizer";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { logger } from "@/lib/logger";
 import { ReferenceManager } from "@/services/audio-reference";
 import { useIsMobile } from "@/hooks/use-mobile";

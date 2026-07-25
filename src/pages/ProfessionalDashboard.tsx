@@ -5,7 +5,7 @@
 
 import { memo } from "react";
 import { motion } from "@/lib/motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { ProfessionalDashboard, QuickAccessPanel, StatsSummaryCard } from "@/components/professional";
 import { Button } from "@/components/ui/button";

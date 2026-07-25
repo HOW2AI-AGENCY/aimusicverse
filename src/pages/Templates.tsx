@@ -21,7 +21,7 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 

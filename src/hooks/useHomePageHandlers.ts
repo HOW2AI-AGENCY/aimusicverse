@@ -7,7 +7,7 @@
  */
 
 import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useAuth } from "@/hooks/useAuth";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";

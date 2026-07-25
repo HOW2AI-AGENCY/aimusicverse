@@ -33,7 +33,7 @@ import {
   ChevronDown,
   Menu,
 } from "@/lib/icons";
-import { Navigate, Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useNavigate, useLocation } from "react-router";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";

@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from "react";
-import { Navigate, useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Zap, ArrowLeft, Shield, Clock, Loader2, CheckCircle2, Info } from "@/lib/icons";
 import { useAuth } from "@/hooks/useAuth";
@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { StarsProduct } from "@/services/starsPaymentService";
 import { formatRubles } from "@/types/payment";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { logger } from "@/lib/logger";
 
 function LoadingSkeleton() {

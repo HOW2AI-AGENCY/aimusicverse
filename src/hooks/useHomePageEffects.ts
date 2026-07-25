@@ -7,7 +7,7 @@
  */
 
 import { useEffect } from "react";
-import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router";
 import { logger } from "@/lib/logger";
 
 interface UseHomePageEffectsOptions {

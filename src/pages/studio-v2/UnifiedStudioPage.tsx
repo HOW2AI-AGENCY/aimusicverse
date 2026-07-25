@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router";
 import { useStudioProject } from "@/hooks/studio/useStudioProject";
 import { useUnifiedStudioStore } from "@/stores/useUnifiedStudioStore";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";

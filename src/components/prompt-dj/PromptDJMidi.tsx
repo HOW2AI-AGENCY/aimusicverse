@@ -11,7 +11,7 @@ import { VoiceInput } from "./VoiceInput";
 import { QuickPresets } from "./QuickPresets";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { ReferenceManager } from "@/services/audio-reference";
 import { useCallback, useEffect } from "react";
@@ -233,7 +233,9 @@ export function PromptDJMidi() {
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div className="flex-1 min-w-0">
                         <p className="text-xs text-muted-foreground truncate">{track.prompt}</p>
-                        <p className="text-[0.625rem] text-muted-foreground/70">{track.createdAt.toLocaleTimeString()}</p>
+                        <p className="text-[0.625rem] text-muted-foreground/70">
+                          {track.createdAt.toLocaleTimeString()}
+                        </p>
                       </div>
                       <Button
                         variant="ghost"

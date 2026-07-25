@@ -3,7 +3,7 @@
  * Replaces window.location.href with React Router navigation
  */
 
-import { useNavigate, NavigateOptions } from "react-router-dom";
+import { useNavigate, NavigateOptions } from "react-router";
 import { useCallback } from "react";
 
 /**

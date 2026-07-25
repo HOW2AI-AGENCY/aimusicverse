@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router";
 import { SmartAlert, MAX_ALERTS_ON_PAGE_LOAD, ALERT_PRIORITIES, QUIET_ROUTES } from "./types";
 import { SmartAlertOverlay } from "./SmartAlertOverlay";
 import { useAntiSpam } from "./useAntiSpam";

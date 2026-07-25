@@ -7,7 +7,7 @@ import { motion } from "@/lib/motion";
 import { Mic, Guitar, Music, Wand2, FileAudio, ArrowRight, Sparkles, Radio } from "@/lib/icons";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 interface QuickAction {
   id: string;

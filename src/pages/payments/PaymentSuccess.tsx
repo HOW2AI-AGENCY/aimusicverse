@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router";
 import { CheckCircle, ArrowRight, Music, ExternalLink, Sparkles, Star, Zap, Crown } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";

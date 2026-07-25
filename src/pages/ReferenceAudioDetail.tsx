@@ -3,7 +3,7 @@
  * Shows details of uploaded reference audio with actions
  */
 
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchReferenceAudioById, deleteReferenceAudio } from "@/api/recordings.api";

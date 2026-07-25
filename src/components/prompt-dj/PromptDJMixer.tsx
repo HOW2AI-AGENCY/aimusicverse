@@ -19,7 +19,7 @@ import { SmartSuggestions } from "./SmartSuggestions";
 import { PromptDJOnboarding, usePromptDJOnboarding } from "./PromptDJOnboarding";
 import { PromptDJErrorBoundary } from "./PromptDJErrorBoundary";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { insertReferenceAudio } from "@/api/recordings.api";

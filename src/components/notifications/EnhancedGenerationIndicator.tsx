@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Loader2, Music2, ChevronDown, ChevronUp, Clock, Sparkles, ExternalLink, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
