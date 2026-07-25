@@ -29,8 +29,19 @@ const MAX_SEGMENT_SEC = 30;
 const MIN_PHRASE_REC_SEC = 5;
 
 export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
-  const { step, voice, isWorking, lastError, canRetry, startValidation, submitRecording, retryLast, reset } =
-    useVoiceCloneWizard();
+  const {
+    step,
+    voice,
+    isWorking,
+    lastError,
+    canRetry,
+    startValidation,
+    submitRecording,
+    regeneratePhrase,
+    retryLast,
+    reset,
+  } = useVoiceCloneWizard();
+
 
   const phraseRecorder = useVoiceRecorder();
   const sourceRecorder = useVoiceRecorder();
@@ -185,6 +196,16 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
 
         {step === "upload" && (
           <div className="space-y-4">
+            <div className="flex gap-2 rounded-lg border border-primary/30 bg-primary/5 p-3">
+              <Mic className="h-4 w-4 shrink-0 text-primary mt-0.5" />
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                <span className="font-medium text-foreground">Микрофон обязателен.</span> Сначала вы даёте образец
+                голоса (файл, запись или стем), затем Suno выдаст контрольную фразу — её нужно будет{" "}
+                <span className="font-medium text-foreground">пропеть в микрофон</span>. Без этой записи голос создать
+                нельзя.
+              </p>
+            </div>
+
             <div>
               <Label htmlFor="voice-name">Название</Label>
               <Input
@@ -422,16 +443,33 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
         {step === "phrase_ready" && voice?.validate_phrase && (
           <div className="space-y-4">
             <div className="rounded-lg border bg-muted/30 p-4">
-              <Label className="text-xs uppercase text-muted-foreground">Запишите эту фразу (петь, не читать)</Label>
+              <Label className="text-xs uppercase text-muted-foreground">Спойте эту фразу в микрофон</Label>
               <p className="mt-2 text-lg font-medium leading-snug">{voice.validate_phrase}</p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                Suno рекомендует именно пение, а не чтение — от этого напрямую зависит качество голоса. Минимум{" "}
+                {MIN_PHRASE_REC_SEC} секунд, без фоновой музыки.
+              </p>
             </div>
 
             {phraseRecorder.state === "idle" && (
-              <Button className="w-full h-12" onClick={phraseRecorder.start}>
-                <Mic className="mr-2 h-4 w-4" />
-                Записать
-              </Button>
+              <div className="space-y-2">
+                <Button className="w-full h-12" onClick={phraseRecorder.start}>
+                  <Mic className="mr-2 h-4 w-4" />
+                  Записать
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-full"
+                  disabled={isWorking}
+                  onClick={() => void regeneratePhrase()}
+                >
+                  <RotateCcw className="mr-2 h-3 w-3" />
+                  Сложно спеть — другая фраза
+                </Button>
+              </div>
             )}
+
             {phraseRecorder.state === "recording" && (
               <div className="space-y-3">
                 <VoiceWaveformEditor mode="live" stream={phraseRecorder.stream} height={72} />

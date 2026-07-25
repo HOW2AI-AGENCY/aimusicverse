@@ -73,12 +73,13 @@ export default function VoiceHistoryPage() {
         } else {
           toast.info(`Статус: ${info.status}`);
         }
-      } else if (v.id && v.verify_path) {
-        const res = await voiceCloneApi.regenerate(v.id, v.verify_path);
-        toast.success("Повторная генерация запущена", { description: `Task: ${res.taskId}` });
+      } else if (v.validate_task_id) {
+        const res = await voiceCloneApi.regenerate(v.id);
+        toast.success("Запрошена новая контрольная фраза", { description: `Task: ${res.taskId}` });
       } else {
-        toast.error("Невозможно повторить: нет данных верификации");
+        toast.error("Невозможно повторить: нет задачи валидации");
       }
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Catch-all unknown error from retry RPC
     } catch (e: any) {
       logger.error("Retry failed", e);

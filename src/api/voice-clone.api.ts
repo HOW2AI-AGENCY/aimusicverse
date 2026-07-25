@@ -75,8 +75,10 @@ export const voiceCloneApi = {
   generate: (voiceRowId: string, verifyPath: string) =>
     invoke<{ success: boolean; taskId: string }>("suno-voice-generate", { voiceRowId, verifyPath }),
 
-  regenerate: (voiceRowId: string, verifyPath?: string) =>
-    invoke<{ success: boolean; taskId: string }>("suno-voice-regenerate", { voiceRowId, verifyPath }),
+  /** Ask Suno for a NEW validation phrase (no audio involved). */
+  regenerate: (voiceRowId: string) =>
+    invoke<{ success: boolean; taskId: string }>("suno-voice-regenerate", { voiceRowId }),
+
 
   recordInfo: (taskId: string) =>
     invoke<{ success: boolean; status: string; voiceId?: string }>(
