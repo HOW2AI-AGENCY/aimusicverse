@@ -9,50 +9,101 @@
 import type { GenreQueryConfig, GenrePlaylistConfig } from "./types";
 
 /**
- * Genre queries for server-side filtering
- * Values must match computed_genre column in DB exactly
- * DB values: hiphop (253), pop (163), rock (81), electronic (17), folk (47), etc.
+ * Genre queries — the SINGLE SOURCE OF TRUTH for genre ids and their
+ * associated `computed_genre` DB values across the whole app:
+ *   - UI tabs                       (GenreTabsSection)
+ *   - batch fetch                   (usePublicContentBatch)
+ *   - infinite scroll               (useInfiniteGenreTracks)
+ *   - client-side keyword fallback  (GenreTabsSection)
+ *
+ * DB values must match the `computed_genre` column exactly.
+ * Never duplicate this list — import `GENRE_QUERIES` / `getGenreDbValues`
+ * instead. Guard: `assertGenreIdsMatch` / `assertGenreDbValuesMatch`.
  */
 export const GENRE_QUERIES: GenreQueryConfig[] = [
-  { id: "hiphop", dbValues: ["hiphop", "hip-hop", "rap", "trap"] },
-  { id: "pop", dbValues: ["pop", "dance", "electropop"] },
-  { id: "rock", dbValues: ["rock", "alternative", "indie", "punk"] },
+  { id: "hiphop", dbValues: ["hiphop", "hip-hop", "rap", "trap", "drill"] },
+  { id: "pop", dbValues: ["pop", "dance", "electropop", "synth-pop"] },
+  { id: "rock", dbValues: ["rock", "alternative", "indie", "punk", "grunge"] },
   { id: "metal", dbValues: ["metal", "heavy-metal", "metalcore"] },
-  { id: "electronic", dbValues: ["electronic", "house", "techno", "edm"] },
+  { id: "electronic", dbValues: ["electronic", "house", "techno", "edm", "dnb", "dubstep", "trance"] },
   { id: "ambient", dbValues: ["ambient", "chill", "downtempo"] },
   { id: "jazz", dbValues: ["jazz", "swing", "bebop", "fusion"] },
   { id: "classical", dbValues: ["classical", "orchestral", "symphony"] },
-  { id: "folk", dbValues: ["folk", "acoustic", "country"] },
+  { id: "folk", dbValues: ["folk", "acoustic", "country", "americana", "bluegrass"] },
 ];
 
 /**
- * Canonical set of genre ids. Any list of genres in the app (UI tabs, DB value
- * maps, infinite scroll config) MUST use exactly these ids. Import
- * `assertGenreIdsMatch` to validate a foreign list at module init.
+ * Canonical set of genre ids.
  */
 export const CANONICAL_GENRE_IDS: readonly string[] = Object.freeze(
   GENRE_QUERIES.map((g) => g.id),
 );
 
 /**
- * Dev-time guard: throws in development if a list of genre ids drifts from the
- * canonical set. In production it logs a warning instead of throwing so a stale
- * bundle can never crash the shell.
+ * Canonical id → dbValues lookup, derived once from GENRE_QUERIES so
+ * consumers cannot fork the list.
+ */
+export const CANONICAL_GENRE_DB_VALUES: Readonly<Record<string, readonly string[]>> = Object.freeze(
+  Object.fromEntries(GENRE_QUERIES.map((g) => [g.id, Object.freeze([...g.dbValues])])),
+);
+
+/** Safe lookup — returns `[]` for unknown ids. */
+export function getGenreDbValues(id: string): readonly string[] {
+  return CANONICAL_GENRE_DB_VALUES[id] ?? [];
+}
+
+function reportDrift(msg: string): void {
+  if (import.meta.env?.DEV) {
+    throw new Error(msg);
+  }
+  // eslint-disable-next-line no-console
+  console.warn(msg);
+}
+
+/**
+ * Dev-time guard: throws in development if a list of genre ids drifts from
+ * the canonical set. In production it logs a warning so a stale bundle
+ * cannot crash the shell.
  */
 export function assertGenreIdsMatch(source: string, ids: readonly string[]): void {
   const canonical = new Set(CANONICAL_GENRE_IDS);
   const foreign = new Set(ids);
   const missing = [...canonical].filter((id) => !foreign.has(id));
   const extra = [...foreign].filter((id) => !canonical.has(id));
-  if (missing.length === 0 && extra.length === 0) return;
-  const msg =
-    `[genre-consistency] ${source} is out of sync with GENRE_QUERIES. ` +
-    `missing=[${missing.join(",")}] extra=[${extra.join(",")}]`;
-  if (import.meta.env?.DEV) {
-    throw new Error(msg);
+  const dupes = ids.length !== foreign.size;
+  if (!missing.length && !extra.length && !dupes) return;
+  reportDrift(
+    `[genre-consistency] ${source} ids out of sync with GENRE_QUERIES. ` +
+      `missing=[${missing.join(",")}] extra=[${extra.join(",")}] duplicates=${dupes}`,
+  );
+}
+
+/**
+ * Dev-time guard: validates a full id → dbValues map against the canonical
+ * source. Fails on unknown ids, missing ids, or drifted dbValues sets.
+ */
+export function assertGenreDbValuesMatch(
+  source: string,
+  map: Readonly<Record<string, readonly string[]>>,
+): void {
+  assertGenreIdsMatch(source, Object.keys(map));
+  const issues: string[] = [];
+  for (const id of CANONICAL_GENRE_IDS) {
+    const foreign = map[id];
+    if (!foreign) continue; // reported by assertGenreIdsMatch
+    const canonical = new Set(CANONICAL_GENRE_DB_VALUES[id]);
+    const got = new Set(foreign);
+    const missing = [...canonical].filter((v) => !got.has(v));
+    const extra = [...got].filter((v) => !canonical.has(v));
+    if (missing.length || extra.length) {
+      issues.push(`${id}: missing=[${missing.join(",")}] extra=[${extra.join(",")}]`);
+    }
   }
-  // eslint-disable-next-line no-console
-  console.warn(msg);
+  if (issues.length) {
+    reportDrift(
+      `[genre-consistency] ${source} dbValues out of sync with GENRE_QUERIES. ${issues.join("; ")}`,
+    );
+  }
 }
 
 /**
