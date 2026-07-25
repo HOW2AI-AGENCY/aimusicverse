@@ -309,40 +309,46 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
           <LyricsVisualEditorCompact value={lyrics} onChange={onLyricsChange} onAIGenerate={onOpenLyricsAssistant} />
         ) : (
           <div className="space-y-2">
-            {/* Quick-insert section tag chips — compact icon row, horizontally scrollable */}
-            <div
-              className="-mx-1 flex items-center gap-1 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-              role="toolbar"
-              aria-label="Вставить секцию"
+            {/* Insert section tag — dropdown with full labels */}
+            <Select
+              value=""
+              onValueChange={(v) => {
+                if (!v) return;
+                insertSectionTag(v as LyricSectionType);
+              }}
             >
-              <span className="shrink-0 text-[0.625rem] uppercase tracking-wide text-muted-foreground/70 pr-1">
-                Секция
-              </span>
-              {QUICK_SECTION_TYPES.map((t) => {
-                const def = LYRIC_SECTION_BY_VALUE[t];
-                const color = getLyricSectionColor(t);
-                return (
-                  <button
-                    key={t}
-                    type="button"
-                    onClick={() => insertSectionTag(t)}
-                    title={`Вставить [${def.header}]`}
-                    aria-label={`Вставить ${def.label}`}
-                    className={cn(
-                      "shrink-0 inline-flex items-center justify-center h-6 min-w-[1.5rem] px-1.5 rounded-md border text-[0.6875rem] font-medium leading-none",
-                      "hover:opacity-100 opacity-85 transition-opacity",
-                      color.bg,
-                      color.border,
-                      color.text,
-                    )}
-                  >
-                    <span aria-hidden className="font-mono">
-                      {def.glyph}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
+              <SelectTrigger
+                className="h-8 w-auto min-w-[9rem] gap-2 rounded-md border-border/60 bg-muted/30 px-2.5 text-xs"
+                aria-label="Вставить секцию"
+              >
+                <SelectValue placeholder="+ Вставить секцию" />
+              </SelectTrigger>
+              <SelectContent>
+                {QUICK_SECTION_TYPES.map((t) => {
+                  const def = LYRIC_SECTION_BY_VALUE[t];
+                  const color = getLyricSectionColor(t);
+                  return (
+                    <SelectItem key={t} value={t} className="text-sm">
+                      <span className="inline-flex items-center gap-2">
+                        <span
+                          aria-hidden
+                          className={cn(
+                            "inline-flex h-5 w-5 items-center justify-center rounded border font-mono text-[0.6875rem] font-medium",
+                            color.bg,
+                            color.border,
+                            color.text,
+                          )}
+                        >
+                          {def.glyph}
+                        </span>
+                        <span>{def.label}</span>
+                        <span className="text-muted-foreground/70 text-xs">[{def.header}]</span>
+                      </span>
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
 
             <div className="relative group">
               {/* Main textarea with premium styling */}
