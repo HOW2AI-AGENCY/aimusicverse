@@ -13,6 +13,7 @@ export interface SectionVariant {
   label: string;
   audioUrl: string;
   duration?: number;
+  versionId?: string;
 }
 
 export interface ReplaceSectionProgressState {
@@ -62,6 +63,58 @@ function getVariantAudioUrl(clip: {
     clip.streamAudioUrl ||
     ""
   );
+}
+
+type ClipLike = {
+  audio_url?: string;
+  audioUrl?: string;
+  source_audio_url?: string;
+  sourceAudioUrl?: string;
+  stream_audio_url?: string;
+  streamAudioUrl?: string;
+  duration_seconds?: number;
+  duration?: number;
+};
+
+type ReplacementVersionRow = {
+  id: string;
+  version_label: string | null;
+  audio_url: string | null;
+  duration_seconds: number | null;
+  created_at?: string | null;
+};
+
+async function buildReplacementVariants(trackId: string | null, taskId: string | null, rawClips: unknown): Promise<SectionVariant[]> {
+  if (!trackId || !taskId) return [];
+
+  const { data: versionRows, error } = await supabase
+    .from("track_versions")
+    .select("id, version_label, audio_url, duration_seconds, created_at")
+    .eq("track_id", trackId)
+    .eq("metadata->>original_task_id", taskId)
+    .order("created_at", { ascending: true });
+
+  if (!error && Array.isArray(versionRows) && versionRows.length > 0) {
+    return (versionRows as ReplacementVersionRow[])
+      .map((version, idx) => ({
+        label: version.version_label || String.fromCharCode(65 + idx),
+        audioUrl: version.audio_url || "",
+        duration: version.duration_seconds || undefined,
+        versionId: version.id,
+      }))
+      .filter((variant) => !!variant.audioUrl);
+  }
+
+  const clips = typeof rawClips === "string" ? JSON.parse(rawClips) : rawClips;
+  if (!Array.isArray(clips)) return [];
+
+  return (clips as ClipLike[])
+    .map((clip, idx) => ({
+      label: String.fromCharCode(65 + idx),
+      audioUrl: getVariantAudioUrl(clip),
+      duration: clip.duration_seconds ?? clip.duration,
+    }))
+    .filter((variant) => !!variant.audioUrl);
 }
 
 export function useReplaceSectionProgress() {
@@ -139,13 +192,36 @@ export function useReplaceSectionProgress() {
       const variant = state.variants[variantIndex];
       logger.info("Applying section variant", { trackId: state.trackId, variant: variant.label });
 
-      // Here you would update the track version or merge the audio
-      // This depends on your backend implementation
+      if (variant.versionId) {
+        await supabase.from("track_versions").update({ is_primary: false }).eq("track_id", state.trackId);
+        const { error: versionError } = await supabase
+          .from("track_versions")
+          .update({ is_primary: true })
+          .eq("id", variant.versionId);
 
+        if (versionError) {
+          logger.error("Failed to apply replacement variant", versionError, { trackId: state.trackId, versionId: variant.versionId });
+          setError("Не удалось применить выбранную версию");
+          return;
+        }
+
+        const { error: trackError } = await supabase
+          .from("tracks")
+          .update({ active_version_id: variant.versionId, audio_url: variant.audioUrl })
+          .eq("id", state.trackId);
+
+        if (trackError) {
+          logger.error("Failed to update active replacement version", trackError, { trackId: state.trackId, versionId: variant.versionId });
+          setError("Версия создана, но не удалось сделать её активной");
+          return;
+        }
+      }
+
+      queryClient.invalidateQueries({ queryKey: ["tracks"] });
       queryClient.invalidateQueries({ queryKey: ["track", state.trackId] });
       queryClient.invalidateQueries({ queryKey: ["track-versions", state.trackId] });
     },
-    [state.trackId, state.variants, queryClient],
+    [state.trackId, state.variants, queryClient, setError],
   );
 
   // Subscribe to task updates
@@ -187,29 +263,9 @@ export function useReplaceSectionProgress() {
           if (task.status === "completed" || task.status === "partial_delivery") {
             // Parse audio clips for A/B variants
             try {
-              const clips = typeof task.audio_clips === "string" ? JSON.parse(task.audio_clips) : task.audio_clips;
+              const variants = await buildReplacementVariants(state.trackId, state.taskId, task.audio_clips);
 
-              if (Array.isArray(clips) && clips.length > 0) {
-                const variants: SectionVariant[] = clips.map(
-                  (
-                    clip: {
-                      audio_url?: string;
-                      audioUrl?: string;
-                      source_audio_url?: string;
-                      sourceAudioUrl?: string;
-                      stream_audio_url?: string;
-                      streamAudioUrl?: string;
-                      duration_seconds?: number;
-                      duration?: number;
-                    },
-                    idx: number,
-                  ) => ({
-                    label: String.fromCharCode(65 + idx), // A, B, C...
-                    audioUrl: getVariantAudioUrl(clip),
-                    duration: clip.duration_seconds ?? clip.duration,
-                  }),
-                ).filter((variant) => !!variant.audioUrl);
-
+              if (variants.length > 0) {
                 setState((prev) => ({
                   ...prev,
                   status: "completed",
@@ -265,25 +321,7 @@ export function useReplaceSectionProgress() {
           const clips = typeof task.audio_clips === "string" ? JSON.parse(task.audio_clips) : task.audio_clips;
 
           if (Array.isArray(clips) && clips.length > 0) {
-            const variants: SectionVariant[] = clips.map(
-              (
-                clip: {
-                  audio_url?: string;
-                  audioUrl?: string;
-                  source_audio_url?: string;
-                  sourceAudioUrl?: string;
-                  stream_audio_url?: string;
-                  streamAudioUrl?: string;
-                  duration_seconds?: number;
-                  duration?: number;
-                },
-                idx: number,
-              ) => ({
-                label: String.fromCharCode(65 + idx),
-                audioUrl: getVariantAudioUrl(clip),
-                duration: clip.duration_seconds ?? clip.duration,
-              }),
-            ).filter((variant) => !!variant.audioUrl);
+            const variants = await buildReplacementVariants(state.trackId, state.taskId, clips);
 
             setState((prev) => ({
               ...prev,
