@@ -4,88 +4,74 @@ import { AdvancedSettings } from "./AdvancedSettings";
 import { FormSection, FormDivider } from "./FormSection";
 import { CustomVoicePicker } from "@/components/voice-clone/CustomVoicePicker";
 import { FileText, Palette, Mic2, AudioLines, Settings2 } from "@/lib/icons";
+import type { UseGenerateFormReturn } from "@/hooks/generation/useGenerateForm.types";
 
 interface GenerateFormCustomProps {
-  title: string;
-  onTitleChange: (value: string) => void;
-  style: string;
-  onStyleChange: (value: string) => void;
-  lyrics: string;
-  onLyricsChange: (value: string) => void;
-  hasVocals: boolean;
-  onHasVocalsChange: (value: boolean) => void;
-  onBoostStyle: () => void;
-  boostLoading: boolean;
+  /** Single form object eliminates 25+ prop-drilled value/setter pairs. */
+  form: UseGenerateFormReturn;
+  /** Non-form props stay as individual props. */
   onOpenLyricsAssistant: () => void;
-  // Privacy
-  isPublic: boolean;
-  onIsPublicChange: (value: boolean) => void;
-  canMakePrivate?: boolean;
-  // Advanced settings
+  onOpenStyles?: () => void;
   advancedOpen: boolean;
   onAdvancedOpenChange: (open: boolean) => void;
-  negativeTags: string;
-  onNegativeTagsChange: (value: string) => void;
-  vocalGender: "" | "m" | "f";
-  onVocalGenderChange: (value: "" | "m" | "f") => void;
-  styleWeight: number[];
-  onStyleWeightChange: (value: number[]) => void;
-  weirdnessConstraint: number[];
-  onWeirdnessConstraintChange: (value: number[]) => void;
-  audioWeight: number[];
-  onAudioWeightChange: (value: number[]) => void;
-  hasReferenceAudio: boolean;
-  hasPersona: boolean;
-  // Optional context for saving templates
+  canMakePrivate?: boolean;
   genre?: string;
   mood?: string;
-  // Style presets
-  onOpenStyles?: () => void;
-  // Custom voice
-  customVoiceId?: string | null;
-  onCustomVoiceIdChange?: (id: string | null) => void;
+  /** Override for hasReferenceAudio — default: !!form.audioFile */
+  hasReferenceAudio?: boolean;
+  /** Override for hasPersona — default: !!form.selectedArtistId */
+  hasPersona?: boolean;
 }
 
 export function GenerateFormCustom({
-  title,
-  onTitleChange,
-  style,
-  onStyleChange,
-  lyrics,
-  onLyricsChange,
-  hasVocals,
-  onHasVocalsChange,
-  onBoostStyle,
-  boostLoading,
+  form,
   onOpenLyricsAssistant,
-  isPublic = true,
-  onIsPublicChange,
-  canMakePrivate = false,
+  onOpenStyles,
   advancedOpen,
   onAdvancedOpenChange,
-  negativeTags,
-  onNegativeTagsChange,
-  vocalGender,
-  onVocalGenderChange,
-  styleWeight,
-  onStyleWeightChange,
-  weirdnessConstraint,
-  onWeirdnessConstraintChange,
-  audioWeight,
-  onAudioWeightChange,
-  hasReferenceAudio,
-  hasPersona,
+  canMakePrivate = false,
   genre,
   mood,
-  onOpenStyles,
-  customVoiceId,
-  onCustomVoiceIdChange,
+  hasReferenceAudio: hasReferenceAudioOverride,
+  hasPersona: hasPersonaOverride,
 }: GenerateFormCustomProps) {
+  const {
+    title,
+    setTitle,
+    style,
+    setStyle,
+    lyrics,
+    setLyrics,
+    hasVocals,
+    setHasVocals,
+    handleBoostStyle,
+    boostLoading,
+    isPublic,
+    setIsPublic,
+    negativeTags,
+    setNegativeTags,
+    vocalGender,
+    setVocalGender,
+    styleWeight,
+    setStyleWeight,
+    weirdnessConstraint,
+    setWeirdnessConstraint,
+    audioWeight,
+    setAudioWeight,
+    audioFile,
+    selectedArtistId,
+    customVoiceId,
+    setCustomVoiceId,
+  } = form;
+
+  const hasReferenceAudio = hasReferenceAudioOverride ?? !!audioFile;
+  const hasPersona = hasPersonaOverride ?? !!selectedArtistId;
+
   return (
     <motion.div>
       {/* ========== BASIC INFO GROUP ========== */}
       <FormSection step={1} title="Основное" icon={<FileText className="w-3.5 h-3.5" />} tone="default">
-        <TitleSection title={title} onTitleChange={onTitleChange} />
+        <TitleSection title={title} onTitleChange={setTitle} />
       </FormSection>
 
       <FormDivider />
@@ -100,13 +86,13 @@ export function GenerateFormCustom({
       >
         <StyleSection
           style={style}
-          onStyleChange={onStyleChange}
-          onBoostStyle={onBoostStyle}
+          onStyleChange={setStyle}
+          onBoostStyle={handleBoostStyle}
           boostLoading={boostLoading}
           onOpenStyles={onOpenStyles}
         />
 
-        <VocalsToggle hasVocals={hasVocals} onHasVocalsChange={onHasVocalsChange} onLyricsChange={onLyricsChange} />
+        <VocalsToggle hasVocals={hasVocals} onHasVocalsChange={setHasVocals} onLyricsChange={setLyrics} />
       </FormSection>
 
       {/* ========== LYRICS GROUP ========== */}
@@ -122,15 +108,15 @@ export function GenerateFormCustom({
           >
             <LyricsSectionAdvanced
               lyrics={lyrics}
-              onLyricsChange={onLyricsChange}
-              onStyleChange={onStyleChange}
+              onLyricsChange={setLyrics}
+              onStyleChange={setStyle}
               onOpenLyricsAssistant={onOpenLyricsAssistant}
               style={style}
               genre={genre}
               mood={mood}
             />
           </FormSection>
-          {onCustomVoiceIdChange && (
+          {setCustomVoiceId && (
             <>
               <FormDivider />
               <FormSection
@@ -140,7 +126,7 @@ export function GenerateFormCustom({
                 icon={<AudioLines className="w-3.5 h-3.5" />}
                 tone="voice"
               >
-                <CustomVoicePicker value={customVoiceId ?? null} onChange={onCustomVoiceIdChange} />
+                <CustomVoicePicker value={customVoiceId ?? null} onChange={setCustomVoiceId} />
               </FormSection>
             </>
           )}
@@ -151,29 +137,29 @@ export function GenerateFormCustom({
       <FormDivider />
 
       <FormSection
-        step={hasVocals ? (onCustomVoiceIdChange ? 5 : 4) : 3}
+        step={hasVocals ? (setCustomVoiceId ? 5 : 4) : 3}
         title="Настройки"
         description="Приватность и точная настройка генерации"
         icon={<Settings2 className="w-3.5 h-3.5" />}
         tone="settings"
       >
-        {onIsPublicChange && (
-          <PrivacyToggle isPublic={isPublic} onIsPublicChange={onIsPublicChange} canMakePrivate={canMakePrivate} />
+        {setIsPublic && (
+          <PrivacyToggle isPublic={isPublic} onIsPublicChange={setIsPublic} canMakePrivate={canMakePrivate} />
         )}
 
         <AdvancedSettings
           open={advancedOpen}
           onOpenChange={onAdvancedOpenChange}
           negativeTags={negativeTags}
-          onNegativeTagsChange={onNegativeTagsChange}
+          onNegativeTagsChange={setNegativeTags}
           vocalGender={vocalGender}
-          onVocalGenderChange={onVocalGenderChange}
+          onVocalGenderChange={setVocalGender}
           styleWeight={styleWeight}
-          onStyleWeightChange={onStyleWeightChange}
+          onStyleWeightChange={setStyleWeight}
           weirdnessConstraint={weirdnessConstraint}
-          onWeirdnessConstraintChange={onWeirdnessConstraintChange}
+          onWeirdnessConstraintChange={setWeirdnessConstraint}
           audioWeight={audioWeight}
-          onAudioWeightChange={onAudioWeightChange}
+          onAudioWeightChange={setAudioWeight}
           hasReferenceAudio={hasReferenceAudio}
           hasPersona={hasPersona}
         />

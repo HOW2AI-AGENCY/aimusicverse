@@ -92,37 +92,12 @@ export function GenerateSheetBody({
               />
             ) : (
               <GenerateFormCustom
-                title={form.title}
-                onTitleChange={form.setTitle}
-                style={form.style}
-                onStyleChange={form.setStyle}
-                lyrics={form.lyrics}
-                onLyricsChange={form.setLyrics}
-                hasVocals={form.hasVocals}
-                onHasVocalsChange={form.setHasVocals}
-                onBoostStyle={form.handleBoostStyle}
-                boostLoading={form.boostLoading}
+                form={form}
                 onOpenLyricsAssistant={onOpenLyricsAssistant}
-                isPublic={form.isPublic}
-                onIsPublicChange={form.setIsPublic}
-                canMakePrivate={false}
                 advancedOpen={advancedOpen}
                 onAdvancedOpenChange={onAdvancedToggle}
-                negativeTags={form.negativeTags}
-                onNegativeTagsChange={form.setNegativeTags}
-                vocalGender={form.vocalGender}
-                onVocalGenderChange={form.setVocalGender}
-                styleWeight={form.styleWeight}
-                onStyleWeightChange={form.setStyleWeight}
-                weirdnessConstraint={form.weirdnessConstraint}
-                onWeirdnessConstraintChange={form.setWeirdnessConstraint}
-                audioWeight={form.audioWeight}
-                onAudioWeightChange={form.setAudioWeight}
-                hasReferenceAudio={!!form.audioFile}
-                hasPersona={!!form.selectedArtistId}
+                canMakePrivate={false}
                 onOpenStyles={onOpenStyles}
-                customVoiceId={form.customVoiceId}
-                onCustomVoiceIdChange={form.setCustomVoiceId}
               />
             )}
           </AnimatePresence>

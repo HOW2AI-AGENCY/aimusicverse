@@ -205,35 +205,14 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
                   />
                 ) : (
                   <GenerateFormCustom
-                    title={form.title}
-                    onTitleChange={form.setTitle}
-                    style={form.style}
-                    onStyleChange={form.setStyle}
-                    lyrics={form.lyrics}
-                    onLyricsChange={form.setLyrics}
-                    hasVocals={form.hasVocals}
-                    onHasVocalsChange={form.setHasVocals}
-                    onBoostStyle={form.handleBoostStyle}
-                    boostLoading={form.boostLoading}
+                    form={form}
                     onOpenLyricsAssistant={() => setLyricsAssistantOpen(true)}
-                    isPublic={form.isPublic}
-                    onIsPublicChange={form.setIsPublic}
                     canMakePrivate={form.canMakePrivate}
                     advancedOpen={advancedOpen}
                     onAdvancedOpenChange={setAdvancedOpen}
-                    negativeTags={form.negativeTags}
-                    onNegativeTagsChange={form.setNegativeTags}
-                    vocalGender={form.vocalGender}
-                    onVocalGenderChange={form.setVocalGender}
-                    styleWeight={form.styleWeight}
-                    onStyleWeightChange={form.setStyleWeight}
-                    weirdnessConstraint={form.weirdnessConstraint}
-                    onWeirdnessConstraintChange={form.setWeirdnessConstraint}
-                    audioWeight={form.audioWeight}
-                    onAudioWeightChange={form.setAudioWeight}
+                    onOpenStyles={() => setStylesOpen(true)}
                     hasReferenceAudio={!!form.audioFile || !!activeReference}
                     hasPersona={!!form.selectedArtistId}
-                    onOpenStyles={() => setStylesOpen(true)}
                   />
                 )}
               </AnimatePresence>
