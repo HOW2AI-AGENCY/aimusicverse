@@ -208,6 +208,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         logger.error("Failed to load similar track params", error instanceof Error ? error : new Error(String(error)));
       }
     }
+    // One-shot: consume sessionStorage["similarTrackParams"] on open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Apply Quick Genre Preset from homepage
