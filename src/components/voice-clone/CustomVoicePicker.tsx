@@ -1,7 +1,9 @@
+import { useEffect, useRef } from "react";
 import { Mic2, CheckCircle2, Loader2 } from "@/lib/icons";
 import { useCustomVoices, type CustomVoice } from "@/hooks/voice/useCustomVoices";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { getLastVoice, rememberLastVoice } from "@/api/voice-clone.api";
 
 interface Props {
   value?: string | null;
@@ -25,6 +27,17 @@ function formatRelative(iso?: string | null): string {
 export function CustomVoicePicker({ value, onChange }: Props) {
   const { voices, isLoading } = useCustomVoices();
   const ready = voices.filter((v: CustomVoice) => v.voice_id && v.status === "ready" && v.is_available);
+
+  // Restore the voice the user last generated with (once, when nothing is selected yet).
+  const restoredRef = useRef(false);
+  useEffect(() => {
+    if (restoredRef.current || value || isLoading) return;
+    const last = getLastVoice();
+    if (last && ready.some((v) => v.voice_id === last)) {
+      restoredRef.current = true;
+      onChange(last);
+    }
+  }, [value, isLoading, ready, onChange]);
 
   // Always include the currently-selected voice, even if it's still processing,
   // so the user's selection persists after VoiceCloneWizard completes.
@@ -55,7 +68,12 @@ export function CustomVoicePicker({ value, onChange }: Props) {
           </span>
         )}
       </label>
-      <Select value={value ?? "none"} onValueChange={(v) => onChange(v === "none" ? null : v)}>
+      <Select value={value ?? "none"} onValueChange={(v) => {
+          const next = v === "none" ? null : v;
+          restoredRef.current = true;
+          rememberLastVoice(next);
+          onChange(next);
+        }}>
         <SelectTrigger
           className={cn(
             isActive && "border-primary/60 ring-1 ring-primary/30 bg-primary/5",
