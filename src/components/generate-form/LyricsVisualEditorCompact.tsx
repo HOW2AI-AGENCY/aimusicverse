@@ -385,6 +385,7 @@ export const LyricsVisualEditorCompact = memo(function LyricsVisualEditorCompact
                 }}
                 onFocusSection={() => setFocusedSectionId(section.id)}
                 onTypeChange={(t) => changeSectionType(section.id, t)}
+                onTagsChange={(tags) => changeSectionTags(section.id, tags)}
                 onContentChange={(c) => updateSectionContent(section.id, c)}
                 onMoveUp={() => moveSection(section.id, -1)}
                 onMoveDown={() => moveSection(section.id, 1)}
