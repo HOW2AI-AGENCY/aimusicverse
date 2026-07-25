@@ -202,7 +202,9 @@ export const MainLayout = () => {
                     {/* ResizablePlayer is rendered OUTSIDE <main> because #main-content has
                       `contain: layout style` which creates a containing block for
                       position:fixed descendants, breaking the bottom dock on mobile. */}
-                    <ResizablePlayer />
+                    <ErrorBoundaryWrapper name="ResizablePlayer" fallback={null}>
+                      <ResizablePlayer />
+                    </ErrorBoundaryWrapper>
                   </>
                 )}
               </NavigationShell>
