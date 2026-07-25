@@ -143,13 +143,13 @@ export function useTrackActionsState({
   };
 
   // Dialog helpers
-  const openDialog = useCallback(
-    (key: keyof DialogStates) => {
-      setDialogs((prev) => ({ ...prev, [key]: true }));
-      onClose?.();
-    },
-    [onClose],
-  );
+  // ВАЖНО: лист действий НЕ закрывается при открытии диалога.
+  // Карточки треков живут в виртуализированном списке — закрытие листа
+  // может размонтировать владельца состояния и диалог никогда не появится.
+  // Диалог рендерится поверх листа, а при его закрытии лист снова виден.
+  const openDialog = useCallback((key: keyof DialogStates) => {
+    setDialogs((prev) => ({ ...prev, [key]: true }));
+  }, []);
 
   const closeDialog = useCallback((key: keyof DialogStates) => {
     setDialogs((prev) => ({ ...prev, [key]: false }));
