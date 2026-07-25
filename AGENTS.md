@@ -81,8 +81,8 @@ When the user requests a durable behavior change, record it here or in the relev
 
 ## Child DOX Index
 
-- `src/` — React application source: API layer, hooks, stores, UI components, pages, providers, workers, and app types.
-- `supabase/` — Lovable Cloud backend assets: edge functions and migrations.
+- `src/AGENTS.md` — React application source contracts: API layer, hooks, stores, UI components, pages, providers, workers, and app types.
+- `supabase/AGENTS.md` — Lovable Cloud backend contracts: edge functions and migrations.
 - `tests/`, `src/__tests__/` — Playwright and Vitest coverage.
 - `docs/`, `ADR/`, `specs/`, `SPRINTS/`, `plans/`, `verification/` — durable project documentation, decisions, specifications, sprint records, and verification artifacts.
 - `public/`, `src/assets/`, `assets/` — static and imported media assets.
