@@ -318,11 +318,9 @@ export function useReplaceSectionProgress() {
 
       if ((task.status === "completed" || task.status === "partial_delivery") && state.status !== "completed") {
         try {
-          const clips = typeof task.audio_clips === "string" ? JSON.parse(task.audio_clips) : task.audio_clips;
+          const variants = await buildReplacementVariants(state.trackId, state.taskId, task.audio_clips);
 
-          if (Array.isArray(clips) && clips.length > 0) {
-            const variants = await buildReplacementVariants(state.trackId, state.taskId, clips);
-
+          if (variants.length > 0) {
             setState((prev) => ({
               ...prev,
               status: "completed",
