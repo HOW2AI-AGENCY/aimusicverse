@@ -51,24 +51,11 @@ export function GenerateSheetFooter(props: Props) {
       style={{ paddingBottom, transition: "padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)" }}
     >
       {/* Status strip: saved indicator or warning link. Cost lives in the CTA badge. */}
-      {props.shouldShowUIButton && (showSaved || props.hasWarnings) && (
-        <div className="mb-1.5 flex items-center justify-between px-1 min-h-[16px]">
-          {showSaved ? (
-            <span className="text-[0.6875rem] text-neon/80 flex items-center gap-1">
-              <Check className="w-3 h-3" aria-hidden /> Черновик сохранён
-            </span>
-          ) : (
-            <span />
-          )}
-          {props.hasWarnings && (
-            <button
-              type="button"
-              onClick={props.onShowReasons}
-              className="text-[0.6875rem] font-semibold text-amber-400 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60 rounded"
-            >
-              {props.warningCount} {props.warningCount === 1 ? "замечание" : "замечаний"}
-            </button>
-          )}
+      {props.shouldShowUIButton && showSaved && (
+        <div className="mb-1.5 flex items-center px-1 min-h-[16px]">
+          <span className="text-[0.6875rem] text-neon/80 flex items-center gap-1">
+            <Check className="w-3 h-3" aria-hidden /> Черновик сохранён
+          </span>
         </div>
       )}
 
@@ -85,14 +72,14 @@ export function GenerateSheetFooter(props: Props) {
         )}
         {props.shouldShowUIButton && (
           <Button
-            onClick={props.canGenerate ? props.onGenerate : props.onShowReasons}
-            disabled={props.loading}
+            onClick={props.onGenerate}
+            disabled={props.loading || !props.canGenerate}
             aria-label={
               props.loading
                 ? "Идёт создание трека"
                 : props.canGenerate
                   ? `Сгенерировать трек за ${props.generationCost} кредитов`
-                  : "Открыть причины, почему нельзя сгенерировать"
+                  : "Заполните обязательные поля, чтобы сгенерировать трек"
             }
             className={cn(
               "h-12 text-[0.9375rem] font-bold gap-2 rounded-2xl flex-1 flex items-center justify-center leading-none transition-all active:scale-[0.98]",
