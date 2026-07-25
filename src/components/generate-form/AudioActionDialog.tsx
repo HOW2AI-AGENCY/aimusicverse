@@ -491,37 +491,18 @@ export function AudioActionDialog({
     </div>
   );
 
-  if (isMobile) {
-    return (
-      <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="max-h-[85vh]">
-          <DrawerHeader className="py-3 text-left">
-            <DrawerTitle className="flex items-center gap-2 text-base">
-              <FileAudio className="w-4 h-4 text-primary" />
-              Аудио
-            </DrawerTitle>
-            <DrawerDescription className="text-xs">Загрузите, запишите или выберите из истории</DrawerDescription>
-          </DrawerHeader>
-          <ScrollArea className="flex-1 px-4 pb-4">{content}</ScrollArea>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
-
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md" aria-describedby="audio-dialog-description">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <FileAudio className="w-5 h-5 text-primary" />
-            Аудио
-          </DialogTitle>
-          <DialogDescription id="audio-dialog-description">
-            Загрузите, запишите или выберите из истории
-          </DialogDescription>
-        </DialogHeader>
-        {content}
-      </DialogContent>
-    </Dialog>
+    <GenerateModal
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Аудио-референс"
+      description="Загрузите, запишите или выберите из истории"
+      icon={FileAudio}
+      size="md"
+      data-testid="audio-action-dialog"
+    >
+      {content}
+    </GenerateModal>
   );
 }
+
