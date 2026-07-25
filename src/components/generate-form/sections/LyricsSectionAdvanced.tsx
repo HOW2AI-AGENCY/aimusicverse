@@ -229,70 +229,6 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
   return (
     <>
       <div className="space-y-3">
-        {/* Header with label and controls */}
-        <div className="flex items-center justify-between gap-2 mb-1">
-          <SectionLabel label="Текст песни" hint={SECTION_HINTS.lyrics} />
-
-          <div className="flex items-center gap-1">
-            {/* View toggle: text / visual / preview — subtle pill */}
-            <div className="flex items-center gap-0.5 p-0.5 rounded-lg bg-muted/40">
-              <Button
-                variant={viewMode === "text" ? "secondary" : "ghost"}
-                size="icon"
-                aria-label="Текстовый редактор"
-                aria-pressed={viewMode === "text"}
-                className="h-8 w-8 min-h-[40px] min-w-[40px] rounded-md"
-                onClick={() => switchView("text")}
-              >
-                <AlignLeft className="h-3.5 w-3.5" />
-              </Button>
-              <Button
-                variant={viewMode === "visual" ? "secondary" : "ghost"}
-                size="icon"
-                aria-label="Визуальный редактор секций"
-                aria-pressed={viewMode === "visual"}
-                className="h-8 w-8 min-h-[40px] min-w-[40px] rounded-md"
-                onClick={() => switchView("visual")}
-              >
-                <LayoutGrid className="h-3.5 w-3.5" />
-              </Button>
-              <Button
-                variant={viewMode === "preview" ? "secondary" : "ghost"}
-                size="icon"
-                aria-label="Предпросмотр текста"
-                aria-pressed={viewMode === "preview"}
-                className="h-8 w-8 min-h-[40px] min-w-[40px] rounded-md"
-                onClick={() => switchView("preview")}
-              >
-                <Eye className="h-3.5 w-3.5" />
-              </Button>
-            </div>
-            {/* Prosody check toggle — sits next to the mode-pill so users can turn on rhyme/meter diagnostics without switching modes. */}
-            <Button
-              variant={showProsody ? "secondary" : "ghost"}
-              size="icon"
-              aria-label="Проверка ритма и рифмы"
-              aria-pressed={showProsody}
-              className="relative h-8 w-8 min-h-[40px] min-w-[40px] rounded-md"
-              onClick={() => {
-                hapticFeedback("light");
-                setShowProsody((v) => !v);
-              }}
-            >
-              <Music2 className="h-3.5 w-3.5" />
-              {(prosodySummary.errors > 0 || prosodySummary.warns > 0) && (
-                <span
-                  className={cn(
-                    "absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full",
-                    prosodySummary.errors > 0 ? "bg-destructive" : "bg-amber-500",
-                  )}
-                  aria-hidden
-                />
-              )}
-            </Button>
-          </div>
-        </div>
-
         {/* Editor area */}
         {showPreview ? (
           <LyricsPreview value={lyrics} onAIAssist={onOpenLyricsAssistant} />
@@ -300,46 +236,105 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
           <LyricsVisualEditorCompact value={lyrics} onChange={onLyricsChange} onAIGenerate={onOpenLyricsAssistant} />
         ) : (
           <div className="space-y-2">
-            {/* Insert section tag — dropdown with full labels */}
-            <Select
-              value=""
-              onValueChange={(v) => {
-                if (!v) return;
-                insertSectionTag(v as LyricSectionType);
-              }}
-            >
-              <SelectTrigger
-                className="h-8 w-auto min-w-[9rem] gap-2 rounded-md border-border/60 bg-muted/30 px-2.5 text-xs"
-                aria-label="Вставить секцию"
+            {/* Toolbar row: insert-section dropdown + view/prosody toggles */}
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <Select
+                value=""
+                onValueChange={(v) => {
+                  if (!v) return;
+                  insertSectionTag(v as LyricSectionType);
+                }}
               >
-                <SelectValue placeholder="+ Вставить секцию" />
-              </SelectTrigger>
-              <SelectContent>
-                {QUICK_SECTION_TYPES.map((t) => {
-                  const def = LYRIC_SECTION_BY_VALUE[t];
-                  const color = getLyricSectionColor(t);
-                  return (
-                    <SelectItem key={t} value={t} className="text-sm">
-                      <span className="inline-flex items-center gap-2">
-                        <span
-                          aria-hidden
-                          className={cn(
-                            "inline-flex h-5 w-5 items-center justify-center rounded border font-mono text-[0.6875rem] font-medium",
-                            color.bg,
-                            color.border,
-                            color.text,
-                          )}
-                        >
-                          {def.glyph}
+                <SelectTrigger
+                  className="h-8 w-auto min-w-[9rem] gap-2 rounded-md border-border/60 bg-muted/30 px-2.5 text-xs"
+                  aria-label="Вставить секцию"
+                >
+                  <SelectValue placeholder="+ Вставить секцию" />
+                </SelectTrigger>
+                <SelectContent>
+                  {QUICK_SECTION_TYPES.map((t) => {
+                    const def = LYRIC_SECTION_BY_VALUE[t];
+                    const color = getLyricSectionColor(t);
+                    return (
+                      <SelectItem key={t} value={t} className="text-sm">
+                        <span className="inline-flex items-center gap-2">
+                          <span
+                            aria-hidden
+                            className={cn(
+                              "inline-flex h-5 w-5 items-center justify-center rounded border font-mono text-[0.6875rem] font-medium",
+                              color.bg,
+                              color.border,
+                              color.text,
+                            )}
+                          >
+                            {def.glyph}
+                          </span>
+                          <span>{def.label}</span>
+                          <span className="text-muted-foreground/70 text-xs">[{def.header}]</span>
                         </span>
-                        <span>{def.label}</span>
-                        <span className="text-muted-foreground/70 text-xs">[{def.header}]</span>
-                      </span>
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+
+              <div className="flex items-center gap-1">
+                <div className="flex items-center gap-0.5 p-0.5 rounded-lg bg-muted/40">
+                  <Button
+                    variant={viewMode === "text" ? "secondary" : "ghost"}
+                    size="icon"
+                    aria-label="Текстовый редактор"
+                    aria-pressed={viewMode === "text"}
+                    className="h-7 w-7 rounded-md"
+                    onClick={() => switchView("text")}
+                  >
+                    <AlignLeft className="h-3.5 w-3.5" />
+                  </Button>
+                  <Button
+                    variant={viewMode === "visual" ? "secondary" : "ghost"}
+                    size="icon"
+                    aria-label="Визуальный редактор секций"
+                    aria-pressed={viewMode === "visual"}
+                    className="h-7 w-7 rounded-md"
+                    onClick={() => switchView("visual")}
+                  >
+                    <LayoutGrid className="h-3.5 w-3.5" />
+                  </Button>
+                  <Button
+                    variant={viewMode === "preview" ? "secondary" : "ghost"}
+                    size="icon"
+                    aria-label="Предпросмотр текста"
+                    aria-pressed={viewMode === "preview"}
+                    className="h-7 w-7 rounded-md"
+                    onClick={() => switchView("preview")}
+                  >
+                    <Eye className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+                <Button
+                  variant={showProsody ? "secondary" : "ghost"}
+                  size="icon"
+                  aria-label="Проверка ритма и рифмы"
+                  aria-pressed={showProsody}
+                  className="relative h-7 w-7 rounded-md"
+                  onClick={() => {
+                    hapticFeedback("light");
+                    setShowProsody((v) => !v);
+                  }}
+                >
+                  <Music2 className="h-3.5 w-3.5" />
+                  {(prosodySummary.errors > 0 || prosodySummary.warns > 0) && (
+                    <span
+                      className={cn(
+                        "absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full",
+                        prosodySummary.errors > 0 ? "bg-destructive" : "bg-amber-500",
+                      )}
+                      aria-hidden
+                    />
+                  )}
+                </Button>
+              </div>
+            </div>
 
             <div className="relative group">
               {/* Main textarea with premium styling */}
