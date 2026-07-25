@@ -145,10 +145,10 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
   const lyricsValidation = useMemo(() => checkArtistValidation(lyrics), [lyrics]);
   const hasError = lyricsValidation?.level === "error";
 
-  // Character limit colors
+  // Character limit colors — thresholds tuned to Suno v5/v5.5 hard limit (5000 chars).
   const charCountColor = useMemo(() => {
-    if (lyrics.length > 2800) return "text-destructive";
-    if (lyrics.length > 2500) return "text-amber-500";
+    if (lyrics.length > 4700) return "text-destructive";
+    if (lyrics.length > 4300) return "text-amber-500";
     return "text-muted-foreground";
   }, [lyrics.length]);
 
@@ -363,10 +363,10 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                   "bg-muted/30 text-foreground placeholder:text-muted-foreground",
                   "border-border/60 focus:border-primary/50 focus:ring-1 focus:ring-primary/20",
                   "transition-all duration-200",
-                  (lyrics.length > 2800 || hasError) &&
+                  (lyrics.length > 4700 || hasError) &&
                     "border-destructive/50 focus:border-destructive focus:ring-destructive/20",
                 )}
-                aria-invalid={hasError || lyrics.length > 3000}
+                aria-invalid={hasError || lyrics.length > 5000}
                 aria-describedby={lyricsValidation ? "lyrics-error" : undefined}
               />
 
@@ -385,18 +385,18 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                       <motion.div
                         className={cn(
                           "h-full rounded-full transition-colors",
-                          lyrics.length > 2800
+                          lyrics.length > 4700
                             ? "bg-destructive"
-                            : lyrics.length > 2500
+                            : lyrics.length > 4300
                               ? "bg-amber-500"
                               : "bg-primary",
                         )}
                         initial={false}
-                        animate={{ width: `${Math.min((lyrics.length / 3000) * 100, 100)}%` }}
+                        animate={{ width: `${Math.min((lyrics.length / 5000) * 100, 100)}%` }}
                         transition={{ duration: 0.2 }}
                       />
                     </div>
-                    <span className={cn("text-[0.625rem] font-mono", charCountColor)}>{lyrics.length}/3000</span>
+                    <span className={cn("text-[0.625rem] font-mono", charCountColor)}>{lyrics.length}/5000</span>
                   </div>
 
                   {/* Action buttons */}
