@@ -229,26 +229,27 @@ export function useVoiceCloneWizard() {
     [userId, voice, pollGenerate, failWith],
   );
 
-  const reRecord = useCallback(
-    async (audio: Blob) => {
-      if (!userId || !voice) return;
-      lastActionRef.current = { kind: "rerecord", audio };
-      setLastError(null);
-      setIsWorking(true);
-      try {
-        const verifyPath = await voiceCloneApi.uploadVerification(userId, audio, "webm");
-        const res = await voiceCloneApi.regenerate(voice.id, verifyPath);
-        setStep("generating");
-        pollGenerate(res.taskId);
-      } catch (e) {
-        logger.error("Voice re-record failed", e as Error);
-        failWith(e, "Не удалось повторно отправить запись");
-      } finally {
-        setIsWorking(false);
-      }
-    },
-    [userId, voice, pollGenerate, failWith],
-  );
+  /**
+   * Ask Suno for a different validation phrase (e.g. the user can't sing this one,
+   * or it expired). Returns the wizard to the "validating" step.
+   */
+  const regeneratePhrase = useCallback(async () => {
+    if (!voice) return;
+    lastActionRef.current = { kind: "regenerate" };
+    setLastError(null);
+    setIsWorking(true);
+    try {
+      const res = await voiceCloneApi.regenerate(voice.id);
+      setVoice((v) => (v ? { ...v, validate_phrase: null, status: "validating" } : v));
+      setStep("validating");
+      pollValidate(res.taskId);
+    } catch (e) {
+      logger.error("Voice phrase regenerate failed", e as Error);
+      failWith(e, "Не удалось получить новую фразу");
+    } finally {
+      setIsWorking(false);
+    }
+  }, [voice, pollValidate, failWith]);
 
   const retryLast = useCallback(async () => {
     const action = lastActionRef.current;
@@ -256,8 +257,9 @@ export function useVoiceCloneWizard() {
     setLastError(null);
     if (action.kind === "validate") return startValidation(action.params);
     if (action.kind === "submit") return submitRecording(action.audio);
-    if (action.kind === "rerecord") return reRecord(action.audio);
-  }, [startValidation, submitRecording, reRecord]);
+    if (action.kind === "regenerate") return regeneratePhrase();
+  }, [startValidation, submitRecording, regeneratePhrase]);
+
 
   const reset = useCallback(() => {
     stopPolling();
