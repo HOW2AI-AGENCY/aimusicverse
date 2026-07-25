@@ -411,6 +411,6 @@ PM          → PROJECT_STATUS → ROADMAP → CHANGELOG
 
 **Лицензия:** MIT · **Авторские права:** HOW2AI Agency © 2025–2026 · **Безопасность:** `security@how2ai.agency`
 
-<sub>Последнее обновление: 2026-07-24 · Sprint 065 (Generate v2 + Home Redesign + Visual Regression) · tsc 0 errors · 1857 unit tests · 59 E2E specs · Vite 6.4.3 · [🤝 Передача проекта](HANDOFF.md)</sub>
+<sub>Последнее обновление: 2026-07-25 · Sprint 065+ (Security hardening · Lint cleanup 1744→525 · Genre consistency · Layer-boundary API extraction) · tsc 0 errors · 1857 unit tests · 59 E2E specs · Vite 6.4.3 · [🤝 Передача проекта](HANDOFF.md)</sub>
 
 </div>
