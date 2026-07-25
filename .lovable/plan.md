@@ -1,67 +1,53 @@
-## Контекст (что подтверждено чтением)
+# Unified Generation Form — Refactor Progress
 
-- `PROJECT_STATUS.md`: последняя сессия — Sprint 065 (Generate v2 + Home Redesign). Метрики: TS 0 err, 1810 unit-тестов, eager bundle 508 KB gzip, `any`-бюджет 0/50.
-- Открытые долги, зафиксированные документами:
-  - **Sprint 066 — Dependency Health**: `npm install` падает `ERESOLVE` (vite@8 ↔ `@storybook/react-vite@8.6.18` требует vite ≤6). Обход `--legacy-peer-deps`. Также рассинхрон версий в `CLAUDE.md` (заявлен Vite 5).
-  - **Sprint 068 — Edge Fn Decomposition**: ≥10 функций >800 LOC. Фактически подтверждено: `klangio-analyze` 1084, `generate-track-cover` 1015, `process-audio-pipeline` 822, `suno-music-generate` 759, `sync-stale-tasks` 681, `project-ai` 666, `mcp` 645, `send-telegram-notification` 594.
-  - **Sprint 069 — Bundle + Perf budgets**: запланирован, не начат.
-- Свежие правки (этот тред): Sentry-scope с активным треком в `ErrorBoundary`/`ErrorBoundaryWrapper`/`main.tsx`, lazy `UnifiedTrackSheet`, скрипт `release:preflight`. Их надо валидировать в бою.
-- 6 зависимостей с уязвимостями (1 high, 4 moderate, 1 low) по бейджу `PROJECT_STATUS.md` — не закрыты.
+## Status
 
-Планируемые ниже пункты — новая работа; текущее состояние по каждому долгу указано выше на основании прочитанных документов и `wc -l` по `supabase/functions/`.
+- **Phase 1 — Safe cleanup**: in progress
+- Phase 2/3/4: not started
 
-## План работ (6 шагов, каждый шиппится отдельно)
+## Done this session
 
-### 1. Валидация недавних правок Sentry + lazy sheet
-- Прогнать `npm run typecheck` и `npm test -- src/lib/errorContext src/components/ErrorBoundary`.
-- Ручной smoke: кинуть тестовое исключение из `/library` при активном треке → убедиться, что в `sessionStorage.musicverse_boot_log` и в Sentry-событии есть `route`, `activeTrackId`, `activeVersionId`.
-- Проверить в build-логе, что `UnifiedTrackSheet.tsx` уехал в отдельный чанк (`vite build` → `dist/assets/…UnifiedTrackSheet-*.js`).
-- Если чанк слипся с library — вынести в `manualChunks`.
+### §4 Deduplicate lyrics editor — DONE
+Deleted 12 orphan files (~2500 LOC of dead code):
 
-### 2. Sprint 066 — Dependency Health (unblock `npm install`)
-- Обновить `@storybook/react-vite` до линии, поддерживающей vite@8 (актуально `^9`), либо, если ломает stories, откатить vite на `^6` (быстрее). Решение выбрать после `npm view @storybook/react-vite versions --json`.
-- Прогнать `npm audit` → зафиксировать 6 CVE, обновить только те deps, что не требуют мажорных миграций; остальное — issue.
-- Синхронизировать `CLAUDE.md` (Vite 8, а не 5) и `AGENTS.md`.
-- Definition of done: `npm ci` без `--legacy-peer-deps`, `npm audit --production` = 0 high.
+- `src/components/generate-form/LyricsVisualEditor.tsx` (627 lines, zero importers)
+- `src/components/generate-form/lyrics/LyricsVisualEditor.tsx` (+ `.stories.tsx`)
+- `src/components/generate-form/lyrics/SectionCard.tsx`
+- `src/components/generate-form/lyrics/ActionButton.tsx`
+- `src/components/generate-form/lyrics/lyricsEditorHelpers.ts`
+- `src/components/generate-form/lyrics/LyricsSectionCard.tsx`
+- `src/components/generate-form/lyrics/useLyricsSections.ts`
+- `src/components/generate-form/lyrics/LyricsSectionTemplates.ts`
+- `src/__tests__/components/lyrics/LyricsVisualEditor.test.tsx`
+- `src/__tests__/components/lyrics/LyricsSectionTemplates.test.ts`
+- `src/__tests__/hooks/useLyricsSections.test.ts`
 
-### 3. Sprint 068 — Edge Function Decomposition (первый заход, 4 из 10)
-Разбить только самые крупные, где риск регрессии минимален (нет платежей):
-- `klangio-analyze/index.ts` (1084) → `handlers/{upload,poll,persist}.ts` + `lib/{klangio-client,mapping}.ts`.
-- `generate-track-cover/index.ts` (1015) → `handlers/{generate,upscale,upload}.ts` + `lib/prompt.ts`.
-- `process-audio-pipeline/index.ts` (822) → шаги пайплайна в отдельные модули с общим `context.ts`.
-- `suno-music-generate/index.ts` (759) → выделить `lib/payload-mapper.ts` (camelCase/snake_case) и `handlers/{start,callback-wire}.ts`.
-Для каждой: сохранить точку входа `index.ts` < 200 LOC, тесты в `supabase/functions/<name>/__tests__/`. `process-audio-pipeline` и `suno-music-generate` — с smoke-тестом через `supabase--test_edge_functions`.
+Fixed the broken lazy import in `src/components/lazy/index.ts:156` — `LazyLyricsVisualEditor` was importing a file that no longer existed anywhere; now points to canonical `LyricsVisualEditorCompact`.
 
-Оставшиеся 4 функции (`sync-stale-tasks`, `project-ai`, `mcp`, `send-telegram-notification`) — во второй заход отдельным PR.
+**What's canonical now**: `sections/LyricsSectionAdvanced.tsx` → `LyricsVisualEditorCompact.tsx` → `lyrics-editor/{SectionCard,ActionButton,EmptyState}.tsx` + `lyricsEditorHelpers.ts` (top-level). One editor, one helpers file. `generate-form/lyrics/` retains only the actively-used assistant surfaces (`LyricsAssistantSheet.tsx`, `LyricsAssistantChat.tsx`, `LyricsProsodyPanel.tsx`).
 
-### 4. Sprint 069 — Bundle + Perf budgets
-- Установить `size-limit` порог 950 KB (уже используется) на **gzip eager** + новый порог 200 KB на `library` route-chunk.
-- Прогнать `vite build --report`, собрать топ-10 модулей по весу, вынести в issue `perf-budget-followups`.
-- Добавить `npm run size:library` (size-limit конфиг для конкретного чанка).
-- Включить `size` шаг в `.github/workflows/quality-check.yml`.
+### §3 Entry-point standardization — PARTIAL
+Fixed `src/components/home/CreativePresetsSection.tsx:89`:
+- Was firing raw `new CustomEvent("openGenerateSheet")` (camelCase) which **never matched** the listener on `"open-generate-sheet"` (kebab-case in `events.ts`). Silent bug — clicking a genre preset stored sessionStorage but never opened the sheet.
+- Now uses `dispatchOpenGenerateSheet()` from `@/lib/events`.
 
-### 5. N+1 second pass — фактические подтверждения
-- Добавить в dev-режиме счётчик Supabase-запросов на маршрут через `supabase.channel`-обвязку в `src/integrations/supabase/client.ts` (только `import.meta.env.DEV`), логировать в `logger.debug` c маршрутом.
-- Пройти сценарии: cold `/library`, открыть `UnifiedTrackSheet`, переключить версию, лайкнуть трек. Зафиксировать реальные числа запросов в `docs/perf/library-queries.md` (после чего убрать инструментирование или спрятать за флагом).
+Every other entry point (`BottomNavigation`, `Sidebar`, `HomeStickyCTA`, `Index.tsx` deeplink) was already on the helper — no changes needed.
 
-### 6. Release preflight
-- Проверить, что `npm run release:preflight` проходит локально (lint → typecheck → test → build → `test:smoke:chromium`).
-- Добавить step `release:preflight` в отдельный workflow `release-preflight.yml`, триггер `workflow_dispatch` + `push` в `release/*`.
-- Обновить `CHANGELOG.md` и `PROJECT_STATUS.md` (сессия 2026-07-24, Sprint 066/068/069 частично закрыты).
+## Deferred
 
-## Технические детали
+### §6 Studio dialog wirings — DEFERRED
+`StudioShellDialogs.tsx` (611 lines, desktop) and `StudioShell/StudioDialogs.tsx` (445 lines, mobile) are both live on different render trees (`StudioShell.tsx` vs `UnifiedStudioMobile.tsx`). Consolidating them requires reconciling divergent prop shapes for both call sites — real Phase 2 work, not a safe cleanup.
 
-- Sentry-контекст трека уже пишется через `getErrorScope()` (`src/lib/errorContext.ts`) — новые edge-функции не задевает; менять контракт не нужно.
-- `LazyUnifiedTrackSheet` рендерит `null` при `open=false`, поэтому чанк не грузится до первого клика по «⋯» — при декомпозиции edge-функций фронтовые импорты не трогаем.
-- Для edge-декомпозиции строгий инвариант: `supabase/config.toml` не редактируем, только добавляем файлы внутри существующих папок функций — деплой конфига остаётся прежним.
-- Все новые модули edge-функций импортируются относительными путями (`./lib/...`), т.к. edge-runtime не резолвит `@/`.
+### §10 Deprecated progress hooks — DEFERRED
+`useAddInstrumentalProgress` / `useAddVocalsProgress` / `useExtendProgress` are still actively used by their respective dialogs (`AddInstrumentalDialog`, `AddVocalsDialog`, `AddVocalsDrawer`, `ExtendTrackDialog`). Migrating call sites to `useAudioProcessing()` needs an API-shape audit first.
 
-## Что НЕ делаем в этом плане
+### §1, §2, §5, §7, §8, §9, §11 — NOT STARTED
+Reserved for follow-up phases. Full plan preserved in git history of this file.
 
-- Не трогаем платёжные функции (Tinkoff/Stars) и telegram-bot — отдельный релизный цикл.
-- Не начинаем Q3-эпики (Realtime co-editing, Marketplace) — сначала закрываем tech-debt.
-- Не переписываем Storybook stories, только чиним peer-конфликт.
+## Files touched this session
+1. Deleted: 12 files (~2500 LOC)
+2. Edited: `src/components/lazy/index.ts` — repointed lazy import
+3. Edited: `src/components/home/CreativePresetsSection.tsx` — fixed silent event-name bug
 
-## Порядок мержа
-
-1 → 2 → 6 (unblock CI и релизный прогон), затем 3 → 4 → 5 параллельными PR.
+## Next step
+Ship this cleanup, verify no regressions in preview, then tackle §7 (prop-drilling in `GenerateFormCustom` — 25+ props → single `form` object). That's the highest-value structural win and unlocks §8 (design primitives).

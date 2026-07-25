@@ -154,7 +154,7 @@ export const LazyGenerateFormSimple = lazy(() =>
 );
 
 export const LazyLyricsVisualEditor = lazy(() =>
-  import("@/components/generate-form/LyricsVisualEditor").then((m) => ({ default: m.LyricsVisualEditor })),
+  import("@/components/generate-form/LyricsVisualEditorCompact").then((m) => ({ default: m.LyricsVisualEditorCompact })),
 );
 
 export const LazyTagBuilderPanel = lazy(() =>

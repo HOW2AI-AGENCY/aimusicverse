@@ -16,6 +16,7 @@ import { LyricsPresetsRow } from "./LyricsPresetsRow";
 import { TrackPresetsRow, type TrackPreset } from "./TrackPresetsRow";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { glass } from "@/lib/glass";
+import { dispatchOpenGenerateSheet } from "@/lib/events";
 
 interface CreativePresetsSectionProps {
   className?: string;
@@ -85,8 +86,8 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
             presetId: preset.id,
           }),
         );
-        // Dispatch custom event to open GenerateSheet
-        window.dispatchEvent(new CustomEvent("openGenerateSheet"));
+        // Open the canonical generate sheet via the shared helper.
+        dispatchOpenGenerateSheet();
       }
     },
     [onTrackPresetSelect],
