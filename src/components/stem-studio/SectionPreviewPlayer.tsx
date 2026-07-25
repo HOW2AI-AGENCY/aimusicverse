@@ -164,7 +164,7 @@ export function SectionPreviewPlayer({
         // Playback failed silently
       }
     }
-  }, [isPlaying, isLoaded, startTime, endTime, pauseTrack, sourceId]);
+  }, [audioRef, isPlaying, isLoaded, startTime, endTime, pauseTrack, sourceId]);
 
   const restart = useCallback(() => {
     const audio = audioRef.current;
