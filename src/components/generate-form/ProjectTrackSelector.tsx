@@ -1,6 +1,6 @@
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { GenerateModal } from "./primitives";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { Badge } from "@/components/ui/badge";
 import { FolderOpen, Music, Play } from "@/lib/icons";
 import { LazyImage } from "@/components/ui/lazy-image";
