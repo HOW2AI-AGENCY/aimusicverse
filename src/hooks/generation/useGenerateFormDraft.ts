@@ -371,6 +371,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         },
       });
     }
+    // One-shot: restore draft on open only; deliberately does not re-run when draft mutates.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Auto-save draft
