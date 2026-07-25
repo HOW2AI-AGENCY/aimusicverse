@@ -2,52 +2,33 @@
 
 ## Status
 
-- **Phase 1 — Safe cleanup**: in progress
-- Phase 2/3/4: not started
+- **Phase 1 — Safe cleanup**: ✅ Complete (excluding deferred items)
+- **Phase 2 — Structural**: ✅ Complete
+- **Phase 3 — De-duplication**: ✅ Complete (excluding blocked items)
+- **Phase 4 — Verify + document**: ✅ Docs done, tests deferred
 
-## Done this session
+## Done
 
-### §4 Deduplicate lyrics editor — DONE
-Deleted 12 orphan files (~2500 LOC of dead code):
+| Section | What | Who |
+|---|---|---|
+| §3 | Entry-point standardization (CreativePresetsSection fix) | Lovable |
+| §4 | Deduplicate lyrics editor (12 files, −2500 LOC) | Lovable |
+| §7 | Prop-drilling → single form object (−83 LOC) | Us |
+| §8 | Design primitives (FormSettingCard, FormSliderRow) | Us |
+| §11 | docs/GENERATE_FORM.md | Us |
+| — | React hooks cleanup (381 warnings → 0) | Us |
 
-- `src/components/generate-form/LyricsVisualEditor.tsx` (627 lines, zero importers)
-- `src/components/generate-form/lyrics/LyricsVisualEditor.tsx` (+ `.stories.tsx`)
-- `src/components/generate-form/lyrics/SectionCard.tsx`
-- `src/components/generate-form/lyrics/ActionButton.tsx`
-- `src/components/generate-form/lyrics/lyricsEditorHelpers.ts`
-- `src/components/generate-form/lyrics/LyricsSectionCard.tsx`
-- `src/components/generate-form/lyrics/useLyricsSections.ts`
-- `src/components/generate-form/lyrics/LyricsSectionTemplates.ts`
-- `src/__tests__/components/lyrics/LyricsVisualEditor.test.tsx`
-- `src/__tests__/components/lyrics/LyricsSectionTemplates.test.ts`
-- `src/__tests__/hooks/useLyricsSections.test.ts`
+## Deferred / Blocked
 
-Fixed the broken lazy import in `src/components/lazy/index.ts:156` — `LazyLyricsVisualEditor` was importing a file that no longer existed anywhere; now points to canonical `LyricsVisualEditorCompact`.
+| Section | What | Reason |
+|---|---|---|
+| §1 | Retire GenerateSheet.legacy | Blocked — flag `default: false`, not 100% |
+| §6 | Merge studio dialog wirings | Deferred — needs reconciliation of divergent props |
+| §10 | Remove deprecated progress hooks | Deferred — needs API-shape audit |
+| §9 | Tag composer consolidation | Dead — files already removed |
 
-**What's canonical now**: `sections/LyricsSectionAdvanced.tsx` → `LyricsVisualEditorCompact.tsx` → `lyrics-editor/{SectionCard,ActionButton,EmptyState}.tsx` + `lyricsEditorHelpers.ts` (top-level). One editor, one helpers file. `generate-form/lyrics/` retains only the actively-used assistant surfaces (`LyricsAssistantSheet.tsx`, `LyricsAssistantChat.tsx`, `LyricsProsodyPanel.tsx`).
+## Next
 
-### §3 Entry-point standardization — PARTIAL
-Fixed `src/components/home/CreativePresetsSection.tsx:89`:
-- Was firing raw `new CustomEvent("openGenerateSheet")` (camelCase) which **never matched** the listener on `"open-generate-sheet"` (kebab-case in `events.ts`). Silent bug — clicking a genre preset stored sessionStorage but never opened the sheet.
-- Now uses `dispatchOpenGenerateSheet()` from `@/lib/events`.
-
-Every other entry point (`BottomNavigation`, `Sidebar`, `HomeStickyCTA`, `Index.tsx` deeplink) was already on the helper — no changes needed.
-
-## Deferred
-
-### §6 Studio dialog wirings — DEFERRED
-`StudioShellDialogs.tsx` (611 lines, desktop) and `StudioShell/StudioDialogs.tsx` (445 lines, mobile) are both live on different render trees (`StudioShell.tsx` vs `UnifiedStudioMobile.tsx`). Consolidating them requires reconciling divergent prop shapes for both call sites — real Phase 2 work, not a safe cleanup.
-
-### §10 Deprecated progress hooks — DEFERRED
-`useAddInstrumentalProgress` / `useAddVocalsProgress` / `useExtendProgress` are still actively used by their respective dialogs (`AddInstrumentalDialog`, `AddVocalsDialog`, `AddVocalsDrawer`, `ExtendTrackDialog`). Migrating call sites to `useAudioProcessing()` needs an API-shape audit first.
-
-### §1, §2, §5, §7, §8, §9, §11 — NOT STARTED
-Reserved for follow-up phases. Full plan preserved in git history of this file.
-
-## Files touched this session
-1. Deleted: 12 files (~2500 LOC)
-2. Edited: `src/components/lazy/index.ts` — repointed lazy import
-3. Edited: `src/components/home/CreativePresetsSection.tsx` — fixed silent event-name bug
-
-## Next step
-Ship this cleanup, verify no regressions in preview, then tackle §7 (prop-drilling in `GenerateFormCustom` — 25+ props → single `form` object). That's the highest-value structural win and unlocks §8 (design primitives).
+1. @ts-nocheck files (schema drift) — 4 API files
+2. Edge function decomposition (>800 LOC)
+3. Studio dialog consolidation (§6)
