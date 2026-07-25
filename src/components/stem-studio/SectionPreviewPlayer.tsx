@@ -122,14 +122,14 @@ export function SectionPreviewPlayer({
 
     audio.addEventListener("timeupdate", handleTimeUpdate);
     return () => audio.removeEventListener("timeupdate", handleTimeUpdate);
-  }, [startTime, endTime, isLooping, onTimeUpdate]);
+  }, [audioRef, startTime, endTime, isLooping, onTimeUpdate]);
 
   // Update volume
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = isMuted ? 0 : volume;
     }
-  }, [volume, isMuted]);
+  }, [audioRef, volume, isMuted]);
 
   // Reset position when selection changes
   useEffect(() => {
@@ -137,7 +137,9 @@ export function SectionPreviewPlayer({
       audioRef.current.currentTime = startTime;
       setCurrentTime(startTime);
     }
-  }, [startTime, endTime]);
+    // Intentionally excludes `isPlaying` so we only reset when the selection range changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [audioRef, startTime, endTime]);
 
   const togglePlay = useCallback(async () => {
     const audio = audioRef.current;
