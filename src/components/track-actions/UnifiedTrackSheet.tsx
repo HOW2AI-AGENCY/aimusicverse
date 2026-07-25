@@ -124,11 +124,9 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
 
   // Action visibility checks
   const showGenerateCover = isActionAvailable("generate_cover", track, actionState);
-  const showCover = isActionAvailable("cover", track, actionState);
   const showExtend = isActionAvailable("extend", track, actionState);
   const showRemix = isActionAvailable("remix", track, actionState);
   const showAddVocals = isActionAvailable("add_vocals", track, actionState);
-  const showAddInstrumental = isActionAvailable("add_instrumental", track, actionState);
   const showStudio = isActionAvailable("open_studio", track, actionState);
   const showReplaceSection = isActionAvailable("replace_section", track, actionState);
   const showStemsSimple = isActionAvailable("stems_simple", track, actionState);
@@ -142,11 +140,8 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
   const showProject = isActionAvailable("add_to_project", track, actionState);
   const showDetails = isActionAvailable("details", track, actionState);
   const showTogglePublic = isActionAvailable("toggle_public", track, actionState);
-  const showUpscaleHd = isActionAvailable("upscale_hd", track, actionState);
 
   // HD status
-  const hasHdAudio = !!track.audio_url_hd || track.audio_quality === "hd";
-  const isUpscaling = track.upscale_status === "processing";
 
   return (
     <>
