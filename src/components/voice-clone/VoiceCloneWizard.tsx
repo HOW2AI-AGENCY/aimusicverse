@@ -148,33 +148,11 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
       reset();
       phraseRecorder.reset();
       sourceRecorder.reset();
-      setFile(null);
-      setStemBlob(null);
-      setSelectedStem(null);
       setVoiceName("");
       setDescription("");
     }, 300);
   }
 
-  async function pickStem(stem: UserVocalStem) {
-    setSelectedStem(stem);
-    setStemBlob(null);
-    setStemLoading(true);
-    try {
-      const res = await fetch(stem.audioUrl);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const blob = await res.blob();
-      setStemBlob(blob);
-      if (!voiceName) setVoiceName(stem.trackTitle.slice(0, 40));
-      notify.success("Стем загружен", { description: stem.trackTitle });
-    } catch (e) {
-      logger.error("Stem fetch failed", e as Error);
-      notify.error("Не удалось загрузить стем", { description: (e as Error).message });
-      setSelectedStem(null);
-    } finally {
-      setStemLoading(false);
-    }
-  }
 
   const stepIndex = STEP_INDEX[step] ?? 0;
   const progressPct = (stepIndex / 6) * 100;
