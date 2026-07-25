@@ -43,7 +43,14 @@ serve(async (req) => {
       });
     }
 
-    const { trackId, prompt, tags, infillStartS, infillEndS } = await req.json();
+    const body = await req.json();
+    const trackId = body.trackId;
+    const prompt = body.prompt;
+    const tags = body.tags;
+    const infillStartS = body.infillStartS ?? body.startTime;
+    const infillEndS = body.infillEndS ?? body.endTime;
+    const requestFullLyrics = typeof body.fullLyrics === "string" ? body.fullLyrics : typeof body.lyrics === "string" ? body.lyrics : "";
+    const sectionLyrics = typeof body.sectionLyrics === "string" ? body.sectionLyrics : "";
 
     logger.info("Replace section request", {
       trackId,
@@ -164,7 +171,7 @@ serve(async (req) => {
     const effectiveTags = tags || track.tags || "";
 
     // Get track lyrics - REQUIRED for replace-section API
-    const trackLyrics = track.lyrics || "";
+    const trackLyrics = requestFullLyrics || track.lyrics || "";
 
     // Validate lyrics exist for non-instrumental tracks
     if (!track.is_instrumental && (!trackLyrics || trackLyrics.trim().length < 10)) {
@@ -183,6 +190,7 @@ serve(async (req) => {
       hasTags: !!tags,
       hasTrackLyrics: !!trackLyrics,
       lyricsLength: trackLyrics.length,
+      sectionLyricsLength: sectionLyrics.length,
       isInstrumental: track.is_instrumental,
       effectivePrompt: effectivePrompt.substring(0, 100),
       effectiveTags: effectiveTags.substring(0, 100),
@@ -261,7 +269,7 @@ serve(async (req) => {
         generation_mode: "replace_section",
         model_used: track.model_name || "chirp-v4",
         telegram_chat_id: profile?.telegram_chat_id,
-        expected_clips: 1,
+        expected_clips: 2,
       })
       .select()
       .single();
@@ -286,6 +294,7 @@ serve(async (req) => {
         infillEndS,
         taskId: newTaskId,
         originalAudioId: audioId,
+        sectionLyrics,
       },
     });
 

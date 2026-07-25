@@ -182,11 +182,12 @@ export async function replaceSection(params: {
       userId: user.id,
       taskId: params.taskId,
       audioId: params.audioId,
-      startTime: params.section.start,
-      endTime: params.section.end,
+      infillStartS: params.section.start,
+      infillEndS: params.section.end,
       prompt: params.prompt,
       tags: params.tags,
-      lyrics: params.lyrics,
+      fullLyrics: params.lyrics,
+      sectionLyrics: params.lyrics,
     });
 
     if (error) return { taskId: null, error: new Error(error.message) };

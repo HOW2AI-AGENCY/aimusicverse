@@ -7,6 +7,8 @@ interface ReplaceSectionParams {
   trackId: string;
   prompt?: string;
   tags?: string;
+  fullLyrics?: string;
+  sectionLyrics?: string;
   infillStartS: number;
   infillEndS: number;
 }

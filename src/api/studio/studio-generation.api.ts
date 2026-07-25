@@ -60,15 +60,25 @@ export function subscribeToGenerationTaskBySunoId(
 export async function invokeReplaceSection(params: {
   trackId: string;
   userId: string;
-  taskId: string;
-  audioId: string;
-  startTime: number;
-  endTime: number;
-  prompt: string;
+  taskId?: string;
+  audioId?: string;
+  startTime?: number;
+  endTime?: number;
+  infillStartS?: number;
+  infillEndS?: number;
+  prompt?: string;
   tags?: string[];
   lyrics?: string;
+  fullLyrics?: string;
+  sectionLyrics?: string;
 }) {
-  const { data, error } = await supabase.functions.invoke("suno-replace-section", { body: params });
+  const { data, error } = await supabase.functions.invoke("suno-replace-section", {
+    body: {
+      ...params,
+      infillStartS: params.infillStartS ?? params.startTime,
+      infillEndS: params.infillEndS ?? params.endTime,
+    },
+  });
   return { data, error };
 }
 

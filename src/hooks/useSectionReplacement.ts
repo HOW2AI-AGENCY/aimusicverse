@@ -14,6 +14,7 @@ interface UseSectionReplacementOptions {
   trackTags?: string | null;
   duration: number;
   detectedSections?: DetectedSection[];
+  fullLyrics?: string | null;
   onSuccess?: () => void;
 }
 
@@ -22,6 +23,7 @@ export function useSectionReplacement({
   trackTags,
   duration,
   detectedSections = [],
+  fullLyrics,
   onSuccess,
 }: UseSectionReplacementOptions) {
   const [localPrompt, setLocalPrompt] = useState("");
@@ -147,6 +149,8 @@ export function useSectionReplacement({
         trackId,
         prompt: finalPrompt || undefined,
         tags: localTags || undefined,
+        fullLyrics: fullLyrics || undefined,
+        sectionLyrics: localLyrics || selectedSection?.lyrics || undefined,
         infillStartS: Math.round(startTime * 10) / 10,
         infillEndS: Math.round(endTime * 10) / 10,
       });
@@ -165,6 +169,7 @@ export function useSectionReplacement({
     localPrompt,
     localLyrics,
     localTags,
+    fullLyrics,
     startTime,
     endTime,
     trackId,
