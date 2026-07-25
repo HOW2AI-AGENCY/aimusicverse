@@ -91,9 +91,11 @@ export function SectionPreviewPlayer({
   useEffect(() => {
     if (globalIsPlaying && isPlaying) {
       audioRef.current?.pause();
+      // Sync local playing flag with external (global player) state change.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsPlaying(false);
     }
-  }, [globalIsPlaying, isPlaying]);
+  }, [audioRef, globalIsPlaying, isPlaying]);
 
   // Handle time updates
   useEffect(() => {
@@ -120,14 +122,14 @@ export function SectionPreviewPlayer({
 
     audio.addEventListener("timeupdate", handleTimeUpdate);
     return () => audio.removeEventListener("timeupdate", handleTimeUpdate);
-  }, [startTime, endTime, isLooping, onTimeUpdate]);
+  }, [audioRef, startTime, endTime, isLooping, onTimeUpdate]);
 
   // Update volume
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = isMuted ? 0 : volume;
     }
-  }, [volume, isMuted]);
+  }, [audioRef, volume, isMuted]);
 
   // Reset position when selection changes
   useEffect(() => {
@@ -135,7 +137,9 @@ export function SectionPreviewPlayer({
       audioRef.current.currentTime = startTime;
       setCurrentTime(startTime);
     }
-  }, [startTime, endTime]);
+    // Intentionally excludes `isPlaying` so we only reset when the selection range changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [audioRef, startTime, endTime]);
 
   const togglePlay = useCallback(async () => {
     const audio = audioRef.current;
@@ -160,7 +164,7 @@ export function SectionPreviewPlayer({
         // Playback failed silently
       }
     }
-  }, [isPlaying, isLoaded, startTime, endTime, pauseTrack, sourceId]);
+  }, [audioRef, isPlaying, isLoaded, startTime, endTime, pauseTrack, sourceId]);
 
   const restart = useCallback(() => {
     const audio = audioRef.current;
@@ -177,7 +181,7 @@ export function SectionPreviewPlayer({
       audio.play();
       setIsPlaying(true);
     }
-  }, [startTime, isPlaying, isLoaded, pauseTrack, sourceId]);
+  }, [audioRef, startTime, isPlaying, isLoaded, pauseTrack, sourceId]);
 
   return (
     <TooltipProvider>
