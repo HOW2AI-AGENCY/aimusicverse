@@ -150,6 +150,8 @@ export function usePlaybackHistory() {
    */
   useEffect(() => {
     const handleBeforeUnload = () => {
+      const currentTrackStart = currentTrackStartRef.current;
+      const currentTrackListenTime = currentTrackListenTimeRef.current;
       if (activeTrack && currentTrackStart) {
         const elapsed = (Date.now() - currentTrackStart) / 1000;
         const totalListened = currentTrackListenTime + elapsed;
@@ -162,7 +164,7 @@ export function usePlaybackHistory() {
       handleBeforeUnload();
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [activeTrack, currentTrackStart, currentTrackListenTime, recordPlaySession]);
+  }, [activeTrack, recordPlaySession]);
 
   /**
    * Get recently played tracks (unique)
