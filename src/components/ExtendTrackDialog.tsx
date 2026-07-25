@@ -157,13 +157,15 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track, activeAudioUrl }:
       if (error) throw error;
 
       const payload = data as { taskId?: string; trackId?: string } | null;
+      // Запрос принят — сразу закрываем окно, чтобы прогресс не выглядел "зависшим".
+      // Дальнейший статус пользователь видит в библиотеке и глобальном индикаторе.
+      extendProgress.reset();
+      toast.success("Продление началось", {
+        description: "Расширенный трек появится в библиотеке через 1–3 минуты",
+      });
+      onOpenChange(false);
       if (payload?.taskId) {
         extendProgress.startTracking(payload.taskId, payload.trackId || track.id);
-      } else {
-        toast.success("Продление началось", {
-          description: "Расширенный трек появится в библиотеке через 1–3 минуты",
-        });
-        onOpenChange(false);
       }
     } catch (error) {
       logger.error("Extend error", { error });
