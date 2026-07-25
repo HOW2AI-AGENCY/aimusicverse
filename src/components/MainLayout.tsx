@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, lazy, Suspense, useCallback } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ResizablePlayer } from "./ResizablePlayer";
+import { ErrorBoundaryWrapper } from "./ErrorBoundaryWrapper";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { usePlaybackTracking } from "@/hooks/usePlaybackTracking";
 import { SkipToContent } from "./ui/skip-to-content";
@@ -201,7 +202,9 @@ export const MainLayout = () => {
                     {/* ResizablePlayer is rendered OUTSIDE <main> because #main-content has
                       `contain: layout style` which creates a containing block for
                       position:fixed descendants, breaking the bottom dock on mobile. */}
-                    <ResizablePlayer />
+                    <ErrorBoundaryWrapper name="ResizablePlayer" fallback={null}>
+                      <ResizablePlayer />
+                    </ErrorBoundaryWrapper>
                   </>
                 )}
               </NavigationShell>

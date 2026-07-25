@@ -110,6 +110,13 @@ export function usePreviewAudio({
       audioRef.current = null;
       return;
     }
+    if (!src) {
+      // Нет валидного URL — не трогаем элемент, не грузим, не роняем ошибку.
+      audioRef.current = audioElement;
+      setIsLoading(false);
+      setError(null);
+      return;
+    }
     audioRef.current = audioElement;
 
     // Регистрация в координаторе studio audio (пауза при старте глобального плейера).
@@ -151,9 +158,15 @@ export function usePreviewAudio({
     audioElement.addEventListener("play", handlePlay);
     audioElement.addEventListener("pause", handlePause);
 
-    audioElement.volume = Math.max(0, Math.min(1, volume));
-    audioElement.src = src;
-    audioElement.load();
+    try {
+      audioElement.volume = Math.max(0, Math.min(1, volume));
+      audioElement.src = src;
+      audioElement.load();
+    } catch (err) {
+      logger.warn("usePreviewAudio: failed to set src", { id, src, err });
+      setError("Не удалось загрузить аудио");
+      setIsLoading(false);
+    }
 
     if (autoPlay) {
       audioElement.play().catch(() => {
