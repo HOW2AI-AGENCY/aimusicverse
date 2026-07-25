@@ -50,9 +50,17 @@ serve(async (req) => {
       }),
     );
 
+    // Generation knobs the client sets in the form; forwarded verbatim to the
+    // modern endpoints so extend/cover honour the same settings as plain generate.
+    const passthrough: Record<string, unknown> = {};
+    for (const key of ["model", "instrumental", "negativeTags", "vocalGender", "styleWeight", "weirdnessConstraint"]) {
+      if (body[key] !== undefined && body[key] !== null) passthrough[key] = body[key];
+    }
+
     // Map legacy actions to modern endpoints
     let targetFunction = "suno-music-generate";
     let mappedBody: any = {};
+
 
     switch (action) {
       case "generate":
