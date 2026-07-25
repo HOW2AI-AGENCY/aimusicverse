@@ -432,16 +432,33 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
         {step === "phrase_ready" && voice?.validate_phrase && (
           <div className="space-y-4">
             <div className="rounded-lg border bg-muted/30 p-4">
-              <Label className="text-xs uppercase text-muted-foreground">Запишите эту фразу (петь, не читать)</Label>
+              <Label className="text-xs uppercase text-muted-foreground">Спойте эту фразу в микрофон</Label>
               <p className="mt-2 text-lg font-medium leading-snug">{voice.validate_phrase}</p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                Suno рекомендует именно пение, а не чтение — от этого напрямую зависит качество голоса. Минимум{" "}
+                {MIN_PHRASE_REC_SEC} секунд, без фоновой музыки.
+              </p>
             </div>
 
             {phraseRecorder.state === "idle" && (
-              <Button className="w-full h-12" onClick={phraseRecorder.start}>
-                <Mic className="mr-2 h-4 w-4" />
-                Записать
-              </Button>
+              <div className="space-y-2">
+                <Button className="w-full h-12" onClick={phraseRecorder.start}>
+                  <Mic className="mr-2 h-4 w-4" />
+                  Записать
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-full"
+                  disabled={isWorking}
+                  onClick={() => void regeneratePhrase()}
+                >
+                  <RotateCcw className="mr-2 h-3 w-3" />
+                  Сложно спеть — другая фраза
+                </Button>
+              </div>
             )}
+
             {phraseRecorder.state === "recording" && (
               <div className="space-y-3">
                 <VoiceWaveformEditor mode="live" stream={phraseRecorder.stream} height={72} />
