@@ -19,11 +19,16 @@ export function useActiveGenerations() {
     queryFn: async () => {
       if (!user?.id) return [];
 
+      // Задачи старше 20 минут считаем зависшими — иначе индикатор висит вечно
+      // и пользователю кажется, что трек всё ещё генерируется.
+      const staleCutoff = new Date(Date.now() - 20 * 60 * 1000).toISOString();
+
       const { data, error } = await supabase
         .from("generation_tasks")
         .select("id, prompt, status, generation_mode, model_used, created_at")
         .eq("user_id", user.id)
         .in("status", ["pending", "processing"])
+        .gte("created_at", staleCutoff)
         // streaming_ready excluded — already returns in main tracks list
         .order("created_at", { ascending: false })
         .limit(10);
