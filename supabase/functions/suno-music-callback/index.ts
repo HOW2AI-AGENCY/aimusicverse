@@ -18,6 +18,7 @@ const logger = createLogger("suno-music-callback");
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  let callbackTrackId: string | null = null;
 
   try {
     // ── Signature verification ──
@@ -81,6 +82,7 @@ serve(async (req) => {
     }
 
     const trackId = task.track_id;
+    callbackTrackId = trackId;
     logger.info("Processing", { taskId: task.id, trackId, callbackType });
 
     // ── Failure handling ──
@@ -113,13 +115,13 @@ serve(async (req) => {
     logger.error("Callback processing error", error);
 
     // Revert project track to failed on any unhandled error
-    if (trackId) {
+    if (callbackTrackId) {
       try {
         const supabase = getSupabaseClient();
         await supabase
           .from("project_tracks")
           .update({ status: "failed", error_message: error?.message?.substring(0, 200) || "Callback error" })
-          .eq("track_id", trackId)
+          .eq("track_id", callbackTrackId)
           .eq("status", "in_progress");
       } catch (_) {
         /* best-effort */
