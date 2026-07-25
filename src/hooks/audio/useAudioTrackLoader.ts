@@ -26,8 +26,19 @@ export function useAudioTrackLoader({
 
     const source = getAudioSource();
 
-    if (!source) {
-      logger.debug("No source available, clearing audio");
+    const isValidSource = (s: string | null | undefined): s is string => {
+      if (!s || typeof s !== "string") return false;
+      const trimmed = s.trim();
+      if (!trimmed) return false;
+      return /^(https?:|blob:|data:audio\/|\/)/i.test(trimmed);
+    };
+
+    if (!isValidSource(source)) {
+      if (source) {
+        logger.warn("Audio source rejected — invalid URL", { trackId: activeTrack?.id, source });
+      } else {
+        logger.debug("No source available, clearing audio");
+      }
       audio.pause();
       if (audio.src) {
         audio.removeAttribute("src");
@@ -48,8 +59,14 @@ export function useAudioTrackLoader({
 
     playPromiseRef.current = null;
     audio.pause();
-    audio.src = source;
-    audio.load();
+    try {
+      audio.src = source;
+      audio.load();
+    } catch (err) {
+      logger.error("Failed to set audio source", err, { trackId: activeTrack?.id });
+      isLoadingRef.current = false;
+      return;
+    }
 
     const handleCanPlayThrough = () => {
       isLoadingRef.current = false;
