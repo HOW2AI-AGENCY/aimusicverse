@@ -271,7 +271,7 @@ function QuickStat({ icon, label, value }: QuickStatProps) {
       {icon}
       <div className="min-w-0">
         <p className="text-sm font-semibold truncate">{value}</p>
-        <p className="text-[10px] text-muted-foreground">{label}</p>
+        <p className="text-[0.625rem] text-muted-foreground">{label}</p>
       </div>
     </div>
   );

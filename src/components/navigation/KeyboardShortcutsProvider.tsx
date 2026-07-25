@@ -169,7 +169,7 @@ export function ShortcutsHelpContent() {
             <span className="text-muted-foreground">{shortcut.description}</span>
             <div className="flex items-center gap-1">
               {shortcut.keys.map((key, j) => (
-                <kbd key={j} className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">
+                <kbd key={j} className="px-1.5 py-0.5 bg-muted rounded text-[0.625rem] font-mono">
                   {key}
                 </kbd>
               ))}

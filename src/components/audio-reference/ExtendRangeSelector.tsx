@@ -194,7 +194,7 @@ export const ExtendRangeSelector = memo(function ExtendRangeSelector({
         </div>
         <Badge
           variant="secondary"
-          className="text-[10px] px-1.5 py-0 gap-1 bg-blue-500/10 text-blue-600 dark:text-blue-400"
+          className="text-[0.625rem] px-1.5 py-0 gap-1 bg-blue-500/10 text-blue-600 dark:text-blue-400"
         >
           <ArrowRight className="w-2.5 h-2.5" />+{extensionLength.toFixed(0)}с новой музыки
         </Badge>
@@ -231,19 +231,19 @@ export const ExtendRangeSelector = memo(function ExtendRangeSelector({
         {!isLoading && (
           <>
             <div
-              className="absolute top-0.5 left-1 text-[9px] font-medium text-primary/70"
+              className="absolute top-0.5 left-1 text-[0.5625rem] font-medium text-primary/70"
               style={{ maxWidth: `${continuePercent - 2}%` }}
             >
               Оригинал
             </div>
-            <div className="absolute top-0.5 right-1 text-[9px] font-medium text-blue-500/70">Расширение</div>
+            <div className="absolute top-0.5 right-1 text-[0.5625rem] font-medium text-blue-500/70">Расширение</div>
           </>
         )}
       </div>
 
       {/* Slider for precise control */}
       <div className="flex items-center gap-2 px-1">
-        <span className="text-[10px] text-muted-foreground w-8 tabular-nums">{formatTime(minTime)}</span>
+        <span className="text-[0.625rem] text-muted-foreground w-8 tabular-nums">{formatTime(minTime)}</span>
         <Slider
           value={[clampedContinueAt]}
           min={minTime}
@@ -254,7 +254,7 @@ export const ExtendRangeSelector = memo(function ExtendRangeSelector({
           onPointerUp={() => setIsDragging(false)}
           className="flex-1"
         />
-        <span className="text-[10px] text-muted-foreground w-8 tabular-nums text-right">
+        <span className="text-[0.625rem] text-muted-foreground w-8 tabular-nums text-right">
           {formatTime(effectiveMaxTime)}
         </span>
       </div>

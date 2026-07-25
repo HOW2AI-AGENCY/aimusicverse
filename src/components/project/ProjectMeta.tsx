@@ -74,10 +74,10 @@ export const ProjectMeta = memo(function ProjectMeta({
             <Globe className="w-2.5 h-2.5" />
           </Badge>
         ) : (
-          <Badge className={cn("text-[9px] h-4 px-1.5 border-0", statusConfig.color)}>{statusConfig.label}</Badge>
+          <Badge className={cn("text-[0.5625rem] h-4 px-1.5 border-0", statusConfig.color)}>{statusConfig.label}</Badge>
         )}
         {genre && (
-          <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
+          <Badge variant="secondary" className="text-[0.5625rem] h-4 px-1.5">
             <Music className="w-2.5 h-2.5 mr-0.5" />
             {genre}
           </Badge>
@@ -98,10 +98,10 @@ export const ProjectMeta = memo(function ProjectMeta({
             <Globe className="w-2.5 h-2.5" />
           </Badge>
         ) : (
-          <Badge className={cn("text-[9px] h-4 px-1.5 border-0", statusConfig.color)}>{statusConfig.label}</Badge>
+          <Badge className={cn("text-[0.5625rem] h-4 px-1.5 border-0", statusConfig.color)}>{statusConfig.label}</Badge>
         )}
         {genre && (
-          <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
+          <Badge variant="secondary" className="text-[0.5625rem] h-4 px-1.5">
             <Music className="w-2.5 h-2.5 mr-0.5" />
             {genre}
           </Badge>
@@ -110,7 +110,7 @@ export const ProjectMeta = memo(function ProjectMeta({
 
       {/* Date row */}
       {createdAt && variant === "default" && (
-        <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+        <div className="flex items-center gap-1 text-[0.625rem] text-muted-foreground">
           <Calendar className="w-2.5 h-2.5" />
           {format(new Date(createdAt), "d MMM yyyy", { locale: ru })}
         </div>
@@ -136,11 +136,11 @@ export const ProjectTypeBadge = memo(function ProjectTypeBadge({
   const typeLabel = typeLabels[projectType || "album"] || projectType;
 
   if (variant === "overlay") {
-    return <Badge className={cn(pill.glassDark, "text-[10px] h-5 px-2 shadow-lg", className)}>{typeLabel}</Badge>;
+    return <Badge className={cn(pill.glassDark, "text-[0.625rem] h-5 px-2 shadow-lg", className)}>{typeLabel}</Badge>;
   }
 
   return (
-    <Badge variant="secondary" className={cn("text-[9px] h-4 px-1.5", className)}>
+    <Badge variant="secondary" className={cn("text-[0.5625rem] h-4 px-1.5", className)}>
       {typeLabel}
     </Badge>
   );
@@ -164,7 +164,7 @@ export const ProjectStatusBadge = memo(function ProjectStatusBadge({
   return (
     <Badge
       className={cn(
-        "text-[10px] h-5 px-2 border-0 backdrop-blur-sm shadow-lg",
+        "text-[0.625rem] h-5 px-2 border-0 backdrop-blur-sm shadow-lg",
         statusConfig.color,
         isPublished && "flex items-center gap-1",
         className,

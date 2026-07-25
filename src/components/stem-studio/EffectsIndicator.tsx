@@ -128,7 +128,7 @@ export function EffectsIndicator({ effects, compact = false, showDetails = true 
               <Badge
                 variant="secondary"
                 className={cn(
-                  "text-[10px] h-5 px-1.5 font-medium cursor-help",
+                  "text-[0.625rem] h-5 px-1.5 font-medium cursor-help",
                   effect.color === "blue" && "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20",
                   effect.color === "orange" &&
                     "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20",

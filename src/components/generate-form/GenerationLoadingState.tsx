@@ -183,10 +183,10 @@ export function GenerationLoadingState({
               />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-[15px] text-foreground leading-tight">
+              <h3 className="font-semibold text-[0.9375rem] text-foreground leading-tight">
                 {currentStage?.label || "Генерация музыки"}
               </h3>
-              <p className="text-[11px] text-muted-foreground mt-0.5">
+              <p className="text-[0.6875rem] text-muted-foreground mt-0.5">
                 {message ?? "Модель Suno подбирает звуки и структуру"}
               </p>
             </div>
@@ -195,7 +195,7 @@ export function GenerationLoadingState({
           {/* Progress bar */}
           <div className="space-y-1.5">
             <Progress value={progressPercentage} className="h-1.5" />
-            <div className="flex justify-between text-[11px] text-muted-foreground tabular-nums">
+            <div className="flex justify-between text-[0.6875rem] text-muted-foreground tabular-nums">
               <span>{Math.round(progressPercentage)}%</span>
               {remainingSeconds > 0 && <span>~{formatRemainingTime(remainingSeconds)}</span>}
             </div>

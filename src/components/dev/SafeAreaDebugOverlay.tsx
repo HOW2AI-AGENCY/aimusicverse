@@ -152,7 +152,7 @@ export function SafeAreaDebugOverlay() {
             height: container.height,
           }}
         >
-          <span className="absolute -top-4 left-0 text-[10px] font-mono text-cyan-300 bg-black/70 px-1 rounded-sm">
+          <span className="absolute -top-4 left-0 text-[0.625rem] font-mono text-cyan-300 bg-black/70 px-1 rounded-sm">
             {container.label}
           </span>
         </div>
@@ -165,7 +165,7 @@ export function SafeAreaDebugOverlay() {
           className="fixed pointer-events-none z-[9997] border-2 border-emerald-400/80"
           style={{ top: b.top, left: b.left, width: b.width, height: b.height }}
         >
-          <span className="absolute -top-4 left-0 text-[10px] font-mono text-emerald-300 bg-black/70 px-1 rounded-sm whitespace-nowrap">
+          <span className="absolute -top-4 left-0 text-[0.625rem] font-mono text-emerald-300 bg-black/70 px-1 rounded-sm whitespace-nowrap">
             {b.label}
           </span>
         </div>
@@ -173,7 +173,7 @@ export function SafeAreaDebugOverlay() {
 
       {/* HUD */}
       <div
-        className="fixed left-1/2 -translate-x-1/2 z-[9999] rounded-lg bg-black/85 px-3 py-2 text-[11px] font-mono text-fuchsia-200 shadow-xl pointer-events-auto space-y-0.5"
+        className="fixed left-1/2 -translate-x-1/2 z-[9999] rounded-lg bg-black/85 px-3 py-2 text-[0.6875rem] font-mono text-fuchsia-200 shadow-xl pointer-events-auto space-y-0.5"
         style={{ top: `calc(${insets.top}px + 8px)` }}
       >
         <div>

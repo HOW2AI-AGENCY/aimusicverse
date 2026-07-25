@@ -130,7 +130,7 @@ export const ArtistNameErrorAlert = memo(function ArtistNameErrorAlert({
                   {examples.slice(0, 2).map((example, index) => (
                     <div
                       key={index}
-                      className="flex items-center gap-2 text-[11px] bg-background/50 rounded-md px-2 py-1.5"
+                      className="flex items-center gap-2 text-[0.6875rem] bg-background/50 rounded-md px-2 py-1.5"
                     >
                       <span className="text-muted-foreground line-through">{example.before}</span>
                       <ArrowRight className="w-3 h-3 text-amber-500 flex-shrink-0" />
@@ -144,7 +144,7 @@ export const ArtistNameErrorAlert = memo(function ArtistNameErrorAlert({
             {/* Suggestions */}
             {suggestions.length > 0 && onApplySuggestion && (
               <div className="mt-3">
-                <p className="text-[11px] text-muted-foreground mb-2">Нажмите, чтобы использовать:</p>
+                <p className="text-[0.6875rem] text-muted-foreground mb-2">Нажмите, чтобы использовать:</p>
                 <div className="flex flex-wrap gap-1.5">
                   {suggestions.slice(0, 3).map((suggestion, index) => (
                     <Button
@@ -154,7 +154,7 @@ export const ArtistNameErrorAlert = memo(function ArtistNameErrorAlert({
                       size="sm"
                       onClick={() => onApplySuggestion(suggestion)}
                       className={cn(
-                        "h-auto py-1.5 px-2.5 text-[11px] gap-1.5",
+                        "h-auto py-1.5 px-2.5 text-[0.6875rem] gap-1.5",
                         "bg-background/80 border-amber-500/30",
                         "hover:bg-amber-500/20 hover:border-amber-500/50",
                         "transition-all touch-manipulation",

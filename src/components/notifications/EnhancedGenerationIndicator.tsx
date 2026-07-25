@@ -60,7 +60,7 @@ function GenerationCard({ generation }: { generation: GenerationProgress }) {
           </p>
 
           <div className="flex items-center gap-2 mt-1">
-            <Badge variant="outline" className={cn("text-[10px] h-5 px-1.5", statusColors[generation.status])}>
+            <Badge variant="outline" className={cn("text-[0.625rem] h-5 px-1.5", statusColors[generation.status])}>
               {statusLabels[generation.status]}
             </Badge>
 
@@ -74,7 +74,7 @@ function GenerationCard({ generation }: { generation: GenerationProgress }) {
 
           <div className="mt-2">
             <Progress value={generation.progress} className="h-1.5" />
-            <p className="text-[10px] text-muted-foreground mt-1">{generation.stage}</p>
+            <p className="text-[0.625rem] text-muted-foreground mt-1">{generation.stage}</p>
           </div>
         </div>
 

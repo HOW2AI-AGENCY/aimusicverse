@@ -266,7 +266,7 @@ export function PresetsManager({
                         </motion.div>
                         <div className="flex-1 min-w-0">
                           <h4 className="font-medium text-sm leading-tight mb-0.5">{preset.name}</h4>
-                          <p className="text-[10px] text-muted-foreground leading-tight line-clamp-1">
+                          <p className="text-[0.625rem] text-muted-foreground leading-tight line-clamp-1">
                             {preset.description}
                           </p>
                         </div>
@@ -305,30 +305,30 @@ export function PresetsManager({
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1 mb-2">
-                      <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-5">
+                      <Badge variant="secondary" className="text-[0.625rem] px-1.5 py-0 h-5">
                         <CategoryIcon className="w-3 h-3 mr-1" />
                         {preset.category}
                       </Badge>
                       {preset.tags.slice(0, 2).map((tag) => (
-                        <Badge key={tag} variant="outline" className="text-[10px] px-1.5 py-0 h-5">
+                        <Badge key={tag} variant="outline" className="text-[0.625rem] px-1.5 py-0 h-5">
                           {tag}
                         </Badge>
                       ))}
                       {preset.tags.length > 2 && (
-                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-5">
+                        <Badge variant="outline" className="text-[0.625rem] px-1.5 py-0 h-5">
                           +{preset.tags.length - 2}
                         </Badge>
                       )}
                     </div>
 
                     {/* Stats */}
-                    <div className="flex items-center justify-between text-[10px] text-muted-foreground">
+                    <div className="flex items-center justify-between text-[0.625rem] text-muted-foreground">
                       <span className="flex items-center gap-1">
                         <Headphones className="w-3 h-3" />
                         {preset.usageCount} раз
                       </span>
                       {preset.isBuiltIn && (
-                        <Badge variant="secondary" className="text-[9px] px-1.5 py-0 h-4">
+                        <Badge variant="secondary" className="text-[0.5625rem] px-1.5 py-0 h-4">
                           Built-in
                         </Badge>
                       )}

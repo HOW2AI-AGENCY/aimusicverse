@@ -169,7 +169,7 @@ export function DailyMissions() {
 
                   <div className="flex items-center gap-2">
                     <Progress value={progress} className="h-1.5 flex-1" />
-                    <span className="text-[10px] text-muted-foreground min-w-[40px] text-right">
+                    <span className="text-[0.625rem] text-muted-foreground min-w-[40px] text-right">
                       {mission.current}/{mission.target}
                     </span>
                   </div>

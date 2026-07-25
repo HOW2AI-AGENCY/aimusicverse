@@ -93,7 +93,7 @@ export function GraphFilters({
             <Filter className="w-4 h-4" />
             Типы узлов
             {selectedNodeTypes.length < 4 && (
-              <Badge variant="secondary" className="ml-1 text-[10px]">
+              <Badge variant="secondary" className="ml-1 text-[0.625rem]">
                 {selectedNodeTypes.length}
               </Badge>
             )}
@@ -121,7 +121,7 @@ export function GraphFilters({
           <Button variant="outline" size="sm" className="gap-2">
             Жанры
             {selectedGenres.length > 0 && (
-              <Badge variant="secondary" className="ml-1 text-[10px]">
+              <Badge variant="secondary" className="ml-1 text-[0.625rem]">
                 {selectedGenres.length}
               </Badge>
             )}
@@ -149,7 +149,7 @@ export function GraphFilters({
           <Button variant="outline" size="sm" className="gap-2">
             Категории тегов
             {selectedCategories.length > 0 && (
-              <Badge variant="secondary" className="ml-1 text-[10px]">
+              <Badge variant="secondary" className="ml-1 text-[0.625rem]">
                 {selectedCategories.length}
               </Badge>
             )}
@@ -184,7 +184,7 @@ export function GraphFilters({
           <Badge
             key={genre}
             variant="secondary"
-            className="text-[10px] cursor-pointer hover:bg-destructive/20"
+            className="text-[0.625rem] cursor-pointer hover:bg-destructive/20"
             onClick={() => toggleGenre(genre)}
           >
             {genre} ×
@@ -194,7 +194,7 @@ export function GraphFilters({
           <Badge
             key={category}
             variant="secondary"
-            className="text-[10px] cursor-pointer hover:bg-destructive/20"
+            className="text-[0.625rem] cursor-pointer hover:bg-destructive/20"
             onClick={() => toggleCategory(category)}
           >
             {CATEGORY_LABELS[category] || category} ×

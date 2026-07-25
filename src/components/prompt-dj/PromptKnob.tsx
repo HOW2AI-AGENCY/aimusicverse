@@ -37,7 +37,7 @@ export const PromptKnob = memo(function PromptKnob({
 
   // Size variants
   const sizeConfig = {
-    sm: { knob: "w-16 h-16", ring: 24, text: "text-[10px]", label: "w-20 text-[10px]" },
+    sm: { knob: "w-16 h-16", ring: 24, text: "text-[0.625rem]", label: "w-20 text-[0.625rem]" },
     md: { knob: "w-20 h-20", ring: 30, text: "text-xs", label: "w-24 text-xs" },
     lg: { knob: "w-24 h-24", ring: 36, text: "text-sm", label: "w-28 text-sm" },
   }[size];

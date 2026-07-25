@@ -276,7 +276,7 @@ export function parseLine(line: string): ParsedLine {
   // Find all inline bracket tags [tag]
   const bracketPattern = /\[([^\]]+)\]/g;
   let match;
-  let cleanParts: string[] = [];
+  const cleanParts: string[] = [];
   let lastIndex = 0;
 
   // If we have a structural tag, start after it

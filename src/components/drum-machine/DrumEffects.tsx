@@ -54,7 +54,7 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({ sound, effects, onSe
         <div className="space-y-2">
           <Label className="text-xs text-muted-foreground">Pan</Label>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] text-muted-foreground">L</span>
+            <span className="text-[0.625rem] text-muted-foreground">L</span>
             <Slider
               value={[effects.pan]}
               min={-1}
@@ -63,7 +63,7 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({ sound, effects, onSe
               onValueChange={([v]) => onSetEffect({ pan: v })}
               className="flex-1"
             />
-            <span className="text-[10px] text-muted-foreground">R</span>
+            <span className="text-[0.625rem] text-muted-foreground">R</span>
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({ sound, effects, onSe
         {effects.filter.enabled && (
           <div className="grid grid-cols-2 gap-3 pl-2">
             <div className="space-y-1">
-              <Label className="text-[10px] text-muted-foreground">Cutoff</Label>
+              <Label className="text-[0.625rem] text-muted-foreground">Cutoff</Label>
               <Slider
                 value={[effects.filter.frequency]}
                 min={100}
@@ -92,10 +92,10 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({ sound, effects, onSe
                 step={100}
                 onValueChange={([v]) => onSetEffect({ filter: { ...effects.filter, frequency: v } })}
               />
-              <span className="text-[10px] font-mono">{effects.filter.frequency}Hz</span>
+              <span className="text-[0.625rem] font-mono">{effects.filter.frequency}Hz</span>
             </div>
             <div className="space-y-1">
-              <Label className="text-[10px] text-muted-foreground">Resonance</Label>
+              <Label className="text-[0.625rem] text-muted-foreground">Resonance</Label>
               <Slider
                 value={[effects.filter.resonance]}
                 min={0}
@@ -103,7 +103,7 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({ sound, effects, onSe
                 step={0.5}
                 onValueChange={([v]) => onSetEffect({ filter: { ...effects.filter, resonance: v } })}
               />
-              <span className="text-[10px] font-mono">Q: {effects.filter.resonance}</span>
+              <span className="text-[0.625rem] font-mono">Q: {effects.filter.resonance}</span>
             </div>
           </div>
         )}
@@ -125,7 +125,7 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({ sound, effects, onSe
         {effects.compressor.enabled && (
           <div className="grid grid-cols-2 gap-3 pl-2">
             <div className="space-y-1">
-              <Label className="text-[10px] text-muted-foreground">Threshold</Label>
+              <Label className="text-[0.625rem] text-muted-foreground">Threshold</Label>
               <Slider
                 value={[effects.compressor.threshold]}
                 min={-60}
@@ -133,10 +133,10 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({ sound, effects, onSe
                 step={1}
                 onValueChange={([v]) => onSetEffect({ compressor: { ...effects.compressor, threshold: v } })}
               />
-              <span className="text-[10px] font-mono">{effects.compressor.threshold}dB</span>
+              <span className="text-[0.625rem] font-mono">{effects.compressor.threshold}dB</span>
             </div>
             <div className="space-y-1">
-              <Label className="text-[10px] text-muted-foreground">Ratio</Label>
+              <Label className="text-[0.625rem] text-muted-foreground">Ratio</Label>
               <Slider
                 value={[effects.compressor.ratio]}
                 min={1}
@@ -144,7 +144,7 @@ const TrackEffectsPanel = memo(function TrackEffectsPanel({ sound, effects, onSe
                 step={0.5}
                 onValueChange={([v]) => onSetEffect({ compressor: { ...effects.compressor, ratio: v } })}
               />
-              <span className="text-[10px] font-mono">{effects.compressor.ratio}:1</span>
+              <span className="text-[0.625rem] font-mono">{effects.compressor.ratio}:1</span>
             </div>
           </div>
         )}

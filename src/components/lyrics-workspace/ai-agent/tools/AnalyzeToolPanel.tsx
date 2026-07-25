@@ -55,7 +55,7 @@ export function AnalyzeToolPanel({ context, onExecute, onClose, isLoading }: Too
             </div>
             <div>
               <h3 className="text-sm font-medium">Анализ текста</h3>
-              <p className="text-[10px] text-muted-foreground">Смысл, ритм, рифмы, структура</p>
+              <p className="text-[0.625rem] text-muted-foreground">Смысл, ритм, рифмы, структура</p>
             </div>
           </div>
           <Button variant="ghost" size="icon" className="h-7 w-7" onClick={onClose}>
@@ -109,7 +109,7 @@ export function AnalyzeToolPanel({ context, onExecute, onClose, isLoading }: Too
                       <Icon className={cn("w-4 h-4", isSelected ? "text-purple-400" : "text-muted-foreground")} />
                       <p className="text-sm font-medium">{option.label}</p>
                     </div>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">{option.desc}</p>
+                    <p className="text-[0.625rem] text-muted-foreground mt-0.5">{option.desc}</p>
                     {isSelected && <CheckCircle2 className="w-4 h-4 text-purple-400 absolute top-2 right-2" />}
                   </button>
                 );

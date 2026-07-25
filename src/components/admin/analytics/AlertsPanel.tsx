@@ -200,7 +200,7 @@ function MetricCard({ icon: Icon, label, value, subtext, status }: MetricCardPro
         )}
       />
       <div className="text-sm font-bold">{value}</div>
-      <div className="text-[10px] text-muted-foreground">{label}</div>
+      <div className="text-[0.625rem] text-muted-foreground">{label}</div>
     </div>
   );
 }

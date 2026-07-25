@@ -26,7 +26,7 @@ interface PlayerProgressProps {
 }
 
 const densityConfig: Record<PlayerProgressDensity, { height: number; gap: string; label: string }> = {
-  compact: { height: 24, gap: "gap-1", label: "text-[11px]" },
+  compact: { height: 24, gap: "gap-1", label: "text-[0.6875rem]" },
   default: { height: 36, gap: "gap-1.5", label: "text-xs" },
   fullscreen: { height: 44, gap: "gap-2", label: "text-xs" },
 };

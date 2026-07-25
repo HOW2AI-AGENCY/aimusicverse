@@ -44,7 +44,7 @@ export function AiSuggestions({ onCreateClick, className }: AiSuggestionsProps) 
     <div className={cn("space-y-3", className)}>
       <div className="flex items-center gap-2">
         <Sparkles className="w-4 h-4 text-primary" />
-        <h3 className="font-sans font-bold text-[17px] text-foreground">AI предлагает</h3>
+        <h3 className="font-sans font-bold text-[1.0625rem] text-foreground">AI предлагает</h3>
       </div>
       <motion.div
         className="flex flex-col gap-3"
@@ -64,9 +64,9 @@ export function AiSuggestions({ onCreateClick, className }: AiSuggestionsProps) 
           >
             <div className="flex items-center gap-2">
               <span className="text-lg">{sg.icon}</span>
-              <p className="font-semibold text-[14.5px] text-foreground/90">{sg.title}</p>
+              <p className="font-semibold text-[0.90625rem] text-foreground/90">{sg.title}</p>
             </div>
-            <p className="text-[13px] text-muted-foreground mt-2 leading-relaxed">{sg.description}</p>
+            <p className="text-[0.8125rem] text-muted-foreground mt-2 leading-relaxed">{sg.description}</p>
           </motion.button>
         ))}
       </motion.div>

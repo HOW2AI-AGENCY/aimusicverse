@@ -148,7 +148,7 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
                     </div>
                     <div className="min-w-0">
                       <p className="font-medium text-xs sm:text-sm">{key}</p>
-                      <p className="text-[9px] sm:text-xs text-muted-foreground truncate hidden xs:block">
+                      <p className="text-[0.5625rem] sm:text-xs text-muted-foreground truncate hidden xs:block">
                         {config.name}
                       </p>
                     </div>
@@ -157,7 +157,7 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
                     variant={
                       rating === "good" ? "default" : rating === "needs-improvement" ? "secondary" : "destructive"
                     }
-                    className="text-[9px] sm:text-xs shrink-0"
+                    className="text-[0.5625rem] sm:text-xs shrink-0"
                   >
                     {rating === "good" ? "✓" : rating === "needs-improvement" ? "~" : "!"}
                   </Badge>
@@ -166,12 +166,12 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
                 <div className="mt-2 sm:mt-4">
                   <div className="flex items-baseline gap-0.5 sm:gap-1">
                     <span className="text-lg sm:text-2xl font-bold">{formatVitalValue(vital.value, key)}</span>
-                    <span className="text-[10px] sm:text-sm text-muted-foreground">{config.unit}</span>
+                    <span className="text-[0.625rem] sm:text-sm text-muted-foreground">{config.unit}</span>
                   </div>
                   <div className="flex items-center gap-2 mt-0.5 sm:mt-1">
-                    <p className="text-[9px] sm:text-xs text-muted-foreground">{vital.samples.toLocaleString()} изм.</p>
+                    <p className="text-[0.5625rem] sm:text-xs text-muted-foreground">{vital.samples.toLocaleString()} изм.</p>
                     {vital.goodPercent > 0 && (
-                      <Badge variant="outline" className="text-[8px] sm:text-[10px] px-1">
+                      <Badge variant="outline" className="text-[0.5rem] sm:text-[0.625rem] px-1">
                         {vital.goodPercent.toFixed(0)}% хорошо
                       </Badge>
                     )}
@@ -221,7 +221,7 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
                 <div key={device.device} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
                   <div className="flex items-center gap-2">
                     <span className="text-sm capitalize">{device.device}</span>
-                    <Badge variant="outline" className="text-[10px]">
+                    <Badge variant="outline" className="text-[0.625rem]">
                       {device.count}
                     </Badge>
                   </div>
@@ -270,7 +270,7 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
                 </div>
                 <div className="min-w-0">
                   <p className="text-xs sm:text-sm font-medium">{tip.title}</p>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5">{tip.description}</p>
+                  <p className="text-[0.625rem] sm:text-xs text-muted-foreground mt-0.5">{tip.description}</p>
                 </div>
               </div>
             ))}

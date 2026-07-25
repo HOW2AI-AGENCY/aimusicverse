@@ -77,13 +77,13 @@ export function LyricsGeneratedMessage({
         <div className="flex items-center gap-2">
           <FileText className="w-4 h-4 text-primary" />
           <span className="text-xs font-medium">Сгенерированный текст</span>
-          <Badge variant="secondary" className="text-[10px] h-4">
+          <Badge variant="secondary" className="text-[0.625rem] h-4">
             {lines.length} строк
           </Badge>
         </div>
         <Button variant="ghost" size="sm" onClick={handleCopy} className="h-6 px-2 gap-1">
           {copied ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3" />}
-          <span className="text-[10px]">{copied ? "Скопировано" : "Копировать"}</span>
+          <span className="text-[0.625rem]">{copied ? "Скопировано" : "Копировать"}</span>
         </Button>
       </div>
 
@@ -185,7 +185,7 @@ export function AnalysisMessage({ stats, onFix }: AnalysisMessageProps) {
         {/* Quality progress bar */}
         <div className="space-y-1">
           <Progress value={stats.qualityScore} className="h-2" />
-          <div className="flex justify-between text-[10px] text-muted-foreground">
+          <div className="flex justify-between text-[0.625rem] text-muted-foreground">
             <span>Качество</span>
             <span>
               {stats.qualityScore >= 80 ? "Отлично" : stats.qualityScore >= 60 ? "Хорошо" : "Требует доработки"}
@@ -197,24 +197,24 @@ export function AnalysisMessage({ stats, onFix }: AnalysisMessageProps) {
         <div className="grid grid-cols-4 gap-2">
           <div className="text-center p-2 rounded-lg bg-muted/30">
             <Music2 className="w-3.5 h-3.5 mx-auto mb-1 text-blue-400" />
-            <p className="text-[10px] text-muted-foreground">Рифмы</p>
+            <p className="text-[0.625rem] text-muted-foreground">Рифмы</p>
             <p className="text-xs font-medium">{stats.rhymeScheme || "N/A"}</p>
           </div>
           <div className="text-center p-2 rounded-lg bg-muted/30">
             <Zap className="w-3.5 h-3.5 mx-auto mb-1 text-amber-400" />
-            <p className="text-[10px] text-muted-foreground">Ср. слоги</p>
+            <p className="text-[0.625rem] text-muted-foreground">Ср. слоги</p>
             <p className="text-xs font-medium">{stats.syllableStats.avg.toFixed(1)}</p>
           </div>
           <div className="text-center p-2 rounded-lg bg-muted/30">
             <Tag className="w-3.5 h-3.5 mx-auto mb-1 text-emerald-400" />
-            <p className="text-[10px] text-muted-foreground">Теги</p>
+            <p className="text-[0.625rem] text-muted-foreground">Теги</p>
             <p className="text-xs font-medium">
               {stats.tagBalance.structural + stats.tagBalance.vocal + stats.tagBalance.dynamic}
             </p>
           </div>
           <div className="text-center p-2 rounded-lg bg-muted/30">
             <AlertTriangle className="w-3.5 h-3.5 mx-auto mb-1 text-red-400" />
-            <p className="text-[10px] text-muted-foreground">Клише</p>
+            <p className="text-[0.625rem] text-muted-foreground">Клише</p>
             <p className="text-xs font-medium">{stats.clicheCount}</p>
           </div>
         </div>
@@ -243,7 +243,7 @@ export function AnalysisMessage({ stats, onFix }: AnalysisMessageProps) {
                       <Sparkles className="w-3 h-3 text-primary mt-0.5 shrink-0" />
                       <span className="flex-1">{rec}</span>
                       {onFix && (
-                        <Button variant="ghost" size="sm" onClick={() => onFix(rec)} className="h-5 px-1.5 text-[10px]">
+                        <Button variant="ghost" size="sm" onClick={() => onFix(rec)} className="h-5 px-1.5 text-[0.625rem]">
                           Исправить
                         </Button>
                       )}
@@ -305,16 +305,16 @@ export function ValidationMessage({ items, overallScore, onAutoFix }: Validation
           <span className="text-xs font-medium">Проверка Suno V5</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <Badge variant="secondary" className="text-[10px] h-4 bg-emerald-500/20 text-emerald-400">
+          <Badge variant="secondary" className="text-[0.625rem] h-4 bg-emerald-500/20 text-emerald-400">
             ✓ {passCount}
           </Badge>
           {warnCount > 0 && (
-            <Badge variant="secondary" className="text-[10px] h-4 bg-amber-500/20 text-amber-400">
+            <Badge variant="secondary" className="text-[0.625rem] h-4 bg-amber-500/20 text-amber-400">
               ⚠ {warnCount}
             </Badge>
           )}
           {failCount > 0 && (
-            <Badge variant="secondary" className="text-[10px] h-4 bg-red-500/20 text-red-400">
+            <Badge variant="secondary" className="text-[0.625rem] h-4 bg-red-500/20 text-red-400">
               ✗ {failCount}
             </Badge>
           )}

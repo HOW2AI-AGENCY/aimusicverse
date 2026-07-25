@@ -92,7 +92,7 @@ export const SmartPresetsPanel = memo(function SmartPresetsPanel({
                           <div className="w-2 h-2 rounded-full" style={{ backgroundColor: config?.color }} />
                           <span className="text-xs font-medium">{rec.value}</span>
                         </div>
-                        <span className="text-[10px] text-muted-foreground line-clamp-1">{rec.reason}</span>
+                        <span className="text-[0.625rem] text-muted-foreground line-clamp-1">{rec.reason}</span>
                       </button>
                     );
                   })}
@@ -110,15 +110,15 @@ export const SmartPresetsPanel = memo(function SmartPresetsPanel({
                 <div className="grid grid-cols-3 gap-2">
                   <div className="p-2 rounded-lg bg-muted/20 text-center">
                     <div className="text-lg font-bold">{analytics.avgBPM}</div>
-                    <div className="text-[10px] text-muted-foreground">Средний BPM</div>
+                    <div className="text-[0.625rem] text-muted-foreground">Средний BPM</div>
                   </div>
                   <div className="p-2 rounded-lg bg-muted/20 text-center">
                     <div className="text-lg font-bold">{history.length}</div>
-                    <div className="text-[10px] text-muted-foreground">Генераций</div>
+                    <div className="text-[0.625rem] text-muted-foreground">Генераций</div>
                   </div>
                   <div className="p-2 rounded-lg bg-muted/20 text-center">
                     <div className="text-lg font-bold">{Math.round(analytics.successRate * 100)}%</div>
-                    <div className="text-[10px] text-muted-foreground">Успех</div>
+                    <div className="text-[0.625rem] text-muted-foreground">Успех</div>
                   </div>
                 </div>
 
@@ -129,7 +129,7 @@ export const SmartPresetsPanel = memo(function SmartPresetsPanel({
                       <Badge
                         key={value}
                         variant="secondary"
-                        className="text-[10px] cursor-pointer"
+                        className="text-[0.625rem] cursor-pointer"
                         onClick={() => handleApplyRecommendation("genre", value)}
                       >
                         {value} ({count})
@@ -215,7 +215,7 @@ export const SmartPresetsPanel = memo(function SmartPresetsPanel({
                       )}
                       onClick={() => onLoadPreset?.({ channels: entry.channels })}
                     >
-                      <p className="text-[11px] line-clamp-1 text-muted-foreground">{entry.prompt}</p>
+                      <p className="text-[0.6875rem] line-clamp-1 text-muted-foreground">{entry.prompt}</p>
                     </button>
                   ))}
                 </div>

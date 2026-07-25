@@ -108,7 +108,7 @@ export const CreativePresetsSection = memo(function CreativePresetsSection({
           </div>
           <div className="flex flex-col min-w-0">
             <span className="text-sm lg:text-base font-bold text-foreground leading-tight">Быстрый старт</span>
-            <span className="text-[11px] sm:text-xs text-muted-foreground leading-tight line-clamp-2">
+            <span className="text-[0.6875rem] sm:text-xs text-muted-foreground leading-tight line-clamp-2">
               Выберите шаблон для создания
             </span>
           </div>

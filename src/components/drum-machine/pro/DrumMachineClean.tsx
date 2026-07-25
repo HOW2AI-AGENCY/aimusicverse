@@ -264,7 +264,7 @@ export const DrumMachineClean = memo(function DrumMachineClean() {
             <div
               key={i}
               className={cn(
-                "flex-1 min-w-[28px] text-center text-[10px] font-mono",
+                "flex-1 min-w-[28px] text-center text-[0.625rem] font-mono",
                 i % 4 === 0 ? "font-bold text-foreground" : "text-muted-foreground",
                 i % 4 === 0 && i > 0 && "ml-2",
               )}

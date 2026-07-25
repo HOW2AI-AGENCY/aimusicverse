@@ -53,7 +53,7 @@ export const PlaybackControls = memo(function PlaybackControls({
         <motion.div className="h-full bg-primary" style={{ width: `${(currentTime / duration) * 100}%` }} />
       </div>
 
-      <span className="text-[10px] text-muted-foreground w-16 text-right">
+      <span className="text-[0.625rem] text-muted-foreground w-16 text-right">
         {formatTime(currentTime)} / {formatTime(duration)}
       </span>
 

@@ -68,7 +68,7 @@ export function HookResultCard({ data, onApplyHook }: HookResultCardProps) {
           </div>
           <div>
             <h4 className="text-sm font-medium">Анализ хуков</h4>
-            <p className="text-[10px] text-muted-foreground">Запоминающиеся фразы и припевы</p>
+            <p className="text-[0.625rem] text-muted-foreground">Запоминающиеся фразы и припевы</p>
           </div>
         </div>
 
@@ -97,7 +97,7 @@ export function HookResultCard({ data, onApplyHook }: HookResultCardProps) {
               >
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-medium truncate">"{hook.text}"</p>
-                  {hook.location && <p className="text-[10px] text-muted-foreground">{hook.location}</p>}
+                  {hook.location && <p className="text-[0.625rem] text-muted-foreground">{hook.location}</p>}
                 </div>
                 <div className="flex items-center gap-2 ml-2">
                   <div className="flex items-center gap-0.5">

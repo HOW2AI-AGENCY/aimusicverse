@@ -76,7 +76,7 @@ const QuickStartCard = memo(function QuickStartCard({
       <h3 className="text-sm lg:text-base font-bold text-foreground mb-0.5 text-balance">{title}</h3>
 
       {/* Description - visible on larger screens */}
-      <p className="text-[11px] lg:text-xs text-muted-foreground text-center px-0.5 hidden xs:block lg:block line-clamp-2">
+      <p className="text-[0.6875rem] lg:text-xs text-muted-foreground text-center px-0.5 hidden xs:block lg:block line-clamp-2">
         {description}
       </p>
 

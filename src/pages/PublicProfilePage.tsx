@@ -411,7 +411,7 @@ export default function PublicProfilePage() {
               )}
               {socialLinks.spotify && (
                 <SocialButton
-                  icon={() => <span className="text-[10px] font-bold">S</span>}
+                  icon={() => <span className="text-[0.625rem] font-bold">S</span>}
                   href={
                     socialLinks.spotify.startsWith("http")
                       ? socialLinks.spotify
@@ -451,7 +451,7 @@ export default function PublicProfilePage() {
             <Music2 className="w-4 h-4" />
             <span className="hidden sm:inline">Треки</span>
             {(stats?.tracksCount || 0) > 0 && (
-              <Badge variant="secondary" className="h-4 px-1 text-[10px] hidden sm:flex">
+              <Badge variant="secondary" className="h-4 px-1 text-[0.625rem] hidden sm:flex">
                 {stats?.tracksCount}
               </Badge>
             )}
@@ -570,7 +570,7 @@ export default function PublicProfilePage() {
                   </Avatar>
                   <p className="text-sm font-medium mt-2 text-center line-clamp-1">{artist.name}</p>
                   {artist.genre_tags && artist.genre_tags.length > 0 && (
-                    <p className="text-[10px] text-muted-foreground mt-0.5 truncate max-w-full">
+                    <p className="text-[0.625rem] text-muted-foreground mt-0.5 truncate max-w-full">
                       {artist.genre_tags.slice(0, 2).join(", ")}
                     </p>
                   )}

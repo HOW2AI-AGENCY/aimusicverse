@@ -297,7 +297,7 @@ function SankeyDiagram({ nodes, links }: SankeyDiagramProps) {
                   x={pos.x + 40}
                   y={pos.y + pos.height + 12}
                   textAnchor="middle"
-                  className="fill-muted-foreground text-[10px]"
+                  className="fill-muted-foreground text-[0.625rem]"
                 >
                   {node?.count.toLocaleString()}
                 </text>

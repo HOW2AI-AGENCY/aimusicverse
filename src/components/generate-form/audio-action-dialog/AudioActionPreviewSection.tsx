@@ -63,7 +63,7 @@ export function AudioActionPreviewSection({
         <div className="flex-1 min-w-0">
           <p className="text-xs font-medium truncate">{audioFile.name}</p>
           {audioDuration && (
-            <p className="text-[10px] text-muted-foreground">{formatTime(Math.floor(audioDuration))}</p>
+            <p className="text-[0.625rem] text-muted-foreground">{formatTime(Math.floor(audioDuration))}</p>
           )}
         </div>
         <Button
@@ -88,12 +88,12 @@ export function AudioActionPreviewSection({
           </div>
           <div className="flex flex-wrap gap-1">
             {analysisResult.genre && (
-              <Badge variant="secondary" className="text-[10px] h-5">
+              <Badge variant="secondary" className="text-[0.625rem] h-5">
                 {analysisResult.genre}
               </Badge>
             )}
             {analysisResult.mood && (
-              <Badge variant="secondary" className="text-[10px] h-5">
+              <Badge variant="secondary" className="text-[0.625rem] h-5">
                 {analysisResult.mood}
               </Badge>
             )}
@@ -136,12 +136,12 @@ export function AudioActionPreviewSection({
           )}
 
           {hasVocals === false && (
-            <p className="text-[10px] text-muted-foreground text-center">Инструментальный трек</p>
+            <p className="text-[0.625rem] text-muted-foreground text-center">Инструментальный трек</p>
           )}
 
           {extractedLyrics && (
             <div className="p-2 rounded-lg bg-muted/50 border max-h-24 overflow-y-auto">
-              <p className="text-[10px] font-mono whitespace-pre-wrap line-clamp-6">{extractedLyrics}</p>
+              <p className="text-[0.625rem] font-mono whitespace-pre-wrap line-clamp-6">{extractedLyrics}</p>
             </div>
           )}
         </div>

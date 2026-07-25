@@ -363,11 +363,11 @@ export const ProfilePage = () => {
               </div>
             </div>
             <div className="flex-1 min-w-0">
-              <h1 className="font-display text-[22px] font-bold tracking-tight truncate leading-tight">
+              <h1 className="font-display text-[1.375rem] font-bold tracking-tight truncate leading-tight">
                 {displayName}
               </h1>
               {displayUser?.username && (
-                <p className="text-[13px] text-muted-foreground truncate">@{displayUser.username}</p>
+                <p className="text-[0.8125rem] text-muted-foreground truncate">@{displayUser.username}</p>
               )}
               <div className="mt-2 flex items-center gap-1.5">
                 <span className="tag-chip border-primary/40 text-primary bg-primary/10">{mobileTierLabel}</span>
@@ -397,10 +397,10 @@ export const ProfilePage = () => {
                   <stat.icon className="w-4 h-4 text-muted-foreground/80" strokeWidth={2} />
                   <TrendingUp className="w-3 h-3 text-primary/60" strokeWidth={2.5} />
                 </div>
-                <p className="font-display text-[26px] font-semibold leading-none tracking-tight tabular-nums">
+                <p className="font-display text-[1.625rem] font-semibold leading-none tracking-tight tabular-nums">
                   {stat.value.toLocaleString()}
                 </p>
-                <p className="text-[11px] text-muted-foreground/80 leading-none mt-1">{stat.label}</p>
+                <p className="text-[0.6875rem] text-muted-foreground/80 leading-none mt-1">{stat.label}</p>
               </>
             )}
           </div>
@@ -423,8 +423,8 @@ export const ProfilePage = () => {
           ].map((s, i, arr) => (
             <div key={s.label} className="relative flex-1 flex flex-col items-center gap-0.5">
               <s.icon className="w-4 h-4 text-muted-foreground/70" strokeWidth={2} />
-              <p className="font-display text-[15px] font-semibold tabular-nums leading-none">{s.value}</p>
-              <p className="text-[10px] text-muted-foreground/70 leading-none">{s.label}</p>
+              <p className="font-display text-[0.9375rem] font-semibold tabular-nums leading-none">{s.value}</p>
+              <p className="text-[0.625rem] text-muted-foreground/70 leading-none">{s.label}</p>
               {i < arr.length - 1 && (
                 <span className="absolute right-0 top-1/2 -translate-y-1/2 h-7 w-px bg-border/60" />
               )}
@@ -458,8 +458,8 @@ export const ProfilePage = () => {
                 <Shield className="w-4.5 h-4.5 text-destructive" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-display text-[14px] font-semibold truncate">Админ-панель</p>
-                <p className="text-[11px] text-muted-foreground truncate">Метрики, пользователи</p>
+                <p className="font-display text-[0.875rem] font-semibold truncate">Админ-панель</p>
+                <p className="text-[0.6875rem] text-muted-foreground truncate">Метрики, пользователи</p>
               </div>
               <ChevronRight className="w-4 h-4 text-muted-foreground/70" />
             </div>
@@ -476,8 +476,8 @@ export const ProfilePage = () => {
                 <item.icon className="w-4.5 h-4.5 text-primary" strokeWidth={2} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-display text-[14px] font-semibold truncate">{item.title}</p>
-                <p className="text-[11px] text-muted-foreground truncate">{item.description}</p>
+                <p className="font-display text-[0.875rem] font-semibold truncate">{item.title}</p>
+                <p className="text-[0.6875rem] text-muted-foreground truncate">{item.description}</p>
               </div>
               <ChevronRight className="w-4 h-4 text-muted-foreground/70" />
             </div>
@@ -502,8 +502,8 @@ export const ProfilePage = () => {
               <GraduationCap className="w-4.5 h-4.5 text-primary" strokeWidth={2} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-display text-[14px] font-semibold truncate">Обучение</p>
-              <p className="text-[11px] text-muted-foreground truncate">Тур по возможностям</p>
+              <p className="font-display text-[0.875rem] font-semibold truncate">Обучение</p>
+              <p className="text-[0.6875rem] text-muted-foreground truncate">Тур по возможностям</p>
             </div>
             <ChevronRight className="w-4 h-4 text-muted-foreground/70" />
           </div>
@@ -518,8 +518,8 @@ export const ProfilePage = () => {
               <LogOut className="w-4.5 h-4.5 text-destructive" strokeWidth={2} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-display text-[14px] font-semibold text-destructive truncate">Выйти</p>
-              <p className="text-[11px] text-muted-foreground truncate">Завершить сеанс</p>
+              <p className="font-display text-[0.875rem] font-semibold text-destructive truncate">Выйти</p>
+              <p className="text-[0.6875rem] text-muted-foreground truncate">Завершить сеанс</p>
             </div>
             <ChevronRight className="w-4 h-4 text-muted-foreground/70" />
           </div>

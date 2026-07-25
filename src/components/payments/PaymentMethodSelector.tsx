@@ -70,7 +70,7 @@ export function PaymentMethodSelector({ priceRubCents, className }: PaymentMetho
             <span className="font-semibold text-base">Банковская карта</span>
             <motion.span
               className={cn(
-                "px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider",
+                "px-2 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider",
                 "bg-gradient-to-r from-primary/30 to-primary/20 text-primary",
                 "rounded-full border border-primary/30",
               )}

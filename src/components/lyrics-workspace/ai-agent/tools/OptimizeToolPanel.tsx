@@ -56,7 +56,7 @@ export function OptimizeToolPanel({ context, onExecute, onClose, isLoading }: To
             </div>
             <div>
               <h3 className="text-sm font-medium">Подготовка к Suno</h3>
-              <p className="text-[10px] text-muted-foreground">Оптимизация для генерации</p>
+              <p className="text-[0.625rem] text-muted-foreground">Оптимизация для генерации</p>
             </div>
           </div>
           <Button variant="ghost" size="icon" className="h-7 w-7" onClick={onClose}>
@@ -142,7 +142,7 @@ export function OptimizeToolPanel({ context, onExecute, onClose, isLoading }: To
                     </div>
                     <div>
                       <p className="text-sm font-medium">{option.label}</p>
-                      <p className="text-[10px] text-muted-foreground">{option.desc}</p>
+                      <p className="text-[0.625rem] text-muted-foreground">{option.desc}</p>
                     </div>
                   </button>
                 );

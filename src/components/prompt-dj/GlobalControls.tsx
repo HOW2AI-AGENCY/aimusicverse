@@ -45,7 +45,7 @@ export const GlobalControls = memo(function GlobalControls({
       <div className="flex items-center gap-2">
         {/* BPM */}
         <div className="flex items-center gap-1.5">
-          <span className="text-[10px] text-muted-foreground w-8">BPM</span>
+          <span className="text-[0.625rem] text-muted-foreground w-8">BPM</span>
           <div className="flex items-center bg-muted/20 rounded-lg">
             <button
               className="w-6 h-6 flex items-center justify-center text-sm hover:bg-muted/30 rounded-l-lg"
@@ -99,7 +99,7 @@ export const GlobalControls = memo(function GlobalControls({
             <button
               key={d.value}
               className={cn(
-                "px-2 py-1 text-[10px] rounded transition-all",
+                "px-2 py-1 text-[0.625rem] rounded transition-all",
                 duration === d.value ? "bg-primary text-primary-foreground" : "bg-muted/20 hover:bg-muted/40",
               )}
               onClick={() => onDurationChange(d.value)}
@@ -115,7 +115,7 @@ export const GlobalControls = memo(function GlobalControls({
       <div className="grid grid-cols-2 gap-3">
         {/* Density */}
         <div className="space-y-1">
-          <div className="flex justify-between text-[10px]">
+          <div className="flex justify-between text-[0.625rem]">
             <span className="text-muted-foreground">Плотность</span>
             <span
               className={cn(
@@ -137,7 +137,7 @@ export const GlobalControls = memo(function GlobalControls({
 
         {/* Brightness */}
         <div className="space-y-1">
-          <div className="flex justify-between text-[10px]">
+          <div className="flex justify-between text-[0.625rem]">
             <span className="text-muted-foreground">Яркость</span>
             <span
               className={cn(

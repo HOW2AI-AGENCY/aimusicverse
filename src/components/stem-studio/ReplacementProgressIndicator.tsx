@@ -106,7 +106,7 @@ export function ReplacementProgressIndicator({ trackId, onViewResult, className 
                       <span className="text-xs font-medium text-primary">
                         {pendingTasks.length > 1 ? `${pendingTasks.length} замены` : "Генерация..."}
                       </span>
-                      <span className="text-[10px] text-muted-foreground">{formatElapsed(elapsedTime)}</span>
+                      <span className="text-[0.625rem] text-muted-foreground">{formatElapsed(elapsedTime)}</span>
                     </div>
 
                     {/* Mini progress bar */}
@@ -172,7 +172,7 @@ export function ReplacementProgressIndicator({ trackId, onViewResult, className 
                     <Eye className="w-3.5 h-3.5 opacity-60" />
 
                     {completedTasks.length > 1 && (
-                      <Badge variant="secondary" className="h-4 px-1 text-[10px] bg-green-500/20">
+                      <Badge variant="secondary" className="h-4 px-1 text-[0.625rem] bg-green-500/20">
                         +{completedTasks.length - 1}
                       </Badge>
                     )}

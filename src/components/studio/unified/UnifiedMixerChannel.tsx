@@ -185,14 +185,14 @@ export const UnifiedMixerChannel = memo(function UnifiedMixerChannel({
         </div>
 
         {/* Volume Value */}
-        <span className="text-[10px] font-mono text-muted-foreground mb-2">
+        <span className="text-[0.625rem] font-mono text-muted-foreground mb-2">
           {muted ? "M" : `${Math.round(volume * 100)}`}
         </span>
 
         {/* Pan Control */}
         {onPanChange && (
           <div className="w-full mb-2">
-            <div className="flex justify-between text-[9px] text-muted-foreground mb-0.5">
+            <div className="flex justify-between text-[0.5625rem] text-muted-foreground mb-0.5">
               <span>L</span>
               <span>R</span>
             </div>
@@ -205,7 +205,7 @@ export const UnifiedMixerChannel = memo(function UnifiedMixerChannel({
               onChange={(e) => onPanChange(parseFloat(e.target.value))}
               className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer"
             />
-            <div className="text-center text-[9px] text-muted-foreground mt-0.5">
+            <div className="text-center text-[0.5625rem] text-muted-foreground mt-0.5">
               {pan === 0 ? "C" : pan < 0 ? `L${Math.abs(Math.round(pan * 100))}` : `R${Math.round(pan * 100)}`}
             </div>
           </div>
@@ -267,7 +267,7 @@ export const UnifiedMixerChannel = memo(function UnifiedMixerChannel({
         </div>
 
         {/* Name */}
-        <p className="text-[10px] font-medium text-center truncate w-full mb-1">{config.shortLabel}</p>
+        <p className="text-[0.625rem] font-medium text-center truncate w-full mb-1">{config.shortLabel}</p>
 
         {/* Mini Fader */}
         <div className="h-16 w-6 relative mb-1">
@@ -295,7 +295,7 @@ export const UnifiedMixerChannel = memo(function UnifiedMixerChannel({
           <button
             onClick={handleMute}
             className={cn(
-              "min-w-[44px] min-h-[44px] px-2 rounded text-[10px] font-bold transition-colors",
+              "min-w-[44px] min-h-[44px] px-2 rounded text-[0.625rem] font-bold transition-colors",
               muted ? "bg-destructive text-destructive-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80",
             )}
           >
@@ -304,7 +304,7 @@ export const UnifiedMixerChannel = memo(function UnifiedMixerChannel({
           <button
             onClick={handleSolo}
             className={cn(
-              "min-w-[44px] min-h-[44px] px-2 rounded text-[10px] font-bold transition-colors",
+              "min-w-[44px] min-h-[44px] px-2 rounded text-[0.625rem] font-bold transition-colors",
               solo ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80",
             )}
           >

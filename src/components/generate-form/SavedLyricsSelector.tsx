@@ -97,17 +97,17 @@ export function SavedLyricsSelector({ open, onOpenChange, onSelect }: SavedLyric
 
                   <div className="flex items-center gap-2 flex-wrap">
                     {template.genre && (
-                      <Badge variant="outline" className="text-[10px] h-5">
+                      <Badge variant="outline" className="text-[0.625rem] h-5">
                         <Tag className="w-3 h-3 mr-1" />
                         {template.genre}
                       </Badge>
                     )}
                     {template.mood && (
-                      <Badge variant="secondary" className="text-[10px] h-5">
+                      <Badge variant="secondary" className="text-[0.625rem] h-5">
                         {template.mood}
                       </Badge>
                     )}
-                    <span className="text-[10px] text-muted-foreground flex items-center gap-1 ml-auto">
+                    <span className="text-[0.625rem] text-muted-foreground flex items-center gap-1 ml-auto">
                       <Clock className="w-3 h-3" />
                       {formatDistanceToNow(new Date(template.created_at), {
                         addSuffix: true,

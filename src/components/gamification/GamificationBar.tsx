@@ -120,7 +120,7 @@ export const GamificationBar = memo(function GamificationBar({ className }: Gami
                   </defs>
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[10px] sm:text-xs font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">
+                  <span className="text-[0.625rem] sm:text-xs font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">
                     {level}
                   </span>
                 </div>
@@ -288,7 +288,7 @@ const StatPill = memo(function StatPill({ icon, value, color, onClick, pulse, gl
       whileTap={{ scale: 0.95 }}
       className={cn(
         "relative flex items-center gap-1 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg",
-        "text-[10px] sm:text-xs font-semibold whitespace-nowrap",
+        "text-[0.625rem] sm:text-xs font-semibold whitespace-nowrap",
         "border backdrop-blur-sm",
         "transition-colors duration-150",
         colorStyles[color],

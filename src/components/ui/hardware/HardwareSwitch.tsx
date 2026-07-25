@@ -145,7 +145,7 @@ export const HardwareSwitch = memo(function HardwareSwitch({
       {toggle}
       <span
         className={cn(
-          "text-[10px] font-medium uppercase tracking-wide",
+          "text-[0.625rem] font-medium uppercase tracking-wide",
           on ? "text-foreground" : "text-muted-foreground",
         )}
       >
@@ -178,8 +178,8 @@ const ButtonSwitch = memo(function ButtonSwitch({
   className?: string;
 }) {
   const sizeClasses = {
-    sm: "w-8 h-8 text-[9px]",
-    md: "w-10 h-10 text-[10px]",
+    sm: "w-8 h-8 text-[0.5625rem]",
+    md: "w-10 h-10 text-[0.625rem]",
     lg: "w-12 h-12 text-xs",
   };
 
@@ -274,8 +274,8 @@ const RockerSwitch = memo(function RockerSwitch({
         }}
       >
         {/* Labels */}
-        <div className="absolute inset-x-0 top-1 text-center text-[8px] font-bold text-zinc-800">I</div>
-        <div className="absolute inset-x-0 bottom-1 text-center text-[8px] font-bold text-zinc-300">O</div>
+        <div className="absolute inset-x-0 top-1 text-center text-[0.5rem] font-bold text-zinc-800">I</div>
+        <div className="absolute inset-x-0 bottom-1 text-center text-[0.5rem] font-bold text-zinc-300">O</div>
       </div>
     </button>
   );
@@ -297,7 +297,7 @@ const RockerSwitch = memo(function RockerSwitch({
       {rocker}
       <span
         className={cn(
-          "text-[10px] font-medium uppercase tracking-wide",
+          "text-[0.625rem] font-medium uppercase tracking-wide",
           on ? "text-foreground" : "text-muted-foreground",
         )}
       >

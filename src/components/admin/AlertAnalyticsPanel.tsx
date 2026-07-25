@@ -327,15 +327,15 @@ export function AlertAnalyticsPanel() {
                 <div className="flex justify-around mb-3 sm:mb-4 text-center">
                   <div>
                     <div className="text-lg sm:text-2xl font-bold">{resolutionStats.avg}</div>
-                    <div className="text-[10px] sm:text-xs text-muted-foreground">Среднее</div>
+                    <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Среднее</div>
                   </div>
                   <div>
                     <div className="text-lg sm:text-2xl font-bold text-green-500">{resolutionStats.min}</div>
-                    <div className="text-[10px] sm:text-xs text-muted-foreground">Мин</div>
+                    <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Мин</div>
                   </div>
                   <div>
                     <div className="text-lg sm:text-2xl font-bold text-red-500">{resolutionStats.max}</div>
-                    <div className="text-[10px] sm:text-xs text-muted-foreground">Макс</div>
+                    <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Макс</div>
                   </div>
                 </div>
                 <ResponsiveContainer width="100%" height={100} className="sm:!h-[130px]">

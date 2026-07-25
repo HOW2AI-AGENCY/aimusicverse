@@ -257,7 +257,7 @@ export default function MusicGraph() {
                       <h3 className="font-semibold mb-3 flex items-center gap-2">
                         <Folder className="w-4 h-4 text-primary" />
                         {category.replace(/_/g, " ")}
-                        <Badge variant="secondary" className="ml-auto text-[10px]">
+                        <Badge variant="secondary" className="ml-auto text-[0.625rem]">
                           {categoryTags.length}
                         </Badge>
                       </h3>
@@ -296,7 +296,7 @@ export default function MusicGraph() {
                       <h3 className="font-semibold mb-3 flex items-center gap-2">
                         <Disc className="w-4 h-4 text-primary" />
                         {genre}
-                        <Badge variant="secondary" className="ml-auto text-[10px]">
+                        <Badge variant="secondary" className="ml-auto text-[0.625rem]">
                           {genreStyles.length}
                         </Badge>
                       </h3>

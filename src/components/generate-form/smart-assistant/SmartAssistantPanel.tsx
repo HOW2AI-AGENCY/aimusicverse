@@ -69,7 +69,7 @@ export const SmartAssistantPanel = memo(function SmartAssistantPanel({
               </div>
               <div>
                 <h3 className="font-semibold text-sm">Smart Assistant</h3>
-                <p className="text-[10px] text-muted-foreground">
+                <p className="text-[0.625rem] text-muted-foreground">
                   {hasContext ? "Персональные рекомендации" : "Начните генерацию для анализа"}
                 </p>
               </div>
@@ -91,18 +91,18 @@ export const SmartAssistantPanel = memo(function SmartAssistantPanel({
             {hasContext && (
               <div className="px-3 py-2 flex flex-wrap gap-1.5 border-b bg-muted/30">
                 {userContext && (
-                  <Badge variant="outline" className="text-[10px] gap-1">
+                  <Badge variant="outline" className="text-[0.625rem] gap-1">
                     <History className="h-3 w-3" />
                     {userContext.totalGenerations} генераций
                   </Badge>
                 )}
                 {userContext?.favoriteGenres.slice(0, 2).map((genre) => (
-                  <Badge key={genre} variant="secondary" className="text-[10px]">
+                  <Badge key={genre} variant="secondary" className="text-[0.625rem]">
                     {genre}
                   </Badge>
                 ))}
                 {projectContext && (
-                  <Badge variant="outline" className="text-[10px] gap-1">
+                  <Badge variant="outline" className="text-[0.625rem] gap-1">
                     <Folder className="h-3 w-3" />
                     {projectContext.projectTitle}
                   </Badge>
@@ -139,7 +139,7 @@ export const SmartAssistantPanel = memo(function SmartAssistantPanel({
 
             {/* Footer */}
             <div className="px-3 py-2 border-t bg-muted/30 flex items-center justify-between">
-              <span className="text-[10px] text-muted-foreground">
+              <span className="text-[0.625rem] text-muted-foreground">
                 {lastAnalyzedAt
                   ? `Обновлено: ${new Date(lastAnalyzedAt).toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" })}`
                   : "Не анализировано"}

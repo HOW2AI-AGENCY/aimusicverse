@@ -42,7 +42,7 @@ export function ProducerToolPanel({ context, onExecute, onClose, isLoading }: To
             </div>
             <div>
               <h3 className="text-sm font-medium">Продюсерский разбор</h3>
-              <p className="text-[10px] text-muted-foreground">Профессиональные рекомендации</p>
+              <p className="text-[0.625rem] text-muted-foreground">Профессиональные рекомендации</p>
             </div>
           </div>
           <Button variant="ghost" size="icon" className="h-7 w-7" onClick={onClose}>
@@ -87,12 +87,12 @@ export function ProducerToolPanel({ context, onExecute, onClose, isLoading }: To
                   </div>
                   <div className="flex gap-1 flex-wrap">
                     {context.globalTags.slice(0, 4).map((tag, i) => (
-                      <Badge key={i} variant="secondary" className="text-[10px]">
+                      <Badge key={i} variant="secondary" className="text-[0.625rem]">
                         {tag}
                       </Badge>
                     ))}
                     {context.globalTags.length > 4 && (
-                      <Badge variant="outline" className="text-[10px]">
+                      <Badge variant="outline" className="text-[0.625rem]">
                         +{context.globalTags.length - 4}
                       </Badge>
                     )}
@@ -104,7 +104,7 @@ export function ProducerToolPanel({ context, onExecute, onClose, isLoading }: To
             {/* What will be analyzed */}
             <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20">
               <p className="text-xs font-medium text-amber-400 mb-1.5">Что будет проанализировано:</p>
-              <ul className="text-[10px] text-muted-foreground space-y-1">
+              <ul className="text-[0.625rem] text-muted-foreground space-y-1">
                 <li className="flex items-center gap-1.5">
                   <span className="w-1 h-1 rounded-full bg-amber-400" />
                   Коммерческий потенциал и хитовость

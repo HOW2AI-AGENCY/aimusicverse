@@ -127,7 +127,7 @@ function ActionCard({ icon, label, description, className, disabled, onClick }: 
     >
       {icon}
       <span className="text-xs sm:text-sm font-medium">{label}</span>
-      <span className="text-[10px] sm:text-xs text-muted-foreground text-center leading-tight">{description}</span>
+      <span className="text-[0.625rem] sm:text-xs text-muted-foreground text-center leading-tight">{description}</span>
     </button>
   );
 }

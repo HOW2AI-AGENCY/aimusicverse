@@ -132,16 +132,16 @@ export const GeneratingTrackSkeleton = ({
                 <div className="h-3.5 w-32 rounded bg-generate/20 animate-pulse" />
               )}
               {streamingReady && (
-                <Badge className="text-[9px] bg-primary/20 text-primary border-0 px-1.5">Стрим</Badge>
+                <Badge className="text-[0.5625rem] bg-primary/20 text-primary border-0 px-1.5">Стрим</Badge>
               )}
-              <Badge variant="outline" className="ml-auto text-[9px] border-generate/30 text-generate px-1.5">
+              <Badge variant="outline" className="ml-auto text-[0.5625rem] border-generate/30 text-generate px-1.5">
                 {progress}%
               </Badge>
             </div>
             <div className="flex items-center gap-2">
               <Loader2 className="w-3 h-3 text-generate animate-spin" />
-              <span className="text-[10px] font-medium text-generate truncate">{statusMessage}</span>
-              {model && <span className="text-[9px] text-muted-foreground uppercase">{model}</span>}
+              <span className="text-[0.625rem] font-medium text-generate truncate">{statusMessage}</span>
+              {model && <span className="text-[0.5625rem] text-muted-foreground uppercase">{model}</span>}
             </div>
             <div className="relative h-1 bg-muted/50 rounded-full overflow-hidden">
               <motion.div
@@ -151,9 +151,9 @@ export const GeneratingTrackSkeleton = ({
               />
             </div>
             {style ? (
-              <p className="text-[10px] text-muted-foreground truncate">{style}</p>
+              <p className="text-[0.625rem] text-muted-foreground truncate">{style}</p>
             ) : prompt ? (
-              <p className="text-[10px] text-muted-foreground truncate">{prompt.substring(0, 60)}...</p>
+              <p className="text-[0.625rem] text-muted-foreground truncate">{prompt.substring(0, 60)}...</p>
             ) : (
               <div className="h-2 w-24 rounded bg-muted/40 animate-pulse" />
             )}
@@ -202,7 +202,7 @@ export const GeneratingTrackSkeleton = ({
 
         {/* Streaming badge */}
         {streamingReady && (
-          <Badge className="absolute top-2 left-2 z-20 bg-primary/90 text-primary-foreground border-0 text-[10px] gap-1">
+          <Badge className="absolute top-2 left-2 z-20 bg-primary/90 text-primary-foreground border-0 text-[0.625rem] gap-1">
             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
             Стрим готов
           </Badge>
@@ -236,8 +236,8 @@ export const GeneratingTrackSkeleton = ({
 
         <div className="flex items-center gap-1.5">
           <Loader2 className="w-3.5 h-3.5 text-generate animate-spin flex-shrink-0" />
-          <span className="text-[10px] font-medium text-generate truncate">{statusMessage}</span>
-          <Badge variant="outline" className="ml-auto text-[9px] border-generate/30 text-generate px-1.5">
+          <span className="text-[0.625rem] font-medium text-generate truncate">{statusMessage}</span>
+          <Badge variant="outline" className="ml-auto text-[0.5625rem] border-generate/30 text-generate px-1.5">
             {progress}%
           </Badge>
         </div>
@@ -251,9 +251,9 @@ export const GeneratingTrackSkeleton = ({
         </div>
 
         {style ? (
-          <p className="text-[10px] text-muted-foreground line-clamp-1 animate-fade-in">{style}</p>
+          <p className="text-[0.625rem] text-muted-foreground line-clamp-1 animate-fade-in">{style}</p>
         ) : prompt ? (
-          <p className="text-[10px] text-muted-foreground line-clamp-1">{prompt}</p>
+          <p className="text-[0.625rem] text-muted-foreground line-clamp-1">{prompt}</p>
         ) : (
           <div className="h-2.5 w-1/2 rounded bg-muted/40 animate-pulse" />
         )}

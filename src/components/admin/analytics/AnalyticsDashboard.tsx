@@ -295,7 +295,7 @@ function QuickStatCard({ icon: Icon, label, value, subtext, iconColor }: QuickSt
             <p className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1 truncate">
               {typeof value === "number" ? value.toLocaleString() : value}
             </p>
-            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 truncate">{subtext}</p>
+            <p className="text-[0.625rem] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 truncate">{subtext}</p>
           </div>
           <Icon className={`h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 ${iconColor}`} />
         </div>

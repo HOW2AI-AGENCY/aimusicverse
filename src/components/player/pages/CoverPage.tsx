@@ -46,10 +46,10 @@ export function CoverPage({ track }: CoverPageProps) {
       </motion.div>
 
       <div className="mt-6 w-full max-w-[22rem] text-center">
-        <h1 className="truncate font-display text-[20px] font-semibold leading-tight text-foreground">
+        <h1 className="truncate font-display text-[1.25rem] font-semibold leading-tight text-foreground">
           {track.title || "Без названия"}
         </h1>
-        {track.style && <p className="mt-1 truncate text-[13px] text-muted-foreground/80">{track.style}</p>}
+        {track.style && <p className="mt-1 truncate text-[0.8125rem] text-muted-foreground/80">{track.style}</p>}
       </div>
     </div>
   );

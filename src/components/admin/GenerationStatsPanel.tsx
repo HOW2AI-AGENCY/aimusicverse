@@ -59,7 +59,7 @@ export function GenerationStatsPanel() {
             <BarChart3 className="h-4 w-4 md:h-5 md:w-5 flex-shrink-0" />
             <span className="truncate">Генерации</span>
           </h2>
-          <p className="text-[10px] md:text-sm text-muted-foreground">Агрегированные данные</p>
+          <p className="text-[0.625rem] md:text-sm text-muted-foreground">Агрегированные данные</p>
         </div>
         <div className="flex gap-1.5">
           <Select value={days} onValueChange={setDays}>
@@ -89,7 +89,7 @@ export function GenerationStatsPanel() {
                 <Activity className="h-3 w-3 md:h-4 md:w-4 text-primary" />
               </div>
               <div className="text-sm md:text-xl font-bold">{stats?.total_generations?.toLocaleString() || 0}</div>
-              <div className="text-[8px] md:text-[10px] text-muted-foreground">Ген.</div>
+              <div className="text-[0.5rem] md:text-[0.625rem] text-muted-foreground">Ген.</div>
             </div>
           </CardContent>
         </Card>
@@ -101,7 +101,7 @@ export function GenerationStatsPanel() {
                 <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-green-500" />
               </div>
               <div className="text-sm md:text-xl font-bold text-green-600">{successRate}%</div>
-              <div className="text-[8px] md:text-[10px] text-muted-foreground">Усп.</div>
+              <div className="text-[0.5rem] md:text-[0.625rem] text-muted-foreground">Усп.</div>
             </div>
           </CardContent>
         </Card>
@@ -113,7 +113,7 @@ export function GenerationStatsPanel() {
                 <Users className="h-3 w-3 md:h-4 md:w-4 text-blue-500" />
               </div>
               <div className="text-sm md:text-xl font-bold">{stats?.unique_users || 0}</div>
-              <div className="text-[8px] md:text-[10px] text-muted-foreground">Юзеров</div>
+              <div className="text-[0.5rem] md:text-[0.625rem] text-muted-foreground">Юзеров</div>
             </div>
           </CardContent>
         </Card>
@@ -125,7 +125,7 @@ export function GenerationStatsPanel() {
                 <Coins className="h-3 w-3 md:h-4 md:w-4 text-amber-500" />
               </div>
               <div className="text-sm md:text-xl font-bold">{stats?.total_credits_spent?.toLocaleString() || 0}</div>
-              <div className="text-[8px] md:text-[10px] text-muted-foreground">Кред.</div>
+              <div className="text-[0.5rem] md:text-[0.625rem] text-muted-foreground">Кред.</div>
             </div>
           </CardContent>
         </Card>
@@ -141,32 +141,32 @@ export function GenerationStatsPanel() {
             <div className="p-1.5 md:p-2 rounded-lg bg-muted/50 text-center">
               <Music className="h-3 w-3 md:h-4 md:w-4 mx-auto text-violet-500" />
               <div className="text-xs md:text-sm font-bold">{stats?.total_music || 0}</div>
-              <div className="text-[8px] md:text-[10px] text-muted-foreground">Муз.</div>
+              <div className="text-[0.5rem] md:text-[0.625rem] text-muted-foreground">Муз.</div>
             </div>
             <div className="p-1.5 md:p-2 rounded-lg bg-muted/50 text-center">
               <Mic className="h-3 w-3 md:h-4 md:w-4 mx-auto text-pink-500" />
               <div className="text-xs md:text-sm font-bold">{stats?.total_vocals || 0}</div>
-              <div className="text-[8px] md:text-[10px] text-muted-foreground">Вок.</div>
+              <div className="text-[0.5rem] md:text-[0.625rem] text-muted-foreground">Вок.</div>
             </div>
             <div className="p-1.5 md:p-2 rounded-lg bg-muted/50 text-center">
               <Guitar className="h-3 w-3 md:h-4 md:w-4 mx-auto text-orange-500" />
               <div className="text-xs md:text-sm font-bold">{stats?.total_instrumental || 0}</div>
-              <div className="text-[8px] md:text-[10px] text-muted-foreground">Инстр.</div>
+              <div className="text-[0.5rem] md:text-[0.625rem] text-muted-foreground">Инстр.</div>
             </div>
             <div className="p-1.5 md:p-2 rounded-lg bg-muted/50 text-center">
               <TrendingUp className="h-3 w-3 md:h-4 md:w-4 mx-auto text-cyan-500" />
               <div className="text-xs md:text-sm font-bold">{stats?.total_extend || 0}</div>
-              <div className="text-[8px] md:text-[10px] text-muted-foreground">Ext.</div>
+              <div className="text-[0.5rem] md:text-[0.625rem] text-muted-foreground">Ext.</div>
             </div>
             <div className="p-1.5 md:p-2 rounded-lg bg-muted/50 text-center">
               <Scissors className="h-3 w-3 md:h-4 md:w-4 mx-auto text-green-500" />
               <div className="text-xs md:text-sm font-bold">{stats?.total_stems || 0}</div>
-              <div className="text-[8px] md:text-[10px] text-muted-foreground">Стем.</div>
+              <div className="text-[0.5rem] md:text-[0.625rem] text-muted-foreground">Стем.</div>
             </div>
             <div className="p-1.5 md:p-2 rounded-lg bg-muted/50 text-center">
               <Layers className="h-3 w-3 md:h-4 md:w-4 mx-auto text-indigo-500" />
               <div className="text-xs md:text-sm font-bold">{stats?.total_cover || 0}</div>
-              <div className="text-[8px] md:text-[10px] text-muted-foreground">Кав.</div>
+              <div className="text-[0.5rem] md:text-[0.625rem] text-muted-foreground">Кав.</div>
             </div>
           </div>
         </CardContent>
@@ -185,12 +185,12 @@ export function GenerationStatsPanel() {
                   <div key={day.date} className="flex items-center justify-between p-1.5 rounded-lg hover:bg-muted/50">
                     <div>
                       <div className="font-medium text-xs">{format(new Date(day.date), "dd MMM")}</div>
-                      <div className="text-[10px] text-muted-foreground">
+                      <div className="text-[0.625rem] text-muted-foreground">
                         <span className="text-green-600">✓{day.successful_count}</span>
                         {day.failed_count > 0 && <span className="text-red-500 ml-1">✗{day.failed_count}</span>}
                       </div>
                     </div>
-                    <Badge variant="outline" className="text-[10px] h-5 px-1.5">
+                    <Badge variant="outline" className="text-[0.625rem] h-5 px-1.5">
                       {day.generations_count}
                     </Badge>
                   </div>
@@ -213,8 +213,8 @@ export function GenerationStatsPanel() {
               <div className="space-y-1.5">
                 {topUsers?.map((user, idx) => (
                   <div key={user.user_id} className="flex items-center gap-1.5 p-1.5 rounded-lg hover:bg-muted/50">
-                    <span className="text-[10px] text-muted-foreground w-3">{idx + 1}</span>
-                    <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-medium overflow-hidden flex-shrink-0">
+                    <span className="text-[0.625rem] text-muted-foreground w-3">{idx + 1}</span>
+                    <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[0.625rem] font-medium overflow-hidden flex-shrink-0">
                       {user.photo_url ? (
                         <LazyImage src={user.photo_url} alt="" className="w-full h-full object-cover" />
                       ) : (
@@ -224,10 +224,10 @@ export function GenerationStatsPanel() {
                     <div className="flex-1 min-w-0">
                       <div className="font-medium text-xs truncate">{user.first_name}</div>
                       {user.username && (
-                        <div className="text-[10px] text-muted-foreground truncate">@{user.username}</div>
+                        <div className="text-[0.625rem] text-muted-foreground truncate">@{user.username}</div>
                       )}
                     </div>
-                    <Badge variant="secondary" className="text-[10px] h-5 px-1.5">
+                    <Badge variant="secondary" className="text-[0.625rem] h-5 px-1.5">
                       {user.total_generations}
                     </Badge>
                   </div>

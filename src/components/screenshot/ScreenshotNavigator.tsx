@@ -277,7 +277,7 @@ export const ScreenshotNavigator = () => {
             </div>
 
             {/* Keyboard hints */}
-            <div className="flex items-center justify-center gap-4 text-[10px] text-muted-foreground">
+            <div className="flex items-center justify-center gap-4 text-[0.625rem] text-muted-foreground">
               <span>← → навигация</span>
               <span>Ctrl+H скрыть</span>
               <span>Esc выход</span>

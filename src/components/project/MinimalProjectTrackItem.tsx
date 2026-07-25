@@ -295,23 +295,23 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
             <div className="flex items-center gap-1 mt-0.5 flex-wrap">
               <Badge
                 variant="outline"
-                className={cn("text-[9px] h-3.5 px-1 shrink-0", statusConfig.color, "border-current/30")}
+                className={cn("text-[0.5625rem] h-3.5 px-1 shrink-0", statusConfig.color, "border-current/30")}
               >
                 <StatusIcon className="w-2 h-2 mr-0.5" />
                 {statusConfig.label}
               </Badge>
               {track.bpm_target && (
-                <span className="text-[9px] text-muted-foreground bg-muted/50 px-1 rounded">
+                <span className="text-[0.5625rem] text-muted-foreground bg-muted/50 px-1 rounded">
                   {track.bpm_target}
                 </span>
               )}
               {track.key_signature && (
-                <span className="text-[9px] text-muted-foreground bg-muted/50 px-1 rounded">
+                <span className="text-[0.5625rem] text-muted-foreground bg-muted/50 px-1 rounded">
                   {track.key_signature}
                 </span>
               )}
               {track.energy_level && (
-                <span className="text-[9px] text-muted-foreground bg-muted/50 px-1 rounded">
+                <span className="text-[0.5625rem] text-muted-foreground bg-muted/50 px-1 rounded">
                   ⚡{track.energy_level}
                 </span>
               )}
@@ -319,7 +319,7 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
 
             {/* Hide style_prompt on mobile to save space */}
             {!isMobile && track.style_prompt && (
-              <p className="text-[10px] text-muted-foreground truncate">{track.style_prompt}</p>
+              <p className="text-[0.625rem] text-muted-foreground truncate">{track.style_prompt}</p>
             )}
 
 
@@ -327,7 +327,7 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
             {hasLyricsContent && (
               <motion.div
                 className={cn(
-                  "flex items-center gap-0.5 text-[9px] text-muted-foreground/70 rounded px-0.5 -mx-0.5",
+                  "flex items-center gap-0.5 text-[0.5625rem] text-muted-foreground/70 rounded px-0.5 -mx-0.5",
                   lyricsJustUpdated && "bg-primary/20",
                 )}
                 animate={
@@ -344,7 +344,7 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                     <span className={cn("flex items-center gap-0.5", lyricsStatusConfig.color)}>
                       <LyricsStatusIcon className="w-2.5 h-2.5" />
                       {lyricsJustUpdated && (
-                        <span className="text-[8px] text-primary font-medium ml-0.5">Обновлено!</span>
+                        <span className="text-[0.5rem] text-primary font-medium ml-0.5">Обновлено!</span>
                       )}
                     </span>
                   </TooltipTrigger>
@@ -383,8 +383,8 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                 className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-primary/10"
               >
                 <Loader2 className="w-3 h-3 animate-spin text-primary" />
-                <span className="text-[10px] font-medium text-primary">{generationStatus.stage}</span>
-                <span className="text-[9px] text-primary/60">{generationStatus.progress}%</span>
+                <span className="text-[0.625rem] font-medium text-primary">{generationStatus.stage}</span>
+                <span className="text-[0.5625rem] text-primary/60">{generationStatus.progress}%</span>
               </motion.div>
             ) : hasLinkedTrack ? (
               <Button size="icon" variant="ghost" onClick={handlePlay} className={isMobile ? "h-9 w-9" : "h-7 w-7"}>
@@ -403,7 +403,7 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                     disabled={!isReadyToGenerate}
                     className={cn(
                       "gap-0.5",
-                      isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-[10px]",
+                      isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-[0.625rem]",
                       !isReadyToGenerate && "opacity-50 cursor-not-allowed",
                       lyricsStatus === "prompt" ? "bg-amber-500/80 hover:bg-amber-500" : "bg-primary/90",
                     )}

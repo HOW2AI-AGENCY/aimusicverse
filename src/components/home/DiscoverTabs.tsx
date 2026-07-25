@@ -288,14 +288,14 @@ export const DiscoverTabs = memo(function DiscoverTabs({
           <TrendingUp className="h-3.5 w-3.5" />
           Популярное
           {popularTracks.length > 0 && (
-            <span className="ml-1 text-[10px] text-muted-foreground tabular-nums">{popularTracks.length}</span>
+            <span className="ml-1 text-[0.625rem] text-muted-foreground tabular-nums">{popularTracks.length}</span>
           )}
         </TabsTrigger>
         <TabsTrigger value="new" className="text-xs sm:text-sm gap-1.5">
           <Sparkles className="h-3.5 w-3.5" />
           Новинки
           {recentTracks.length > 0 && (
-            <span className="ml-1 text-[10px] text-muted-foreground tabular-nums">{recentTracks.length}</span>
+            <span className="ml-1 text-[0.625rem] text-muted-foreground tabular-nums">{recentTracks.length}</span>
           )}
         </TabsTrigger>
       </TabsList>

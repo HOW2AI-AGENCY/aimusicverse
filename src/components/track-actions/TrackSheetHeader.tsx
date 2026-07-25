@@ -68,7 +68,7 @@ export const TrackSheetHeader = memo(function TrackSheetHeader({
 
         {/* HD Badge */}
         {hasHD && (
-          <Badge className="absolute -top-1 -right-1 px-1 py-0 text-[8px] font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
+          <Badge className="absolute -top-1 -right-1 px-1 py-0 text-[0.5rem] font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
             HD
           </Badge>
         )}
@@ -76,7 +76,7 @@ export const TrackSheetHeader = memo(function TrackSheetHeader({
         {/* Duration badge on cover */}
         {duration && (
           <div
-            className={cn("absolute bottom-0.5 right-0.5 text-[9px] px-1 py-0.5 rounded font-medium", pill.glassDark)}
+            className={cn("absolute bottom-0.5 right-0.5 text-[0.5625rem] px-1 py-0.5 rounded font-medium", pill.glassDark)}
           >
             {duration}
           </div>
@@ -92,7 +92,7 @@ export const TrackSheetHeader = memo(function TrackSheetHeader({
         <div className="flex items-center gap-1">
           <TrackTypeIcons track={track} compact showModel hasMidi={hasMidi} hasPdf={hasNotes} />
           {stemCount > 0 && (
-            <Badge variant="secondary" className="h-4 px-1 text-[9px] gap-0.5">
+            <Badge variant="secondary" className="h-4 px-1 text-[0.5625rem] gap-0.5">
               {stemCount} stems
             </Badge>
           )}

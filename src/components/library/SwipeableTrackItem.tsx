@@ -168,7 +168,7 @@ export function SwipeableTrackItem({
               </motion.div>
             )}
           </AnimatePresence>
-          <span className="text-[10px] font-semibold tracking-wide">Очередь</span>
+          <span className="text-[0.625rem] font-semibold tracking-wide">Очередь</span>
         </motion.button>
       </motion.div>
 
@@ -220,7 +220,7 @@ export function SwipeableTrackItem({
                 </motion.div>
               )}
             </AnimatePresence>
-            <span className="text-[10px] font-semibold tracking-wide">Версия</span>
+            <span className="text-[0.625rem] font-semibold tracking-wide">Версия</span>
           </motion.button>
         </motion.div>
       )}

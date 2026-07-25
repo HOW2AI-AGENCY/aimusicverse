@@ -123,11 +123,11 @@ export function AudioClipBlock({ clip, trackColor, zoom, isSelected, onSelect, o
       {/* Clip Info */}
       <div className="absolute inset-x-0 top-0 px-2 py-1 flex items-center gap-1">
         <GripVertical className="h-3 w-3 opacity-50 flex-shrink-0" />
-        <span className="text-[10px] font-medium truncate text-foreground/80">{clip.name}</span>
+        <span className="text-[0.625rem] font-medium truncate text-foreground/80">{clip.name}</span>
       </div>
 
       {/* Duration */}
-      <div className="absolute bottom-1 right-2 text-[9px] text-foreground/50">{effectiveDuration.toFixed(1)}s</div>
+      <div className="absolute bottom-1 right-2 text-[0.5625rem] text-foreground/50">{effectiveDuration.toFixed(1)}s</div>
 
       {/* Resize Handles */}
       {isSelected && (

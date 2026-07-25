@@ -103,7 +103,7 @@ function AverageCard({ label, value, trend = "neutral" }: AverageCardProps) {
 
   return (
     <div className="flex flex-col items-center p-1.5 sm:p-2 bg-muted/30 rounded-lg">
-      <span className="text-[10px] sm:text-xs text-muted-foreground">{label}</span>
+      <span className="text-[0.625rem] sm:text-xs text-muted-foreground">{label}</span>
       <div className="flex items-center gap-0.5 sm:gap-1">
         <span className="text-sm sm:text-lg font-bold">{value}%</span>
         <TrendIcon className={cn("w-2.5 h-2.5 sm:w-3 sm:h-3", trendColor)} />
@@ -155,7 +155,7 @@ export function RetentionHeatmap() {
               <Users className="h-4 w-4" />
               Retention по когортам
             </CardTitle>
-            <CardDescription className="text-[10px] sm:text-xs mt-1 hidden sm:block">
+            <CardDescription className="text-[0.625rem] sm:text-xs mt-1 hidden sm:block">
               Удержание пользователей по дате регистрации
             </CardDescription>
           </div>
@@ -187,8 +187,8 @@ export function RetentionHeatmap() {
         )}
 
         {/* Summary Badge */}
-        <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-muted-foreground flex-wrap">
-          <Badge variant="secondary" className="text-[10px] sm:text-xs h-5">
+        <div className="flex items-center gap-1.5 sm:gap-2 text-[0.625rem] sm:text-xs text-muted-foreground flex-wrap">
+          <Badge variant="secondary" className="text-[0.625rem] sm:text-xs h-5">
             {totalUsers} пользователей
           </Badge>
           <span>за {TIME_RANGE_OPTIONS.find((o) => o.value === timeRange)?.label}</span>

@@ -202,7 +202,7 @@ export function SectionEditorSheet({
           </Button>
           <div className="flex-1">
             <p className="text-xs font-medium">Прослушать секцию</p>
-            <p className="text-[10px] text-muted-foreground">
+            <p className="text-[0.625rem] text-muted-foreground">
               {formatTime(startTime)} — {formatTime(endTime)}
             </p>
           </div>

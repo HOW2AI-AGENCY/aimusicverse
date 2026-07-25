@@ -195,14 +195,14 @@ export function TagsEditor({
                           onClick={() => handleRemoveTag(tag)}
                         >
                           <span>{tagInfo?.label || tag}</span>
-                          <span className="text-[10px] opacity-60">[{tag}]</span>
+                          <span className="text-[0.625rem] opacity-60">[{tag}]</span>
                           <X className="w-3 h-3 ml-0.5" />
                         </Badge>
                       </TooltipTrigger>
                       {tagInfo && (
                         <TooltipContent side="top" className="max-w-xs">
                           <p className="text-xs">{tagInfo.hint}</p>
-                          <p className="text-[10px] text-muted-foreground mt-1">Вставляется как: [{tagInfo.value}]</p>
+                          <p className="text-[0.625rem] text-muted-foreground mt-1">Вставляется как: [{tagInfo.value}]</p>
                         </TooltipContent>
                       )}
                     </Tooltip>
@@ -310,7 +310,7 @@ export function TagsEditor({
                                 <span className="flex items-center gap-2">
                                   <Icon className="w-4 h-4 text-muted-foreground" />
                                   <span>{category.label}</span>
-                                  <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                                  <Badge variant="secondary" className="text-[0.625rem] px-1.5 py-0">
                                     {availableTags.length}
                                   </Badge>
                                 </span>
@@ -343,7 +343,7 @@ export function TagsEditor({
                                       <TooltipContent side="top" className="max-w-xs">
                                         <p className="font-medium">{tag.label}</p>
                                         <p className="text-xs text-muted-foreground mt-1">{tag.hint}</p>
-                                        <p className="text-[10px] text-primary mt-1">→ [{tag.value}]</p>
+                                        <p className="text-[0.625rem] text-primary mt-1">→ [{tag.value}]</p>
                                       </TooltipContent>
                                     </Tooltip>
                                   ))

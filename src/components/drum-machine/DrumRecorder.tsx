@@ -163,7 +163,7 @@ export const DrumRecorder = memo(function DrumRecorder({
 
       {/* Idle state hint */}
       {recordingState === "idle" && !isPlaying && (
-        <span className="text-[10px] text-muted-foreground">Запустите воспроизведение для записи</span>
+        <span className="text-[0.625rem] text-muted-foreground">Запустите воспроизведение для записи</span>
       )}
     </div>
   );

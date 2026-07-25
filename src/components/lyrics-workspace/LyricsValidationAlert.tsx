@@ -193,7 +193,7 @@ export function LyricsValidationAlert({ lyrics, onAutoFix, compact = false, clas
                         {issue.fix && <p className="text-xs text-muted-foreground mt-0.5">💡 {issue.fix}</p>}
                       </div>
                       {issue.autoFixable && (
-                        <Badge variant="secondary" className="text-[10px] shrink-0">
+                        <Badge variant="secondary" className="text-[0.625rem] shrink-0">
                           Auto-fix
                         </Badge>
                       )}

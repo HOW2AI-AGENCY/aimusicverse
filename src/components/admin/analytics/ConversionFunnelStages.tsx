@@ -106,7 +106,7 @@ export function ConversionFunnelStages({ data, isLoading }: ConversionFunnelStag
             <CardTitle className="text-sm sm:text-base">Воронка конверсии диплинков</CardTitle>
             <CardDescription className="text-xs sm:text-sm">От визита до оплаты</CardDescription>
           </div>
-          <Badge variant="outline" className="text-[10px] sm:text-sm w-fit">
+          <Badge variant="outline" className="text-[0.625rem] sm:text-sm w-fit">
             Общая конв.: {overallConversion}%
           </Badge>
         </div>
@@ -125,7 +125,7 @@ export function ConversionFunnelStages({ data, isLoading }: ConversionFunnelStag
                   <div className="flex justify-center">
                     <div
                       className={cn(
-                        "text-[9px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full",
+                        "text-[0.5625rem] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full",
                         conversionRate >= 50
                           ? "bg-green-500/10 text-green-500"
                           : conversionRate >= 25
@@ -148,7 +148,7 @@ export function ConversionFunnelStages({ data, isLoading }: ConversionFunnelStag
                 >
                   <div className="flex items-center gap-1.5 sm:gap-2 text-white">
                     <Icon className="h-3 w-3 sm:h-4 sm:w-4" />
-                    <span className="text-[10px] sm:text-sm font-medium">{stage.label}</span>
+                    <span className="text-[0.625rem] sm:text-sm font-medium">{stage.label}</span>
                   </div>
                   <span className="text-white font-bold text-xs sm:text-base">{stage.count.toLocaleString()}</span>
                 </motion.div>
@@ -161,15 +161,15 @@ export function ConversionFunnelStages({ data, isLoading }: ConversionFunnelStag
         <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-4 sm:mt-6 pt-3 sm:pt-4 border-t">
           <div className="text-center">
             <div className="text-lg sm:text-2xl font-bold text-primary">{conversionRates[1]?.rate || 0}%</div>
-            <div className="text-[9px] sm:text-xs text-muted-foreground">Engaged → Reg</div>
+            <div className="text-[0.5625rem] sm:text-xs text-muted-foreground">Engaged → Reg</div>
           </div>
           <div className="text-center">
             <div className="text-lg sm:text-2xl font-bold text-primary">{conversionRates[4]?.rate || 0}%</div>
-            <div className="text-[9px] sm:text-xs text-muted-foreground">Gen → Complete</div>
+            <div className="text-[0.5625rem] sm:text-xs text-muted-foreground">Gen → Complete</div>
           </div>
           <div className="text-center">
             <div className="text-lg sm:text-2xl font-bold text-primary">{conversionRates[5]?.rate || 0}%</div>
-            <div className="text-[9px] sm:text-xs text-muted-foreground">Complete → Pay</div>
+            <div className="text-[0.5625rem] sm:text-xs text-muted-foreground">Complete → Pay</div>
           </div>
         </div>
       </CardContent>

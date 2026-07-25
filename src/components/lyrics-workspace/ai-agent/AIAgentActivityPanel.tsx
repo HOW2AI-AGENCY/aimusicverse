@@ -112,7 +112,7 @@ export function AIAgentActivityPanel({
           </div>
           <div className="min-w-0">
             <p className="text-xs font-medium truncate">{actionLabel}</p>
-            <p className="text-[10px] text-muted-foreground truncate">{workingFile}</p>
+            <p className="text-[0.625rem] text-muted-foreground truncate">{workingFile}</p>
           </div>
         </div>
         <ChevronDown
@@ -134,10 +134,10 @@ export function AIAgentActivityPanel({
               <div className="flex items-start gap-2 p-2 rounded-lg bg-background/50 border border-border/30">
                 <FileText className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
                 <div className="min-w-0">
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Файл</p>
+                  <p className="text-[0.625rem] text-muted-foreground uppercase tracking-wide">Файл</p>
                   <p className="text-xs font-medium truncate">{workingFile}</p>
                   {context.existingLyrics && (
-                    <p className="text-[10px] text-muted-foreground">{context.existingLyrics.length} символов</p>
+                    <p className="text-[0.625rem] text-muted-foreground">{context.existingLyrics.length} символов</p>
                   )}
                 </div>
               </div>
@@ -145,24 +145,24 @@ export function AIAgentActivityPanel({
               {/* Context */}
               <div className="flex flex-wrap gap-1.5">
                 {context.projectContext?.projectTitle && (
-                  <Badge variant="secondary" className="text-[10px] gap-1">
+                  <Badge variant="secondary" className="text-[0.625rem] gap-1">
                     <Folder className="w-3 h-3" />
                     {context.projectContext.projectTitle}
                   </Badge>
                 )}
                 {context.trackContext && (
-                  <Badge variant="outline" className="text-[10px] gap-1">
+                  <Badge variant="outline" className="text-[0.625rem] gap-1">
                     <Music className="w-3 h-3" />#{context.trackContext.position + 1} {context.trackContext.title}
                   </Badge>
                 )}
                 {context.selectedSection?.type && (
-                  <Badge variant="outline" className="text-[10px] gap-1">
+                  <Badge variant="outline" className="text-[0.625rem] gap-1">
                     <FileText className="w-3 h-3" />
                     {context.selectedSection.type}
                   </Badge>
                 )}
                 {context.existingLyrics && (
-                  <Badge variant="outline" className="text-[10px] gap-1">
+                  <Badge variant="outline" className="text-[0.625rem] gap-1">
                     <FileText className="w-3 h-3" />
                     {context.existingLyrics.length} симв
                   </Badge>
@@ -172,7 +172,7 @@ export function AIAgentActivityPanel({
               {/* Recent actions */}
               {recentActions.length > 0 && (
                 <div className="pt-1">
-                  <div className="flex items-center gap-1.5 mb-1.5 text-[10px] text-muted-foreground uppercase tracking-wide">
+                  <div className="flex items-center gap-1.5 mb-1.5 text-[0.625rem] text-muted-foreground uppercase tracking-wide">
                     <Activity className="w-3 h-3" />
                     <span>Действия агента</span>
                   </div>
@@ -195,7 +195,7 @@ export function AIAgentActivityPanel({
                           <Check className="w-3 h-3 shrink-0" />
                         )}
                         <span className="flex-1 truncate">{action.label}</span>
-                        <span className="text-[10px] text-muted-foreground shrink-0 flex items-center gap-0.5">
+                        <span className="text-[0.625rem] text-muted-foreground shrink-0 flex items-center gap-0.5">
                           <Clock className="w-3 h-3" />
                           {formatShortTime(action.timestamp)}
                         </span>
@@ -208,7 +208,7 @@ export function AIAgentActivityPanel({
               {/* Tasks */}
               {workflow && workflow.steps.length > 0 && (
                 <div className="pt-1">
-                  <div className="flex items-center gap-1.5 mb-1.5 text-[10px] text-muted-foreground uppercase tracking-wide">
+                  <div className="flex items-center gap-1.5 mb-1.5 text-[0.625rem] text-muted-foreground uppercase tracking-wide">
                     <ListChecks className="w-3 h-3" />
                     <span>Задачи</span>
                   </div>
@@ -235,7 +235,7 @@ export function AIAgentActivityPanel({
                         >
                           <div
                             className={cn(
-                              "w-4 h-4 rounded-full flex items-center justify-center border text-[8px] shrink-0",
+                              "w-4 h-4 rounded-full flex items-center justify-center border text-[0.5rem] shrink-0",
                               isComplete && "bg-emerald-500 border-emerald-500 text-background",
                               isCurrent && "border-primary",
                               isPending && "border-muted-foreground/40",

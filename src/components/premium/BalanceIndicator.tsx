@@ -118,7 +118,7 @@ export const BalanceIndicator = memo(function BalanceIndicator({ compact = false
 
         {/* Balance limit badge for free users */}
         {isFreeUser && isBalanceLimitReached && !compact && (
-          <span className="text-[10px] px-1 py-0.5 rounded bg-amber-500/20 text-amber-500 font-medium">MAX</span>
+          <span className="text-[0.625rem] px-1 py-0.5 rounded bg-amber-500/20 text-amber-500 font-medium">MAX</span>
         )}
       </motion.button>
 

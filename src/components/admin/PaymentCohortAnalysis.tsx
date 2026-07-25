@@ -120,19 +120,19 @@ export function PaymentCohortAnalysis() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
               <div className="text-lg sm:text-xl font-bold text-primary">{summary.avgConversion}%</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground">Ср. конверсия</div>
+              <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Ср. конверсия</div>
             </div>
             <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
               <div className="text-lg sm:text-xl font-bold">{formatCurrency(summary.totalRevenue)}</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground">Общий доход</div>
+              <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Общий доход</div>
             </div>
             <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
               <div className="text-lg sm:text-xl font-bold">{summary.avgDaysToPayment}</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground">Дней до оплаты</div>
+              <div className="text-[0.625rem] sm:text-xs text-muted-foreground">Дней до оплаты</div>
             </div>
             <div className="bg-muted/30 rounded-lg p-2 sm:p-3 text-center">
               <div className="text-lg sm:text-xl font-bold text-green-500">{summary.bestRate}%</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground truncate">
+              <div className="text-[0.625rem] sm:text-xs text-muted-foreground truncate">
                 {formatMonth(summary.bestCohort)}
               </div>
             </div>
@@ -143,7 +143,7 @@ export function PaymentCohortAnalysis() {
         <ScrollArea className="w-full">
           <div className="min-w-[500px]">
             {/* Header */}
-            <div className="grid grid-cols-7 gap-1 sm:gap-2 text-[10px] sm:text-xs font-medium text-muted-foreground border-b pb-2 mb-2">
+            <div className="grid grid-cols-7 gap-1 sm:gap-2 text-[0.625rem] sm:text-xs font-medium text-muted-foreground border-b pb-2 mb-2">
               <div className="flex items-center gap-1">
                 <Calendar className="h-3 w-3" />
                 Когорта
@@ -182,7 +182,7 @@ export function PaymentCohortAnalysis() {
                       <Badge
                         variant="secondary"
                         className={cn(
-                          "text-[10px] sm:text-xs px-1.5 py-0 h-5",
+                          "text-[0.625rem] sm:text-xs px-1.5 py-0 h-5",
                           getConversionColor(cohort.conversion_rate),
                         )}
                       >
@@ -220,7 +220,7 @@ export function PaymentCohortAnalysis() {
         </ScrollArea>
 
         {/* Heatmap Legend */}
-        <div className="flex items-center justify-center gap-2 sm:gap-4 text-[10px] sm:text-xs text-muted-foreground">
+        <div className="flex items-center justify-center gap-2 sm:gap-4 text-[0.625rem] sm:text-xs text-muted-foreground">
           <span>Конверсия:</span>
           <div className="flex items-center gap-1">
             <div className="w-3 h-3 rounded bg-red-500/30" />

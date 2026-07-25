@@ -89,7 +89,7 @@ export function AdminSendMessageDialog({
                   <Badge key={user.user_id} variant="secondary" className="flex items-center gap-1">
                     <Avatar className="h-4 w-4">
                       <AvatarImage src={user.photo_url || undefined} />
-                      <AvatarFallback className="text-[8px]">{user.first_name[0]}</AvatarFallback>
+                      <AvatarFallback className="text-[0.5rem]">{user.first_name[0]}</AvatarFallback>
                     </Avatar>
                     {user.first_name}
                   </Badge>

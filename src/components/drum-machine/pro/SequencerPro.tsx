@@ -191,14 +191,14 @@ export const SequencerPro = memo(function SequencerPro({
       <div className={cn("flex items-center gap-2 px-3 py-3 border-b border-border/20", surface.medium)}>
         <div className="w-32 shrink-0 text-xs font-medium text-muted-foreground pl-2">TRACKS</div>
         {onVolumeChange && (
-          <div className="w-20 shrink-0 text-[10px] text-muted-foreground text-center font-medium">VOL</div>
+          <div className="w-20 shrink-0 text-[0.625rem] text-muted-foreground text-center font-medium">VOL</div>
         )}
         <div className="flex gap-0.5 flex-1">
           {Array.from({ length: stepLength }, (_, i) => (
             <div
               key={i}
               className={cn(
-                "flex-1 min-w-[26px] text-center text-[10px] font-mono",
+                "flex-1 min-w-[26px] text-center text-[0.625rem] font-mono",
                 i % 4 === 0 ? "font-bold text-foreground ml-1.5 first:ml-0" : "text-muted-foreground",
               )}
             >

@@ -87,7 +87,7 @@ export const LEDIndicator = memo(function LEDIndicator({
   }
 
   const labelClasses = cn(
-    "text-[9px] font-medium uppercase tracking-wide",
+    "text-[0.5625rem] font-medium uppercase tracking-wide",
     on ? "text-foreground" : "text-muted-foreground",
   );
 

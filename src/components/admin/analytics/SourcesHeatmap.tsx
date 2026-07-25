@@ -91,7 +91,7 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
             {/* Hour labels */}
             <div className="flex gap-0.5 mb-1.5 sm:mb-2 ml-16 sm:ml-24">
               {HOURS.filter((_, i) => i % 4 === 0).map((hour) => (
-                <div key={hour} className="text-[8px] sm:text-[10px] text-muted-foreground w-[calc((100%-0px)/6)]">
+                <div key={hour} className="text-[0.5rem] sm:text-[0.625rem] text-muted-foreground w-[calc((100%-0px)/6)]">
                   {hour.toString().padStart(2, "0")}
                 </div>
               ))}
@@ -102,7 +102,7 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
               <div className="space-y-0.5 sm:space-y-1">
                 {sortedData.map((source) => (
                   <div key={source.source} className="flex items-center gap-1 sm:gap-2">
-                    <div className="w-14 sm:w-20 text-[10px] sm:text-xs text-muted-foreground truncate text-right">
+                    <div className="w-14 sm:w-20 text-[0.625rem] sm:text-xs text-muted-foreground truncate text-right">
                       {source.source}
                     </div>
                     <div className="flex gap-0.5 flex-1">
@@ -127,7 +127,7 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
                         </Tooltip>
                       ))}
                     </div>
-                    <div className="w-8 sm:w-12 text-[10px] sm:text-xs text-right text-muted-foreground">
+                    <div className="w-8 sm:w-12 text-[0.625rem] sm:text-xs text-right text-muted-foreground">
                       {source.total}
                     </div>
                   </div>
@@ -137,7 +137,7 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
 
             {/* Legend */}
             <div className="flex items-center justify-end gap-1.5 sm:gap-2 mt-3 sm:mt-4">
-              <span className="text-[9px] sm:text-xs text-muted-foreground">Меньше</span>
+              <span className="text-[0.5625rem] sm:text-xs text-muted-foreground">Меньше</span>
               <div className="flex gap-0.5">
                 <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-muted/30" />
                 <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-primary/20" />
@@ -146,7 +146,7 @@ export function SourcesHeatmap({ data, isLoading }: SourcesHeatmapProps) {
                 <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-primary/80" />
                 <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-primary" />
               </div>
-              <span className="text-[9px] sm:text-xs text-muted-foreground">Больше</span>
+              <span className="text-[0.5625rem] sm:text-xs text-muted-foreground">Больше</span>
             </div>
           </div>
         </ScrollArea>

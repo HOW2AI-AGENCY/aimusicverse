@@ -277,7 +277,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
                           <span
                             className={cn(
                               "font-display leading-[0.85] tabular-nums",
-                              "text-[64px] sm:text-[72px]",
+                              "text-[4rem] sm:text-[4.5rem]",
                               isSelected ? "text-foreground" : "text-foreground/70",
                             )}
                           >
@@ -340,7 +340,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
                           </Button>
                           <span
                             className={cn(
-                              "font-mono text-[10px] transition-colors",
+                              "font-mono text-[0.625rem] transition-colors",
                               isSelected ? "text-foreground" : "text-muted-foreground/40",
                             )}
                           >

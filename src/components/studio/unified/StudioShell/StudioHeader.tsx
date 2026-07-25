@@ -89,7 +89,7 @@ export const StudioHeader = memo(function StudioHeader({
         <div className="flex flex-col min-w-0">
           <h1 className="text-sm font-semibold truncate">{projectName}</h1>
           <div className="flex items-center gap-1">
-            <Badge variant="outline" className="text-[10px] px-1 py-0">
+            <Badge variant="outline" className="text-[0.625rem] px-1 py-0">
               {trackCount} дорожек
             </Badge>
             {!isMobile && (
@@ -191,7 +191,7 @@ export const StudioHeader = memo(function StudioHeader({
 
         {/* Mobile: simple save indicator */}
         {isMobile && hasUnsavedChanges && (
-          <Badge variant="secondary" className="text-[10px]">
+          <Badge variant="secondary" className="text-[0.625rem]">
             Не сохранено
           </Badge>
         )}

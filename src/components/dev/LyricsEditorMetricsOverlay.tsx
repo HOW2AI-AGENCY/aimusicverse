@@ -89,7 +89,7 @@ function Sparkline({
 
   return (
     <div className="flex flex-col gap-0.5">
-      <div className="flex items-center justify-between text-[9px] text-muted-foreground">
+      <div className="flex items-center justify-between text-[0.5625rem] text-muted-foreground">
         <span className="uppercase tracking-wider">{label}</span>
         <span className="tabular-nums">peak {max}/s</span>
       </div>
@@ -324,7 +324,7 @@ export function LyricsEditorMetricsOverlay() {
       className={cn(
         "fixed bottom-4 right-4 z-max select-none pointer-events-auto",
         "rounded-lg border border-border/60 bg-background/85 backdrop-blur-md shadow-lg",
-        "font-mono text-[11px] text-foreground",
+        "font-mono text-[0.6875rem] text-foreground",
         "transition-colors duration-200",
         flashing && "border-amber-500/70 bg-amber-500/15",
         collapsed ? "max-w-[260px]" : "w-[260px]",
@@ -340,7 +340,7 @@ export function LyricsEditorMetricsOverlay() {
         >
           {collapsed ? "▸" : "▾"}
         </button>
-        <span className="text-muted-foreground uppercase tracking-wider text-[9px]">lyrics</span>
+        <span className="text-muted-foreground uppercase tracking-wider text-[0.5625rem]">lyrics</span>
         <span className="text-muted-foreground">r</span>
         <span className="tabular-nums font-semibold">{renders}</span>
         <span className="text-muted-foreground">s</span>
@@ -351,7 +351,7 @@ export function LyricsEditorMetricsOverlay() {
         <button
           type="button"
           onClick={hide}
-          className="px-1.5 py-0.5 rounded text-[10px] text-muted-foreground hover:text-destructive hover:bg-muted/60 transition-colors"
+          className="px-1.5 py-0.5 rounded text-[0.625rem] text-muted-foreground hover:text-destructive hover:bg-muted/60 transition-colors"
           title="Hide (Ctrl/Cmd+Shift+M to bring back)"
           aria-label="Hide overlay"
         >
@@ -370,7 +370,7 @@ export function LyricsEditorMetricsOverlay() {
             <button
               type="button"
               onClick={handleReset}
-              className="px-1.5 py-0.5 rounded text-[10px] text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+              className="px-1.5 py-0.5 rounded text-[0.625rem] text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
               title="Reset counters + history"
             >
               reset
@@ -378,7 +378,7 @@ export function LyricsEditorMetricsOverlay() {
             <button
               type="button"
               onClick={exportJSON}
-              className="px-1.5 py-0.5 rounded text-[10px] text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+              className="px-1.5 py-0.5 rounded text-[0.625rem] text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
               title="Export metrics + snapshots as JSON"
             >
               ⤓ json
@@ -386,7 +386,7 @@ export function LyricsEditorMetricsOverlay() {
             <button
               type="button"
               onClick={exportCSV}
-              className="px-1.5 py-0.5 rounded text-[10px] text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+              className="px-1.5 py-0.5 rounded text-[0.625rem] text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
               title="Export history as CSV"
             >
               ⤓ csv
@@ -394,7 +394,7 @@ export function LyricsEditorMetricsOverlay() {
             <button
               type="button"
               onClick={() => setSnapshotsOpen((v) => !v)}
-              className="ml-auto px-1.5 py-0.5 rounded text-[10px] text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+              className="ml-auto px-1.5 py-0.5 rounded text-[0.625rem] text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
               title="Toggle sync snapshots"
             >
               snaps ({snapshots.length}) {snapshotsOpen ? "▾" : "▸"}
@@ -404,14 +404,14 @@ export function LyricsEditorMetricsOverlay() {
           {snapshotsOpen && (
             <div className="max-h-[180px] overflow-y-auto rounded border border-border/40 bg-muted/20">
               {snapshots.length === 0 ? (
-                <div className="px-2 py-1.5 text-[10px] text-muted-foreground">no external syncs captured yet</div>
+                <div className="px-2 py-1.5 text-[0.625rem] text-muted-foreground">no external syncs captured yet</div>
               ) : (
                 <ul className="divide-y divide-border/30">
                   {snapshots
                     .slice()
                     .reverse()
                     .map((s) => (
-                      <li key={`${s.id}-${s.phase}`} className="px-2 py-1 text-[10px]">
+                      <li key={`${s.id}-${s.phase}`} className="px-2 py-1 text-[0.625rem]">
                         <div className="flex items-center gap-1">
                           <span
                             className={cn(

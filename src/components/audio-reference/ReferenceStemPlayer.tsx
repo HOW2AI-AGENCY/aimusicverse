@@ -99,7 +99,7 @@ export function ReferenceStemPlayer({ stems, compact = false, className }: Refer
           <div className="flex-1">
             <div className="flex items-center justify-between mb-1">
               <span className="text-xs font-semibold">Мастер</span>
-              <span className="text-[10px] text-muted-foreground tabular-nums">{Math.round(masterVolume * 100)}%</span>
+              <span className="text-[0.625rem] text-muted-foreground tabular-nums">{Math.round(masterVolume * 100)}%</span>
             </div>
             <Slider
               value={[masterVolume]}
@@ -145,7 +145,7 @@ export function ReferenceStemPlayer({ stems, compact = false, className }: Refer
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs font-medium truncate">{label}</span>
-                    <span className="text-[10px] text-muted-foreground tabular-nums">
+                    <span className="text-[0.625rem] text-muted-foreground tabular-nums">
                       {Math.round(state.volume * 100)}%
                     </span>
                   </div>
@@ -167,7 +167,7 @@ export function ReferenceStemPlayer({ stems, compact = false, className }: Refer
                     size="icon"
                     onClick={() => toggleMute(stem.id)}
                     className={cn(
-                      "h-7 w-7 rounded-md text-[10px] font-bold",
+                      "h-7 w-7 rounded-md text-[0.625rem] font-bold",
                       state.muted && "bg-destructive hover:bg-destructive/90",
                     )}
                   >
@@ -178,7 +178,7 @@ export function ReferenceStemPlayer({ stems, compact = false, className }: Refer
                     size="icon"
                     onClick={() => toggleSolo(stem.id)}
                     className={cn(
-                      "h-7 w-7 rounded-md text-[10px] font-bold",
+                      "h-7 w-7 rounded-md text-[0.625rem] font-bold",
                       state.solo && "bg-primary hover:bg-primary/90",
                     )}
                   >

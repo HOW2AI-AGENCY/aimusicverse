@@ -52,7 +52,7 @@ export const FloatingInput = forwardRef<HTMLInputElement, FloatingInputProps>(
     };
 
     const labelSizeClasses = {
-      sm: isFloating ? "text-[10px] top-1" : "text-sm top-1/2 -translate-y-1/2",
+      sm: isFloating ? "text-[0.625rem] top-1" : "text-sm top-1/2 -translate-y-1/2",
       md: isFloating ? "text-xs top-1.5" : "text-base top-1/2 -translate-y-1/2",
       lg: isFloating ? "text-xs top-2" : "text-lg top-1/2 -translate-y-1/2",
     };

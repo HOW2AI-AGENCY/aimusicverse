@@ -76,10 +76,10 @@ const PatternCard = memo(function PatternCard({ pattern, onLoad }: PatternCardPr
 
       {/* Tags */}
       <div className="flex items-center gap-2 flex-wrap">
-        <Badge variant="outline" className={cn("text-[10px] px-1.5 py-0", genreColor)}>
+        <Badge variant="outline" className={cn("text-[0.625rem] px-1.5 py-0", genreColor)}>
           {pattern.genre}
         </Badge>
-        <span className="text-[10px] text-muted-foreground font-mono">{pattern.bpm} BPM</span>
+        <span className="text-[0.625rem] text-muted-foreground font-mono">{pattern.bpm} BPM</span>
       </div>
 
       {/* Density bar */}
@@ -118,7 +118,7 @@ export const PatternBrowser = memo(function PatternBrowser({
         >
           <Music className="w-4 h-4" />
           <span className="font-medium text-sm">Паттерны</span>
-          <Badge variant="secondary" className="text-[10px] px-1.5">
+          <Badge variant="secondary" className="text-[0.625rem] px-1.5">
             {patterns.length}
           </Badge>
           {isExpanded ? (
@@ -148,7 +148,7 @@ export const PatternBrowser = memo(function PatternBrowser({
               <Badge
                 key={genre}
                 variant="outline"
-                className={cn("text-[10px] px-2 py-0.5 cursor-pointer hover:bg-muted", genreColors[genre])}
+                className={cn("text-[0.625rem] px-2 py-0.5 cursor-pointer hover:bg-muted", genreColors[genre])}
               >
                 {genre}
               </Badge>

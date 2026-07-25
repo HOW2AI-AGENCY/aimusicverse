@@ -134,7 +134,7 @@ export function AudioPoolMonitor() {
                 <div key={id} className="flex items-center justify-between text-xs p-2 bg-muted/50 rounded">
                   <span className="font-mono truncate flex-1 pr-2">{id}</span>
                   <div className="flex items-center gap-2 flex-shrink-0">
-                    <Badge variant="secondary" className={cn("text-[10px] px-1.5 py-0", getPriorityColor(priority))}>
+                    <Badge variant="secondary" className={cn("text-[0.625rem] px-1.5 py-0", getPriorityColor(priority))}>
                       {getPriorityLabel(priority)}
                     </Badge>
                     <span className="text-muted-foreground">{Math.round(age / 1000)}s</span>
@@ -149,14 +149,14 @@ export function AudioPoolMonitor() {
         {isAtLimit && (
           <div className="p-2 bg-destructive/10 border border-destructive/20 rounded text-xs text-destructive">
             <p className="font-medium">⚠️ Pool Limit Reached</p>
-            <p className="text-[10px] mt-1">Stop unused audio to free up resources</p>
+            <p className="text-[0.625rem] mt-1">Stop unused audio to free up resources</p>
           </div>
         )}
 
         {stats.totalRejected > 0 && (
           <div className="p-2 bg-warning/10 border border-warning/20 rounded text-xs text-warning">
             <p className="font-medium">⚠️ {stats.totalRejected} Requests Rejected</p>
-            <p className="text-[10px] mt-1">Some audio couldn't play due to iOS limit</p>
+            <p className="text-[0.625rem] mt-1">Some audio couldn't play due to iOS limit</p>
           </div>
         )}
       </CardContent>

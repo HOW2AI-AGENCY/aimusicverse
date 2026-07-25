@@ -372,7 +372,7 @@ export function StemMidiDrawer({
               <TabsTrigger value="files" disabled={!hasFiles}>
                 Файлы
                 {hasFiles && (
-                  <Badge variant="secondary" className="ml-1.5 text-[10px] h-4 px-1">
+                  <Badge variant="secondary" className="ml-1.5 text-[0.625rem] h-4 px-1">
                     {Object.keys(transcriptionFiles).length}
                   </Badge>
                 )}
@@ -438,11 +438,11 @@ export function StemMidiDrawer({
                               <div className="flex items-center gap-2 flex-wrap">
                                 {modelIcons[key]}
                                 <span className="font-medium text-sm">{model.name}</span>
-                                {isRecommended && <Badge className="text-[10px] h-4 px-1">Рекомендуется</Badge>}
+                                {isRecommended && <Badge className="text-[0.625rem] h-4 px-1">Рекомендуется</Badge>}
                                 {modelSupportsTabs && (
                                   <Badge
                                     variant="outline"
-                                    className="text-[10px] h-4 px-1 text-amber-500 border-amber-500/30"
+                                    className="text-[0.625rem] h-4 px-1 text-amber-500 border-amber-500/30"
                                   >
                                     TAB
                                   </Badge>
@@ -465,7 +465,7 @@ export function StemMidiDrawer({
                           key={format}
                           variant="secondary"
                           className={cn(
-                            "text-[10px]",
+                            "text-[0.625rem]",
                             format === "gp5" && "bg-amber-500/20 text-amber-600 border-amber-500/30",
                           )}
                         >
@@ -475,7 +475,7 @@ export function StemMidiDrawer({
                       ))}
                     </div>
                     {supportsTableture && (
-                      <p className="text-[10px] text-amber-600 flex items-center gap-1 mt-1">
+                      <p className="text-[0.625rem] text-amber-600 flex items-center gap-1 mt-1">
                         <Guitar className="w-3 h-3" />
                         Guitar Pro содержит табулатуру + ноты
                       </p>

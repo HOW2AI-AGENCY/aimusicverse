@@ -84,7 +84,7 @@ export function RealTimeMetrics() {
         <motion.div animate={{ scale: pulse ? [1, 1.2, 1] : 1 }} transition={{ duration: 0.3 }}>
           <Circle className={`h-2 w-2 fill-green-500 ${pulse ? "animate-pulse" : ""}`} />
         </motion.div>
-        <span className="text-[10px] sm:text-xs text-green-500 font-medium">LIVE</span>
+        <span className="text-[0.625rem] sm:text-xs text-green-500 font-medium">LIVE</span>
       </div>
 
       <CardHeader className="pb-2 pt-3 sm:pt-6 px-3 sm:px-6">
@@ -140,7 +140,7 @@ export function RealTimeMetrics() {
 
         {/* Activity indicator bar */}
         <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t">
-          <div className="flex items-center justify-between text-[10px] sm:text-xs text-muted-foreground mb-1.5 sm:mb-2">
+          <div className="flex items-center justify-between text-[0.625rem] sm:text-xs text-muted-foreground mb-1.5 sm:mb-2">
             <span>Активность за минуту</span>
             <span>{data?.eventsPerMinute || 0}</span>
           </div>
@@ -203,12 +203,12 @@ function RealTimeMetricCard({
     <div className="p-2 sm:p-3 rounded-lg bg-muted/50">
       <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
         <Icon className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${iconColor}`} />
-        <span className="text-[10px] sm:text-xs text-muted-foreground truncate">{label}</span>
+        <span className="text-[0.625rem] sm:text-xs text-muted-foreground truncate">{label}</span>
       </div>
       <motion.div animate={{ scale: pulse ? [1, 1.1, 1] : 1 }} transition={{ duration: 0.2 }}>
         <p className="text-base sm:text-xl font-bold">{isLoading ? "..." : value.toLocaleString()}</p>
       </motion.div>
-      <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{subtext}</p>
+      <p className="text-[0.625rem] sm:text-xs text-muted-foreground truncate">{subtext}</p>
     </div>
   );
 }

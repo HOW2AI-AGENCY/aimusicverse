@@ -57,7 +57,7 @@ export function AlertHistoryPanel() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
               <div className="min-w-0">
                 <div className="text-xl sm:text-2xl font-bold">{stats?.alerts24h || 0}</div>
-                <div className="text-[10px] sm:text-xs text-muted-foreground truncate">За 24ч</div>
+                <div className="text-[0.625rem] sm:text-xs text-muted-foreground truncate">За 24ч</div>
               </div>
               <Bell className="hidden sm:block h-8 w-8 text-muted-foreground/30" />
             </div>
@@ -68,7 +68,7 @@ export function AlertHistoryPanel() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
               <div className="min-w-0">
                 <div className="text-xl sm:text-2xl font-bold">{stats?.alertsWeek || 0}</div>
-                <div className="text-[10px] sm:text-xs text-muted-foreground truncate">За неделю</div>
+                <div className="text-[0.625rem] sm:text-xs text-muted-foreground truncate">За неделю</div>
               </div>
               <History className="hidden sm:block h-8 w-8 text-muted-foreground/30" />
             </div>
@@ -79,7 +79,7 @@ export function AlertHistoryPanel() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
               <div className="min-w-0">
                 <div className="text-xl sm:text-2xl font-bold">{stats?.unresolved || 0}</div>
-                <div className="text-[10px] sm:text-xs text-muted-foreground truncate">Нерешённых</div>
+                <div className="text-[0.625rem] sm:text-xs text-muted-foreground truncate">Нерешённых</div>
               </div>
               <AlertOctagon
                 className={`hidden sm:block h-8 w-8 ${stats?.unresolved ? "text-red-500" : "text-muted-foreground/30"}`}
@@ -128,16 +128,16 @@ export function AlertHistoryPanel() {
                             <div className="flex flex-wrap items-center gap-1 sm:gap-2">
                               <span className="font-medium text-sm sm:text-base">{config.label}</span>
                               {alert.is_test && (
-                                <Badge variant="outline" className="text-[10px] sm:text-xs px-1 sm:px-2">
+                                <Badge variant="outline" className="text-[0.625rem] sm:text-xs px-1 sm:px-2">
                                   <TestTube className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
                                   Test
                                 </Badge>
                               )}
-                              <Badge variant="secondary" className="text-[10px] sm:text-xs px-1 sm:px-2">
+                              <Badge variant="secondary" className="text-[0.625rem] sm:text-xs px-1 sm:px-2">
                                 {alert.alert_type}
                               </Badge>
                               {isResolved && (
-                                <Badge variant="default" className="text-[10px] sm:text-xs px-1 sm:px-2 bg-green-500">
+                                <Badge variant="default" className="text-[0.625rem] sm:text-xs px-1 sm:px-2 bg-green-500">
                                   <CheckCircle2 className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
                                   OK
                                 </Badge>
@@ -155,7 +155,7 @@ export function AlertHistoryPanel() {
                               </div>
                             )}
 
-                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[10px] sm:text-xs text-muted-foreground">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[0.625rem] sm:text-xs text-muted-foreground">
                               <span className="flex items-center gap-1">
                                 <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                                 {formatDistanceToNow(new Date(alert.created_at), { addSuffix: true, locale: ru })}
@@ -164,7 +164,7 @@ export function AlertHistoryPanel() {
                             </div>
 
                             {alert.resolution_note && (
-                              <div className="text-[10px] sm:text-xs text-green-600 mt-1 truncate">
+                              <div className="text-[0.625rem] sm:text-xs text-green-600 mt-1 truncate">
                                 ✅ {alert.resolution_note}
                               </div>
                             )}

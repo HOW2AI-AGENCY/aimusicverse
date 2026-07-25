@@ -96,7 +96,7 @@ export function PackageComparisonTable({
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: index * 0.05 + 0.1, type: "spring" }}
-                  className="px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-semibold flex items-center gap-1 shadow-sm"
+                  className="px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[0.625rem] font-semibold flex items-center gap-1 shadow-sm"
                 >
                   <Sparkles className="w-3 h-3" />
                   Популярный
@@ -107,7 +107,7 @@ export function PackageComparisonTable({
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: index * 0.05 + 0.1, type: "spring" }}
-                  className="px-2 py-0.5 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 text-white text-[10px] font-semibold flex items-center gap-1 shadow-sm"
+                  className="px-2 py-0.5 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 text-white text-[0.625rem] font-semibold flex items-center gap-1 shadow-sm"
                 >
                   <Crown className="w-3 h-3" />
                   Лучшая цена
@@ -118,7 +118,7 @@ export function PackageComparisonTable({
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: index * 0.05 + 0.1, type: "spring" }}
-                  className="px-2 py-0.5 rounded-full bg-primary/20 text-primary text-[10px] font-semibold"
+                  className="px-2 py-0.5 rounded-full bg-primary/20 text-primary text-[0.625rem] font-semibold"
                 >
                   -{savingsPercent}%
                 </motion.div>

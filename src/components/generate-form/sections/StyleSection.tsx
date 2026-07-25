@@ -52,7 +52,7 @@ export const StyleSection = memo(function StyleSection({
           {/* Character count */}
           <span
             className={cn(
-              "text-[10px] px-1.5 py-0.5 rounded-md bg-background/60 backdrop-blur-sm",
+              "text-[0.625rem] px-1.5 py-0.5 rounded-md bg-background/60 backdrop-blur-sm",
               style.length > 450
                 ? "text-destructive font-medium"
                 : style.length > 350

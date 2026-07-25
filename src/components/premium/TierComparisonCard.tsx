@@ -104,7 +104,7 @@ export const TierComparisonCard = memo(function TierComparisonCard({
                     transition={{ type: "spring" }}
                   >
                     {tier.popular && (
-                      <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500 text-white font-bold uppercase">
+                      <span className="text-[0.625rem] px-1.5 py-0.5 rounded-full bg-amber-500 text-white font-bold uppercase">
                         Популярный
                       </span>
                     )}

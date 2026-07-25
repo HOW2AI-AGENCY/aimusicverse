@@ -35,7 +35,7 @@ export function PlayerGestureHints() {
     if (!visible) return;
     const t = window.setTimeout(() => dismiss(), 6000);
     return () => window.clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [visible]);
 
   const dismiss = () => {
@@ -72,12 +72,12 @@ export function PlayerGestureHints() {
             transition={{ type: "spring", stiffness: 380, damping: 28 }}
             className="relative w-full max-w-[18rem] rounded-2xl aurora-surface aurora-glow p-4 space-y-2.5"
           >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground/80 text-center">
+            <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground/80 text-center">
               Подсказки
             </p>
             <ul className="space-y-2">
               {HINTS.map(({ icon: Icon, label }) => (
-                <li key={label} className="flex items-center gap-2.5 text-[13px] text-foreground">
+                <li key={label} className="flex items-center gap-2.5 text-[0.8125rem] text-foreground">
                   <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/15 text-primary">
                     <Icon className="h-3.5 w-3.5" />
                   </span>
@@ -85,7 +85,7 @@ export function PlayerGestureHints() {
                 </li>
               ))}
             </ul>
-            <p className="text-[11px] text-muted-foreground/70 text-center pt-1">Тап в любом месте — закрыть</p>
+            <p className="text-[0.6875rem] text-muted-foreground/70 text-center pt-1">Тап в любом месте — закрыть</p>
           </motion.div>
         </motion.div>
       )}

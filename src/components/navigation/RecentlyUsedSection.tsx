@@ -71,7 +71,7 @@ export function RecentlyUsedSection({ className }: RecentlyUsedSectionProps) {
         <Clock className="w-3.5 h-3.5 text-muted-foreground/60" />
         <span
           className={cn(
-            "text-[11px] font-medium tracking-wide uppercase text-muted-foreground/50",
+            "text-[0.6875rem] font-medium tracking-wide uppercase text-muted-foreground/50",
             typographyClass.caption,
           )}
         >

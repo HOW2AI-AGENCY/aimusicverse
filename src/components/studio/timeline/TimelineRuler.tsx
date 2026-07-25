@@ -58,7 +58,7 @@ export function TimelineRuler({ duration, zoom, bpm, className }: TimelineRulerP
           <div key={time} className="absolute top-0 h-full flex flex-col justify-end" style={{ left: time * zoom }}>
             <div className={cn("w-px", isMajor ? "h-4 bg-foreground/40" : "h-2 bg-foreground/20")} />
             {isMajor && (
-              <span className="absolute bottom-4 text-[10px] text-muted-foreground -translate-x-1/2">{label}</span>
+              <span className="absolute bottom-4 text-[0.625rem] text-muted-foreground -translate-x-1/2">{label}</span>
             )}
           </div>
         ))}
@@ -69,7 +69,7 @@ export function TimelineRuler({ duration, zoom, bpm, className }: TimelineRulerP
         {Array.from({ length: Math.ceil(duration / 10) }).map((_, i) => (
           <div
             key={i * 10}
-            className="absolute top-0 text-[9px] text-muted-foreground/50"
+            className="absolute top-0 text-[0.5625rem] text-muted-foreground/50"
             style={{ left: i * 10 * zoom }}
           >
             {formatTime(i * 10)}

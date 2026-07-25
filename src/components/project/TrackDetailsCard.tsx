@@ -53,7 +53,7 @@ export function TrackDetailsCard({ track, compact = false, className }: TrackDet
         <div className="flex flex-wrap items-center gap-1.5 mb-2">
           {/* BPM */}
           {track.bpm_target && (
-            <Badge variant="outline" className="text-[10px] gap-0.5 h-5 px-1.5">
+            <Badge variant="outline" className="text-[0.625rem] gap-0.5 h-5 px-1.5">
               <Gauge className="w-2.5 h-2.5" />
               {track.bpm_target} BPM
             </Badge>
@@ -61,7 +61,7 @@ export function TrackDetailsCard({ track, compact = false, className }: TrackDet
 
           {/* Key Signature */}
           {track.key_signature && (
-            <Badge variant="outline" className="text-[10px] gap-0.5 h-5 px-1.5">
+            <Badge variant="outline" className="text-[0.625rem] gap-0.5 h-5 px-1.5">
               <Music className="w-2.5 h-2.5" />
               {track.key_signature}
             </Badge>
@@ -69,7 +69,7 @@ export function TrackDetailsCard({ track, compact = false, className }: TrackDet
 
           {/* Duration */}
           {track.duration_target && (
-            <Badge variant="outline" className="text-[10px] gap-0.5 h-5 px-1.5">
+            <Badge variant="outline" className="text-[0.625rem] gap-0.5 h-5 px-1.5">
               <Clock className="w-2.5 h-2.5" />
               {Math.floor(track.duration_target / 60)}:{(track.duration_target % 60).toString().padStart(2, "0")}
             </Badge>
@@ -77,7 +77,7 @@ export function TrackDetailsCard({ track, compact = false, className }: TrackDet
 
           {/* Vocal Style */}
           {track.vocal_style && (
-            <Badge variant="secondary" className="text-[10px] gap-0.5 h-5 px-1.5">
+            <Badge variant="secondary" className="text-[0.625rem] gap-0.5 h-5 px-1.5">
               <Mic className="w-2.5 h-2.5" />
               {VOCAL_STYLE_LABELS[track.vocal_style] || track.vocal_style}
             </Badge>
@@ -85,7 +85,7 @@ export function TrackDetailsCard({ track, compact = false, className }: TrackDet
 
           {/* Instrumental Only */}
           {track.instrumental_only && (
-            <Badge variant="secondary" className="text-[10px] gap-0.5 h-5 px-1.5">
+            <Badge variant="secondary" className="text-[0.625rem] gap-0.5 h-5 px-1.5">
               <Guitar className="w-2.5 h-2.5" />
               Инструментал
             </Badge>
@@ -97,9 +97,9 @@ export function TrackDetailsCard({ track, compact = false, className }: TrackDet
       {track.energy_level && !compact && (
         <div className="flex items-center gap-2 mb-2">
           <Zap className="w-3 h-3 text-amber-500" />
-          <span className="text-[10px] text-muted-foreground w-14">Энергия</span>
+          <span className="text-[0.625rem] text-muted-foreground w-14">Энергия</span>
           <Progress value={energyPercent} className="h-1.5 flex-1" />
-          <span className="text-[10px] text-muted-foreground w-6 text-right">{track.energy_level}/10</span>
+          <span className="text-[0.625rem] text-muted-foreground w-6 text-right">{track.energy_level}/10</span>
         </div>
       )}
 
@@ -107,18 +107,18 @@ export function TrackDetailsCard({ track, compact = false, className }: TrackDet
       {track.lyrics_status && (
         <div className="flex items-center gap-1.5 mb-2">
           <FileText className="w-3 h-3 text-muted-foreground" />
-          <span className="text-[10px] text-muted-foreground">Текст:</span>
+          <span className="text-[0.625rem] text-muted-foreground">Текст:</span>
           <Badge
             variant="outline"
             className={cn(
-              "text-[10px] h-4 px-1.5 border-0",
+              "text-[0.625rem] h-4 px-1.5 border-0",
               LYRICS_STATUS_CONFIG[track.lyrics_status]?.color || "bg-muted",
             )}
           >
             {LYRICS_STATUS_CONFIG[track.lyrics_status]?.label || track.lyrics_status}
           </Badge>
           {track.lyrics && (
-            <span className="text-[10px] text-muted-foreground/60">({track.lyrics.split(/\s+/).length} слов)</span>
+            <span className="text-[0.625rem] text-muted-foreground/60">({track.lyrics.split(/\s+/).length} слов)</span>
           )}
         </div>
       )}
@@ -126,7 +126,7 @@ export function TrackDetailsCard({ track, compact = false, className }: TrackDet
       {/* Style Prompt */}
       {hasStylePrompt && !compact && (
         <div className="mb-2">
-          <div className="flex items-center gap-1 text-[10px] text-muted-foreground mb-0.5">
+          <div className="flex items-center gap-1 text-[0.625rem] text-muted-foreground mb-0.5">
             <Settings className="w-2.5 h-2.5" />
             <span>Стиль:</span>
           </div>
@@ -137,18 +137,18 @@ export function TrackDetailsCard({ track, compact = false, className }: TrackDet
       {/* Recommended Tags */}
       {hasTags && !compact && (
         <div>
-          <div className="flex items-center gap-1 text-[10px] text-muted-foreground mb-1">
+          <div className="flex items-center gap-1 text-[0.625rem] text-muted-foreground mb-1">
             <Tag className="w-2.5 h-2.5" />
             <span>Теги:</span>
           </div>
           <div className="flex flex-wrap gap-1">
             {track.recommended_tags!.slice(0, 8).map((tag, i) => (
-              <span key={i} className="text-[10px] px-1.5 py-0.5 bg-primary/10 rounded text-primary/80">
+              <span key={i} className="text-[0.625rem] px-1.5 py-0.5 bg-primary/10 rounded text-primary/80">
                 {tag}
               </span>
             ))}
             {track.recommended_tags!.length > 8 && (
-              <span className="text-[10px] text-muted-foreground/60">+{track.recommended_tags!.length - 8}</span>
+              <span className="text-[0.625rem] text-muted-foreground/60">+{track.recommended_tags!.length - 8}</span>
             )}
           </div>
         </div>
@@ -157,7 +157,7 @@ export function TrackDetailsCard({ track, compact = false, className }: TrackDet
       {/* Notes */}
       {hasNotes && !compact && (
         <div className="mt-2 pt-2 border-t border-border/30">
-          <p className="text-[10px] text-muted-foreground/70 italic line-clamp-2">📝 {track.notes}</p>
+          <p className="text-[0.625rem] text-muted-foreground/70 italic line-clamp-2">📝 {track.notes}</p>
         </div>
       )}
     </div>

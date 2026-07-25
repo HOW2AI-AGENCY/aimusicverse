@@ -311,7 +311,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
           <div className="space-y-2">
             {/* Quick-insert section tag chips */}
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-[10px] uppercase tracking-wide text-muted-foreground/70 mr-0.5">
+              <span className="text-[0.625rem] uppercase tracking-wide text-muted-foreground/70 mr-0.5">
                 <Plus className="inline h-3 w-3 -mt-0.5 mr-0.5" />
                 Секция:
               </span>
@@ -324,7 +324,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                     type="button"
                     onClick={() => insertSectionTag(t)}
                     className={cn(
-                      "inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[11px] font-medium",
+                      "inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[0.6875rem] font-medium",
                       "hover:opacity-100 opacity-80 transition-opacity",
                       color.bg,
                       color.border,
@@ -396,7 +396,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                         transition={{ duration: 0.2 }}
                       />
                     </div>
-                    <span className={cn("text-[10px] font-mono", charCountColor)}>{lyrics.length}/3000</span>
+                    <span className={cn("text-[0.625rem] font-mono", charCountColor)}>{lyrics.length}/3000</span>
                   </div>
 
                   {/* Action buttons */}
@@ -426,7 +426,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                 role="list"
                 aria-label="Обнаруженные секции"
               >
-                <span className="text-[10px] uppercase tracking-wide text-muted-foreground/70 mr-1">
+                <span className="text-[0.625rem] uppercase tracking-wide text-muted-foreground/70 mr-1">
                   Структура · {parsedTags.length}
                 </span>
                 {parsedTags.map((t) => (
@@ -434,7 +434,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                     key={t.id}
                     role="listitem"
                     className={cn(
-                      "inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] font-medium",
+                      "inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-[0.625rem] font-medium",
                       t.colorClass,
                     )}
                   >

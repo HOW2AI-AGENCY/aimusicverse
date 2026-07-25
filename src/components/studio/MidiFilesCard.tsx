@@ -159,7 +159,7 @@ export function MidiFilesCard({ files, className, title, trackTitle }: MidiFiles
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium">{format.label}</span>
-                    <Badge variant="outline" className="text-[10px] h-4 px-1">
+                    <Badge variant="outline" className="text-[0.625rem] h-4 px-1">
                       {format.extension}
                     </Badge>
                   </div>

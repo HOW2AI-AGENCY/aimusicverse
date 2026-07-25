@@ -141,10 +141,10 @@ export const CloudAudioSelector = memo(function CloudAudioSelector({
                       {/* Info */}
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-medium truncate">{item.file_name}</p>
-                        <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+                        <div className="flex items-center gap-2 text-[0.625rem] text-muted-foreground">
                           {item.duration_seconds && <span>{formatTime(Math.floor(item.duration_seconds))}</span>}
                           {item.genre && (
-                            <Badge variant="outline" className="text-[10px] h-4 px-1">
+                            <Badge variant="outline" className="text-[0.625rem] h-4 px-1">
                               {item.genre}
                             </Badge>
                           )}
@@ -155,7 +155,7 @@ export const CloudAudioSelector = memo(function CloudAudioSelector({
                       {/* Status indicators */}
                       {item.analysis_status === "completed" && <Check className="w-3 h-3 text-green-500 shrink-0" />}
                       {isSelected && (
-                        <Badge variant="secondary" className="text-[10px] h-4 px-1 shrink-0">
+                        <Badge variant="secondary" className="text-[0.625rem] h-4 px-1 shrink-0">
                           Выбрано
                         </Badge>
                       )}

@@ -72,14 +72,14 @@ export function ParaphraseResultCard({ originalText, variants, onApplyVariant }:
         </div>
         <div>
           <h4 className="text-sm font-medium">Варианты перефразирования</h4>
-          <p className="text-[10px] text-muted-foreground">{normalizedVariants.length} вариантов</p>
+          <p className="text-[0.625rem] text-muted-foreground">{normalizedVariants.length} вариантов</p>
         </div>
       </div>
 
       {/* Original Text */}
       {originalText && (
         <div className="p-2 rounded-lg bg-muted/20 border border-border/30">
-          <p className="text-[10px] text-muted-foreground mb-1">Оригинал:</p>
+          <p className="text-[0.625rem] text-muted-foreground mb-1">Оригинал:</p>
           <p className="text-xs text-muted-foreground italic">"{originalText}"</p>
         </div>
       )}
@@ -106,7 +106,7 @@ export function ParaphraseResultCard({ originalText, variants, onApplyVariant }:
                 {(variant.tone || variant.style) && (
                   <Badge
                     variant="secondary"
-                    className={cn("text-[9px] mb-1.5", getToneColor(variant.tone || variant.style))}
+                    className={cn("text-[0.5625rem] mb-1.5", getToneColor(variant.tone || variant.style))}
                   >
                     {variant.tone || variant.style}
                   </Badge>
@@ -153,7 +153,7 @@ export function ParaphraseResultCard({ originalText, variants, onApplyVariant }:
       </div>
 
       {/* Tip */}
-      <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+      <div className="flex items-center gap-1.5 text-[0.625rem] text-muted-foreground">
         <Sparkles className="w-3 h-3 text-cyan-400" />
         <span>Нажмите на вариант, чтобы применить его к тексту</span>
       </div>

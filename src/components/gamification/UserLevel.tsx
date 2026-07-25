@@ -87,7 +87,7 @@ export function UserLevel({ compact = false }: UserLevelProps) {
           <div className="relative">
             <Progress value={progress} className="h-3" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-[10px] font-medium text-primary-foreground mix-blend-difference">
+              <span className="text-[0.625rem] font-medium text-primary-foreground mix-blend-difference">
                 {Math.round(progress)}%
               </span>
             </div>

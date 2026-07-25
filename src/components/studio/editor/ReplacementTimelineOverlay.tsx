@@ -139,13 +139,13 @@ export function ReplacementTimelineOverlay({
 
         {/* Section time labels */}
         <div
-          className="absolute bottom-0.5 text-[9px] font-mono text-muted-foreground"
+          className="absolute bottom-0.5 text-[0.5625rem] font-mono text-muted-foreground"
           style={{ left: `calc(${startPercent}% + 8px)` }}
         >
           {formatTime(sectionStart)}
         </div>
         <div
-          className="absolute bottom-0.5 text-[9px] font-mono text-muted-foreground"
+          className="absolute bottom-0.5 text-[0.5625rem] font-mono text-muted-foreground"
           style={{ left: `calc(${startPercent + widthPercent}% + 8px)` }}
         >
           {formatTime(sectionEnd)}

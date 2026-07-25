@@ -102,7 +102,7 @@ export function PianoRollPreview({ notes, duration, height = 150, className, cur
             className="absolute left-0 right-0 flex items-center justify-center"
             style={{ bottom: `${line.pos * 100}%`, transform: "translateY(50%)" }}
           >
-            <span className="text-[9px] font-mono text-muted-foreground bg-muted/80 px-0.5 rounded">{line.label}</span>
+            <span className="text-[0.5625rem] font-mono text-muted-foreground bg-muted/80 px-0.5 rounded">{line.label}</span>
           </div>
         ))}
       </div>
@@ -166,12 +166,12 @@ export function PianoRollPreview({ notes, duration, height = 150, className, cur
 
       {/* Time markers */}
       <div className="absolute bottom-0 left-8 right-0 h-4 bg-muted/50 flex items-center justify-between px-2 border-t">
-        <span className="text-[10px] font-mono text-muted-foreground">0:00</span>
-        <span className="text-[10px] font-mono text-muted-foreground">{formatTime(duration)}</span>
+        <span className="text-[0.625rem] font-mono text-muted-foreground">0:00</span>
+        <span className="text-[0.625rem] font-mono text-muted-foreground">{formatTime(duration)}</span>
       </div>
 
       {/* Stats overlay */}
-      <div className="absolute top-2 right-2 flex items-center gap-2 text-[10px] text-muted-foreground">
+      <div className="absolute top-2 right-2 flex items-center gap-2 text-[0.625rem] text-muted-foreground">
         <span className="bg-background/80 px-1.5 py-0.5 rounded">{notes.length} нот</span>
       </div>
     </div>

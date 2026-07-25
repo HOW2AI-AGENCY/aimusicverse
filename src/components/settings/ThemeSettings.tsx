@@ -101,7 +101,7 @@ export function ThemeSettings() {
 
                   <div className="text-center">
                     <p className="text-sm font-medium">{option.label}</p>
-                    <p className="text-[10px] text-muted-foreground leading-tight">{option.description}</p>
+                    <p className="text-[0.625rem] text-muted-foreground leading-tight">{option.description}</p>
                   </div>
 
                   {/* Selection indicator */}

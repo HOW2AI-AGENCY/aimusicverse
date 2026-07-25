@@ -37,7 +37,7 @@ export function Playhead({ currentTime, zoom, height, className }: PlayheadProps
       <div className="w-0.5 bg-primary -mt-1" style={{ height: height - 10 }} />
 
       {/* Time display */}
-      <div className="absolute -top-6 left-1/2 -translate-x-1/2 px-1.5 py-0.5 bg-primary text-primary-foreground text-[10px] rounded whitespace-nowrap">
+      <div className="absolute -top-6 left-1/2 -translate-x-1/2 px-1.5 py-0.5 bg-primary text-primary-foreground text-[0.625rem] rounded whitespace-nowrap">
         {formatTimeWithMs(currentTime)}
       </div>
     </div>

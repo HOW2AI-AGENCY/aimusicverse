@@ -292,7 +292,7 @@ export function StudioActionsPanel({
                 {action.processing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Icon className="w-4 h-4" />}
                 <span className="hidden sm:inline">{action.label}</span>
                 {action.badge && (
-                  <Badge variant="secondary" className="ml-1 text-[10px] px-1 py-0">
+                  <Badge variant="secondary" className="ml-1 text-[0.625rem] px-1 py-0">
                     {action.badge}
                   </Badge>
                 )}
@@ -359,7 +359,7 @@ export function StudioActionsPanel({
                               <div className="flex items-center gap-2">
                                 <span className="font-medium text-sm">{action.label}</span>
                                 {action.badge && (
-                                  <Badge variant="secondary" className="text-[10px]">
+                                  <Badge variant="secondary" className="text-[0.625rem]">
                                     {action.badge}
                                   </Badge>
                                 )}
@@ -407,7 +407,7 @@ export function StudioActionsPanel({
                         <div className="flex items-center gap-2">
                           <span className="font-medium text-sm">{action.label}</span>
                           {action.badge && (
-                            <Badge variant="secondary" className="text-[10px]">
+                            <Badge variant="secondary" className="text-[0.625rem]">
                               {action.badge}
                             </Badge>
                           )}

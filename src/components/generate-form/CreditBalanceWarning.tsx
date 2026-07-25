@@ -91,7 +91,7 @@ export const CreditBalanceWarning = memo(function CreditBalanceWarning({
                       : "Недостаточно кредитов"
                     : "Баланс на исходе"}
                 </p>
-                <p className="text-[11px] text-muted-foreground mt-0.5">
+                <p className="text-[0.6875rem] text-muted-foreground mt-0.5">
                   {isInsufficient ? (
                     showUpgradeOption ? (
                       <>

@@ -150,7 +150,7 @@ export function TipsPanel({
             </div>
             <div>
               <h3 className="font-semibold text-sm">Профессиональные советы</h3>
-              <p className="text-[10px] text-muted-foreground">
+              <p className="text-[0.625rem] text-muted-foreground">
                 {currentTipIndex + 1} из {filteredTips.length}
               </p>
             </div>
@@ -190,7 +190,7 @@ export function TipsPanel({
                       <h4 className="font-medium text-sm leading-tight">{currentTip.title}</h4>
                       <Badge
                         variant="secondary"
-                        className={cn("text-[10px] px-1.5 py-0 h-5 shrink-0", levelBadgeVariants[currentTip.level])}
+                        className={cn("text-[0.625rem] px-1.5 py-0 h-5 shrink-0", levelBadgeVariants[currentTip.level])}
                       >
                         {currentTip.level}
                       </Badge>
@@ -199,7 +199,7 @@ export function TipsPanel({
 
                     {/* Category */}
                     <div className="flex items-center gap-2 mt-2">
-                      <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-5">
+                      <Badge variant="outline" className="text-[0.625rem] px-1.5 py-0 h-5">
                         <Info className="w-3 h-3 mr-1" />
                         {categoryLabels[currentTip.category]}
                       </Badge>
@@ -207,7 +207,7 @@ export function TipsPanel({
                         <Button
                           size="sm"
                           variant="ghost"
-                          className="h-5 text-[10px] px-2"
+                          className="h-5 text-[0.625rem] px-2"
                           onClick={() => handleMarkComplete(currentTip.id)}
                         >
                           <CheckCircle className="w-3 h-3 mr-1" />
@@ -215,7 +215,7 @@ export function TipsPanel({
                         </Button>
                       )}
                       {completedTips.has(currentTip.id) && (
-                        <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-5">
+                        <Badge variant="secondary" className="text-[0.625rem] px-1.5 py-0 h-5">
                           <CheckCircle className="w-3 h-3 mr-1 text-green-400" />
                           Изучено
                         </Badge>
@@ -274,7 +274,7 @@ export function TipsPanel({
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-xs font-medium leading-tight mb-0.5">{tip.title}</div>
-                      <div className="text-[10px] text-muted-foreground leading-relaxed line-clamp-2">
+                      <div className="text-[0.625rem] text-muted-foreground leading-relaxed line-clamp-2">
                         {tip.description}
                       </div>
                     </div>
@@ -289,8 +289,8 @@ export function TipsPanel({
         {/* Progress */}
         <div className="mt-3 pt-3 border-t border-border">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[10px] text-muted-foreground">Изучено советов</span>
-            <span className="text-[10px] font-semibold">
+            <span className="text-[0.625rem] text-muted-foreground">Изучено советов</span>
+            <span className="text-[0.625rem] font-semibold">
               {completedTips.size}/{filteredTips.length}
             </span>
           </div>

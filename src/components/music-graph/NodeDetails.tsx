@@ -69,7 +69,7 @@ export function NodeDetails({ node, onClose, relatedNodes = [] }: NodeDetailsPro
           </div>
           <div>
             <h3 className="font-semibold">{node.label}</h3>
-            <Badge variant="outline" className="text-[10px]">
+            <Badge variant="outline" className="text-[0.625rem]">
               {getTypeLabel()}
             </Badge>
           </div>
@@ -205,7 +205,7 @@ export function NodeDetails({ node, onClose, relatedNodes = [] }: NodeDetailsPro
                     >
                       <div className="w-2 h-2 rounded-full" style={{ backgroundColor: related.color }} />
                       <span className="text-sm flex-1 truncate">{related.label}</span>
-                      <Badge variant="outline" className="text-[10px]">
+                      <Badge variant="outline" className="text-[0.625rem]">
                         {related.type}
                       </Badge>
                     </div>

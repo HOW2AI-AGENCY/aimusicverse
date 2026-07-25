@@ -158,7 +158,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
 
                   {activeGenCount > 0 && (
                     <div className="absolute -top-1 -right-0.5 z-20 badge-pop">
-                      <Badge className="h-4 min-w-4 px-1 text-[9px] leading-none bg-destructive text-destructive-foreground border-2 border-background shadow-sm">
+                      <Badge className="h-4 min-w-4 px-1 text-[0.5625rem] leading-none bg-destructive text-destructive-foreground border-2 border-background shadow-sm">
                         {activeGenCount > 9 ? "9+" : activeGenCount}
                       </Badge>
                     </div>

@@ -113,7 +113,7 @@ export function StudioActions({ track, state, stems = [], onAction, variant, isP
             <DropdownMenuItem onClick={() => onAction("stems_simple")} disabled={isProcessing}>
               <Scissors className="w-4 h-4 mr-2" />
               Стемы (2 дорожки)
-              <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-500 font-medium">
+              <span className="ml-auto text-[0.625rem] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-500 font-medium">
                 FREE
               </span>
             </DropdownMenuItem>

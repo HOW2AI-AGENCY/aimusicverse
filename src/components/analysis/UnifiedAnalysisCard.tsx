@@ -74,7 +74,7 @@ export const UnifiedAnalysisCard = memo(function UnifiedAnalysisCard({
             <Activity className="w-4 h-4 text-primary" />
             Анализ аудио
             {analysis.provider && (
-              <Badge variant="outline" className="text-[10px] ml-auto">
+              <Badge variant="outline" className="text-[0.625rem] ml-auto">
                 {analysis.provider}
               </Badge>
             )}
@@ -186,7 +186,7 @@ export const UnifiedAnalysisCard = memo(function UnifiedAnalysisCard({
           {analysis.styleTags && analysis.styleTags.length > 0 && !compact && (
             <div className="flex flex-wrap gap-1">
               {analysis.styleTags.slice(0, 6).map((tag, i) => (
-                <Badge key={i} variant="outline" className="text-[10px]">
+                <Badge key={i} variant="outline" className="text-[0.625rem]">
                   #{tag}
                 </Badge>
               ))}
@@ -219,7 +219,7 @@ function StatItem({ icon, label, value, subValue, compact }: StatItemProps) {
       <div className="flex-shrink-0">{icon}</div>
       <div className="min-w-0">
         <p className={cn("font-semibold truncate", compact ? "text-xs" : "text-sm")}>{value}</p>
-        {!compact && <p className="text-[10px] text-muted-foreground truncate">{subValue || label}</p>}
+        {!compact && <p className="text-[0.625rem] text-muted-foreground truncate">{subValue || label}</p>}
       </div>
     </div>
   );

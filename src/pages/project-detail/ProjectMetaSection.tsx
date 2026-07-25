@@ -44,13 +44,13 @@ export function ProjectMetaSection({
         {project.genre && (
           <Badge
             variant="secondary"
-            className="gap-0.5 text-[10px] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0"
+            className="gap-0.5 text-[0.625rem] h-5 px-2 shrink-0 bg-primary/10 text-primary border-0"
           >
             <Music className="w-2.5 h-2.5" />
             {project.genre}
           </Badge>
         )}
-        <Badge variant="outline" className="text-[10px] h-5 px-2 shrink-0">
+        <Badge variant="outline" className="text-[0.625rem] h-5 px-2 shrink-0">
           {completedTracks}/{totalTracks} треков
         </Badge>
         {isPublished && (
@@ -67,7 +67,7 @@ export function ProjectMetaSection({
             {project.description}
           </p>
           {project.description.length > 100 && (
-            <span className="text-[10px] text-primary/70 group-hover:text-primary transition-colors">
+            <span className="text-[0.625rem] text-primary/70 group-hover:text-primary transition-colors">
               {descriptionExpanded ? "Свернуть" : "Читать полностью"}
             </span>
           )}

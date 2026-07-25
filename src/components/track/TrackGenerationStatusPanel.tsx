@@ -140,7 +140,7 @@ export function TrackGenerationStatusPanel({ trackId, className }: Props) {
                   </span>
                 )}
                 {v.id === activeVersionId && (
-                  <span className="ml-auto rounded bg-primary/20 px-1.5 py-0.5 text-[10px] font-medium text-primary">
+                  <span className="ml-auto rounded bg-primary/20 px-1.5 py-0.5 text-[0.625rem] font-medium text-primary">
                     active
                   </span>
                 )}
@@ -165,7 +165,7 @@ export function TrackGenerationStatusPanel({ trackId, className }: Props) {
                   </div>
                   <div className="text-muted-foreground">{label.hint}</div>
                   {r.availableKeys && r.availableKeys.length > 0 && (
-                    <div className="mt-0.5 font-mono text-[10px] text-muted-foreground">
+                    <div className="mt-0.5 font-mono text-[0.625rem] text-muted-foreground">
                       keys: {r.availableKeys.slice(0, 8).join(", ")}
                       {r.availableKeys.length > 8 && "…"}
                     </div>

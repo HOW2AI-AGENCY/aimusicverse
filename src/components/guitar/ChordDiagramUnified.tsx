@@ -53,7 +53,7 @@ export function ChordDiagramUnified({
         onClick={onClick}
       >
         <span className="text-xs font-semibold text-muted-foreground mb-1">{chord}</span>
-        <span className="text-[8px] text-muted-foreground/70">N/A</span>
+        <span className="text-[0.5rem] text-muted-foreground/70">N/A</span>
       </div>
     );
   }
@@ -269,7 +269,7 @@ export function ChordDiagramUnified({
 
       {/* Technique hint (optional) */}
       {showFingers && fingering.barres && fingering.barres.length > 0 && (
-        <span className="text-[8px] text-muted-foreground">barre</span>
+        <span className="text-[0.5rem] text-muted-foreground">barre</span>
       )}
     </Component>
   );

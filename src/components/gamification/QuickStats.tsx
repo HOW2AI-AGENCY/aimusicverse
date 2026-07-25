@@ -24,7 +24,7 @@ function StatItem({ icon, label, value, subValue, color, delay }: StatItemProps)
       <div className={`w-12 h-12 mx-auto rounded-xl ${color} flex items-center justify-center mb-2`}>{icon}</div>
       <p className="text-xl font-bold">{value}</p>
       <p className="text-xs text-muted-foreground">{label}</p>
-      {subValue && <p className="text-[10px] text-primary mt-0.5">{subValue}</p>}
+      {subValue && <p className="text-[0.625rem] text-primary mt-0.5">{subValue}</p>}
     </motion.div>
   );
 }

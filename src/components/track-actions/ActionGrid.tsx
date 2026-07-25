@@ -17,7 +17,7 @@ export const ActionGroup = memo(function ActionGroup({ title, children, classNam
     <div className={cn("space-y-1", className)}>
       {title && (
         <div className="flex items-center gap-2 px-1 py-1">
-          <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">{title}</span>
+          <span className="text-[0.625rem] font-medium text-muted-foreground uppercase tracking-wider">{title}</span>
           <div className="flex-1 h-px bg-border/40" />
         </div>
       )}

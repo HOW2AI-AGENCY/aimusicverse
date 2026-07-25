@@ -86,7 +86,7 @@ export const PromptPreview = memo(function PromptPreview({
         {isLong && (
           <button
             onClick={toggleExpand}
-            className="flex items-center gap-1 mt-1.5 text-[10px] text-primary hover:text-primary/80 transition-colors"
+            className="flex items-center gap-1 mt-1.5 text-[0.625rem] text-primary hover:text-primary/80 transition-colors"
           >
             {expanded ? (
               <>

@@ -50,7 +50,7 @@ export const RealisticKnob = memo(function RealisticKnob({
 
   // Size configuration - larger touch targets for mobile
   const sizeConfig = {
-    sm: { outer: 72, inner: 52, grip: 44, fontSize: "text-[10px]", labelWidth: "w-20", touchArea: 88 },
+    sm: { outer: 72, inner: 52, grip: 44, fontSize: "text-[0.625rem]", labelWidth: "w-20", touchArea: 88 },
     md: { outer: 88, inner: 64, grip: 54, fontSize: "text-xs", labelWidth: "w-24", touchArea: 104 },
     lg: { outer: 104, inner: 76, grip: 64, fontSize: "text-sm", labelWidth: "w-28", touchArea: 120 },
   }[size];
@@ -347,7 +347,7 @@ export const RealisticKnob = memo(function RealisticKnob({
         {/* Drag hint indicator (shows on touch start) */}
         {isDragging && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="flex flex-col items-center text-muted-foreground/50 text-[10px]">
+            <div className="flex flex-col items-center text-muted-foreground/50 text-[0.625rem]">
               <span className="-mt-1">↑</span>
               <span className="mt-8">↓</span>
             </div>
@@ -371,7 +371,7 @@ export const RealisticKnob = memo(function RealisticKnob({
         }}
       >
         <div className="font-medium truncate">{label}</div>
-        {sublabel && <div className="text-[9px] opacity-60 truncate">{sublabel}</div>}
+        {sublabel && <div className="text-[0.5625rem] opacity-60 truncate">{sublabel}</div>}
       </button>
 
       {/* LED indicator */}

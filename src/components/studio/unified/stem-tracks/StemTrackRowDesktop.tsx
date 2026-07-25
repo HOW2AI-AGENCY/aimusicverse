@@ -56,7 +56,7 @@ export const StemTrackRowDesktop = memo(function StemTrackRowDesktop({
         <div className={cn("w-6 h-6 rounded-md flex items-center justify-center", config.accent)}>
           <Icon className="w-3 h-3" />
         </div>
-        <span className="text-[11px] font-mono font-semibold tracking-wider">{config.shortLabel}</span>
+        <span className="text-[0.6875rem] font-mono font-semibold tracking-wider">{config.shortLabel}</span>
         {/* Transcription indicators */}
         {transcription &&
           (transcription.midi_url || transcription.pdf_url || transcription.gp5_url || transcription.mxml_url) && (
@@ -64,7 +64,7 @@ export const StemTrackRowDesktop = memo(function StemTrackRowDesktop({
               {transcription.midi_url && (
                 <Badge
                   variant="outline"
-                  className="h-4 px-1 text-[8px] bg-primary/10 border-primary/30 text-primary cursor-pointer hover:bg-primary/20"
+                  className="h-4 px-1 text-[0.5rem] bg-primary/10 border-primary/30 text-primary cursor-pointer hover:bg-primary/20"
                   onClick={() => onAction("view-notes")}
                 >
                   <Music2 className="w-2.5 h-2.5" />
@@ -73,7 +73,7 @@ export const StemTrackRowDesktop = memo(function StemTrackRowDesktop({
               {transcription.gp5_url && (
                 <Badge
                   variant="outline"
-                  className="h-4 px-1 text-[8px] bg-amber-500/10 border-amber-500/30 text-amber-500 cursor-pointer hover:bg-amber-500/20"
+                  className="h-4 px-1 text-[0.5rem] bg-amber-500/10 border-amber-500/30 text-amber-500 cursor-pointer hover:bg-amber-500/20"
                   onClick={() => onAction("view-notes")}
                   title="Табулатура (Guitar Pro)"
                 >
@@ -85,7 +85,7 @@ export const StemTrackRowDesktop = memo(function StemTrackRowDesktop({
                 !transcription.midi_url && (
                   <Badge
                     variant="outline"
-                    className="h-4 px-1 text-[8px] bg-emerald-500/10 border-emerald-500/30 text-emerald-500 cursor-pointer hover:bg-emerald-500/20"
+                    className="h-4 px-1 text-[0.5rem] bg-emerald-500/10 border-emerald-500/30 text-emerald-500 cursor-pointer hover:bg-emerald-500/20"
                     onClick={() => onAction("view-notes")}
                     title="Ноты (PDF/MusicXML)"
                   >
@@ -103,7 +103,7 @@ export const StemTrackRowDesktop = memo(function StemTrackRowDesktop({
           size="sm"
           onClick={() => onToggle("mute")}
           className={cn(
-            "h-5 w-5 p-0 rounded text-[9px] font-bold transition-all",
+            "h-5 w-5 p-0 rounded text-[0.5625rem] font-bold transition-all",
             state.muted ? "bg-destructive text-destructive-foreground" : "hover:bg-muted",
           )}
         >
@@ -114,7 +114,7 @@ export const StemTrackRowDesktop = memo(function StemTrackRowDesktop({
           size="sm"
           onClick={() => onToggle("solo")}
           className={cn(
-            "h-5 w-5 p-0 rounded text-[9px] font-bold transition-all",
+            "h-5 w-5 p-0 rounded text-[0.5625rem] font-bold transition-all",
             state.solo ? "bg-primary text-primary-foreground" : "hover:bg-muted",
           )}
         >

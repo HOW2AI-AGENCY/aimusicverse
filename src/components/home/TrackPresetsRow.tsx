@@ -129,17 +129,17 @@ const TrackCard = memo(function TrackCard({
             return <Icon className="w-6 h-6 text-primary drop-shadow-sm" />;
           })()}
           {preset.hasVocals ? (
-            <span className="flex items-center gap-1 text-[8px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium border border-primary/30">
+            <span className="flex items-center gap-1 text-[0.5rem] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium border border-primary/30">
               <Mic className="w-2.5 h-2.5" /> Вокал
             </span>
           ) : (
-            <span className="flex items-center gap-1 text-[8px] px-1.5 py-0.5 rounded-full bg-muted/50 text-muted-foreground font-medium">
+            <span className="flex items-center gap-1 text-[0.5rem] px-1.5 py-0.5 rounded-full bg-muted/50 text-muted-foreground font-medium">
               <Music className="w-2.5 h-2.5" /> Инстр.
             </span>
           )}
         </div>
         <div className="text-sm font-semibold truncate mb-0.5">{preset.label}</div>
-        <p className="text-[10px] text-muted-foreground line-clamp-2 leading-tight">
+        <p className="text-[0.625rem] text-muted-foreground line-clamp-2 leading-tight">
           {preset.description.split(",").slice(0, 2).join(", ")}
         </p>
       </div>

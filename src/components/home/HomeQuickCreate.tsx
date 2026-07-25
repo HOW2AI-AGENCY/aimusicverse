@@ -78,7 +78,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
             </div>
           </div>
           {/* Credits cost badge */}
-          <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-2.5 py-1 lg:px-3 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-bold bg-gradient-to-r from-primary/20 to-generate/15 text-primary rounded-full border border-primary/30 whitespace-nowrap shadow-sm">
+          <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-2.5 py-1 lg:px-3 lg:py-1.5 text-[0.625rem] sm:text-xs lg:text-sm font-bold bg-gradient-to-r from-primary/20 to-generate/15 text-primary rounded-full border border-primary/30 whitespace-nowrap shadow-sm">
             <Music2 className="w-3 h-3 lg:w-3.5 lg:h-3.5" aria-hidden="true" />
             {t("home.quickCreate.credits")}
           </span>
@@ -207,7 +207,7 @@ const QuickCreateOption = memo(function QuickCreateOption({
         aria-hidden="true"
       />
       <span className="text-xs lg:text-sm font-medium text-foreground">{label}</span>
-      <span className="text-[10px] lg:text-xs text-muted-foreground">{description}</span>
+      <span className="text-[0.625rem] lg:text-xs text-muted-foreground">{description}</span>
     </button>
   );
 });

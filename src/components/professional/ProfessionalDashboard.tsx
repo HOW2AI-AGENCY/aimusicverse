@@ -209,7 +209,7 @@ export function ProfessionalDashboard({ className }: ProfessionalDashboardProps)
                         <div>
                           <CardTitle className="text-base">{workflow.title}</CardTitle>
                           <div className="flex items-center gap-2 mt-1">
-                            <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-5">
+                            <Badge variant="secondary" className="text-[0.625rem] px-1.5 py-0 h-5">
                               {workflow.progress}%
                             </Badge>
                             <span className="text-xs text-muted-foreground flex items-center gap-1">
@@ -263,7 +263,7 @@ export function ProfessionalDashboard({ className }: ProfessionalDashboardProps)
                               />
                             </motion.div>
                             <div className="text-center">
-                              <div className="text-[10px] font-medium leading-tight">{step.title}</div>
+                              <div className="text-[0.625rem] font-medium leading-tight">{step.title}</div>
                             </div>
                           </div>
                         );

@@ -112,7 +112,7 @@ export const ChatInputArea = memo(
 
             {/* Character count hint */}
             {value.length > 100 && (
-              <span className="absolute right-14 bottom-3 text-[10px] text-muted-foreground">{value.length}/500</span>
+              <span className="absolute right-14 bottom-3 text-[0.625rem] text-muted-foreground">{value.length}/500</span>
             )}
           </div>
 
@@ -147,10 +147,10 @@ export const ChatInputArea = memo(
 
         {/* Keyboard hint */}
         <div className="flex items-center justify-between mt-2 px-1">
-          <p className="text-[10px] text-muted-foreground">
-            <kbd className="px-1 py-0.5 rounded bg-muted text-[9px]">Enter</kbd> отправить
+          <p className="text-[0.625rem] text-muted-foreground">
+            <kbd className="px-1 py-0.5 rounded bg-muted text-[0.5625rem]">Enter</kbd> отправить
             <span className="mx-1.5">•</span>
-            <kbd className="px-1 py-0.5 rounded bg-muted text-[9px]">Shift+Enter</kbd> новая строка
+            <kbd className="px-1 py-0.5 rounded bg-muted text-[0.5625rem]">Shift+Enter</kbd> новая строка
           </p>
         </div>
       </div>

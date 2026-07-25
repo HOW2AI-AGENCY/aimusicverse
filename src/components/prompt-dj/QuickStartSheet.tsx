@@ -156,9 +156,9 @@ export const QuickStartSheet = memo(function QuickStartSheet({ isOpen, onClose, 
                     {preset.icon}
                     <span className="font-medium text-sm">{preset.label}</span>
                   </div>
-                  <span className="text-[10px] text-muted-foreground text-left">{preset.description}</span>
+                  <span className="text-[0.625rem] text-muted-foreground text-left">{preset.description}</span>
                   <div className="flex gap-1 mt-1">
-                    <span className="px-1.5 py-0.5 rounded text-[9px] bg-background/50">{preset.settings.bpm} BPM</span>
+                    <span className="px-1.5 py-0.5 rounded text-[0.5625rem] bg-background/50">{preset.settings.bpm} BPM</span>
                   </div>
                 </motion.button>
               ))}

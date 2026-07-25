@@ -63,7 +63,7 @@ export function QuickActionsBar({ hasLyrics, genre, mood, onAction, className }:
 
   // Add context to actions if available
   const getContextualAction = (baseAction: string) => {
-    let contextParts: string[] = [];
+    const contextParts: string[] = [];
     if (genre) contextParts.push(`жанр: ${genre}`);
     if (mood) contextParts.push(`настроение: ${mood}`);
 

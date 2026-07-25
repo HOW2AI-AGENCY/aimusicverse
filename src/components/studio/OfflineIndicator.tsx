@@ -111,7 +111,7 @@ export const OfflineIndicator = memo(function OfflineIndicator({ audioUrls = [],
                   onClick={() => setShowDetails(!showDetails)}
                 >
                   <HardDrive className="w-3 h-3" />
-                  <span className="font-mono text-[10px]">{formatBytes(cacheSize)}</span>
+                  <span className="font-mono text-[0.625rem]">{formatBytes(cacheSize)}</span>
                 </Badge>
               </TooltipTrigger>
               <TooltipContent>Аудио в кэше: {formatBytes(cacheSize)}</TooltipContent>
@@ -127,7 +127,7 @@ export const OfflineIndicator = memo(function OfflineIndicator({ audioUrls = [],
             {allCached ? (
               <Badge variant="outline" className="gap-1 h-6 px-2 text-primary border-primary/30">
                 <Download className="w-3 h-3" />
-                <span className="text-[10px]">Офлайн</span>
+                <span className="text-[0.625rem]">Офлайн</span>
               </Badge>
             ) : (
               <Button

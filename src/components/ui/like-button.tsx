@@ -74,7 +74,7 @@ export function LikeButton({
       </motion.div>
 
       {showCount && displayCount > 0 && (
-        <span className={cn("ml-1 text-xs font-medium", size === "sm" && "text-[10px]", size === "lg" && "text-sm")}>
+        <span className={cn("ml-1 text-xs font-medium", size === "sm" && "text-[0.625rem]", size === "lg" && "text-sm")}>
           {displayCount}
         </span>
       )}

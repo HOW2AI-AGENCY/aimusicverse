@@ -141,7 +141,7 @@ export const TrackParamsEditor = memo(function TrackParamsEditor({
           step={1}
           className="w-full"
         />
-        <div className="flex justify-between text-[10px] text-muted-foreground">
+        <div className="flex justify-between text-[0.625rem] text-muted-foreground">
           <span>Спокойный</span>
           <span>Энергичный</span>
         </div>
@@ -197,7 +197,7 @@ export const TrackParamsEditor = memo(function TrackParamsEditor({
           placeholder="https://youtube.com/watch?v=..."
           className={cn(compact && "h-8 text-sm")}
         />
-        <p className="text-[10px] text-muted-foreground">Ссылка на референсный трек для стиля</p>
+        <p className="text-[0.625rem] text-muted-foreground">Ссылка на референсный трек для стиля</p>
       </div>
     </div>
   );

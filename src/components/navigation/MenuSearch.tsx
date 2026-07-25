@@ -102,7 +102,7 @@ export const MenuSearch = memo(function MenuSearch({ items, onNavigate, isActive
                 </div>
                 <div className="flex-1 min-w-0">
                   <span className="font-medium text-sm block truncate">{item.label}</span>
-                  {item.section && <span className="text-[10px] text-muted-foreground">{item.section}</span>}
+                  {item.section && <span className="text-[0.625rem] text-muted-foreground">{item.section}</span>}
                 </div>
               </motion.button>
             ))}

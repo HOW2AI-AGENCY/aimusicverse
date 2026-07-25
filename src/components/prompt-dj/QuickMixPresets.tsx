@@ -17,8 +17,8 @@ export const QuickMixPresets = memo(function QuickMixPresets({ onApply, disabled
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between px-1">
-        <span className="text-[10px] font-medium text-muted-foreground">Быстрые миксы</span>
-        <span className="text-[10px] text-muted-foreground">{QUICK_MIX_PRESETS.length} пресетов</span>
+        <span className="text-[0.625rem] font-medium text-muted-foreground">Быстрые миксы</span>
+        <span className="text-[0.625rem] text-muted-foreground">{QUICK_MIX_PRESETS.length} пресетов</span>
       </div>
 
       <ScrollArea className="w-full">
@@ -29,7 +29,7 @@ export const QuickMixPresets = memo(function QuickMixPresets({ onApply, disabled
               variant="ghost"
               size="sm"
               className={cn(
-                "shrink-0 h-7 px-2.5 text-[11px] rounded-full",
+                "shrink-0 h-7 px-2.5 text-[0.6875rem] rounded-full",
                 "bg-muted/20 hover:bg-muted/40",
                 "border border-transparent hover:border-primary/30",
               )}

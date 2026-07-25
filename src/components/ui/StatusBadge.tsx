@@ -147,7 +147,7 @@ export const StatusBadge = memo(function StatusBadge({
 
   const sizeClasses = {
     xs: {
-      badge: "px-1.5 py-0.5 gap-1 text-[10px]",
+      badge: "px-1.5 py-0.5 gap-1 text-[0.625rem]",
       icon: "w-2.5 h-2.5",
     },
     sm: {

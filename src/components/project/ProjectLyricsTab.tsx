@@ -107,7 +107,7 @@ export function ProjectLyricsTab({ projectId, tracks, onOpenLyrics, onOpenLyrics
                           <span className="font-medium text-sm truncate">{track.title}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
-                          <Badge variant="secondary" className={cn("text-[10px]", statusConfig.className)}>
+                          <Badge variant="secondary" className={cn("text-[0.625rem]", statusConfig.className)}>
                             {isFromLinkedTrack ? "Связан" : statusConfig.label}
                           </Badge>
                         </div>

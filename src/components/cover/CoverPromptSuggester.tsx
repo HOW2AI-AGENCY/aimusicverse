@@ -173,7 +173,7 @@ export function CoverPromptSuggester({
         </motion.button>
       </AnimatePresence>
 
-      <p className="text-[10px] text-muted-foreground text-center">Нажмите, чтобы использовать этот промпт</p>
+      <p className="text-[0.625rem] text-muted-foreground text-center">Нажмите, чтобы использовать этот промпт</p>
     </div>
   );
 }

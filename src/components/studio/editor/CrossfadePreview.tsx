@@ -229,7 +229,7 @@ export function CrossfadePreview({
             className="flex flex-col items-start"
           >
             <span className="text-xs font-medium">Оригинал</span>
-            <span className="text-[10px] text-muted-foreground">До замены</span>
+            <span className="text-[0.625rem] text-muted-foreground">До замены</span>
           </motion.div>
 
           {/* Crossfade indicator */}
@@ -242,7 +242,7 @@ export function CrossfadePreview({
                 className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-2 py-1 rounded-full bg-primary/20 border border-primary/30"
               >
                 <RefreshCw className="w-3 h-3 text-primary animate-spin" />
-                <span className="text-[10px] font-medium text-primary">Crossfade</span>
+                <span className="text-[0.625rem] font-medium text-primary">Crossfade</span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -255,7 +255,7 @@ export function CrossfadePreview({
             className="flex flex-col items-end"
           >
             <span className="text-xs font-medium">Замена</span>
-            <span className="text-[10px] text-muted-foreground">Новая секция</span>
+            <span className="text-[0.625rem] text-muted-foreground">Новая секция</span>
           </motion.div>
         </div>
 

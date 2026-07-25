@@ -186,7 +186,7 @@ export function FullAnalysisResultCard({
         <div className="flex items-center justify-between mt-2">
           <p className="text-xs text-muted-foreground">{getScoreLabel(analysis.overallScore)}</p>
           {hasIssues && (
-            <Badge variant="secondary" className="text-[10px] bg-amber-500/20 text-amber-400">
+            <Badge variant="secondary" className="text-[0.625rem] bg-amber-500/20 text-amber-400">
               <AlertTriangle className="w-3 h-3 mr-1" />
               Есть замечания
             </Badge>
@@ -240,7 +240,7 @@ export function FullAnalysisResultCard({
             >
               <Icon className={cn("w-4 h-4 mb-1", config.color)} />
               <span className={cn("text-lg font-bold", getScoreColor(score))}>{score}</span>
-              <span className="text-[10px] text-muted-foreground">{config.label}</span>
+              <span className="text-[0.625rem] text-muted-foreground">{config.label}</span>
             </button>
           );
         })}
@@ -263,7 +263,7 @@ export function FullAnalysisResultCard({
               {analysis.meaning.emotions.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {analysis.meaning.emotions.map((e, i) => (
-                    <Badge key={i} variant="secondary" className="text-[10px]">
+                    <Badge key={i} variant="secondary" className="text-[0.625rem]">
                       {e}
                     </Badge>
                   ))}
@@ -307,7 +307,7 @@ export function FullAnalysisResultCard({
                   <span className="text-xs text-muted-foreground">Слабые рифмы: </span>
                   <div className="flex flex-wrap gap-1 mt-1">
                     {analysis.rhymes.weakRhymes.map((rhyme, i) => (
-                      <Badge key={i} variant="outline" className="text-[10px] text-amber-500 border-amber-500/30">
+                      <Badge key={i} variant="outline" className="text-[0.625rem] text-amber-500 border-amber-500/30">
                         {rhyme}
                       </Badge>
                     ))}
@@ -321,7 +321,7 @@ export function FullAnalysisResultCard({
             <div className="p-3 space-y-2">
               <div className="flex flex-wrap gap-1">
                 {analysis.structure.tags.map((tag, i) => (
-                  <Badge key={i} variant="outline" className="text-[10px]">
+                  <Badge key={i} variant="outline" className="text-[0.625rem]">
                     {tag}
                   </Badge>
                 ))}
@@ -346,7 +346,7 @@ export function FullAnalysisResultCard({
           <div className="flex items-center gap-2 mb-2">
             <Lightbulb className="w-4 h-4 text-amber-400" />
             <span className="text-sm font-medium">Рекомендации</span>
-            <Badge variant="secondary" className="text-[10px]">
+            <Badge variant="secondary" className="text-[0.625rem]">
               {selectedRecommendations.size > 0 ? `${selectedRecommendations.size}/` : ""}
               {recommendations.length}
             </Badge>
@@ -354,7 +354,7 @@ export function FullAnalysisResultCard({
               <Button
                 variant="ghost"
                 size="sm"
-                className="ml-auto h-6 text-[10px] px-2"
+                className="ml-auto h-6 text-[0.625rem] px-2"
                 onClick={selectAllRecommendations}
               >
                 <CheckCheck className="w-3 h-3 mr-1" />
@@ -389,7 +389,7 @@ export function FullAnalysisResultCard({
                       {isSelected && <Check className="w-3 h-3 text-primary-foreground" />}
                     </div>
                   )}
-                  <Badge className={cn("text-[9px] shrink-0", priorityConfig?.color)}>
+                  <Badge className={cn("text-[0.5625rem] shrink-0", priorityConfig?.color)}>
                     {priorityConfig?.label || rec.priority}
                   </Badge>
                   <span className="flex-1">{rec.text}</span>

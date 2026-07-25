@@ -194,7 +194,7 @@ export function LyricsPage({
             hapticImpact("light");
             onOpenKaraoke();
           }}
-          className="absolute right-3 top-3 z-10 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-card/60 px-3 py-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground backdrop-blur-md ring-1 ring-border/40 hover:text-foreground"
+          className="absolute right-3 top-3 z-10 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-card/60 px-3 py-2 text-[0.6875rem] font-medium uppercase tracking-wider text-muted-foreground backdrop-blur-md ring-1 ring-border/40 hover:text-foreground"
         >
           Караоке
         </button>
@@ -240,7 +240,7 @@ export function LyricsPage({
                         isActive={isActiveWord}
                         isPast={isPastWord}
                         data-word-index={idx}
-                        className="text-[19px] font-medium leading-[1.5]"
+                        className="text-[1.1875rem] font-medium leading-[1.5]"
                         activeClassName="text-primary font-semibold"
                         pastClassName="text-foreground/35"
                         futureClassName=""
@@ -267,7 +267,7 @@ export function LyricsPage({
             className={cn(
               "absolute bottom-4 left-0 right-0 z-10 mx-auto w-fit",
               "inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-4 py-2",
-              "bg-primary/15 text-primary text-[12px] font-medium",
+              "bg-primary/15 text-primary text-[0.75rem] font-medium",
               "backdrop-blur-md ring-1 ring-primary/30",
               "active:scale-95 transition-transform",
             )}

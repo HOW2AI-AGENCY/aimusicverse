@@ -121,7 +121,7 @@ const StatsBar = memo(function StatsBar({
         </>
       )}
       {isDirty && (
-        <Badge variant="outline" className="ml-auto h-5 text-[10px] text-amber-500 border-amber-500/30">
+        <Badge variant="outline" className="ml-auto h-5 text-[0.625rem] text-amber-500 border-amber-500/30">
           Не сохранено
         </Badge>
       )}
@@ -280,7 +280,7 @@ const VersionHistoryView = memo(function VersionHistoryView({
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium">Версия {version.versionNumber}</span>
                   {version.isCurrent && (
-                    <Badge variant="outline" className="h-5 text-[10px]">
+                    <Badge variant="outline" className="h-5 text-[0.625rem]">
                       Текущая
                     </Badge>
                   )}
@@ -435,7 +435,7 @@ const SectionNotesView = memo(function SectionNotesView({
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <Badge variant="outline" className="h-5 text-[10px]">
+                    <Badge variant="outline" className="h-5 text-[0.625rem]">
                       {note.sectionType || "Общая"}
                     </Badge>
                     <span className="text-xs text-muted-foreground">
@@ -446,7 +446,7 @@ const SectionNotesView = memo(function SectionNotesView({
                   {note.tags && note.tags.length > 0 && (
                     <div className="flex gap-1 mt-2">
                       {note.tags.map((tag, i) => (
-                        <Badge key={i} variant="secondary" className="h-5 text-[10px]">
+                        <Badge key={i} variant="secondary" className="h-5 text-[0.625rem]">
                           <Tag className="w-2.5 h-2.5 mr-1" />
                           {tag}
                         </Badge>

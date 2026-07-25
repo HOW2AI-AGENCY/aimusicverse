@@ -192,14 +192,14 @@ export function AudioDetailPanel({
                 <Disc className="w-5 h-5" />
                 <div className="text-left">
                   <div className="font-medium text-sm">Кавер</div>
-                  <div className="text-[10px] opacity-70">Создать в этом стиле</div>
+                  <div className="text-[0.625rem] opacity-70">Создать в этом стиле</div>
                 </div>
               </Button>
               <Button variant="outline" onClick={() => onUseForGeneration(audio, "extend")} className="h-14 gap-2">
                 <ArrowRight className="w-5 h-5" />
                 <div className="text-left">
                   <div className="font-medium text-sm">Расширить</div>
-                  <div className="text-[10px] opacity-70">Продолжить трек</div>
+                  <div className="text-[0.625rem] opacity-70">Продолжить трек</div>
                 </div>
               </Button>
             </div>

@@ -41,8 +41,8 @@ export const GenreCrossfader = memo(function GenreCrossfader({
         {/* Genre A */}
         <div className="flex-1 space-y-1">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-purple-400">A</span>
-            <span className="text-[10px] text-muted-foreground">{aWeight}%</span>
+            <span className="text-[0.625rem] font-bold text-purple-400">A</span>
+            <span className="text-[0.625rem] text-muted-foreground">{aWeight}%</span>
           </div>
           <Select value={genreAId || ""} onValueChange={(v) => onGenreAChange(v || null)} disabled={disabled}>
             <SelectTrigger className="h-8 text-xs bg-purple-500/10 border-purple-500/30">
@@ -59,13 +59,13 @@ export const GenreCrossfader = memo(function GenreCrossfader({
         </div>
 
         {/* VS indicator */}
-        <div className="text-[10px] font-bold text-muted-foreground">×</div>
+        <div className="text-[0.625rem] font-bold text-muted-foreground">×</div>
 
         {/* Genre B */}
         <div className="flex-1 space-y-1">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-blue-400">Б</span>
-            <span className="text-[10px] text-muted-foreground">{bWeight}%</span>
+            <span className="text-[0.625rem] font-bold text-blue-400">Б</span>
+            <span className="text-[0.625rem] text-muted-foreground">{bWeight}%</span>
           </div>
           <Select value={genreBId || ""} onValueChange={(v) => onGenreBChange(v || null)} disabled={disabled}>
             <SelectTrigger className="h-8 text-xs bg-blue-500/10 border-blue-500/30">
@@ -114,11 +114,11 @@ export const GenreCrossfader = memo(function GenreCrossfader({
 
         {/* Labels */}
         <div className="flex justify-between mt-1">
-          <span className="text-[9px] text-purple-400 font-medium">{genreA?.label || "A"}</span>
-          <span className="text-[9px] text-muted-foreground">
+          <span className="text-[0.5625rem] text-purple-400 font-medium">{genreA?.label || "A"}</span>
+          <span className="text-[0.5625rem] text-muted-foreground">
             {crossfaderPosition === 0 ? "Центр" : crossfaderPosition < 0 ? "← A" : "Б →"}
           </span>
-          <span className="text-[9px] text-blue-400 font-medium">{genreB?.label || "Б"}</span>
+          <span className="text-[0.5625rem] text-blue-400 font-medium">{genreB?.label || "Б"}</span>
         </div>
       </div>
     </div>

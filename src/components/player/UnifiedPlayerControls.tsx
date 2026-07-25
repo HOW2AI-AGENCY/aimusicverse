@@ -172,7 +172,7 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
                     aria-label={`Seek backward ${seekSeconds} seconds`}
                   >
                     <RotateCcw className={config.icon} />
-                    <span className="absolute text-[9px] font-bold">{seekSeconds}</span>
+                    <span className="absolute text-[0.5625rem] font-bold">{seekSeconds}</span>
                   </Button>
                 </motion.div>
               </TooltipTrigger>
@@ -278,7 +278,7 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
                     aria-label={`Seek forward ${seekSeconds} seconds`}
                   >
                     <RotateCw className={config.icon} />
-                    <span className="absolute text-[9px] font-bold">{seekSeconds}</span>
+                    <span className="absolute text-[0.5625rem] font-bold">{seekSeconds}</span>
                   </Button>
                 </motion.div>
               </TooltipTrigger>
@@ -304,7 +304,7 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
               aria-label={`Repeat: ${repeat}`}
             >
               <Repeat className={config.icon} />
-              {repeat === "one" && <span className="absolute text-[10px] font-bold">1</span>}
+              {repeat === "one" && <span className="absolute text-[0.625rem] font-bold">1</span>}
             </Button>
           </motion.div>
         )}

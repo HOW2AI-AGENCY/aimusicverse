@@ -268,7 +268,7 @@ export default function Community() {
               <h1 className="text-lg sm:text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent leading-tight truncate">
                 Сообщество
               </h1>
-              <p className="text-[11px] sm:text-sm text-muted-foreground leading-snug truncate">
+              <p className="text-[0.6875rem] sm:text-sm text-muted-foreground leading-snug truncate">
                 Музыка и артисты со всего мира
               </p>
             </div>

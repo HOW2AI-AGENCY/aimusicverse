@@ -78,7 +78,7 @@ export function ProducerResultCard({
             <span className="text-lg">{scoreInfo.emoji}</span>
             <div className="text-right">
               <span className={cn("text-xl font-bold", scoreInfo.color)}>{score}%</span>
-              <p className="text-[10px] text-muted-foreground">{scoreInfo.label}</p>
+              <p className="text-[0.625rem] text-muted-foreground">{scoreInfo.label}</p>
             </div>
           </div>
         </div>
@@ -152,7 +152,7 @@ export function ProducerResultCard({
           <p className="text-xs text-muted-foreground mb-2">{review.hooks.current}</p>
           {review.hooks.suggestions && review.hooks.suggestions.length > 0 && (
             <div className="space-y-1.5">
-              <p className="text-[10px] text-muted-foreground">Предложения:</p>
+              <p className="text-[0.625rem] text-muted-foreground">Предложения:</p>
               {review.hooks.suggestions.map((hook, i) => (
                 <div key={i} className="p-2 rounded bg-rose-500/10 border border-rose-500/20">
                   <p className="text-xs">"{hook}"</p>
@@ -173,7 +173,7 @@ export function ProducerResultCard({
           <div className="space-y-2">
             {review.vocalMap.map((item, i) => (
               <div key={i} className="flex items-start gap-2 text-xs">
-                <Badge variant="outline" className="text-[10px] shrink-0">
+                <Badge variant="outline" className="text-[0.625rem] shrink-0">
                   {item.section}
                 </Badge>
                 <div className="flex-1">
@@ -205,7 +205,7 @@ export function ProducerResultCard({
                 <span className="text-green-500 shrink-0">+ Добавить:</span>
                 <div className="flex flex-wrap gap-1">
                   {review.arrangement.add.map((item, i) => (
-                    <Badge key={i} variant="secondary" className="text-[10px] bg-green-500/10 text-green-400">
+                    <Badge key={i} variant="secondary" className="text-[0.625rem] bg-green-500/10 text-green-400">
                       {item}
                     </Badge>
                   ))}
@@ -217,7 +217,7 @@ export function ProducerResultCard({
                 <span className="text-amber-500 shrink-0">⚡ Динамика:</span>
                 <div className="flex flex-wrap gap-1">
                   {review.arrangement.dynamics.map((item, i) => (
-                    <Badge key={i} variant="secondary" className="text-[10px] bg-amber-500/10 text-amber-400">
+                    <Badge key={i} variant="secondary" className="text-[0.625rem] bg-amber-500/10 text-amber-400">
                       {item}
                     </Badge>
                   ))}
@@ -291,7 +291,7 @@ export function ProducerResultCard({
           <div className="space-y-2">
             {review.recommendations.map((rec, i) => (
               <div key={i} className="flex items-start gap-2 text-xs">
-                <Badge variant={rec.priority === "high" ? "destructive" : "secondary"} className="text-[9px] shrink-0">
+                <Badge variant={rec.priority === "high" ? "destructive" : "secondary"} className="text-[0.5625rem] shrink-0">
                   {rec.category || (typeof rec.priority === "number" ? `#${rec.priority}` : rec.priority)}
                 </Badge>
                 <span>{rec.text}</span>

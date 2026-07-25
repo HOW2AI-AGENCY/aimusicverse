@@ -43,7 +43,7 @@ export const SimplifiedTagsRow = memo(function SimplifiedTagsRow({
   return (
     <div className={cn("flex items-center gap-1 flex-nowrap min-w-0 overflow-hidden h-5", className)}>
       {parsedTags.visible.length === 0 ? (
-        <span className="text-[10px] text-muted-foreground/40 italic" aria-hidden>
+        <span className="text-[0.625rem] text-muted-foreground/40 italic" aria-hidden>
           —
         </span>
       ) : (
@@ -56,7 +56,7 @@ export const SimplifiedTagsRow = memo(function SimplifiedTagsRow({
             }}
             title={tag.value}
             className={cn(
-              "shrink min-w-0 max-w-[88px] px-1.5 py-0.5 rounded text-[10px] font-medium leading-none",
+              "shrink min-w-0 max-w-[88px] px-1.5 py-0.5 rounded text-[0.625rem] font-medium leading-none",
               "truncate whitespace-nowrap transition-all duration-200",
               "cursor-pointer active:scale-95 hover:brightness-110",
               CATEGORY_COLORS[tag.category],
@@ -69,7 +69,7 @@ export const SimplifiedTagsRow = memo(function SimplifiedTagsRow({
 
       {parsedTags.hiddenCount > 0 && (
         <span
-          className="shrink-0 ml-auto text-[10px] text-muted-foreground tabular-nums"
+          className="shrink-0 ml-auto text-[0.625rem] text-muted-foreground tabular-nums"
           aria-label={`Ещё ${parsedTags.hiddenCount} тегов`}
         >
           +{parsedTags.hiddenCount}

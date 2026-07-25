@@ -97,7 +97,7 @@ function MenuItemRow({ item, depth, childCount, onEdit, onDelete, onToggle }: Me
           )}
         </div>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Badge variant="outline" className="text-[10px] px-1 py-0 gap-1">
+          <Badge variant="outline" className="text-[0.625rem] px-1 py-0 gap-1">
             {getActionIcon(item.action_type)}
             {getActionLabel(item.action_type)}
           </Badge>

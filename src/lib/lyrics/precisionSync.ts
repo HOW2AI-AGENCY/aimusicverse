@@ -158,7 +158,7 @@ export function groupIntoEnhancedLines(words: EnhancedWord[]): EnhancedLine[] {
 
   const lines: EnhancedLine[] = [];
   let currentWords: EnhancedWord[] = [];
-  let lineStartIndex = 0;
+  const lineStartIndex = 0;
 
   for (let i = 0; i < words.length; i++) {
     const word = words[i];

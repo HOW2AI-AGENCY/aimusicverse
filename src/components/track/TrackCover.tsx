@@ -35,7 +35,7 @@ const SIZE_CONFIG = {
     container: "w-11 h-11",
     playButton: "w-11 h-11",
     playIcon: "w-4 h-4",
-    duration: "text-[8px] px-1 py-0.5",
+    duration: "text-[0.5rem] px-1 py-0.5",
     fallbackIcon: "text-sm",
     fallbackEmoji: "🎵",
   },
@@ -43,7 +43,7 @@ const SIZE_CONFIG = {
     container: "w-14 h-14",
     playButton: "w-10 h-10",
     playIcon: "w-4 h-4",
-    duration: "text-[9px] px-1.5 py-0.5",
+    duration: "text-[0.5625rem] px-1.5 py-0.5",
     fallbackIcon: "w-5 h-5",
     fallbackEmoji: "♪",
   },
@@ -51,7 +51,7 @@ const SIZE_CONFIG = {
     container: "aspect-square",
     playButton: "w-11 h-11",
     playIcon: "w-4 h-4",
-    duration: "text-[10px] px-1.5 py-0.5",
+    duration: "text-[0.625rem] px-1.5 py-0.5",
     fallbackIcon: "w-8 h-8",
     fallbackEmoji: "♪",
   },
@@ -143,7 +143,7 @@ export const TrackCover = memo(function TrackCover({
       {showPlayingIndicator && isPlaying && (
         <div className="absolute top-1.5 left-1.5">
           <motion.div
-            className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[9px] font-medium"
+            className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[0.5625rem] font-medium"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
           >

@@ -178,7 +178,7 @@ export class AudioErrorBoundary extends Component<Props, State> {
               {process.env.NODE_ENV === "development" && (
                 <details className="text-xs text-muted-foreground">
                   <summary className="cursor-pointer hover:text-foreground">Техническая информация</summary>
-                  <pre className="mt-2 p-2 bg-muted rounded text-[10px] overflow-auto max-h-32">
+                  <pre className="mt-2 p-2 bg-muted rounded text-[0.625rem] overflow-auto max-h-32">
                     {error.message}
                     {"\n\n"}
                     {error.stack}

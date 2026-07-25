@@ -211,7 +211,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
             </motion.button>
             {unreadCount > 0 && (
               <motion.span
-                className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground shadow-lg z-10"
+                className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[0.625rem] font-bold text-destructive-foreground shadow-lg z-10"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 400 }}

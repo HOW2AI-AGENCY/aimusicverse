@@ -238,7 +238,7 @@ export const ABCompareOverlay = memo(function ABCompareOverlay({
             <Sparkles className="w-4 h-4 text-success" />
           </motion.div>
           <span className="text-sm font-medium">A/B Сравнение</span>
-          <Badge variant="outline" className="text-[10px] font-mono bg-background/50">
+          <Badge variant="outline" className="text-[0.625rem] font-mono bg-background/50">
             {formatTime(sectionStart)} — {formatTime(sectionEnd)}
           </Badge>
         </div>
@@ -382,7 +382,7 @@ export const ABCompareOverlay = memo(function ABCompareOverlay({
           }}
           className="w-full"
         />
-        <div className="flex justify-between text-[10px] text-muted-foreground font-mono">
+        <div className="flex justify-between text-[0.625rem] text-muted-foreground font-mono">
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(sectionDuration)}</span>
         </div>

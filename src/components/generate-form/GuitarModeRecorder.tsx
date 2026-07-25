@@ -351,7 +351,7 @@ export function GuitarModeRecorder({ onRecordingComplete, onCancel }: GuitarMode
                           exit={{ scale: 0.8, opacity: 0 }}
                         >
                           <div className="text-2xl font-bold text-primary">{currentChord.name}</div>
-                          <span className="text-[10px] text-muted-foreground">
+                          <span className="text-[0.625rem] text-muted-foreground">
                             {Math.round(currentChord.confidence * 100)}%
                           </span>
                         </motion.div>
@@ -395,13 +395,13 @@ export function GuitarModeRecorder({ onRecordingComplete, onCancel }: GuitarMode
                     <Badge
                       key={`${chord.name}-${i}`}
                       variant={i === 0 ? "default" : "secondary"}
-                      className="text-[10px] px-1.5 py-0"
+                      className="text-[0.625rem] px-1.5 py-0"
                     >
                       {chord.name}
                     </Badge>
                   ))}
                   {chordHistory.length > 8 && (
-                    <Badge variant="outline" className="text-[10px] px-1.5 py-0">
+                    <Badge variant="outline" className="text-[0.625rem] px-1.5 py-0">
                       +{chordHistory.length - 8}
                     </Badge>
                   )}
@@ -457,7 +457,7 @@ export function GuitarModeRecorder({ onRecordingComplete, onCancel }: GuitarMode
                   size="sm"
                   variant="ghost"
                   onClick={handleCopyProgression}
-                  className="h-6 gap-1 text-[10px] px-2"
+                  className="h-6 gap-1 text-[0.625rem] px-2"
                 >
                   {copiedProgression ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                 </Button>
@@ -465,7 +465,7 @@ export function GuitarModeRecorder({ onRecordingComplete, onCancel }: GuitarMode
 
               <div className="flex flex-wrap gap-1">
                 {[...new Set(chordHistory.map((c) => c.name))].slice(0, 6).map((chord, i) => (
-                  <Badge key={i} variant="secondary" className="text-[10px] px-1.5 py-0">
+                  <Badge key={i} variant="secondary" className="text-[0.625rem] px-1.5 py-0">
                     {chord}
                   </Badge>
                 ))}
@@ -488,7 +488,7 @@ export function GuitarModeRecorder({ onRecordingComplete, onCancel }: GuitarMode
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm">Описание стиля</p>
-                  <p className="text-[11px] text-muted-foreground line-clamp-2">
+                  <p className="text-[0.6875rem] text-muted-foreground line-clamp-2">
                     {generateStyleDescription() || "Acoustic guitar melody"}
                   </p>
                 </div>
@@ -506,7 +506,7 @@ export function GuitarModeRecorder({ onRecordingComplete, onCancel }: GuitarMode
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm">Аудио референс</p>
-                  <p className="text-[11px] text-muted-foreground">
+                  <p className="text-[0.6875rem] text-muted-foreground">
                     Использовать запись как аудио для генерации похожего трека
                   </p>
                 </div>

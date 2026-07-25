@@ -140,7 +140,7 @@ export const SmartSuggestionCard = memo(function SmartSuggestionCard({
             {/* Confidence bar */}
             <div className="flex items-center gap-2 mb-2">
               <Progress value={suggestion.confidence * 100} className="h-1 flex-1" />
-              <span className="text-[10px] text-muted-foreground w-8 text-right">
+              <span className="text-[0.625rem] text-muted-foreground w-8 text-right">
                 {Math.round(suggestion.confidence * 100)}%
               </span>
             </div>
@@ -148,19 +148,19 @@ export const SmartSuggestionCard = memo(function SmartSuggestionCard({
             {/* Tags & metadata */}
             <div className="flex flex-wrap gap-1">
               {energyBadge && (
-                <Badge variant="secondary" className={cn("text-[10px] h-5 px-1.5", energyBadge.className)}>
+                <Badge variant="secondary" className={cn("text-[0.625rem] h-5 px-1.5", energyBadge.className)}>
                   {energyBadge.label}
                 </Badge>
               )}
               {suggestion.tags.slice(0, 2).map((tag) => (
-                <Badge key={tag} variant="secondary" className="text-[10px] h-5 px-1.5">
+                <Badge key={tag} variant="secondary" className="text-[0.625rem] h-5 px-1.5">
                   {tag}
                 </Badge>
               ))}
             </div>
 
             {/* Reasoning */}
-            <p className="text-[10px] text-muted-foreground/70 mt-1.5 italic">{suggestion.reasoning}</p>
+            <p className="text-[0.625rem] text-muted-foreground/70 mt-1.5 italic">{suggestion.reasoning}</p>
           </div>
         </div>
       </Card>

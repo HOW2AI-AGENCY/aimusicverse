@@ -81,7 +81,7 @@ export const DailyCheckin = memo(function DailyCheckin() {
               <div className="flex items-center gap-1.5 mb-0.5">
                 <span className="font-semibold text-sm">Чекин</span>
                 {streak > 0 && (
-                  <Badge className="bg-orange-500/15 border-orange-500/30 text-orange-500 text-[10px] px-1.5 py-0 h-4 gap-0.5">
+                  <Badge className="bg-orange-500/15 border-orange-500/30 text-orange-500 text-[0.625rem] px-1.5 py-0 h-4 gap-0.5">
                     <Flame className="w-2.5 h-2.5" />
                     {streak}
                   </Badge>
@@ -90,14 +90,14 @@ export const DailyCheckin = memo(function DailyCheckin() {
 
               {canCheckin ? (
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] font-medium text-warning">
+                  <span className="text-[0.625rem] font-medium text-warning">
                     +{ACTION_REWARDS.checkin.credits}
                     {nextStreakBonus > 0 && <span className="text-primary">+{nextStreakBonus}</span>}
                   </span>
-                  <span className="text-[10px] font-medium text-primary">+{ACTION_REWARDS.checkin.experience} XP</span>
+                  <span className="text-[0.625rem] font-medium text-primary">+{ACTION_REWARDS.checkin.experience} XP</span>
                 </div>
               ) : (
-                <p className="text-[10px] text-green-500 flex items-center gap-1">
+                <p className="text-[0.625rem] text-green-500 flex items-center gap-1">
                   <Calendar className="w-2.5 h-2.5" />
                   Завтра
                 </p>

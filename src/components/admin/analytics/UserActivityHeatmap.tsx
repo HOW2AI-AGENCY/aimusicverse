@@ -110,7 +110,7 @@ export function UserActivityHeatmap({ timePeriod }: UserActivityHeatmapProps) {
                 {HOURS.filter((_, i) => i % 3 === 0).map((hour) => (
                   <div
                     key={hour}
-                    className="flex-1 text-center text-[10px] sm:text-xs text-muted-foreground"
+                    className="flex-1 text-center text-[0.625rem] sm:text-xs text-muted-foreground"
                     style={{ minWidth: "14px" }}
                   >
                     {hour}
@@ -121,7 +121,7 @@ export function UserActivityHeatmap({ timePeriod }: UserActivityHeatmapProps) {
               {/* Heatmap rows */}
               {data.hourlyActivity.map((row, dayIndex) => (
                 <div key={dayIndex} className="flex items-center mb-0.5 sm:mb-1">
-                  <div className="w-8 sm:w-10 text-[10px] sm:text-xs text-muted-foreground font-medium">
+                  <div className="w-8 sm:w-10 text-[0.625rem] sm:text-xs text-muted-foreground font-medium">
                     {DAYS[dayIndex]}
                   </div>
                   <div className="flex-1 flex gap-[1px] sm:gap-[2px]">
@@ -139,7 +139,7 @@ export function UserActivityHeatmap({ timePeriod }: UserActivityHeatmapProps) {
 
               {/* Legend */}
               <div className="flex items-center justify-end gap-1.5 sm:gap-2 mt-3 sm:mt-4">
-                <span className="text-[10px] sm:text-xs text-muted-foreground">Меньше</span>
+                <span className="text-[0.625rem] sm:text-xs text-muted-foreground">Меньше</span>
                 <div className="flex gap-0.5 sm:gap-1">
                   <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-muted/30" />
                   <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-primary/20" />
@@ -148,7 +148,7 @@ export function UserActivityHeatmap({ timePeriod }: UserActivityHeatmapProps) {
                   <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-primary/80" />
                   <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm bg-primary" />
                 </div>
-                <span className="text-[10px] sm:text-xs text-muted-foreground">Больше</span>
+                <span className="text-[0.625rem] sm:text-xs text-muted-foreground">Больше</span>
               </div>
             </div>
           </div>

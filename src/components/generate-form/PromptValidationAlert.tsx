@@ -77,7 +77,7 @@ export const PromptValidationAlert = memo(function PromptValidationAlert({
               <p className="text-xs font-medium text-amber-600 dark:text-amber-400">
                 Имя «{artistMatch.artist}» заблокировано
               </p>
-              <p className="text-[11px] text-muted-foreground mt-0.5">
+              <p className="text-[0.6875rem] text-muted-foreground mt-0.5">
                 Suno AI не поддерживает имена артистов. Выберите стиль:
               </p>
             </div>
@@ -93,7 +93,7 @@ export const PromptValidationAlert = memo(function PromptValidationAlert({
                 size="sm"
                 onClick={() => handleApplySuggestion(suggestion)}
                 className={cn(
-                  "h-auto py-1.5 px-2.5 text-[11px] gap-1.5",
+                  "h-auto py-1.5 px-2.5 text-[0.6875rem] gap-1.5",
                   "bg-background/80 border-amber-500/30",
                   "hover:bg-amber-500/20 hover:border-amber-500/50",
                   "transition-all",

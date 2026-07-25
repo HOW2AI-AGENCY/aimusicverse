@@ -174,13 +174,13 @@ export default function Rewards() {
       />
       <Tabs defaultValue="daily" className="w-full">
         <TabsList className="w-full grid grid-cols-3 mb-3 bg-muted/50 h-9">
-          <TabsTrigger value="daily" className="gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full">
+          <TabsTrigger value="daily" className="gap-1 text-[0.625rem] sm:text-xs data-[state=active]:bg-primary/10 h-full">
             <motion.div whileHover={{ rotate: [0, -10, 10, 0] }} transition={{ duration: 0.3 }}>
               <Target className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             </motion.div>
             <span>День</span>
           </TabsTrigger>
-          <TabsTrigger value="weekly" className="gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full">
+          <TabsTrigger value="weekly" className="gap-1 text-[0.625rem] sm:text-xs data-[state=active]:bg-primary/10 h-full">
             <motion.div whileHover={{ rotate: [0, -10, 10, 0] }} transition={{ duration: 0.3 }}>
               <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             </motion.div>
@@ -188,7 +188,7 @@ export default function Rewards() {
           </TabsTrigger>
           <TabsTrigger
             value="special"
-            className="gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full"
+            className="gap-1 text-[0.625rem] sm:text-xs data-[state=active]:bg-primary/10 h-full"
           >
             <motion.div whileHover={{ rotate: [0, -10, 10, 0] }} transition={{ duration: 0.3 }}>
               <Gem className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
@@ -227,7 +227,7 @@ export default function Rewards() {
             <TooltipTrigger asChild>
               <TabsTrigger
                 value="achievements"
-                className="gap-0.5 sm:gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2"
+                className="gap-0.5 sm:gap-1 text-[0.625rem] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2"
               >
                 <motion.div whileHover={{ scale: 1.2, rotate: 15 }} transition={{ duration: 0.2 }}>
                   <Trophy className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -242,7 +242,7 @@ export default function Rewards() {
             <TooltipTrigger asChild>
               <TabsTrigger
                 value="all"
-                className="gap-0.5 sm:gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2"
+                className="gap-0.5 sm:gap-1 text-[0.625rem] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2"
               >
                 <motion.div whileHover={{ scale: 1.2, rotate: -15 }} transition={{ duration: 0.2 }}>
                   <Target className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -257,7 +257,7 @@ export default function Rewards() {
             <TooltipTrigger asChild>
               <TabsTrigger
                 value="leaderboard"
-                className="gap-0.5 sm:gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2"
+                className="gap-0.5 sm:gap-1 text-[0.625rem] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2"
               >
                 <motion.div whileHover={{ scale: 1.2 }} transition={{ duration: 0.2 }}>
                   <Crown className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -272,7 +272,7 @@ export default function Rewards() {
             <TooltipTrigger asChild>
               <TabsTrigger
                 value="history"
-                className="gap-0.5 sm:gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2"
+                className="gap-0.5 sm:gap-1 text-[0.625rem] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2"
               >
                 <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
                   <History className="w-3 h-3 sm:w-4 sm:h-4" />

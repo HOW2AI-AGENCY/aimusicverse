@@ -324,7 +324,7 @@ export function RhythmAnalyzer({ lyrics, onFixSuggestion, className }: RhythmAna
                     if (isSection) {
                       return (
                         <div key={idx} className="py-1">
-                          <Badge variant="outline" className="text-[10px] font-mono">
+                          <Badge variant="outline" className="text-[0.625rem] font-mono">
                             {line.text.trim()}
                           </Badge>
                         </div>
@@ -379,11 +379,11 @@ export function RhythmAnalyzer({ lyrics, onFixSuggestion, className }: RhythmAna
                         {/* Line Info */}
                         <div className="flex items-center justify-between mt-1.5">
                           <div className="flex items-center gap-2">
-                            <span className="text-[10px] text-muted-foreground font-mono">
+                            <span className="text-[0.625rem] text-muted-foreground font-mono">
                               {line.syllableCount} сл.
                             </span>
                             {line.stressPattern && (
-                              <span className="text-[10px] text-muted-foreground/50 font-mono">
+                              <span className="text-[0.625rem] text-muted-foreground/50 font-mono">
                                 {line.stressPattern.slice(0, 12)}
                               </span>
                             )}
@@ -396,7 +396,7 @@ export function RhythmAnalyzer({ lyrics, onFixSuggestion, className }: RhythmAna
                                 key={iIdx}
                                 variant="outline"
                                 className={cn(
-                                  "text-[9px] h-4",
+                                  "text-[0.5625rem] h-4",
                                   issue.type === "error" && "border-red-500/50 text-red-400",
                                   issue.type === "warning" && "border-amber-500/50 text-amber-400",
                                   issue.type === "info" && "border-blue-500/50 text-blue-400",
@@ -454,7 +454,7 @@ export function RhythmAnalyzer({ lyrics, onFixSuggestion, className }: RhythmAna
 
             {/* Legend */}
             <div className="p-3 border-t border-border/50 bg-muted/30">
-              <div className="flex flex-wrap gap-3 text-[10px] text-muted-foreground">
+              <div className="flex flex-wrap gap-3 text-[0.625rem] text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <span className="px-1.5 py-0.5 rounded bg-primary/20 text-primary">сло</span>
                   <span>Сильная доля</span>

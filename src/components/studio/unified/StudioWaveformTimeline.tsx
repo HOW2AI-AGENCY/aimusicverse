@@ -220,7 +220,7 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
             className="absolute flex flex-col items-center"
             style={{ left: `${(time / duration) * 100}%` }}
           >
-            <span className={cn("font-mono text-muted-foreground", isMobile ? "text-[10px]" : "text-[9px]")}>
+            <span className={cn("font-mono text-muted-foreground", isMobile ? "text-[0.625rem]" : "text-[0.5625rem]")}>
               {formatTime(time)}
             </span>
             <div className="w-px h-1 bg-border/50" />
@@ -299,7 +299,7 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
         <div
           className={cn(
             "absolute bottom-1 rounded bg-primary/90 text-primary-foreground font-mono pointer-events-none z-30",
-            isMobile ? "px-2 py-1 text-xs" : "px-1.5 py-0.5 text-[10px]",
+            isMobile ? "px-2 py-1 text-xs" : "px-1.5 py-0.5 text-[0.625rem]",
           )}
           style={{
             left: `${Math.min(progress, 90)}%`,

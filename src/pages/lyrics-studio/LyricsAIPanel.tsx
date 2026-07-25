@@ -166,7 +166,7 @@ export function LyricsAIPanel({
                       </div>
                       <div>
                         <h3 className="font-semibold text-sm">AI Lyrics Agent</h3>
-                        <p className="text-[10px] text-muted-foreground">
+                        <p className="text-[0.625rem] text-muted-foreground">
                           {isProjectTrackMode ? "Режим проекта" : "Свободный режим"}
                         </p>
                       </div>
@@ -184,7 +184,7 @@ export function LyricsAIPanel({
                           <span className="text-xs font-medium">{projectData.title}</span>
                         </div>
                         {projectTrack && (
-                          <Badge variant="outline" className="text-[10px]">
+                          <Badge variant="outline" className="text-[0.625rem]">
                             #{projectTrack.position + 1} {projectTrack.title}
                           </Badge>
                         )}
@@ -192,24 +192,24 @@ export function LyricsAIPanel({
 
                       <div className="flex flex-wrap gap-1">
                         {projectData.genre && (
-                          <Badge variant="secondary" className="text-[10px]">
+                          <Badge variant="secondary" className="text-[0.625rem]">
                             {projectData.genre}
                           </Badge>
                         )}
                         {projectData.mood && (
-                          <Badge variant="secondary" className="text-[10px]">
+                          <Badge variant="secondary" className="text-[0.625rem]">
                             {projectData.mood}
                           </Badge>
                         )}
                         {tracklist.length > 0 && (
-                          <Badge variant="outline" className="text-[10px]">
+                          <Badge variant="outline" className="text-[0.625rem]">
                             {tracklist.filter((t) => t.hasLyrics).length}/{tracklist.length} треков
                           </Badge>
                         )}
                       </div>
 
                       {projectData.concept && (
-                        <p className="text-[10px] text-muted-foreground line-clamp-2">{projectData.concept}</p>
+                        <p className="text-[0.625rem] text-muted-foreground line-clamp-2">{projectData.concept}</p>
                       )}
                     </div>
                   )}

@@ -42,7 +42,7 @@ export const PromptKnobEnhanced = memo(function PromptKnobEnhanced({
 
   // Size configuration
   const sizeConfig = {
-    sm: { outer: 64, inner: 48, indicator: 4, fontSize: "text-[10px]", labelWidth: "w-16" },
+    sm: { outer: 64, inner: 48, indicator: 4, fontSize: "text-[0.625rem]", labelWidth: "w-16" },
     md: { outer: 80, inner: 60, indicator: 5, fontSize: "text-xs", labelWidth: "w-20" },
     lg: { outer: 96, inner: 72, indicator: 6, fontSize: "text-sm", labelWidth: "w-24" },
   }[size];
@@ -257,7 +257,7 @@ export const PromptKnobEnhanced = memo(function PromptKnobEnhanced({
         onClick={onLabelClick}
       >
         <div className="font-medium truncate">{label}</div>
-        {sublabel && <div className="text-[9px] opacity-60 truncate">{sublabel}</div>}
+        {sublabel && <div className="text-[0.5625rem] opacity-60 truncate">{sublabel}</div>}
       </button>
 
       {/* Enable indicator */}

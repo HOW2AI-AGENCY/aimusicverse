@@ -158,7 +158,7 @@ export function SynchronizedSectionLyrics({
     <div className={cn("relative", className)}>
       {/* Header with edit button */}
       <div className="flex items-center justify-between mb-2">
-        <span className={cn("font-medium text-muted-foreground", compact ? "text-[10px]" : "text-xs")}>
+        <span className={cn("font-medium text-muted-foreground", compact ? "text-[0.625rem]" : "text-xs")}>
           Текст секции
         </span>
         <Button

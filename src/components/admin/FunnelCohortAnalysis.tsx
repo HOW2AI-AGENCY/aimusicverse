@@ -144,7 +144,7 @@ const CohortRow = memo(function CohortRow({ cohort, maxVisitors }: CohortRowProp
               </div>
               <div className="flex items-center gap-2 mt-0.5">
                 <Progress value={(cohort.visitors / maxVisitors) * 100} className="h-1.5 flex-1" />
-                <span className="text-[10px] text-muted-foreground w-12 text-right">
+                <span className="text-[0.625rem] text-muted-foreground w-12 text-right">
                   {cohort.visitors.toLocaleString()}
                 </span>
               </div>
@@ -164,7 +164,7 @@ const CohortRow = memo(function CohortRow({ cohort, maxVisitors }: CohortRowProp
               >
                 {cohort.conversionRate}%
               </div>
-              <div className="text-[10px] text-muted-foreground">конверсия</div>
+              <div className="text-[0.625rem] text-muted-foreground">конверсия</div>
             </div>
 
             {/* Expand indicator */}
@@ -180,22 +180,22 @@ const CohortRow = memo(function CohortRow({ cohort, maxVisitors }: CohortRowProp
           <div className="grid grid-cols-4 gap-2 text-center">
             <div className="bg-muted/30 rounded-lg p-2">
               <div className="text-xs font-semibold">{cohort.registered.toLocaleString()}</div>
-              <div className="text-[10px] text-muted-foreground">Регистрации</div>
-              <div className="text-[10px] text-primary">
+              <div className="text-[0.625rem] text-muted-foreground">Регистрации</div>
+              <div className="text-[0.625rem] text-primary">
                 {((cohort.registered / cohort.visitors) * 100).toFixed(1)}%
               </div>
             </div>
             <div className="bg-muted/30 rounded-lg p-2">
               <div className="text-xs font-semibold">{cohort.generated.toLocaleString()}</div>
-              <div className="text-[10px] text-muted-foreground">Генераций</div>
-              <div className="text-[10px] text-primary">
+              <div className="text-[0.625rem] text-muted-foreground">Генераций</div>
+              <div className="text-[0.625rem] text-primary">
                 {((cohort.generated / cohort.registered) * 100).toFixed(1)}%
               </div>
             </div>
             <div className="bg-muted/30 rounded-lg p-2">
               <div className="text-xs font-semibold">{cohort.paid.toLocaleString()}</div>
-              <div className="text-[10px] text-muted-foreground">Платежей</div>
-              <div className="text-[10px] text-primary">{((cohort.paid / cohort.generated) * 100).toFixed(1)}%</div>
+              <div className="text-[0.625rem] text-muted-foreground">Платежей</div>
+              <div className="text-[0.625rem] text-primary">{((cohort.paid / cohort.generated) * 100).toFixed(1)}%</div>
             </div>
             <div className="bg-muted/30 rounded-lg p-2">
               <div
@@ -211,8 +211,8 @@ const CohortRow = memo(function CohortRow({ cohort, maxVisitors }: CohortRowProp
                 {cohort.trendValue > 0 ? "+" : ""}
                 {cohort.trendValue}%
               </div>
-              <div className="text-[10px] text-muted-foreground">vs прошл.</div>
-              <div className="text-[10px] text-primary">неделя</div>
+              <div className="text-[0.625rem] text-muted-foreground">vs прошл.</div>
+              <div className="text-[0.625rem] text-primary">неделя</div>
             </div>
           </div>
         </div>
@@ -247,12 +247,12 @@ export const FunnelCohortAnalysis = memo(function FunnelCohortAnalysis() {
         {/* Top performers */}
         <div className="grid grid-cols-2 gap-2">
           <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-2">
-            <div className="text-[10px] text-green-600 dark:text-green-400 mb-1">Лучший источник</div>
+            <div className="text-[0.625rem] text-green-600 dark:text-green-400 mb-1">Лучший источник</div>
             <div className="font-medium text-sm">{bestCohort.label}</div>
             <div className="text-xs text-green-600 dark:text-green-400">{bestCohort.conversionRate}% конверсия</div>
           </div>
           <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-2">
-            <div className="text-[10px] text-red-600 dark:text-red-400 mb-1">Требует внимания</div>
+            <div className="text-[0.625rem] text-red-600 dark:text-red-400 mb-1">Требует внимания</div>
             <div className="font-medium text-sm">{worstCohort.label}</div>
             <div className="text-xs text-red-600 dark:text-red-400">{worstCohort.conversionRate}% конверсия</div>
           </div>

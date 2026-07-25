@@ -95,7 +95,7 @@ export function ContinueToolPanel({ context, onExecute, onClose, isLoading }: To
                     disabled={isLoading}
                   >
                     <p className="text-xs font-medium">{style.label}</p>
-                    <p className="text-[10px] text-muted-foreground">{style.desc}</p>
+                    <p className="text-[0.625rem] text-muted-foreground">{style.desc}</p>
                   </button>
                 ))}
               </div>

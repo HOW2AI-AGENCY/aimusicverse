@@ -65,7 +65,7 @@ export function QuickActions({ hasLyrics = false, onActionSelect, className }: Q
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-medium text-sm">{action.label}</span>
-                        <Badge variant="secondary" className="text-[10px] h-4 px-1">
+                        <Badge variant="secondary" className="text-[0.625rem] h-4 px-1">
                           {CATEGORY_INFO[action.category].label}
                         </Badge>
                       </div>
@@ -105,7 +105,7 @@ export function QuickActions({ hasLyrics = false, onActionSelect, className }: Q
                               <span className="text-lg">{action.emoji}</span>
                               <div className="flex-1 min-w-0">
                                 <p className="font-medium text-xs">{action.label}</p>
-                                <p className="text-[10px] text-muted-foreground line-clamp-1">{action.description}</p>
+                                <p className="text-[0.625rem] text-muted-foreground line-clamp-1">{action.description}</p>
                               </div>
                             </div>
                           </Button>

@@ -143,24 +143,24 @@ export function CloudAudioPicker({ onSelect, selectedId }: CloudAudioPickerProps
                     <h3 className="font-medium text-sm truncate">{audio.file_name}</h3>
                   </div>
                   <div className="flex items-center gap-1.5 mt-1 flex-wrap">
-                    <span className="text-[10px] text-muted-foreground">{formatDuration(audio.duration_seconds)}</span>
+                    <span className="text-[0.625rem] text-muted-foreground">{formatDuration(audio.duration_seconds)}</span>
                     {audio.has_vocals === true && audio.has_instrumentals !== false && (
-                      <Badge variant="outline" className="text-[9px] h-4 px-1.5">
+                      <Badge variant="outline" className="text-[0.5625rem] h-4 px-1.5">
                         🎤+🎸
                       </Badge>
                     )}
                     {audio.has_vocals === true && audio.has_instrumentals === false && (
-                      <Badge variant="outline" className="text-[9px] h-4 px-1.5">
+                      <Badge variant="outline" className="text-[0.5625rem] h-4 px-1.5">
                         🎤 Вокал
                       </Badge>
                     )}
                     {audio.has_vocals === false && (
-                      <Badge variant="outline" className="text-[9px] h-4 px-1.5">
+                      <Badge variant="outline" className="text-[0.5625rem] h-4 px-1.5">
                         🎸 Инструментал
                       </Badge>
                     )}
                     {audio.genre && (
-                      <Badge variant="secondary" className="text-[9px] h-4 px-1.5">
+                      <Badge variant="secondary" className="text-[0.5625rem] h-4 px-1.5">
                         {audio.genre}
                       </Badge>
                     )}

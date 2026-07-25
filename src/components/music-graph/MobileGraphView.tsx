@@ -385,7 +385,7 @@ function StatItem({ count, label }: { count: number; label: string }) {
   return (
     <div>
       <div className="text-xl font-bold text-primary">{count}</div>
-      <div className="text-[10px] text-muted-foreground">{label}</div>
+      <div className="text-[0.625rem] text-muted-foreground">{label}</div>
     </div>
   );
 }
@@ -413,7 +413,7 @@ function GroupCard({
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between">
           <h3 className="font-medium text-sm truncate">{name.replace(/_/g, " ")}</h3>
-          <Badge variant="secondary" className="ml-2 text-[10px]">
+          <Badge variant="secondary" className="ml-2 text-[0.625rem]">
             {count}
           </Badge>
         </div>

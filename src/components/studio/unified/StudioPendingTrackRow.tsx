@@ -121,7 +121,7 @@ export const StudioPendingTrackRow = memo(function StudioPendingTrackRow({
 
           <div className="min-w-0 flex-1">
             <span className="text-xs font-mono font-semibold tracking-wider truncate block">{track.name}</span>
-            <span className={cn("text-[10px]", isFailed ? "text-destructive" : "text-green-400")}>
+            <span className={cn("text-[0.625rem]", isFailed ? "text-destructive" : "text-green-400")}>
               {isFailed ? track.errorMessage || "Ошибка" : statusMessage}
             </span>
           </div>

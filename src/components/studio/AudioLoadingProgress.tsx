@@ -95,7 +95,7 @@ export const AudioLoadingProgress = memo(function AudioLoadingProgress({
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 10 }}
               className={cn(
-                "flex items-center gap-2 px-2 py-1 rounded text-[11px]",
+                "flex items-center gap-2 px-2 py-1 rounded text-[0.6875rem]",
                 stem.status === "loaded" && "bg-primary/10 text-primary",
                 stem.status === "loading" && "bg-muted/50",
                 stem.status === "error" && "bg-destructive/10 text-destructive",

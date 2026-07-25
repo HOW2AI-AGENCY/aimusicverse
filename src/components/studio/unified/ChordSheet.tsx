@@ -136,7 +136,7 @@ export const ChordSheet = memo(function ChordSheet({
                     animate={{ opacity: 1, scale: 1 }}
                   >
                     <ChordDiagram chord={chord} size="sm" />
-                    <Badge variant="secondary" className="mt-1 text-[10px] h-4">
+                    <Badge variant="secondary" className="mt-1 text-[0.625rem] h-4">
                       ×{count}
                     </Badge>
                   </motion.div>
@@ -175,14 +175,14 @@ export const ChordSheet = memo(function ChordSheet({
                         <span className="text-xs text-muted-foreground font-mono w-10">{formatTime(chord.start)}</span>
                         <span className={cn("font-bold text-sm", isCurrent && "text-primary")}>{chord.chord}</span>
                         {chord.confidence && chord.confidence < 0.7 && (
-                          <Badge variant="outline" className="text-[10px] h-4">
+                          <Badge variant="outline" className="text-[0.625rem] h-4">
                             ~{Math.round(chord.confidence * 100)}%
                           </Badge>
                         )}
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-muted-foreground">
+                        <span className="text-[0.625rem] text-muted-foreground">
                           {(chord.end - chord.start).toFixed(1)}s
                         </span>
                         {onSeekToChord && (

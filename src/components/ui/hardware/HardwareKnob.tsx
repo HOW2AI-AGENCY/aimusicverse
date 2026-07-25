@@ -27,8 +27,8 @@ export interface HardwareKnobProps {
 }
 
 const sizeMap = {
-  xs: { outer: 36, inner: 28, indicator: 3, fontSize: "text-[9px]" },
-  sm: { outer: 48, inner: 38, indicator: 4, fontSize: "text-[10px]" },
+  xs: { outer: 36, inner: 28, indicator: 3, fontSize: "text-[0.5625rem]" },
+  sm: { outer: 48, inner: 38, indicator: 4, fontSize: "text-[0.625rem]" },
   md: { outer: 64, inner: 52, indicator: 5, fontSize: "text-xs" },
   lg: { outer: 80, inner: 66, indicator: 6, fontSize: "text-sm" },
   xl: { outer: 96, inner: 80, indicator: 7, fontSize: "text-base" },

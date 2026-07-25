@@ -30,8 +30,8 @@ const variantConfig = {
 };
 
 const sizeConfig = {
-  sm: "text-[9px] px-1.5 py-0 h-4",
-  md: "text-[10px] px-2 py-0.5 h-5",
+  sm: "text-[0.5625rem] px-1.5 py-0 h-4",
+  md: "text-[0.625rem] px-2 py-0.5 h-5",
   lg: "text-xs px-2.5 py-1 h-6",
 };
 

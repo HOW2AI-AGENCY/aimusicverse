@@ -80,12 +80,12 @@ export function ActorCard({ artist, rank }: ActorCardProps) {
         </div>
 
         {/* Name */}
-        <h3 className="font-semibold text-[11px] text-center truncate mb-0.5 group-hover:text-primary transition-colors">
+        <h3 className="font-semibold text-[0.6875rem] text-center truncate mb-0.5 group-hover:text-primary transition-colors">
           {artist.name}
         </h3>
 
         {/* Username - always reserve space */}
-        <p className="text-[9px] text-muted-foreground text-center truncate mb-1.5 h-3">
+        <p className="text-[0.5625rem] text-muted-foreground text-center truncate mb-1.5 h-3">
           {artist.profiles?.username ? `@${artist.profiles.username}` : ""}
         </p>
 
@@ -95,7 +95,7 @@ export function ActorCard({ artist, rank }: ActorCardProps) {
             <Badge
               key={tag}
               variant="secondary"
-              className="text-[8px] px-1.5 py-0 h-4 bg-primary/10 text-primary/80 border-0"
+              className="text-[0.5rem] px-1.5 py-0 h-4 bg-primary/10 text-primary/80 border-0"
             >
               {tag}
             </Badge>

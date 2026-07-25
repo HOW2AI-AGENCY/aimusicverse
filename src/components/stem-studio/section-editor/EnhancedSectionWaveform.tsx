@@ -266,7 +266,7 @@ export const EnhancedSectionWaveform = memo(function EnhancedSectionWaveform({
                         initial={{ opacity: 0, y: -5 }}
                         animate={{ opacity: isHovered ? 1 : 0.7, y: 0 }}
                         className={cn(
-                          "absolute top-1 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap",
+                          "absolute top-1 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded text-[0.625rem] font-medium whitespace-nowrap",
                           section.isActive ? "bg-success text-success-foreground" : "bg-violet-500/80 text-white",
                         )}
                       >
@@ -451,10 +451,10 @@ export const EnhancedSectionWaveform = memo(function EnhancedSectionWaveform({
         </motion.div>
 
         {/* Time labels at bottom */}
-        <div className="absolute bottom-1.5 left-2 text-[10px] font-mono text-muted-foreground bg-background/80 px-1.5 py-0.5 rounded">
+        <div className="absolute bottom-1.5 left-2 text-[0.625rem] font-mono text-muted-foreground bg-background/80 px-1.5 py-0.5 rounded">
           0:00
         </div>
-        <div className="absolute bottom-1.5 right-2 text-[10px] font-mono text-muted-foreground bg-background/80 px-1.5 py-0.5 rounded">
+        <div className="absolute bottom-1.5 right-2 text-[0.625rem] font-mono text-muted-foreground bg-background/80 px-1.5 py-0.5 rounded">
           {formatTime(duration)}
         </div>
 

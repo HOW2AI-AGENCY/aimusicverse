@@ -382,7 +382,7 @@ export const PromptDJClean = memo(function PromptDJClean() {
                   {/* Info */}
                   <div className="flex-1 min-w-0">
                     <p className="text-xs truncate">{track.prompt}</p>
-                    <p className="text-[10px] text-muted-foreground">{track.createdAt.toLocaleTimeString()}</p>
+                    <p className="text-[0.625rem] text-muted-foreground">{track.createdAt.toLocaleTimeString()}</p>
                   </div>
 
                   {/* Actions */}

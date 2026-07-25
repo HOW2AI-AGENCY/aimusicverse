@@ -201,7 +201,7 @@ export const StudioSectionOverlay = memo(function StudioSectionOverlay({
             {/* Section label */}
             <div
               className={cn(
-                "flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-semibold truncate max-w-full",
+                "flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[0.5625rem] font-semibold truncate max-w-full",
                 "bg-background/80 backdrop-blur-sm shadow-sm border border-border/30",
                 colors.text,
               )}

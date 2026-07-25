@@ -63,7 +63,7 @@ export function SectionQuickPicker({ sections, selectedIndex, maxDuration, onSel
                   <span className="font-medium text-xs truncate">{section.label}</span>
                   {isTooLong && <AlertTriangle className="w-3 h-3 text-amber-500 flex-shrink-0" />}
                 </div>
-                <p className="text-[10px] opacity-70 font-mono mt-0.5">
+                <p className="text-[0.625rem] opacity-70 font-mono mt-0.5">
                   {formatTime(section.startTime)} — {formatTime(section.endTime)}
                 </p>
               </motion.button>

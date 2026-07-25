@@ -101,7 +101,7 @@ function UserChurnCard({ user, expanded, onToggle }: { user: ChurnRiskUser; expa
                   <div className="p-2 bg-muted rounded">
                     <Zap className="h-4 w-4 mx-auto mb-1 text-primary" />
                     <p className="text-xs font-medium">{user.generations_last_7d}</p>
-                    <p className="text-[10px] text-muted-foreground">7д</p>
+                    <p className="text-[0.625rem] text-muted-foreground">7д</p>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>Генераций за 7 дней</TooltipContent>
@@ -114,7 +114,7 @@ function UserChurnCard({ user, expanded, onToggle }: { user: ChurnRiskUser; expa
                   <div className="p-2 bg-muted rounded">
                     <Coins className="h-4 w-4 mx-auto mb-1 text-yellow-500" />
                     <p className="text-xs font-medium">{user.current_balance}</p>
-                    <p className="text-[10px] text-muted-foreground">баланс</p>
+                    <p className="text-[0.625rem] text-muted-foreground">баланс</p>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>Текущий баланс</TooltipContent>
@@ -127,7 +127,7 @@ function UserChurnCard({ user, expanded, onToggle }: { user: ChurnRiskUser; expa
                   <div className="p-2 bg-muted rounded">
                     <Heart className="h-4 w-4 mx-auto mb-1 text-pink-500" />
                     <p className="text-xs font-medium">{user.total_likes_given}</p>
-                    <p className="text-[10px] text-muted-foreground">лайков</p>
+                    <p className="text-[0.625rem] text-muted-foreground">лайков</p>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>Лайков поставлено</TooltipContent>
@@ -140,7 +140,7 @@ function UserChurnCard({ user, expanded, onToggle }: { user: ChurnRiskUser; expa
                   <div className="p-2 bg-muted rounded">
                     <MessageSquare className="h-4 w-4 mx-auto mb-1 text-blue-500" />
                     <p className="text-xs font-medium">{user.total_comments}</p>
-                    <p className="text-[10px] text-muted-foreground">коммент.</p>
+                    <p className="text-[0.625rem] text-muted-foreground">коммент.</p>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>Комментариев</TooltipContent>

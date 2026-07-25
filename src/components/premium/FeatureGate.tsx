@@ -77,7 +77,7 @@ export function PremiumBadge({ tier = "PRO", className, size = "sm" }: PremiumBa
       className={cn(
         "inline-flex items-center font-semibold uppercase tracking-wide",
         "bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full",
-        size === "sm" ? "px-1.5 py-0.5 text-[9px]" : "px-2 py-0.5 text-[10px]",
+        size === "sm" ? "px-1.5 py-0.5 text-[0.5625rem]" : "px-2 py-0.5 text-[0.625rem]",
         className,
       )}
     >

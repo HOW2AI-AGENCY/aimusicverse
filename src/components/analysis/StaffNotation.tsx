@@ -591,7 +591,7 @@ export const StaffNotation = memo(function StaffNotation({
           <p className="text-xs text-muted-foreground">
             Показано {maxNotes} из {notes.length} нот.
             {isMobile && (
-              <span className="block mt-1 text-[10px] text-muted-foreground/70">
+              <span className="block mt-1 text-[0.625rem] text-muted-foreground/70">
                 Используйте Piano Roll для просмотра всех нот
               </span>
             )}

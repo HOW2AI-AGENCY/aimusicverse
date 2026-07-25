@@ -237,7 +237,7 @@ export class LyricsValidator {
     const issues: ValidationIssue[] = [];
     const tagRegex = /\[([^\]]+)\]/g;
     let match;
-    let lineNum = 1;
+    const lineNum = 1;
 
     const lines = lyrics.split("\n");
     lines.forEach((line, idx) => {

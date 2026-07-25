@@ -35,7 +35,7 @@ export function ProfileProgressIndicator({ steps, currentStep }: ProfileProgress
               </div>
               <span
                 className={cn(
-                  "text-[10px] mt-1 text-center hidden sm:block",
+                  "text-[0.625rem] mt-1 text-center hidden sm:block",
                   isCurrent ? "text-primary font-medium" : "text-muted-foreground",
                 )}
               >

@@ -99,7 +99,7 @@ export function UserBalancesPanel() {
               </div>
               <div className="min-w-0">
                 <div className="text-lg md:text-2xl font-bold truncate">{summary?.total_users || 0}</div>
-                <div className="text-[10px] md:text-xs text-muted-foreground">Юзеров</div>
+                <div className="text-[0.625rem] md:text-xs text-muted-foreground">Юзеров</div>
               </div>
             </div>
           </CardContent>
@@ -115,7 +115,7 @@ export function UserBalancesPanel() {
                 <div className="text-lg md:text-2xl font-bold truncate">
                   {summary?.total_balance?.toLocaleString() || 0}
                 </div>
-                <div className="text-[10px] md:text-xs text-muted-foreground">Баланс</div>
+                <div className="text-[0.625rem] md:text-xs text-muted-foreground">Баланс</div>
               </div>
             </div>
           </CardContent>
@@ -131,7 +131,7 @@ export function UserBalancesPanel() {
                 <div className="text-lg md:text-2xl font-bold truncate">
                   {summary?.total_earned?.toLocaleString() || 0}
                 </div>
-                <div className="text-[10px] md:text-xs text-muted-foreground">Получено</div>
+                <div className="text-[0.625rem] md:text-xs text-muted-foreground">Получено</div>
               </div>
             </div>
           </CardContent>
@@ -147,7 +147,7 @@ export function UserBalancesPanel() {
                 <div className="text-lg md:text-2xl font-bold truncate">
                   {summary?.total_spent?.toLocaleString() || 0}
                 </div>
-                <div className="text-[10px] md:text-xs text-muted-foreground">Потрачено</div>
+                <div className="text-[0.625rem] md:text-xs text-muted-foreground">Потрачено</div>
               </div>
             </div>
           </CardContent>
@@ -253,12 +253,12 @@ export function UserBalancesPanel() {
                           </span>
                         )}
                       </div>
-                      <div className="flex items-center gap-1 md:gap-2 text-[10px] md:text-xs text-muted-foreground">
+                      <div className="flex items-center gap-1 md:gap-2 text-[0.625rem] md:text-xs text-muted-foreground">
                         <span>Lvl {user.level}</span>
                         <span className="hidden xs:inline">•</span>
                         <span className="hidden xs:inline">🔥{user.current_streak}</span>
                         {user.subscription_tier && user.subscription_tier !== "free" && (
-                          <Badge variant="secondary" className="text-[10px] md:text-xs h-4 md:h-5 px-1">
+                          <Badge variant="secondary" className="text-[0.625rem] md:text-xs h-4 md:h-5 px-1">
                             {user.subscription_tier}
                           </Badge>
                         )}
@@ -271,7 +271,7 @@ export function UserBalancesPanel() {
                       >
                         {user.balance}
                       </div>
-                      <div className="text-[10px] md:text-xs text-muted-foreground whitespace-nowrap">
+                      <div className="text-[0.625rem] md:text-xs text-muted-foreground whitespace-nowrap">
                         +{user.total_earned}/-{user.total_spent}
                       </div>
                     </div>

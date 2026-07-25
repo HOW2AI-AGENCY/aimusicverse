@@ -333,7 +333,7 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
           >
             <ZoomOut className="w-3.5 h-3.5" />
           </Button>
-          <span className="text-[10px] font-mono text-muted-foreground w-10 text-center tabular-nums">
+          <span className="text-[0.625rem] font-mono text-muted-foreground w-10 text-center tabular-nums">
             {Math.round(zoom * 100)}%
           </span>
           <Button
@@ -372,7 +372,7 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
           </Button>
         </div>
 
-        <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+        <div className="flex items-center gap-2 text-[0.625rem] text-muted-foreground">
           <span className="font-medium tabular-nums">{normalizedNotes.length}</span>
           <span>нот</span>
           <span className="text-muted-foreground/60">·</span>
@@ -406,7 +406,7 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
                   }}
                 >
                   {isC && (
-                    <span className="absolute left-1 top-1/2 -translate-y-1/2 text-[8px] font-mono font-medium text-zinc-600">
+                    <span className="absolute left-1 top-1/2 -translate-y-1/2 text-[0.5rem] font-mono font-medium text-zinc-600">
                       C{Math.floor(pitch / 12) - 1}
                     </span>
                   )}
@@ -475,7 +475,7 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
                 className="absolute top-0 bottom-4 border-l border-muted-foreground/25"
                 style={{ left: (marker.time / duration) * contentWidth }}
               >
-                <span className="absolute bottom-0 -translate-x-1/2 text-[9px] font-mono text-muted-foreground/70 bg-background/90 px-0.5 rounded">
+                <span className="absolute bottom-0 -translate-x-1/2 text-[0.5625rem] font-mono text-muted-foreground/70 bg-background/90 px-0.5 rounded">
                   {marker.label}
                 </span>
               </div>
@@ -561,7 +561,7 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
 
                   {/* Note label on hover */}
                   {isHovered && noteWidth > 30 && (
-                    <span className="absolute inset-0 flex items-center justify-center text-[8px] font-mono text-white font-bold drop-shadow-lg">
+                    <span className="absolute inset-0 flex items-center justify-center text-[0.5rem] font-mono text-white font-bold drop-shadow-lg">
                       {noteName}
                     </span>
                   )}
@@ -609,7 +609,7 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
       )}
 
       {/* Keyboard hint */}
-      <div className="absolute bottom-5 right-2 flex items-center gap-1 text-[9px] text-muted-foreground/50 pointer-events-none">
+      <div className="absolute bottom-5 right-2 flex items-center gap-1 text-[0.5625rem] text-muted-foreground/50 pointer-events-none">
         <Keyboard className="w-3 h-3" />
         <span>+/− зум · 0 вписать</span>
       </div>

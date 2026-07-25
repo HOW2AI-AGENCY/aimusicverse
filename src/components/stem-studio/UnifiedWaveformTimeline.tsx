@@ -294,7 +294,7 @@ export const UnifiedWaveformTimeline = memo(
                     <TooltipTrigger asChild>
                       <motion.button
                         className={cn(
-                          "absolute top-0 h-full px-1 rounded-t-md border-t border-x text-[9px] font-medium",
+                          "absolute top-0 h-full px-1 rounded-t-md border-t border-x text-[0.5625rem] font-medium",
                           "transition-all duration-150 cursor-pointer overflow-hidden",
                           colors.bg,
                           colors.border,
@@ -323,7 +323,7 @@ export const UnifiedWaveformTimeline = memo(
                       <div className="text-muted-foreground">
                         {formatTime(section.startTime)} - {formatTime(section.endTime)}
                       </div>
-                      <div className="text-primary text-[10px] mt-0.5">Нажмите для замены секции</div>
+                      <div className="text-primary text-[0.625rem] mt-0.5">Нажмите для замены секции</div>
                     </TooltipContent>
                   </Tooltip>
                 );
@@ -413,7 +413,7 @@ export const UnifiedWaveformTimeline = memo(
                 >
                   <div className="absolute inset-0 bg-success/10" />
                   <motion.div
-                    className="absolute -top-0.5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 bg-success text-success-foreground text-[8px] font-bold rounded-b"
+                    className="absolute -top-0.5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 bg-success text-success-foreground text-[0.5rem] font-bold rounded-b"
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2 }}
@@ -475,7 +475,7 @@ export const UnifiedWaveformTimeline = memo(
         </div>
 
         {/* Time Display */}
-        <div className="flex justify-between text-[10px] text-muted-foreground font-mono pt-1">
+        <div className="flex justify-between text-[0.625rem] text-muted-foreground font-mono pt-1">
           <motion.span
             key={Math.floor(currentTime)}
             initial={{ opacity: 0.7, y: 2 }}

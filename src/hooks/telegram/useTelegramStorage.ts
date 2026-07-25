@@ -1,5 +1,5 @@
 // @ts-nocheck - Telegram WebApp API types are dynamic
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 /**
  * Telegram Storage Hook
  *

@@ -94,7 +94,7 @@ export const ContinueDraftCard = memo(function ContinueDraftCard({ onContinue, c
         {/* Content */}
         <div className="flex-1 min-w-0">
           <p className="text-xs sm:text-sm font-medium text-foreground">Продолжить создание?</p>
-          <p className="text-[10px] sm:text-xs text-muted-foreground truncate">
+          <p className="text-[0.625rem] sm:text-xs text-muted-foreground truncate">
             {truncatedPreview}
             <span className="opacity-60"> • {timeAgo}м</span>
           </p>

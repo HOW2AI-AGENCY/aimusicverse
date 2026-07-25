@@ -136,7 +136,7 @@ export function GenerationAdvancedSettings({
                   {preset.icon}
                   <span className="text-xs font-medium">{preset.name}</span>
                 </div>
-                <p className="text-[10px] text-muted-foreground line-clamp-1">{preset.description}</p>
+                <p className="text-[0.625rem] text-muted-foreground line-clamp-1">{preset.description}</p>
               </button>
             ))}
           </div>

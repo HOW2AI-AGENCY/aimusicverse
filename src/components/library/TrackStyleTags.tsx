@@ -66,7 +66,7 @@ export const TrackStyleTags = memo(function TrackStyleTags({
 
   if (visible.length === 0) {
     return (
-      <span className={cn("text-muted-foreground/50 italic", compact ? "text-[10px]" : "text-xs")}>Без стиля</span>
+      <span className={cn("text-muted-foreground/50 italic", compact ? "text-[0.625rem]" : "text-xs")}>Без стиля</span>
     );
   }
 
@@ -91,7 +91,7 @@ export const TrackStyleTags = memo(function TrackStyleTags({
               onClick && categoryStyle.hover,
               onClick && "cursor-pointer",
               !onClick && "cursor-default",
-              compact ? "text-[9px] px-1.5 py-0.5 max-w-[60px]" : "text-[10px] px-2 py-0.5 max-w-[80px]",
+              compact ? "text-[0.5625rem] px-1.5 py-0.5 max-w-[60px]" : "text-[0.625rem] px-2 py-0.5 max-w-[80px]",
             )}
             title={tag.value}
           >
@@ -101,7 +101,7 @@ export const TrackStyleTags = memo(function TrackStyleTags({
       })}
 
       {hiddenCount > 0 && (
-        <span className={cn("text-muted-foreground/50", compact ? "text-[9px]" : "text-[10px]")}>+{hiddenCount}</span>
+        <span className={cn("text-muted-foreground/50", compact ? "text-[0.5625rem]" : "text-[0.625rem]")}>+{hiddenCount}</span>
       )}
     </div>
   );

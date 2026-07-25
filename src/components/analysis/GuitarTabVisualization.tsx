@@ -274,7 +274,7 @@ function FretboardVisualization({ notes }: { notes: Array<{ pitch: number; time:
                   {/* Note marker */}
                   {count > 0 && (
                     <div
-                      className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold z-10 shadow-lg"
+                      className="w-5 h-5 rounded-full flex items-center justify-center text-[0.625rem] font-bold z-10 shadow-lg"
                       style={{
                         backgroundColor: `hsl(var(--primary) / ${0.5 + intensity * 0.5})`,
                         color: "hsl(var(--primary-foreground))",

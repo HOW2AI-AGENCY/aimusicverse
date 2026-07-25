@@ -89,7 +89,7 @@ export const LeaderboardWidget = memo(function LeaderboardWidget() {
                   <AvatarImage src={entry.photo_url || undefined} />
                   <AvatarFallback
                     className={cn(
-                      "text-[10px] bg-gradient-to-br",
+                      "text-[0.625rem] bg-gradient-to-br",
                       RANK_COLORS[position as keyof typeof RANK_COLORS] || "from-primary/20 to-primary/10",
                     )}
                   >
@@ -100,7 +100,7 @@ export const LeaderboardWidget = memo(function LeaderboardWidget() {
 
               <span
                 className={cn(
-                  "text-[10px] font-bold mt-1",
+                  "text-[0.625rem] font-bold mt-1",
                   position === 1 && "text-yellow-500",
                   position === 2 && "text-gray-400",
                   position === 3 && "text-orange-500",
@@ -109,7 +109,7 @@ export const LeaderboardWidget = memo(function LeaderboardWidget() {
                 #{position}
               </span>
 
-              <span className="text-[9px] text-muted-foreground truncate max-w-[50px]">{entry.username || "User"}</span>
+              <span className="text-[0.5625rem] text-muted-foreground truncate max-w-[50px]">{entry.username || "User"}</span>
             </motion.div>
           );
         })}
@@ -130,7 +130,7 @@ export const LeaderboardWidget = memo(function LeaderboardWidget() {
           <div className="flex-1">
             <p className="text-xs font-medium">Твоя позиция</p>
             {xpToNextRank && xpToNextRank > 0 && (
-              <p className="text-[10px] text-muted-foreground flex items-center gap-1">
+              <p className="text-[0.625rem] text-muted-foreground flex items-center gap-1">
                 <TrendingUp className="w-3 h-3" />
                 {xpToNextRank} XP до #{userPosition - 1}
               </p>
@@ -142,7 +142,7 @@ export const LeaderboardWidget = memo(function LeaderboardWidget() {
 
       {!userPosition && userCredits && (
         <div className="text-center py-2">
-          <p className="text-[10px] text-muted-foreground">Набери больше XP, чтобы попасть в топ!</p>
+          <p className="text-[0.625rem] text-muted-foreground">Набери больше XP, чтобы попасть в топ!</p>
           <p className="text-xs font-medium text-primary mt-1">{userCredits.experience || 0} XP</p>
         </div>
       )}

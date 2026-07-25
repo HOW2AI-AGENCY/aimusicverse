@@ -192,7 +192,7 @@ export function TrackDetailPanel({ track, onPlay, onClose }: TrackDetailPanelPro
             <GitBranch className="w-3.5 h-3.5" />
             <span className="hidden xl:inline">Версии</span>
             {versions && versions.length > 0 && (
-              <Badge variant="secondary" className="h-4 px-1 text-[9px] ml-1">
+              <Badge variant="secondary" className="h-4 px-1 text-[0.5625rem] ml-1">
                 {versions.length}
               </Badge>
             )}

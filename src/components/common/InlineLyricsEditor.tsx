@@ -362,22 +362,22 @@ export function InlineLyricsEditor({
                       <h4 className="font-medium text-xs line-clamp-1">{template.name}</h4>
                     </div>
 
-                    <p className="text-[10px] text-muted-foreground line-clamp-2 mb-1.5">
+                    <p className="text-[0.625rem] text-muted-foreground line-clamp-2 mb-1.5">
                       {template.lyrics.slice(0, 80)}...
                     </p>
 
                     <div className="flex items-center gap-1 flex-wrap">
                       {template.genre && (
-                        <Badge variant="outline" className="text-[9px] h-4 px-1">
+                        <Badge variant="outline" className="text-[0.5625rem] h-4 px-1">
                           {template.genre}
                         </Badge>
                       )}
                       {template.mood && (
-                        <Badge variant="secondary" className="text-[9px] h-4 px-1">
+                        <Badge variant="secondary" className="text-[0.5625rem] h-4 px-1">
                           {template.mood}
                         </Badge>
                       )}
-                      <span className="text-[9px] text-muted-foreground flex items-center gap-0.5 ml-auto">
+                      <span className="text-[0.5625rem] text-muted-foreground flex items-center gap-0.5 ml-auto">
                         <Clock className="w-2.5 h-2.5" />
                         {formatDistanceToNow(new Date(template.created_at), {
                           addSuffix: true,

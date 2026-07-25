@@ -236,7 +236,7 @@ export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
 
         {/* Version info */}
         <div className="mt-6 pt-4 border-t border-border/50 text-center">
-          <p className="text-[10px] tracking-wider text-muted-foreground/25 font-light">
+          <p className="text-[0.625rem] tracking-wider text-muted-foreground/25 font-light">
             V0.1.0 · BETA · HOW2AI.AGENCY © 2025
           </p>
         </div>

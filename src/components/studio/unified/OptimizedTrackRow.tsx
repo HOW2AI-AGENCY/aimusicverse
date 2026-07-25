@@ -129,7 +129,7 @@ const ControlButton = memo(function ControlButton({
       size="sm"
       onClick={onClick}
       className={cn(
-        "h-7 w-7 p-0 rounded-md font-mono text-[10px] font-bold touch-manipulation transition-colors",
+        "h-7 w-7 p-0 rounded-md font-mono text-[0.625rem] font-bold touch-manipulation transition-colors",
         active && tone === "destructive" && "bg-destructive text-destructive-foreground",
         active && tone === "primary" && "bg-primary text-primary-foreground",
         !active && "text-muted-foreground hover:text-foreground hover:bg-muted",
@@ -202,7 +202,7 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
             ) : (
               <Icon className="h-4 w-4 text-white/90" />
             )}
-            <span className="absolute bottom-0 left-0 right-0 text-center text-[8px] font-mono font-bold text-white/90 bg-black/30 leading-tight py-px">
+            <span className="absolute bottom-0 left-0 right-0 text-center text-[0.5rem] font-mono font-bold text-white/90 bg-black/30 leading-tight py-px">
               {config.shortLabel}
             </span>
           </div>
@@ -215,14 +215,14 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
             <div className="flex items-center gap-1.5 mt-0.5">
               <span
                 className={cn(
-                  "inline-flex items-center gap-1 px-1.5 h-4 rounded text-[9px] font-medium border",
+                  "inline-flex items-center gap-1 px-1.5 h-4 rounded text-[0.5625rem] font-medium border",
                   statusMeta.className,
                 )}
               >
                 <StatusIcon className={cn("h-2.5 w-2.5", isBusy && "animate-spin")} />
                 {statusMeta.label}
               </span>
-              <span className={cn("text-[10px] px-1 rounded border", config.accent)}>{config.shortLabel}</span>
+              <span className={cn("text-[0.625rem] px-1 rounded border", config.accent)}>{config.shortLabel}</span>
             </div>
           </div>
 
@@ -234,7 +234,7 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
               variant="ghost"
               size="sm"
               onClick={handleToggleVolume}
-              className={cn("h-7 px-2 rounded-md text-[10px] font-mono touch-manipulation", showVolume && "bg-muted")}
+              className={cn("h-7 px-2 rounded-md text-[0.625rem] font-mono touch-manipulation", showVolume && "bg-muted")}
             >
               {Math.round(volume * 100)}
             </Button>
@@ -267,7 +267,7 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
                 className="flex-1"
                 disabled={muted}
               />
-              <span className="text-[10px] font-mono text-muted-foreground w-7 text-right">
+              <span className="text-[0.625rem] font-mono text-muted-foreground w-7 text-right">
                 {Math.round(volume * 100)}
               </span>
             </div>

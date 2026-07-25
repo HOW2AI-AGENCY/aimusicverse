@@ -108,7 +108,7 @@ export const FeatureHighlight = memo(function FeatureHighlight({
 
             {/* "New" badge */}
             <motion.div
-              className="absolute -top-1 -right-1 px-1.5 py-0.5 bg-primary text-primary-foreground text-[10px] font-bold rounded-full shadow-lg"
+              className="absolute -top-1 -right-1 px-1.5 py-0.5 bg-primary text-primary-foreground text-[0.625rem] font-bold rounded-full shadow-lg"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}

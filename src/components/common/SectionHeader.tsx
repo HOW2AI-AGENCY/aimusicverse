@@ -131,7 +131,7 @@ export const SectionHeader = memo(function SectionHeader({
               (typeof badge === "object" && badge !== null && "label" in badge ? (
                 <Badge
                   variant={badge.variant || "secondary"}
-                  className={cn("text-[10px] h-4 gap-0.5 shrink-0", badge.className)}
+                  className={cn("text-[0.625rem] h-4 gap-0.5 shrink-0", badge.className)}
                 >
                   {badge.icon && <badge.icon className="w-2.5 h-2.5" />}
                   {badge.label}

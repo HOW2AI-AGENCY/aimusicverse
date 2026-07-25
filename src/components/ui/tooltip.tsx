@@ -23,7 +23,7 @@ const TooltipContent = React.forwardRef<
       className={cn(
         // base: compact pill, aurora-tinted border, glassy surface
         "z-[9999] rounded-lg border border-border/60 bg-popover/95 backdrop-blur-xl backdrop-saturate-150",
-        "px-2.5 py-1.5 text-[12px] font-medium leading-tight tracking-tight text-popover-foreground",
+        "px-2.5 py-1.5 text-[0.75rem] font-medium leading-tight tracking-tight text-popover-foreground",
         "shadow-[0_8px_24px_-10px_hsl(240_60%_2%/0.55),0_0_0_1px_hsl(var(--primary)/0.08)_inset]",
         "max-w-[min(260px,calc(100vw-1.5rem))]",
         // motion

@@ -41,7 +41,7 @@ export const TranscriptionInProgress = memo(function TranscriptionInProgress({
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
-          <span className="text-[10px] font-medium text-foreground truncate">Транскрипция...</span>
+          <span className="text-[0.625rem] font-medium text-foreground truncate">Транскрипция...</span>
           <Loader2 className="w-3 h-3 text-primary animate-spin shrink-0" />
         </div>
       </div>
@@ -68,7 +68,7 @@ export const TranscriptionPlaceholder = memo(function TranscriptionPlaceholder({
       className={cn(
         "w-full flex items-center justify-center gap-2 p-2 rounded-lg",
         "bg-muted/30 border border-dashed border-muted-foreground/20",
-        "text-muted-foreground text-[10px]",
+        "text-muted-foreground text-[0.625rem]",
         "hover:bg-muted/50 hover:border-primary/30 hover:text-foreground",
         "transition-all cursor-pointer disabled:cursor-default disabled:hover:bg-muted/30",
         className,

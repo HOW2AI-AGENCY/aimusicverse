@@ -351,13 +351,13 @@ function RevenueStatCard({ icon: Icon, label, value, change, isPositive, subtext
             <p className="text-lg sm:text-2xl font-bold truncate">{value}</p>
             {change !== undefined && (
               <div
-                className={`flex items-center gap-0.5 text-[10px] sm:text-xs ${isPositive ? "text-green-500" : "text-red-500"}`}
+                className={`flex items-center gap-0.5 text-[0.625rem] sm:text-xs ${isPositive ? "text-green-500" : "text-red-500"}`}
               >
                 {isPositive ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
                 {Math.abs(change).toFixed(1)}%
               </div>
             )}
-            {subtext && <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{subtext}</p>}
+            {subtext && <p className="text-[0.625rem] sm:text-xs text-muted-foreground truncate">{subtext}</p>}
           </div>
           <Icon className={`h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 ${iconColor}`} />
         </div>

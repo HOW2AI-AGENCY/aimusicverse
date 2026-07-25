@@ -93,13 +93,13 @@ export const LyricsPreview = memo(function LyricsPreview({ lyrics, maxSections =
               <Badge
                 key={section.id || index}
                 variant="secondary"
-                className={cn("text-[10px] px-2 py-0.5 font-medium", SECTION_COLORS[section.type])}
+                className={cn("text-[0.625rem] px-2 py-0.5 font-medium", SECTION_COLORS[section.type])}
               >
                 {section.name}
               </Badge>
             ))}
             {hiddenCount > 0 && (
-              <Badge variant="outline" className="text-[10px] px-2 py-0.5 text-muted-foreground">
+              <Badge variant="outline" className="text-[0.625rem] px-2 py-0.5 text-muted-foreground">
                 +{hiddenCount}
               </Badge>
             )}
@@ -107,7 +107,7 @@ export const LyricsPreview = memo(function LyricsPreview({ lyrics, maxSections =
 
           <button
             onClick={openFullLyrics}
-            className="flex items-center gap-1 mt-2 text-[10px] text-primary hover:text-primary/80 transition-colors"
+            className="flex items-center gap-1 mt-2 text-[0.625rem] text-primary hover:text-primary/80 transition-colors"
           >
             <ChevronDown className="w-3 h-3" />
             Показать текст

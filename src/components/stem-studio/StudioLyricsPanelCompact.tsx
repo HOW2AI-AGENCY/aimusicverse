@@ -274,7 +274,7 @@ function SectionTagBadge({ type }: { type: string }) {
 
   return (
     <span
-      className={cn("inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono uppercase border", colors)}
+      className={cn("inline-flex items-center px-2 py-0.5 rounded-md text-[0.625rem] font-mono uppercase border", colors)}
     >
       {labels[normalizedType] || type}
     </span>
@@ -425,7 +425,7 @@ export function StudioLyricsPanelCompact({
           {!isExpanded && currentSectionTag && <SectionTagBadge type={currentSectionTag} />}
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4">
+          <Badge variant="outline" className="text-[0.625rem] px-1.5 py-0 h-4">
             {activeLineIndex + 1}/{contentLines.length}
           </Badge>
           <Button variant="ghost" size="sm" onClick={() => setIsExpanded(!isExpanded)} className="h-6 w-6 p-0 shrink-0">

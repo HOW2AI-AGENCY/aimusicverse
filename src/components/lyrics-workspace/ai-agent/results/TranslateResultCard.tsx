@@ -76,7 +76,7 @@ export function TranslateResultCard({
           </div>
           <div>
             <h4 className="text-sm font-medium">Адаптивный перевод</h4>
-            <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+            <div className="flex items-center gap-1 text-[0.625rem] text-muted-foreground">
               <span>
                 {getLanguageFlag(sourceLanguage)} {sourceLanguage}
               </span>
@@ -89,7 +89,7 @@ export function TranslateResultCard({
         </div>
 
         {syllablePreserved && (
-          <Badge variant="secondary" className="text-[9px] bg-green-500/20 text-green-300">
+          <Badge variant="secondary" className="text-[0.5625rem] bg-green-500/20 text-green-300">
             ✓ Ритм сохранён
           </Badge>
         )}
@@ -102,7 +102,7 @@ export function TranslateResultCard({
           <div className="p-2.5 rounded-lg bg-muted/20 border border-border/30">
             <div className="flex items-center gap-1.5 mb-1.5">
               <span className="text-sm">{getLanguageFlag(sourceLanguage)}</span>
-              <span className="text-[10px] text-muted-foreground font-medium">Оригинал</span>
+              <span className="text-[0.625rem] text-muted-foreground font-medium">Оригинал</span>
             </div>
             <pre className="text-xs text-muted-foreground whitespace-pre-wrap font-sans leading-relaxed">
               {originalText}
@@ -120,7 +120,7 @@ export function TranslateResultCard({
           <div className="flex items-center justify-between mb-1.5">
             <div className="flex items-center gap-1.5">
               <span className="text-sm">{getLanguageFlag(targetLanguage)}</span>
-              <span className="text-[10px] text-indigo-300 font-medium">Перевод</span>
+              <span className="text-[0.625rem] text-indigo-300 font-medium">Перевод</span>
             </div>
             <div className="flex items-center gap-1">
               <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={handleCopy}>
@@ -137,7 +137,7 @@ export function TranslateResultCard({
       {/* Adaptation Notes */}
       {adaptationNotes && adaptationNotes.length > 0 && (
         <div className="space-y-1.5">
-          <p className="text-[10px] font-medium text-muted-foreground flex items-center gap-1">
+          <p className="text-[0.625rem] font-medium text-muted-foreground flex items-center gap-1">
             <AlertCircle className="w-3 h-3" />
             Примечания по адаптации:
           </p>
@@ -145,7 +145,7 @@ export function TranslateResultCard({
             {adaptationNotes.map((note, idx) => (
               <div
                 key={idx}
-                className="flex items-start gap-1.5 text-[10px] text-muted-foreground bg-muted/20 p-1.5 rounded"
+                className="flex items-start gap-1.5 text-[0.625rem] text-muted-foreground bg-muted/20 p-1.5 rounded"
               >
                 <Sparkles className="w-3 h-3 text-indigo-400 shrink-0 mt-0.5" />
                 <span>{note}</span>

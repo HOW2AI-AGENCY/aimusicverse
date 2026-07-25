@@ -108,7 +108,7 @@ export const GenerateButton = memo(function GenerateButton({
         {isGenerating ? (
           <div className="flex flex-col items-center">
             <Loader2 className="w-4 h-4 animate-spin" />
-            {remainingTime > 0 && <span className="text-[8px] font-mono mt-0.5">{remainingTime}s</span>}
+            {remainingTime > 0 && <span className="text-[0.5rem] font-mono mt-0.5">{remainingTime}s</span>}
           </div>
         ) : hasCachedResult ? (
           <Check className="w-4 h-4 text-green-500" />

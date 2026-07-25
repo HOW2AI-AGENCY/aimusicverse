@@ -324,7 +324,7 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
                   <Label className="text-xs uppercase tracking-wide text-muted-foreground">
                     Чистый вокальный сегмент
                   </Label>
-                  <span className="text-[10px] text-muted-foreground">Перетащите ручки</span>
+                  <span className="text-[0.625rem] text-muted-foreground">Перетащите ручки</span>
                 </div>
                 <VoiceWaveformEditor
                   mode="static"

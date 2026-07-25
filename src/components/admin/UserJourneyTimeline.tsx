@@ -138,7 +138,7 @@ const JourneyCard = memo(function JourneyCard({ journey }: JourneyCardProps) {
         <div className="flex-1 min-w-0 text-left">
           <div className="flex items-center gap-2">
             <span className="font-semibold text-sm">{journey.name}</span>
-            <Badge variant="outline" className={cn("text-[10px] h-4", outcomeStyle.text)}>
+            <Badge variant="outline" className={cn("text-[0.625rem] h-4", outcomeStyle.text)}>
               {outcomeStyle.label}
             </Badge>
           </div>
@@ -147,7 +147,7 @@ const JourneyCard = memo(function JourneyCard({ journey }: JourneyCardProps) {
 
         <div className="text-right shrink-0">
           <div className="text-sm font-medium">{journey.users.toLocaleString()}</div>
-          <div className="text-[10px] text-muted-foreground">пользователей</div>
+          <div className="text-[0.625rem] text-muted-foreground">пользователей</div>
         </div>
 
         <ChevronRight
@@ -185,13 +185,13 @@ const JourneyCard = memo(function JourneyCard({ journey }: JourneyCardProps) {
                         >
                           <Icon className="h-4 w-4" />
                         </div>
-                        <span className="text-[10px] font-medium mt-1 max-w-[60px] text-center truncate">
+                        <span className="text-[0.625rem] font-medium mt-1 max-w-[60px] text-center truncate">
                           {step.label}
                         </span>
-                        <span className="text-[9px] text-muted-foreground">{step.avgTime}</span>
+                        <span className="text-[0.5625rem] text-muted-foreground">{step.avgTime}</span>
                         <span
                           className={cn(
-                            "text-[9px]",
+                            "text-[0.5625rem]",
                             step.completionRate >= 80
                               ? "text-green-500"
                               : step.completionRate >= 50
@@ -237,7 +237,7 @@ export const UserJourneyTimeline = memo(function UserJourneyTimeline() {
                 key={f}
                 variant={filter === f ? "default" : "ghost"}
                 size="sm"
-                className="h-7 px-2 text-[10px]"
+                className="h-7 px-2 text-[0.625rem]"
                 onClick={() => setFilter(f)}
               >
                 {f === "all" ? "Все" : OUTCOME_STYLES[f]?.label || f}

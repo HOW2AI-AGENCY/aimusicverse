@@ -25,7 +25,7 @@ export const ScreenshotModeBanner = ({ className }: ScreenshotModeBannerProps) =
         <div className="flex items-center gap-2">
           <Camera className="w-3.5 h-3.5 text-primary-foreground" />
           <span className="text-xs font-medium text-primary-foreground">Screenshot Demo Mode</span>
-          <span className="text-[10px] text-primary-foreground/70">Все данные mock</span>
+          <span className="text-[0.625rem] text-primary-foreground/70">Все данные mock</span>
         </div>
         <Button
           variant="ghost"

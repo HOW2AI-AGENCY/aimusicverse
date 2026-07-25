@@ -125,7 +125,7 @@ export function Card3D({
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-1.5">
                 <Wifi className="w-5 h-5 text-white/80 rotate-90" />
-                <span className="text-[10px] text-white/60 uppercase tracking-wider">Contactless</span>
+                <span className="text-[0.625rem] text-white/60 uppercase tracking-wider">Contactless</span>
               </div>
               <motion.div
                 animate={isProcessing ? { scale: [1, 1.2, 1] } : {}}
@@ -154,11 +154,11 @@ export function Card3D({
             {/* Bottom row */}
             <div className="flex items-end justify-between">
               <div className="space-y-0.5">
-                <p className="text-[9px] text-white/50 uppercase tracking-wider">Card Holder</p>
+                <p className="text-[0.5625rem] text-white/50 uppercase tracking-wider">Card Holder</p>
                 <p className="text-sm font-medium text-white tracking-wider uppercase">{holderName}</p>
               </div>
               <div className="text-right">
-                <p className="text-[9px] text-white/50 uppercase tracking-wider">Expires</p>
+                <p className="text-[0.5625rem] text-white/50 uppercase tracking-wider">Expires</p>
                 <p className="text-sm font-mono text-white">{expiryDate}</p>
               </div>
               <div className="flex flex-col items-end">
@@ -196,7 +196,7 @@ export function Card3D({
 
           {/* Info text */}
           <div className="absolute bottom-4 left-4 right-4 text-center">
-            <p className="text-[8px] text-white/40 leading-relaxed">
+            <p className="text-[0.5rem] text-white/40 leading-relaxed">
               Authorized signature – not valid unless signed. This card is property of issuing bank and must be returned
               on request.
             </p>

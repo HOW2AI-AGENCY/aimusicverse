@@ -82,7 +82,7 @@ export function BeatGridVisualization({
               width: `${((measure.endTime - measure.startTime) / duration) * 100}%`,
             }}
           >
-            <span className="absolute top-0.5 left-1 text-[10px] text-muted-foreground">{measure.measureNumber}</span>
+            <span className="absolute top-0.5 left-1 text-[0.625rem] text-muted-foreground">{measure.measureNumber}</span>
           </div>
         ))}
 
@@ -106,7 +106,7 @@ export function BeatGridVisualization({
               {/* Beat number indicator */}
               <div
                 className={cn(
-                  "absolute bottom-1 -translate-x-1/2 text-[10px] font-mono",
+                  "absolute bottom-1 -translate-x-1/2 text-[0.625rem] font-mono",
                   isDownbeat ? "text-primary font-bold" : "text-muted-foreground",
                 )}
               >
@@ -130,7 +130,7 @@ export function BeatGridVisualization({
             <div
               key={i}
               className={cn(
-                "w-5 h-5 rounded flex items-center justify-center text-[10px] font-mono",
+                "w-5 h-5 rounded flex items-center justify-center text-[0.625rem] font-mono",
                 i === 0 ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground",
               )}
             >

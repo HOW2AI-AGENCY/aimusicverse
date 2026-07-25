@@ -66,7 +66,7 @@ export const VersionPills = memo(function VersionPills({
       }
     >
       <Icon className={cn(iconSize, "flex-shrink-0")} />
-      <span className={cn(compact ? "text-[10px]" : "text-xs", "font-bold leading-none")}>{currentLabel}</span>
+      <span className={cn(compact ? "text-[0.625rem]" : "text-xs", "font-bold leading-none")}>{currentLabel}</span>
     </motion.button>
   );
 });

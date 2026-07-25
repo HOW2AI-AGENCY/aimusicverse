@@ -112,7 +112,7 @@ function ActivityItem({ entry, index }: { entry: StudioChangeEntry; index: numbe
             {getChangeTypeLabel(entry.change_type as StudioChangeType)}
           </span>
           {statusBadge && (
-            <Badge variant={statusBadge.variant} className="text-[10px] h-4 px-1.5">
+            <Badge variant={statusBadge.variant} className="text-[0.625rem] h-4 px-1.5">
               {statusBadge.label}
             </Badge>
           )}
@@ -126,7 +126,7 @@ function ActivityItem({ entry, index }: { entry: StudioChangeEntry; index: numbe
             </span>
           )}
           {entry.field_name && (
-            <Badge variant="outline" className="text-[10px] h-4">
+            <Badge variant="outline" className="text-[0.625rem] h-4">
               {entry.field_name}
             </Badge>
           )}

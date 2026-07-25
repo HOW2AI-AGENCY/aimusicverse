@@ -22,7 +22,7 @@ export const VersionBadge = memo(function VersionBadge({ versionLabel, className
       variant="outline"
       className={cn(
         "font-mono font-medium border-primary/30 bg-primary/10 text-primary",
-        size === "sm" ? "text-[10px] h-4 px-1.5" : "text-xs h-5 px-2",
+        size === "sm" ? "text-[0.625rem] h-4 px-1.5" : "text-xs h-5 px-2",
         className,
       )}
     >

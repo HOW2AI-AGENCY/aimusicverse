@@ -288,7 +288,7 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
           {/* BPM indicator + Time ruler */}
           <div className="h-8 border-b border-border relative bg-muted/30">
             {/* BPM badge */}
-            <div className="absolute left-1 top-1/2 -translate-y-1/2 text-[9px] font-medium text-muted-foreground bg-background/50 px-1.5 py-0.5 rounded">
+            <div className="absolute left-1 top-1/2 -translate-y-1/2 text-[0.5625rem] font-medium text-muted-foreground bg-background/50 px-1.5 py-0.5 rounded">
               {bpm} BPM
             </div>
 
@@ -301,7 +301,7 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
               >
                 <div className={cn("w-px", marker.isBar ? "h-4 bg-primary/60" : "h-2 bg-border/50")} />
                 {marker.isBar && marker.label && (
-                  <span className="absolute top-0.5 text-[9px] font-mono text-primary/80 -translate-x-1/2">
+                  <span className="absolute top-0.5 text-[0.5625rem] font-mono text-primary/80 -translate-x-1/2">
                     {marker.label}
                   </span>
                 )}
@@ -313,7 +313,7 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
               {timeMarkers.map((marker) => (
                 <span
                   key={marker.time}
-                  className="absolute text-[8px] text-muted-foreground/60 -translate-x-1/2"
+                  className="absolute text-[0.5rem] text-muted-foreground/60 -translate-x-1/2"
                   style={{ left: `${marker.position}%` }}
                 >
                   {formatTime(marker.time)}
@@ -351,7 +351,7 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
                       onSectionClick?.(section, index);
                     }}
                   >
-                    <span className={cn("text-[9px] font-medium truncate px-1", colors.text)}>{section.label}</span>
+                    <span className={cn("text-[0.5625rem] font-medium truncate px-1", colors.text)}>{section.label}</span>
                     {section.isReplaced && (
                       <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full" />
                     )}

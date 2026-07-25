@@ -125,7 +125,7 @@ export const HardwareFader = memo(function HardwareFader({
 
   return (
     <div className={cn("flex flex-col items-center gap-2", className)}>
-      {label && <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">{label}</span>}
+      {label && <span className="text-[0.625rem] text-muted-foreground font-medium uppercase tracking-wider">{label}</span>}
 
       <div className="flex items-stretch gap-1">
         {/* Tick marks / Scale */}
@@ -134,7 +134,7 @@ export const HardwareFader = memo(function HardwareFader({
             {tickLabels.map((tick, i) => (
               <div key={i} className="flex items-center gap-1">
                 <div className="w-2 h-px bg-muted-foreground/50" />
-                <span className="text-[8px] text-muted-foreground font-mono w-6 text-right">{tick}</span>
+                <span className="text-[0.5rem] text-muted-foreground font-mono w-6 text-right">{tick}</span>
               </div>
             ))}
           </div>
@@ -210,7 +210,7 @@ export const HardwareFader = memo(function HardwareFader({
 
       {showValue && (
         <div className="px-2 py-0.5 rounded bg-secondary/50 border border-border/50">
-          <span className="text-[10px] font-mono font-semibold tabular-nums">{displayValue}</span>
+          <span className="text-[0.625rem] font-mono font-semibold tabular-nums">{displayValue}</span>
         </div>
       )}
     </div>

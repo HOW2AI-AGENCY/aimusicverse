@@ -128,7 +128,7 @@ export function IntegratedSectionEditor({
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <h4 className="font-semibold text-sm truncate">{selectedSection?.label || "Выбранная секция"}</h4>
-                    <Badge variant="outline" className="text-[10px] shrink-0">
+                    <Badge variant="outline" className="text-[0.625rem] shrink-0">
                       {formatTime(startTime)} — {formatTime(endTime)}
                     </Badge>
                   </div>
@@ -234,7 +234,7 @@ export function IntegratedSectionEditor({
                         placeholder="Отредактируйте текст секции..."
                         className="min-h-[60px] text-sm bg-background/50 resize-none"
                       />
-                      <p className="text-[10px] text-muted-foreground">
+                      <p className="text-[0.625rem] text-muted-foreground">
                         Изменённый текст будет использован для генерации
                       </p>
                     </div>
