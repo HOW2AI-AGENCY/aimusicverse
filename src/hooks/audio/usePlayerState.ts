@@ -72,7 +72,9 @@ interface PlayerState {
   // Granular playback status (driven by audio element events)
   playbackStatus: PlaybackStatus;
   playbackError: string | null;
+  loadNonce: number; // Bumped by retryPlayback() to force reload of same track
   setPlaybackStatus: (status: PlaybackStatus, error?: string | null) => void;
+  retryPlayback: () => void; // Retry current track after load/playback error
 
   // Time preservation across player mode transitions
   preservedTime: number | null; // Preserved currentTime when switching modes
@@ -271,8 +273,20 @@ export const usePlayerStore = create<PlayerState>()(
       preservedTime: null, // Time preservation for mode switches
       playbackStatus: "idle",
       playbackError: null,
+      loadNonce: 0,
       setPlaybackStatus: (status, error = null) =>
         set({ playbackStatus: status, playbackError: status === "error" ? error : null }),
+      retryPlayback: () => {
+        const { activeTrack, loadNonce } = get();
+        if (!activeTrack) return;
+        logger.info("[PlayerStore] Retry playback requested", { trackId: activeTrack.id });
+        set({
+          playbackStatus: "idle",
+          playbackError: null,
+          loadNonce: loadNonce + 1,
+          isPlaying: true,
+        });
+      },
 
       /**
        * Play track action - delegates to playerLogic and auto-opens player UI
