@@ -4,13 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loader2, Mic, Square, Upload, CheckCircle2, AlertCircle, RotateCcw, FileAudio, Library } from "@/lib/icons";
+import { Loader2, Mic, Square, Upload, CheckCircle2, AlertCircle, RotateCcw } from "@/lib/icons";
 import { useVoiceCloneWizard, STEP_INDEX } from "@/hooks/voice/useVoiceCloneWizard";
 import { useVoiceRecorder } from "@/hooks/voice/useVoiceRecorder";
-import { useUserVocalStems, type UserVocalStem } from "@/hooks/voice/useUserVocalStems";
 import { notify } from "@/lib/notifications";
 import { logger } from "@/lib/logger";
 import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
@@ -171,7 +169,7 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
               <Mic className="h-4 w-4 shrink-0 text-primary mt-0.5" />
               <p className="text-xs text-muted-foreground leading-relaxed">
                 <span className="font-medium text-foreground">Микрофон обязателен.</span> Сначала вы даёте образец
-                голоса (файл, запись или стем), затем Suno выдаст контрольную фразу — её нужно будет{" "}
+                голоса — записываете его с микрофона, затем Suno выдаст контрольную фразу — её нужно будет{" "}
                 <span className="font-medium text-foreground">пропеть в микрофон</span>. Без этой записи голос создать
                 нельзя.
               </p>
