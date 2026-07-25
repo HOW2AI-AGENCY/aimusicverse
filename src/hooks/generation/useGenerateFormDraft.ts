@@ -82,6 +82,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
 
       clearPlanTrackContext();
     }
+    // One-shot: apply plan track context when sheet opens; setters are stable ref-like from parent.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, planTrackContext, clearPlanTrackContext]);
 
   // Apply guitar analysis parameters from sessionStorage
@@ -129,6 +131,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         logger.error("Failed to load generation params from sessionStorage", error);
       }
     });
+    // One-shot: consume sessionStorage["generationParams"] on open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Apply preset parameters from Quick Create
@@ -170,6 +174,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         );
       }
     }
+    // One-shot: consume sessionStorage["presetParams"] on open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Apply "Generate Similar" parameters
@@ -202,6 +208,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         logger.error("Failed to load similar track params", error instanceof Error ? error : new Error(String(error)));
       }
     }
+    // One-shot: consume sessionStorage["similarTrackParams"] on open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Apply Quick Genre Preset from homepage
@@ -231,6 +239,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         logger.error("Failed to load quick genre preset", error instanceof Error ? error : new Error(String(error)));
       }
     });
+    // One-shot: consume sessionStorage["quickGenrePreset"] on open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Fetch API credits
@@ -249,6 +259,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
     if (open) {
       fetchApiCredits();
     }
+    // Fetch API credits when the sheet opens; setters are stable.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Apply audio reference data when loaded
@@ -275,6 +287,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
     } else if (activeReference.intendedMode === "cover") {
       setters.setAudioWeight([0.5]);
     }
+    // Apply audio reference data when it or `open` changes; setters are stable.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeReference, open]);
 
   // Check for remix data from sessionStorage
@@ -302,6 +316,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         logger.error("Failed to load remix data from sessionStorage", error);
       }
     }
+    // One-shot: consume sessionStorage["musicverse_remix_data"] on open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Check for template lyrics from sessionStorage
@@ -322,6 +338,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         });
       }
     }
+    // One-shot: consume sessionStorage["templateLyrics"] on open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Restore draft when sheet opens
@@ -353,6 +371,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         },
       });
     }
+    // One-shot: restore draft on open only; deliberately does not re-run when draft mutates.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Auto-save draft
