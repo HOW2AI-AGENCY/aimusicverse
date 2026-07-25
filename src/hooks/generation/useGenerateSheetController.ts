@@ -238,7 +238,6 @@ export function useGenerateSheetController({
       vocalGender: form.vocalGender,
     });
     trackAction("form_save_draft", "generation", "complete", { source: "controller" });
-    notify.success("Черновик сохранён");
   }, [form, hapticFeedback, trackAction]);
 
   const handleClearDraft = useCallback(() => {
