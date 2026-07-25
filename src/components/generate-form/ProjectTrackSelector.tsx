@@ -193,8 +193,8 @@ export function ProjectTrackSelector({
               ))}
             </motion.div>
           )}
-        </ScrollArea>
-      </SheetContent>
-    </Sheet>
+      </>
+    </GenerateModal>
   );
+
 }
