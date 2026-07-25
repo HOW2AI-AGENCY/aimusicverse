@@ -316,6 +316,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         logger.error("Failed to load remix data from sessionStorage", error);
       }
     }
+    // One-shot: consume sessionStorage["musicverse_remix_data"] on open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   // Check for template lyrics from sessionStorage
