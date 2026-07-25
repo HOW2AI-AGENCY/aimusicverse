@@ -201,19 +201,10 @@ serve(async (req) => {
       throw new Error("Failed to create generation task");
     }
 
-    // Create track version relationship
-    await supabase.from("track_versions").insert({
-      track_id: newTrack.id,
-      audio_url: overrideAudioUrl || sourceTrack.audio_url || "",
-      cover_url: sourceTrack.cover_url,
-      duration_seconds: sourceTrack.duration_seconds,
-      version_type: "extended_from",
-      parent_version_id: null,
-      metadata: {
-        source_track_id: sourceTrackId,
-        continue_at: continueAt,
-      },
-    });
+    // ВАЖНО: не создаём placeholder-версию здесь.
+    // Версии (A/B) создаёт suno-music-callback по каждому клипу с корректными
+    // version_label / clip_index / is_primary. Пустая "extended_from" строка
+    // ломала выбор основной версии и скрывала версии в UI.
 
     // Prepare SunoAPI extend request
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;

@@ -18,12 +18,10 @@ import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { fetchStemTranscriptions } from "@/api/studio.api";
 import {
   ImagePlus,
-  Disc,
   Plus,
   Music,
   Video,
   Mic2,
-  Music2,
   Layers,
   RefreshCw,
   FileMusic,
@@ -37,9 +35,6 @@ import {
   Globe,
   Lock,
   Trash2,
-  Sparkles,
-  Check,
-  Loader2,
 } from "@/lib/icons";
 import { isActionAvailable } from "@/lib/trackActionConditions";
 import { StemsModeDialog } from "./sections/StemsActionButton";
@@ -124,11 +119,9 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
 
   // Action visibility checks
   const showGenerateCover = isActionAvailable("generate_cover", track, actionState);
-  const showCover = isActionAvailable("cover", track, actionState);
   const showExtend = isActionAvailable("extend", track, actionState);
   const showRemix = isActionAvailable("remix", track, actionState);
   const showAddVocals = isActionAvailable("add_vocals", track, actionState);
-  const showAddInstrumental = isActionAvailable("add_instrumental", track, actionState);
   const showStudio = isActionAvailable("open_studio", track, actionState);
   const showReplaceSection = isActionAvailable("replace_section", track, actionState);
   const showStemsSimple = isActionAvailable("stems_simple", track, actionState);
@@ -142,11 +135,6 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
   const showProject = isActionAvailable("add_to_project", track, actionState);
   const showDetails = isActionAvailable("details", track, actionState);
   const showTogglePublic = isActionAvailable("toggle_public", track, actionState);
-  const showUpscaleHd = isActionAvailable("upscale_hd", track, actionState);
-
-  // HD status
-  const hasHdAudio = !!track.audio_url_hd || track.audio_quality === "hd";
-  const isUpscaling = track.upscale_status === "processing";
 
   return (
     <>
@@ -255,36 +243,10 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
                       disabled={isProcessing}
                     />
                   )}
-                  {showAddInstrumental && (
-                    <IconGridButton
-                      icon={Music2}
-                      label="Минус"
-                      color="sky"
-                      onClick={() => executeAction("add_instrumental")}
-                      disabled={isProcessing}
-                    />
-                  )}
-                  {showUpscaleHd &&
-                    (hasHdAudio ? (
-                      <IconGridButton icon={Check} label="HD готов" color="green" disabled onClick={() => {}} />
-                    ) : isUpscaling ? (
-                      <IconGridButton icon={Loader2} label="Улучшение" color="amber" disabled onClick={() => {}} />
-                    ) : (
-                      <IconGridButton
-                        icon={Sparkles}
-                        label="HD Audio"
-                        color="amber"
-                        onClick={() => executeAction("upscale_hd")}
-                        disabled={isProcessing}
-                      />
-                    ))}
                 </ActionGroup>
 
                 {/* Создать новое на основе трека */}
                 <ActionGroup title="Создать">
-                  {showCover && (
-                    <IconGridButton icon={Disc} label="Кавер" color="purple" onClick={() => executeAction("cover")} />
-                  )}
                   {showGenerateCover && (
                     <IconGridButton
                       icon={ImagePlus}
@@ -302,6 +264,7 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
                     disabled={isProcessing}
                   />
                 </ActionGroup>
+
 
                 {/* Экспорт файлов */}
                 <ActionGroup title="Экспорт">
