@@ -66,6 +66,7 @@ jobs:
             --exclude 'klang\.io'
             --exclude 'musicverse\.ai'
             --exclude 'higgsfield\.ai'
+            --exclude 'npmjs\.com'
             --exclude 'github\.com/.*/rules/'
             --accept 200,206,429
             './**/*.md'
