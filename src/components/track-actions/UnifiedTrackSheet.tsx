@@ -42,7 +42,7 @@ import {
   Loader2,
 } from "@/lib/icons";
 import { isActionAvailable } from "@/lib/trackActionConditions";
-import { StemsActionButton } from "./sections/StemsActionButton";
+import { StemsModeDialog } from "./sections/StemsActionButton";
 
 interface UnifiedTrackSheetProps {
   track: Track | null;
@@ -225,13 +225,12 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
                     />
                   )}
                   {(showStemsSimple || showStemsDetailed) && (
-                    <StemsActionButton
-                      onAction={executeAction}
-                      isProcessing={isProcessing}
-                      onDialogOpenChange={(dialogOpen) => {
-                        setStemsModeOpen(dialogOpen);
-                        if (!dialogOpen) onOpenChange(false);
-                      }}
+                    <IconGridButton
+                      icon={Layers}
+                      label="Стемы"
+                      color="green"
+                      disabled={isProcessing}
+                      onClick={() => setStemsModeOpen(true)}
                     />
                   )}
                 </ActionGroup>
@@ -397,6 +396,20 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
           </ScrollArea>
         </SheetContent>
       </Sheet>
+
+      <StemsModeDialog
+        open={stemsModeOpen}
+        onOpenChange={(dialogOpen) => {
+          setStemsModeOpen(dialogOpen);
+          if (!dialogOpen) onOpenChange(false);
+        }}
+        isProcessing={isProcessing}
+        onSelectMode={(mode) => {
+          setStemsModeOpen(false);
+          onOpenChange(false);
+          executeAction(mode === "simple" ? "stems_simple" : "stems_detailed");
+        }}
+      />
 
       <TrackDialogsPortal
         track={track}

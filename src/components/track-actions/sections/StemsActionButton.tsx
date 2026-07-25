@@ -63,7 +63,26 @@ export function StemsActionButton({
         </Button>
       )}
 
-      <AlertDialog open={dialogOpen} onOpenChange={setOpen}>
+      <StemsModeDialog open={dialogOpen} onOpenChange={setOpen} isProcessing={isProcessing} onSelectMode={handleSelectMode} />
+    </>
+  );
+}
+
+interface StemsModeDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  isProcessing?: boolean;
+  onSelectMode: (mode: "simple" | "detailed") => void;
+}
+
+/**
+ * Диалог выбора режима разделения. Вынесен отдельно, чтобы его можно было
+ * рендерить вне листа действий (иначе закрытие листа размонтирует диалог).
+ */
+export function StemsModeDialog({ open, onOpenChange, isProcessing, onSelectMode }: StemsModeDialogProps) {
+  return (
+    <>
+      <AlertDialog open={open} onOpenChange={onOpenChange}>
         <AlertDialogContent className="max-w-sm">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
@@ -76,7 +95,7 @@ export function StemsActionButton({
           <div className="grid gap-3 py-4">
             {/* Simple mode */}
             <button
-              onClick={() => handleSelectMode("simple")}
+              onClick={() => onSelectMode("simple")}
               disabled={isProcessing}
               className={cn(
                 "flex items-start gap-3 p-4 rounded-xl border-2 text-left transition-all",
@@ -95,7 +114,7 @@ export function StemsActionButton({
 
             {/* Detailed mode */}
             <button
-              onClick={() => handleSelectMode("detailed")}
+              onClick={() => onSelectMode("detailed")}
               disabled={isProcessing}
               className={cn(
                 "flex items-start gap-3 p-4 rounded-xl border-2 text-left transition-all",
