@@ -14,6 +14,7 @@
  */
 
 import { memo, useCallback, useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -71,51 +72,49 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
   const { setPrimaryVersionAsync } = useVersionSwitcher();
 
-  const [versions, setVersions] = useState<TrackVersion[]>([]);
-  const [activeVersionId, setActiveVersionId] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  // Shared React Query cache across all selectors for the same track.
+  // Auto-fetch for inline/compact so the active label is visible immediately,
+  // no hover required. Sheet only fetches when opened.
+  const enabled = !!trackId && (variant !== "sheet" || !!sheetOpen);
+  const {
+    data: versionsData,
+    isLoading: isQueryLoading,
+    isFetched,
+  } = useQuery({
+    queryKey: ["track-versions-unified", trackId],
+    queryFn: () => getTrackVersionsForUnifiedSelector(trackId),
+    enabled,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+    retry: 1,
+  });
+
+  const [optimisticVersions, setOptimisticVersions] = useState<TrackVersion[] | null>(null);
   const [isSwitching, setIsSwitching] = useState(false);
   const [previewingId, setPreviewingId] = useState<string | null>(null);
-  const [hasFetched, setHasFetched] = useState(false);
 
-  // Lazy fetch versions - only when needed
-  const fetchVersions = useCallback(async () => {
-    if (!trackId || hasFetched) return;
+  // Map fetched rows to view model
+  const mappedVersions: TrackVersion[] = (versionsData || []).map((v, index) => ({
+    id: v.id,
+    label: v.version_label || String.fromCharCode(65 + index),
+    audioUrl: v.audio_url,
+    coverUrl: v.cover_url,
+    duration: v.duration_seconds ?? undefined,
+    isPrimary: v.is_primary || false,
+    versionType: v.version_type ?? undefined,
+    createdAt: v.created_at ?? undefined,
+  }));
 
-    setIsLoading(true);
-    setHasFetched(true);
+  const versions = optimisticVersions ?? mappedVersions;
+  const activeVersionId = versions.find((v) => v.isPrimary)?.id || versions[0]?.id || null;
+  const isLoading = isQueryLoading && !isFetched;
+  const hasFetched = isFetched;
 
-    try {
-      const data = await getTrackVersionsForUnifiedSelector(trackId);
-
-      const mappedVersions: TrackVersion[] = (data || []).map((v, index) => ({
-        id: v.id,
-        label: v.version_label || String.fromCharCode(65 + index),
-        audioUrl: v.audio_url,
-        coverUrl: v.cover_url,
-        duration: v.duration_seconds ?? undefined,
-        isPrimary: v.is_primary || false,
-        versionType: v.version_type ?? undefined,
-        createdAt: v.created_at ?? undefined,
-      }));
-
-      setVersions(mappedVersions);
-
-      const primary = mappedVersions.find((v) => v.isPrimary);
-      setActiveVersionId(primary?.id || mappedVersions[0]?.id || null);
-    } catch (error) {
-      logger.error("Failed to fetch versions", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [trackId, hasFetched]);
-
-  // Reset when trackId changes
+  // Reset optimistic state when trackId changes
   useEffect(() => {
-    setHasFetched(false);
-    setVersions([]);
-    setActiveVersionId(null);
+    setOptimisticVersions(null);
   }, [trackId]);
+
 
   // Handle version switch
   const handleSwitch = useCallback(
@@ -126,13 +125,9 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
       setIsSwitching(true);
 
       // Optimistic update
-      const previousActiveId = activeVersionId;
-      setActiveVersionId(version.id);
-      setVersions((prev) =>
-        prev.map((v) => ({
-          ...v,
-          isPrimary: v.id === version.id,
-        })),
+      const previousVersions = versions;
+      setOptimisticVersions(
+        versions.map((v) => ({ ...v, isPrimary: v.id === version.id })),
       );
 
       try {
@@ -148,23 +143,20 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
         }
 
         onVersionChange?.(version);
+        // Clear optimistic — react-query cache will be refreshed by version switcher
+        setOptimisticVersions(null);
       } catch (error) {
         // Rollback on error
-        setActiveVersionId(previousActiveId);
-        setVersions((prev) =>
-          prev.map((v) => ({
-            ...v,
-            isPrimary: v.id === previousActiveId,
-          })),
-        );
+        setOptimisticVersions(previousVersions);
         logger.error("Failed to switch version", error);
         toast.error("Ошибка переключения версии");
       } finally {
         setIsSwitching(false);
       }
     },
-    [trackId, activeVersionId, disabled, isSwitching, haptic, activeTrack, playTrack, onVersionChange],
+    [trackId, activeVersionId, disabled, isSwitching, haptic, activeTrack, playTrack, onVersionChange, setPrimaryVersionAsync, versions],
   );
+
 
   // Handle preview play
   const handlePreview = useCallback(
@@ -192,79 +184,59 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
   // Don't render if no trackId
   if (!trackId) return null;
 
-  // INLINE variant - compact A/B buttons with lazy loading
+  // INLINE variant - compact A/B buttons (auto-fetched via React Query)
   if (variant === "inline") {
-    // If not fetched yet, show placeholder that triggers fetch on hover/click
-    if (!hasFetched) {
+    // While loading first time, show subtle skeleton buttons
+    if (isLoading) {
       return (
-        <div
-          className={cn("flex items-center gap-1", className)}
-          onMouseEnter={fetchVersions}
-          onClick={(e) => {
-            e.stopPropagation();
-            fetchVersions();
-          }}
-        >
-          <div className="h-7 min-w-[28px] px-1.5 rounded-md font-mono text-xs font-bold bg-muted/30 text-muted-foreground flex items-center justify-center">
-            A
-          </div>
-          <div className="h-7 min-w-[28px] px-1.5 rounded-md font-mono text-xs font-bold bg-muted/30 text-muted-foreground flex items-center justify-center">
-            B
-          </div>
+        <div className={cn("flex items-center gap-1", className)}>
+          <Skeleton className="h-7 w-7 rounded-md" />
+          <Skeleton className="h-7 w-7 rounded-md" />
         </div>
       );
     }
 
     // Don't render if only one version after fetch
-    if (!isLoading && versions.length <= 1) return null;
+    if (hasFetched && versions.length <= 1) return null;
 
     return (
       <div className={cn("flex items-center gap-1", className)}>
-        {isLoading ? (
-          <>
-            <Skeleton className="h-7 w-7 rounded-md" />
-            <Skeleton className="h-7 w-7 rounded-md" />
-          </>
-        ) : (
-          versions.slice(0, 4).map((version) => {
-            const isActive = version.id === activeVersionId;
-            return (
-              <button
-                key={version.id}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleSwitch(version);
-                }}
-                disabled={disabled || isSwitching}
-                className={cn(
-                  "relative h-7 min-w-[28px] px-1.5 rounded-md font-mono text-xs font-bold",
-                  "transition-all touch-manipulation active:scale-95",
-                  isActive
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground",
-                  (disabled || isSwitching) && "opacity-50 cursor-not-allowed",
-                )}
-              >
-                {showLabels ? version.label : version.label.charAt(0)}
-                {isActive && (
-                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full border border-background" />
-                )}
-              </button>
-            );
-          })
-        )}
+        {versions.slice(0, 4).map((version) => {
+          const isActive = version.id === activeVersionId;
+          return (
+            <button
+              key={version.id}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSwitch(version);
+              }}
+              disabled={disabled || isSwitching}
+              className={cn(
+                "relative h-7 min-w-[28px] px-1.5 rounded-md font-mono text-xs font-bold",
+                "transition-all touch-manipulation active:scale-95",
+                isActive
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground",
+                (disabled || isSwitching) && "opacity-50 cursor-not-allowed",
+              )}
+            >
+              {showLabels ? version.label : version.label.charAt(0)}
+              {isActive && (
+                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full border border-background" />
+              )}
+            </button>
+          );
+        })}
         {isSwitching && <Loader2 className="h-3 w-3 animate-spin ml-1" />}
       </div>
     );
   }
 
-  // COMPACT variant - minimal for player bar (fetch on first interaction)
+  // COMPACT variant - minimal for player bar
   if (variant === "compact") {
-    if (!hasFetched) {
-      fetchVersions(); // Auto-fetch for compact since it's in player
-    }
-
     if (!hasFetched || versions.length <= 1) return null;
+
+
 
     return (
       <div className={cn("flex items-center gap-0.5", className)}>
