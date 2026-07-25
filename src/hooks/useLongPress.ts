@@ -54,6 +54,15 @@ export function useLongPress({
     [delay, onLongPress, haptic, hapticStyle],
   );
 
+  const clear = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    setIsPressing(false);
+    startPosRef.current = null;
+  }, []);
+
   const move = useCallback(
     (e: React.TouchEvent | React.MouseEvent) => {
       if (!startPosRef.current || !timerRef.current) return;
@@ -77,17 +86,8 @@ export function useLongPress({
         onCancel?.();
       }
     },
-    [onCancel],
+    [clear, onCancel],
   );
-
-  const clear = useCallback(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-    setIsPressing(false);
-    startPosRef.current = null;
-  }, []);
 
   const end = useCallback(() => {
     if (timerRef.current && !isLongPressed) {

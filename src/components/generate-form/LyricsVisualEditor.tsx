@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import {
   DndContext,
   closestCenter,
@@ -265,13 +265,17 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
   const [showTimeline, setShowTimeline] = useState(true);
   const [showStats, setShowStats] = useState(true);
 
-  // Sync sections when value changes externally
-  useEffect(() => {
+  // Sync sections when value changes externally. Derived during render using
+  // React's "adjust state when a prop changes" pattern instead of an effect, to
+  // avoid cascading renders.
+  const [prevValue, setPrevValue] = useState(value);
+  if (value !== prevValue) {
+    setPrevValue(value);
     const parsed = parseLyrics(value);
     if (JSON.stringify(parsed) !== JSON.stringify(sections)) {
       setSections(parsed);
     }
-  }, [value]);
+  }
 
   // Calculate statistics
   const stats = useMemo(() => {
@@ -292,6 +296,15 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
 
   const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
 
+  // Monotonic counter for unique section IDs — avoids Date.now() during render
+  // (purity rule). Seeded once with the current time so IDs stay unique across
+  // remounts, matching the previous Date.now()-based behaviour.
+  const idCounterRef = useRef(0);
+  const genId = (prefix: string) => {
+    idCounterRef.current += 1;
+    return `${prefix}-${idCounterRef.current}`;
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -307,8 +320,7 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
   };
 
   const handleAddSection = (type: LyricSection["type"]) => {
-    const timestamp = Date.now();
-    const newSectionId = `${type}-${timestamp}`;
+    const newSectionId = genId(type);
     const newSection: LyricSection = {
       id: newSectionId,
       type,
@@ -329,7 +341,7 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
 
     const newSection: LyricSection = {
       ...section,
-      id: `${section.type}-${Date.now()}`,
+      id: genId(section.type),
     };
 
     const index = sections.findIndex((s) => s.id === id);
@@ -375,7 +387,7 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
 
   const handleApplyTemplate = (template: (typeof STRUCTURE_TEMPLATES)[0]) => {
     const newSections = template.sections.map((type, index) => ({
-      id: `${type}-${Date.now()}-${index}`,
+      id: `${genId(type)}-${index}`,
       type: type as LyricSection["type"],
       content: "",
       tags: [],

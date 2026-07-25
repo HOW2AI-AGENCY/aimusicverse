@@ -82,7 +82,7 @@ export function useTelegramStorage<T>(
     };
 
     loadValue();
-  }, [key, hasCloudStorage, options.fallbackToLocalStorage]);
+  }, [key, hasCloudStorage, cloudStorage, options.fallbackToLocalStorage]);
 
   // Save value
   const saveValue = useCallback(
@@ -111,7 +111,7 @@ export function useTelegramStorage<T>(
         localStorage.setItem(`telegram_storage_${key}`, stringValue);
       }
     },
-    [key, hasCloudStorage, options.fallbackToLocalStorage, webApp],
+    [key, hasCloudStorage, cloudStorage, options.fallbackToLocalStorage],
   );
 
   // Remove value
@@ -133,7 +133,7 @@ export function useTelegramStorage<T>(
     } else if (options.fallbackToLocalStorage) {
       localStorage.removeItem(`telegram_storage_${key}`);
     }
-  }, [key, hasCloudStorage, options.fallbackToLocalStorage, webApp, initialValue]);
+  }, [key, hasCloudStorage, cloudStorage, options.fallbackToLocalStorage, initialValue]);
 
   return {
     value,

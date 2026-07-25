@@ -62,6 +62,120 @@ const statusConfig: Record<
   closed: { icon: XCircle, label: "Закрыто", variant: "outline" },
 };
 
+interface DetailPanelProps {
+  selectedFeedback: FeedbackItem | null;
+  replyText: string;
+  onReplyTextChange: (text: string) => void;
+  onReply: () => void;
+  onClose: (id: string) => void;
+  sending: boolean;
+  isMobile: boolean;
+}
+
+const DetailPanel = ({
+  selectedFeedback,
+  replyText,
+  onReplyTextChange,
+  onReply,
+  onClose,
+  sending,
+  isMobile,
+}: DetailPanelProps) => (
+  <div className="space-y-4">
+    {selectedFeedback ? (
+      <>
+        {/* User Info */}
+        <div className="flex items-center gap-3">
+          {selectedFeedback.profile?.photo_url ? (
+            <LazyImage
+              src={selectedFeedback.profile.photo_url}
+              alt=""
+              className="w-10 h-10 rounded-full object-cover"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+              <MessageSquare className="h-5 w-5" />
+            </div>
+          )}
+          <div className="min-w-0 flex-1">
+            <p className="font-medium truncate">
+              {selectedFeedback.profile?.username || selectedFeedback.profile?.first_name || "Пользователь"}
+            </p>
+            <p className="text-sm text-muted-foreground">ID: {selectedFeedback.telegram_id}</p>
+          </div>
+        </div>
+
+        {/* Type & Date */}
+        <div className="flex flex-wrap items-center gap-2">
+          {(() => {
+            const config = typeConfig[selectedFeedback.type] || typeConfig.support;
+            const TypeIcon = config.icon;
+            return (
+              <Badge className={config.color}>
+                <TypeIcon className="h-3 w-3 mr-1" />
+                {config.label}
+              </Badge>
+            );
+          })()}
+          <span className="text-xs md:text-sm text-muted-foreground">
+            {format(new Date(selectedFeedback.created_at), "dd MMM yyyy, HH:mm", { locale: ru })}
+          </span>
+        </div>
+
+        {/* Message */}
+        <div className="p-3 md:p-4 bg-muted rounded-lg">
+          <p className="whitespace-pre-wrap text-sm md:text-base">{selectedFeedback.message}</p>
+        </div>
+
+        {/* Previous Reply */}
+        {selectedFeedback.admin_reply && (
+          <div className="p-3 md:p-4 bg-primary/10 rounded-lg border border-primary/20">
+            <p className="text-sm font-medium mb-1">Ваш ответ:</p>
+            <p className="whitespace-pre-wrap text-sm">{selectedFeedback.admin_reply}</p>
+            {selectedFeedback.replied_at && (
+              <p className="text-xs text-muted-foreground mt-2">
+                {format(new Date(selectedFeedback.replied_at), "dd MMM, HH:mm", { locale: ru })}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Reply Form */}
+        {selectedFeedback.status !== "closed" && (
+          <div className="space-y-3">
+            <Textarea
+              placeholder="Введите ответ..."
+              value={replyText}
+              onChange={(e) => onReplyTextChange(e.target.value)}
+              rows={isMobile ? 3 : 4}
+              className="resize-none"
+            />
+            <div className="flex gap-2">
+              <Button
+                onClick={onReply}
+                disabled={!replyText.trim() || sending}
+                className="flex-1"
+                size={isMobile ? "sm" : "default"}
+              >
+                <Send className="h-4 w-4 mr-2" />
+                {sending ? "Отправка..." : "Отправить"}
+              </Button>
+              <Button variant="outline" onClick={() => onClose(selectedFeedback.id)} size={isMobile ? "sm" : "default"}>
+                Закрыть
+              </Button>
+            </div>
+          </div>
+        )}
+      </>
+    ) : (
+      <div className="text-center py-12 text-muted-foreground">
+        <MessageSquare className="h-12 w-12 mx-auto mb-4 opacity-50" />
+        <p>Выберите обращение</p>
+      </div>
+    )}
+  </div>
+);
+
 export default function AdminFeedback() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
@@ -75,19 +189,10 @@ export default function AdminFeedback() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [detailSheetOpen, setDetailSheetOpen] = useState(false);
 
-  useEffect(() => {
-    if (!authLoading && user) {
-      checkAdminStatus();
-    }
-  }, [user, authLoading]);
-
-  useEffect(() => {
-    if (isAdmin) {
-      fetchFeedback();
-    }
-  }, [isAdmin, activeTab]);
-
-  const checkAdminStatus = async () => {
+  // Define before effects to avoid TDZ / immutability warnings.
+  // Kept as plain async functions (not useCallback) because the set-state-in-effect
+  // rule would otherwise flag the synchronous setState calls inside them.
+  async function checkAdminStatus() {
     if (!user) return;
 
     const data = await checkAdminRole(user.id);
@@ -99,9 +204,9 @@ export default function AdminFeedback() {
     }
 
     setIsAdmin(true);
-  };
+  }
 
-  const fetchFeedback = async () => {
+  async function fetchFeedback() {
     setLoading(true);
 
     try {
@@ -135,7 +240,25 @@ export default function AdminFeedback() {
     }
 
     setLoading(false);
-  };
+  }
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      // Data-fetching effect: setState is intentional and async (after network calls).
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      checkAdminStatus();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, authLoading]);
+
+  useEffect(() => {
+    if (isAdmin) {
+      // Data-fetching effect: setState is intentional and async (after network calls).
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      fetchFeedback();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAdmin, activeTab]);
 
   const handleReply = async () => {
     if (!selectedFeedback || !replyText.trim()) return;
@@ -206,106 +329,6 @@ export default function AdminFeedback() {
       </div>
     );
   }
-
-  const DetailPanel = () => (
-    <div className="space-y-4">
-      {selectedFeedback ? (
-        <>
-          {/* User Info */}
-          <div className="flex items-center gap-3">
-            {selectedFeedback.profile?.photo_url ? (
-              <LazyImage
-                src={selectedFeedback.profile.photo_url}
-                alt=""
-                className="w-10 h-10 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
-                <MessageSquare className="h-5 w-5" />
-              </div>
-            )}
-            <div className="min-w-0 flex-1">
-              <p className="font-medium truncate">
-                {selectedFeedback.profile?.username || selectedFeedback.profile?.first_name || "Пользователь"}
-              </p>
-              <p className="text-sm text-muted-foreground">ID: {selectedFeedback.telegram_id}</p>
-            </div>
-          </div>
-
-          {/* Type & Date */}
-          <div className="flex flex-wrap items-center gap-2">
-            {(() => {
-              const config = typeConfig[selectedFeedback.type] || typeConfig.support;
-              const TypeIcon = config.icon;
-              return (
-                <Badge className={config.color}>
-                  <TypeIcon className="h-3 w-3 mr-1" />
-                  {config.label}
-                </Badge>
-              );
-            })()}
-            <span className="text-xs md:text-sm text-muted-foreground">
-              {format(new Date(selectedFeedback.created_at), "dd MMM yyyy, HH:mm", { locale: ru })}
-            </span>
-          </div>
-
-          {/* Message */}
-          <div className="p-3 md:p-4 bg-muted rounded-lg">
-            <p className="whitespace-pre-wrap text-sm md:text-base">{selectedFeedback.message}</p>
-          </div>
-
-          {/* Previous Reply */}
-          {selectedFeedback.admin_reply && (
-            <div className="p-3 md:p-4 bg-primary/10 rounded-lg border border-primary/20">
-              <p className="text-sm font-medium mb-1">Ваш ответ:</p>
-              <p className="whitespace-pre-wrap text-sm">{selectedFeedback.admin_reply}</p>
-              {selectedFeedback.replied_at && (
-                <p className="text-xs text-muted-foreground mt-2">
-                  {format(new Date(selectedFeedback.replied_at), "dd MMM, HH:mm", { locale: ru })}
-                </p>
-              )}
-            </div>
-          )}
-
-          {/* Reply Form */}
-          {selectedFeedback.status !== "closed" && (
-            <div className="space-y-3">
-              <Textarea
-                placeholder="Введите ответ..."
-                value={replyText}
-                onChange={(e) => setReplyText(e.target.value)}
-                rows={isMobile ? 3 : 4}
-                className="resize-none"
-              />
-              <div className="flex gap-2">
-                <Button
-                  onClick={handleReply}
-                  disabled={!replyText.trim() || sending}
-                  className="flex-1"
-                  size={isMobile ? "sm" : "default"}
-                >
-                  <Send className="h-4 w-4 mr-2" />
-                  {sending ? "Отправка..." : "Отправить"}
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => handleClose(selectedFeedback.id)}
-                  size={isMobile ? "sm" : "default"}
-                >
-                  Закрыть
-                </Button>
-              </div>
-            </div>
-          )}
-        </>
-      ) : (
-        <div className="text-center py-12 text-muted-foreground">
-          <MessageSquare className="h-12 w-12 mx-auto mb-4 opacity-50" />
-          <p>Выберите обращение</p>
-        </div>
-      )}
-    </div>
-  );
 
   const pendingCount = feedback.filter((f) => f.status === "pending").length;
 
@@ -443,7 +466,15 @@ export default function AdminFeedback() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <DetailPanel />
+              <DetailPanel
+                selectedFeedback={selectedFeedback}
+                replyText={replyText}
+                onReplyTextChange={setReplyText}
+                onReply={handleReply}
+                onClose={handleClose}
+                sending={sending}
+                isMobile={isMobile}
+              />
             </CardContent>
           </Card>
         )}
@@ -463,7 +494,15 @@ export default function AdminFeedback() {
             </SheetHeader>
             <ScrollArea className="h-[calc(85vh-80px)]">
               <div className="pr-4">
-                <DetailPanel />
+                <DetailPanel
+                  selectedFeedback={selectedFeedback}
+                  replyText={replyText}
+                  onReplyTextChange={setReplyText}
+                  onReply={handleReply}
+                  onClose={handleClose}
+                  sending={sending}
+                  isMobile={isMobile}
+                />
               </div>
             </ScrollArea>
           </SheetContent>

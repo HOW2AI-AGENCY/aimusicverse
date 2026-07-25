@@ -23,8 +23,6 @@ interface RealTimeStats {
 }
 
 export function RealTimeMetrics() {
-  const [pulse, setPulse] = useState(false);
-
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["realtime-metrics"],
     queryFn: async (): Promise<RealTimeStats> => {
@@ -54,14 +52,24 @@ export function RealTimeMetrics() {
     refetchInterval: 10000, // Refetch every 10 seconds
   });
 
-  // Pulse animation on data change
-  useEffect(() => {
+  // Pulse animation on data change. The "pulse on" transition is derived during
+  // render (React's "adjust state when a value changes" pattern); the timed
+  // reset is an external side-effect and stays in the effect.
+  const recentEventsKey = data?.recentEvents;
+  const [pulse, setPulse] = useState(false);
+  const [prevRecentEventsKey, setPrevRecentEventsKey] = useState(recentEventsKey);
+  if (recentEventsKey !== prevRecentEventsKey) {
+    setPrevRecentEventsKey(recentEventsKey);
     if (data) {
       setPulse(true);
+    }
+  }
+  useEffect(() => {
+    if (pulse) {
       const timer = setTimeout(() => setPulse(false), 500);
       return () => clearTimeout(timer);
     }
-  }, [data?.recentEvents]);
+  }, [pulse]);
 
   // Subscribe to realtime changes via API layer
   useEffect(() => {
@@ -69,9 +77,19 @@ export function RealTimeMetrics() {
     return () => unsubscribe();
   }, [refetch]);
 
+  // "now" is captured once per data refresh (pure — derived from the query
+  // cycle rather than calling Date.now() during render). `data` refetches every
+  // 10s via refetchInterval, so this stays reasonably fresh.
+  const [now, setNow] = useState(() => Date.now());
+  const [prevLastEventTime, setPrevLastEventTime] = useState(data?.lastEventTime);
+  if (data?.lastEventTime !== prevLastEventTime) {
+    setPrevLastEventTime(data?.lastEventTime);
+    setNow(Date.now());
+  }
+
   const formatTimeSince = (date: Date | null): string => {
     if (!date) return "нет данных";
-    const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+    const seconds = Math.floor((now - date.getTime()) / 1000);
     if (seconds < 5) return "только что";
     if (seconds < 60) return `${seconds} сек назад`;
     return `${Math.floor(seconds / 60)} мин назад`;

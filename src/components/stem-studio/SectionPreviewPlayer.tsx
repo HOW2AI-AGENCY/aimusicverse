@@ -91,8 +91,7 @@ export function SectionPreviewPlayer({
   useEffect(() => {
     if (globalIsPlaying && isPlaying) {
       audioRef.current?.pause();
-      // Sync local playing flag with external (global player) state change.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- reacting to external playback state; setState is the intended side-effect
       setIsPlaying(false);
     }
   }, [audioRef, globalIsPlaying, isPlaying]);

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
@@ -72,7 +72,16 @@ export const AudioCoverDialog = ({
   const [vocalGender, setVocalGender] = useState<"m" | "f" | "auto">("auto");
 
   // Validation
-  const [durationError, setDurationError] = useState<string | null>(null);
+  const durationError = useMemo(() => {
+    if (!audioDuration) return null;
+    const limit = MODEL_LIMITS[model]?.duration || 60;
+    if (audioDuration > limit) {
+      const mins = Math.floor(limit / 60);
+      const secs = limit % 60;
+      return `Аудио (${formatDuration(audioDuration)}) превышает лимит модели (${mins}:${secs.toString().padStart(2, "0")})`;
+    }
+    return null;
+  }, [audioDuration, model]);
 
   // Main Button integration
   const isSubmitDisabled = loading || !audioFile || !style.trim() || !!durationError;
@@ -84,6 +93,25 @@ export const AudioCoverDialog = ({
   });
 
   const uploadCoverMutation = useSunoUploadCover();
+
+  // Handle initial audio file
+  const handleFileSelect = useCallback(
+    (file: File) => {
+      if (!file.type.startsWith("audio/")) {
+        toast.error("Выберите аудиофайл");
+        return;
+      }
+
+      setAudioFile(file);
+      if (!title) {
+        setTitle(file.name.replace(/\.[^/.]+$/, "") + " (кавер)");
+      }
+
+      const previewUrl = URL.createObjectURL(file);
+      setAudioPreviewUrl(previewUrl);
+    },
+    [title],
+  );
 
   async function handleSubmitWithProgress() {
     showProgress(true);
@@ -108,7 +136,7 @@ export const AudioCoverDialog = ({
     if (open && initialAudioFile && !audioFile) {
       handleFileSelect(initialAudioFile);
     }
-  }, [open, initialAudioFile]);
+  }, [open, initialAudioFile, audioFile, handleFileSelect]);
 
   // Cleanup
   useEffect(() => {
@@ -119,39 +147,7 @@ export const AudioCoverDialog = ({
     };
   }, [audioPreviewUrl]);
 
-  // Validate duration when model or audio changes
-  useEffect(() => {
-    if (audioDuration) {
-      const limit = MODEL_LIMITS[model]?.duration || 60;
-      if (audioDuration > limit) {
-        const mins = Math.floor(limit / 60);
-        const secs = limit % 60;
-        setDurationError(
-          `Аудио (${formatDuration(audioDuration)}) превышает лимит модели (${mins}:${secs.toString().padStart(2, "0")})`,
-        );
-      } else {
-        setDurationError(null);
-      }
-    }
-  }, [audioDuration, model]);
-
   // Preview pool — only used to read duration metadata of selected file.
-  const handleFileSelect = (file: File) => {
-    if (!file.type.startsWith("audio/")) {
-      toast.error("Выберите аудиофайл");
-      return;
-    }
-
-    setAudioFile(file);
-    if (!title) {
-      setTitle(file.name.replace(/\.[^/.]+$/, "") + " (кавер)");
-    }
-
-    const previewUrl = URL.createObjectURL(file);
-    setAudioPreviewUrl(previewUrl);
-  };
-
-  // Pool-based duration probe for the selected file (replaces inline new Audio()).
   const { duration: probedDuration } = usePreviewAudio({
     id: audioPreviewUrl ? `audio-cover-duration-${audioPreviewUrl}` : "audio-cover-duration-none",
     src: audioPreviewUrl ?? "",
@@ -182,7 +178,6 @@ export const AudioCoverDialog = ({
     setAudioFile(null);
     setAudioDuration(null);
     setAudioPreviewUrl(null);
-    setDurationError(null);
   };
 
   const handleSubmit = async () => {

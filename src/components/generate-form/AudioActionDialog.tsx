@@ -87,6 +87,7 @@ export function AudioActionDialog({
   useEffect(() => {
     if (globalIsPlaying && isPlaying) {
       audioRef.current?.pause();
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- reacting to external playback state; setState is the intended side-effect
       setIsPlaying(false);
     }
   }, [globalIsPlaying, isPlaying]);
@@ -100,6 +101,7 @@ export function AudioActionDialog({
 
   useEffect(() => {
     if (probedDuration && Number.isFinite(probedDuration)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing probed metadata into local state
       setAudioDuration(probedDuration);
     }
   }, [probedDuration]);
@@ -125,17 +127,25 @@ export function AudioActionDialog({
   // Reset on close
   useEffect(() => {
     if (!open) {
-      handleRemove();
+      if (audioUrl && !audioUrl.startsWith("http")) {
+        URL.revokeObjectURL(audioUrl);
+      }
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- resetting dialog state on close is an intentional side-effect
+      setAudioUrl(null);
+      setAudioFile(null);
+      setAudioDuration(null);
+      setIsPlaying(false);
       setMode(initialMode);
       setRecordingMode("standard");
       setShowGuitarMode(false);
       setAnalysisResult(null);
       setExtractedLyrics(null);
       setHasVocals(null);
+      setSavedAudioId(null);
       setAnalysisStep(0);
       setAnalysisProgress(0);
     }
-  }, [open, initialMode]);
+  }, [open, initialMode, audioUrl]);
 
   // Handle guitar mode recording complete
   const handleGuitarRecordingComplete = async (data: {
@@ -178,6 +188,7 @@ export function AudioActionDialog({
   // Analysis progress animation
   useEffect(() => {
     if (isAnalyzing) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- initializing progress animation state is an intentional side-effect of starting analysis
       setAnalysisStep(0);
       setAnalysisProgress(0);
 
@@ -368,19 +379,6 @@ export function AudioActionDialog({
     setAudioUrl(url);
     setAudioFile(file);
     await analyzeAudio(file);
-  };
-  const handleRemove = () => {
-    if (audioUrl && !audioUrl.startsWith("http")) {
-      URL.revokeObjectURL(audioUrl);
-    }
-    setAudioUrl(null);
-    setAudioFile(null);
-    setAudioDuration(null);
-    setIsPlaying(false);
-    setAnalysisResult(null);
-    setExtractedLyrics(null);
-    setHasVocals(null);
-    setSavedAudioId(null);
   };
 
   const togglePlayback = () => {

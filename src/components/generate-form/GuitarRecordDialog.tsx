@@ -79,13 +79,22 @@ export function GuitarRecordDialog({
     return () => unregisterStudioAudio(sourceId);
   }, [sourceId]);
 
-  // Pause if global player starts
-  useEffect(() => {
+  // Pause local audio + state when the global player starts.
+  // State adjustment is derived from `globalIsPlaying` during render (React's
+  // "adjusting state when a prop/value changes" pattern); the audio pause is
+  // an external side-effect and stays in the effect.
+  const [prevGlobalIsPlaying, setPrevGlobalIsPlaying] = useState(globalIsPlaying);
+  if (globalIsPlaying !== prevGlobalIsPlaying) {
+    setPrevGlobalIsPlaying(globalIsPlaying);
     if (globalIsPlaying && isPlaying) {
-      audioRef.current?.pause();
       setIsPlaying(false);
     }
-  }, [globalIsPlaying, isPlaying]);
+  }
+  useEffect(() => {
+    if (globalIsPlaying) {
+      audioRef.current?.pause();
+    }
+  }, [globalIsPlaying]);
 
   const {
     isAnalyzing,
@@ -103,10 +112,18 @@ export function GuitarRecordDialog({
 
   const { saveRecording, toAnalysisResult } = useGuitarRecordings();
 
-  // Recording timer
-  useEffect(() => {
+  // Recording timer. When recording starts we reset the duration — done during
+  // render via the "adjust state on value change" pattern; the interval itself
+  // is an external system and stays in the effect.
+  const [prevIsRecording, setPrevIsRecording] = useState(isRecording);
+  if (isRecording !== prevIsRecording) {
+    setPrevIsRecording(isRecording);
     if (isRecording) {
       setRecordingDuration(0);
+    }
+  }
+  useEffect(() => {
+    if (isRecording) {
       timerRef.current = window.setInterval(() => {
         setRecordingDuration((d) => d + 1);
       }, 1000);
@@ -122,15 +139,21 @@ export function GuitarRecordDialog({
     };
   }, [isRecording]);
 
-  // Cleanup on close
-
-  useEffect(() => {
+  // Cleanup on close. `clearRecording` is an external side-effect and stays in
+  // the effect; the local state resets are derived from `open` during render.
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (open !== prevOpen) {
+    setPrevOpen(open);
     if (!open) {
-      clearRecording();
       setIsPlaying(false);
       setRecordingDuration(0);
       setRecordingTitle("");
       setActiveTab("record");
+    }
+  }
+  useEffect(() => {
+    if (!open) {
+      clearRecording();
     }
   }, [open, clearRecording]);
 

@@ -12,22 +12,25 @@ const MAX_VISIBLE = 3;
 export const NotificationManager = memo(function NotificationManager({ className }: NotificationManagerProps) {
   const [pending, setPending] = useState<NotificationItem[]>([]);
 
-  const show = useCallback((notification: Omit<NotificationItem, "id" | "timestamp"> & { id?: string }) => {
-    const item: NotificationItem = {
-      ...notification,
-      id: notification.id ?? `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-      timestamp: Date.now(),
-    };
-    setPending((prev) => [item, ...prev].slice(0, MAX_VISIBLE * 2));
-
-    if (notification.duration) {
-      setTimeout(() => dismiss(item.id), notification.duration);
-    }
-  }, []);
-
   const dismiss = useCallback((id: string) => {
     setPending((prev) => prev.filter((n) => n.id !== id));
   }, []);
+
+  const show = useCallback(
+    (notification: Omit<NotificationItem, "id" | "timestamp"> & { id?: string }) => {
+      const item: NotificationItem = {
+        ...notification,
+        id: notification.id ?? `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        timestamp: Date.now(),
+      };
+      setPending((prev) => [item, ...prev].slice(0, MAX_VISIBLE * 2));
+
+      if (notification.duration) {
+        setTimeout(() => dismiss(item.id), notification.duration);
+      }
+    },
+    [dismiss],
+  );
 
   const dismissAll = useCallback(() => {
     setPending([]);

@@ -70,8 +70,6 @@ export function SectionEditorSheet({
   const isMobile = useIsMobile();
   const { selectedSection, customRange, clearSelection, setCustomRange } = useSectionEditorStore();
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
-  const [isPreviewPlaying, setIsPreviewPlaying] = useState(false);
-  const [previewCurrentTime, setPreviewCurrentTime] = useState(0);
 
   // Пул-аудио с привязкой currentTime. Заменяет RAF-цикл: время обновляется
   // через встроенный timeupdate listener, экономя requestAnimationFrame.
@@ -80,6 +78,7 @@ export function SectionEditorSheet({
     pause: pausePreview,
     seek: seekPreview,
     isPlaying: hookIsPlaying,
+    currentTime: hookCurrentTime,
   } = usePreviewAudio({
     id: `section-editor-${audioUrl ?? "none"}`,
     src: audioUrl ?? "",
@@ -91,10 +90,9 @@ export function SectionEditorSheet({
 
   const handleClose = useCallback(() => {
     clearSelection();
-    setIsPreviewPlaying(false);
     pausePreview();
     onClose();
-  }, [clearSelection, onClose]);
+  }, [clearSelection, onClose, pausePreview]);
 
   const {
     startTime,
@@ -130,30 +128,27 @@ export function SectionEditorSheet({
   }, [sectionProgress, handleClose]);
 
   // Preview audio controls: пауза при достижении endTime секции.
-  // Текущая позиция теперь приходит из usePreviewAudio через timeupdate.
+  // Текущая позиция приходит из usePreviewAudio через timeupdate (hookCurrentTime).
+  const previewCurrentTime = hookCurrentTime;
+
+  // Auto-pause preview when reaching section endTime. We only call the
+  // external pausePreview() function here (no synchronous setState), so the
+  // isPreviewPlaying UI state is derived from hookIsPlaying below.
   useEffect(() => {
     if (hookIsPlaying && previewCurrentTime >= endTime) {
       pausePreview();
-      setIsPreviewPlaying(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hookIsPlaying, previewCurrentTime, endTime]);
+  }, [hookIsPlaying, previewCurrentTime, endTime, pausePreview]);
 
-  // Синхронизация UI с currentTime из хука.
-  useEffect(() => {
-    if (hookIsPlaying) {
-      setPreviewCurrentTime((prev) => prev); // force refresh — реальное значение уже в previewCurrentTime через подписку ниже
-    }
-  }, [hookIsPlaying]);
+  // Derive UI playing state from the audio hook (single source of truth).
+  const isPreviewPlaying = hookIsPlaying;
 
   const togglePreview = useCallback(() => {
     if (isPreviewPlaying) {
       pausePreview();
-      setIsPreviewPlaying(false);
     } else {
       seekPreview(startTime);
       void playPreview();
-      setIsPreviewPlaying(true);
     }
   }, [isPreviewPlaying, startTime, playPreview, pausePreview, seekPreview]);
 
@@ -365,7 +360,6 @@ export function SectionEditorSheet({
             pauseAllStudioAudio();
             seekPreview(time);
             void playPreview();
-            setIsPreviewPlaying(true);
           }}
           maxDuration={maxDuration}
           height={isMobile ? 70 : 80}

@@ -70,10 +70,14 @@ interface StudioMetrics {
 export function useEnhancedStudioLogger(trackId: string) {
   const { user } = useAuth();
   const sessionIdRef = useRef<string | null>(null);
+  // Initialize with placeholder values — Date.now() is impure during render
+  // (purity rule), so the real sessionStart/stateHistory timestamps are set
+  // on first use by getSessionId() / updateState(), which run in callbacks
+  // (not during render).
   const metricsRef = useRef<StudioMetrics>({
-    sessionStart: Date.now(),
+    sessionStart: 0,
     actionCount: 0,
-    stateHistory: [{ state: "idle", timestamp: Date.now() }],
+    stateHistory: [{ state: "idle", timestamp: 0 }],
     actionsPerformed: [],
     timeInStates: {
       idle: 0,
@@ -84,6 +88,17 @@ export function useEnhancedStudioLogger(trackId: string) {
       mixing: 0,
     },
   });
+
+  // Populate the real mount-time timestamps in an effect (not during render).
+  useEffect(() => {
+    const now = Date.now();
+    if (metricsRef.current.sessionStart === 0) {
+      metricsRef.current.sessionStart = now;
+    }
+    if (metricsRef.current.stateHistory[0]?.timestamp === 0) {
+      metricsRef.current.stateHistory[0] = { state: "idle", timestamp: now };
+    }
+  }, []);
 
   // Generate session ID on first use
   const getSessionId = useCallback(() => {
@@ -162,13 +177,15 @@ export function useEnhancedStudioLogger(trackId: string) {
         studioLogger.error("Failed to log studio activity", error);
       }
     },
-    [trackId, getSessionId],
+    [trackId, getSessionId, user],
   );
 
-  // Log session end on unmount
+  // Log session end on unmount. Capture the ref value into a local variable
+  // so the cleanup reads a stable snapshot (exhaustive-deps rule for refs).
   useEffect(() => {
+    const metricsSnapshot = metricsRef.current;
     return () => {
-      const metrics = metricsRef.current;
+      const metrics = metricsSnapshot;
       const sessionDuration = Date.now() - metrics.sessionStart;
 
       studioLogger.info("Studio session ended", {

@@ -124,7 +124,17 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
       logger.error("train_persona_failed", { err });
       toast.error(personaStrings.validation.trainingFailed);
     }
-  }, [trackId, personaName, personaDescription, personaMutation]);
+  }, [
+    trackId,
+    personaName,
+    personaDescription,
+    personaMutation,
+    personaStrings.successToastPending,
+    personaStrings.successToastReady,
+    personaStrings.validation.specifyName,
+    personaStrings.validation.nameTooLong,
+    personaStrings.validation.trainingFailed,
+  ]);
 
   // Handle version preview (play/pause)
   const handlePreview = useCallback(
@@ -149,7 +159,16 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
         setPlayingVersionId(version.id);
       }
     },
-    [playingVersionId, isPlaying, pauseTrack, playTrack, trackId, trackTitle, haptic],
+    [
+      playingVersionId,
+      isPlaying,
+      pauseTrack,
+      playTrack,
+      trackId,
+      trackTitle,
+      haptic,
+      generationResultStrings.fallbackTrackTitle,
+    ],
   );
 
   // Handle version selection
@@ -176,7 +195,7 @@ export const GenerationResultSheet = memo(function GenerationResultSheet({
     } finally {
       setSettingPrimary(false);
     }
-  }, [selectedVersion, trackId, haptic]);
+  }, [selectedVersion, trackId, haptic, generationResultStrings.versionSwitchError, setPrimaryVersionAsync]);
 
   // Navigate to studio
   const handleGoToStudio = useCallback(() => {

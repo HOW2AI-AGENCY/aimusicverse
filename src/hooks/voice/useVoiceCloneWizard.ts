@@ -43,6 +43,7 @@ export type LastAction =
 
 export function useVoiceCloneWizard() {
   const { user } = useAuth();
+  const userId = user?.id;
   const [step, setStep] = useState<WizardStep>("upload");
   const [voice, setVoice] = useState<CustomVoice | null>(null);
   const [isWorking, setIsWorking] = useState(false);
@@ -113,39 +114,6 @@ export function useVoiceCloneWizard() {
     return msg;
   }, []);
 
-  const startValidation = useCallback(
-    async (params: ValidateParams) => {
-      if (!user?.id) throw new Error("Not authenticated");
-      lastActionRef.current = { kind: "validate", params };
-      setLastError(null);
-      setIsWorking(true);
-      try {
-        const type = (params.sourceFile as unknown as { type?: string }).type || "";
-        const ext = type.includes("wav") ? "wav" : type.includes("webm") ? "webm" : "mp3";
-        const sourcePath = await voiceCloneApi.uploadSource(user.id, params.sourceFile, ext);
-        const res = await voiceCloneApi.validate({
-          voiceName: params.voiceName,
-          sourcePath,
-          vocalStartS: params.vocalStartS,
-          vocalEndS: params.vocalEndS,
-          language: params.language,
-          description: params.description,
-          style: params.style,
-        });
-        setVoice(res.voice);
-        setStep("validating");
-        subscribeToRow(res.voice.id);
-        pollValidate(res.taskId);
-      } catch (e) {
-        logger.error("Voice validate failed", e as Error);
-        failWith(e, "Не удалось начать клонирование");
-      } finally {
-        setIsWorking(false);
-      }
-    },
-    [user?.id, subscribeToRow, failWith],
-  );
-
   const pollValidate = useCallback(
     (taskId: string) => {
       stopPolling();
@@ -174,25 +142,37 @@ export function useVoiceCloneWizard() {
     [stopPolling, failWith],
   );
 
-  const submitRecording = useCallback(
-    async (audio: Blob) => {
-      if (!user?.id || !voice) return;
-      lastActionRef.current = { kind: "submit", audio };
+  const startValidation = useCallback(
+    async (params: ValidateParams) => {
+      if (!userId) throw new Error("Not authenticated");
+      lastActionRef.current = { kind: "validate", params };
       setLastError(null);
       setIsWorking(true);
       try {
-        const verifyPath = await voiceCloneApi.uploadVerification(user.id, audio, "webm");
-        const res = await voiceCloneApi.generate(voice.id, verifyPath);
-        setStep("generating");
-        pollGenerate(res.taskId);
+        const type = (params.sourceFile as unknown as { type?: string }).type || "";
+        const ext = type.includes("wav") ? "wav" : type.includes("webm") ? "webm" : "mp3";
+        const sourcePath = await voiceCloneApi.uploadSource(userId, params.sourceFile, ext);
+        const res = await voiceCloneApi.validate({
+          voiceName: params.voiceName,
+          sourcePath,
+          vocalStartS: params.vocalStartS,
+          vocalEndS: params.vocalEndS,
+          language: params.language,
+          description: params.description,
+          style: params.style,
+        });
+        setVoice(res.voice);
+        setStep("validating");
+        subscribeToRow(res.voice.id);
+        pollValidate(res.taskId);
       } catch (e) {
-        logger.error("Voice generate failed", e as Error);
-        failWith(e, "Не удалось отправить запись");
+        logger.error("Voice validate failed", e as Error);
+        failWith(e, "Не удалось начать клонирование");
       } finally {
         setIsWorking(false);
       }
     },
-    [user?.id, voice, failWith],
+    [userId, subscribeToRow, pollValidate, failWith],
   );
 
   const pollGenerate = useCallback(
@@ -228,14 +208,35 @@ export function useVoiceCloneWizard() {
     [stopPolling, failWith],
   );
 
+  const submitRecording = useCallback(
+    async (audio: Blob) => {
+      if (!userId || !voice) return;
+      lastActionRef.current = { kind: "submit", audio };
+      setLastError(null);
+      setIsWorking(true);
+      try {
+        const verifyPath = await voiceCloneApi.uploadVerification(userId, audio, "webm");
+        const res = await voiceCloneApi.generate(voice.id, verifyPath);
+        setStep("generating");
+        pollGenerate(res.taskId);
+      } catch (e) {
+        logger.error("Voice generate failed", e as Error);
+        failWith(e, "Не удалось отправить запись");
+      } finally {
+        setIsWorking(false);
+      }
+    },
+    [userId, voice, pollGenerate, failWith],
+  );
+
   const reRecord = useCallback(
     async (audio: Blob) => {
-      if (!user?.id || !voice) return;
+      if (!userId || !voice) return;
       lastActionRef.current = { kind: "rerecord", audio };
       setLastError(null);
       setIsWorking(true);
       try {
-        const verifyPath = await voiceCloneApi.uploadVerification(user.id, audio, "webm");
+        const verifyPath = await voiceCloneApi.uploadVerification(userId, audio, "webm");
         const res = await voiceCloneApi.regenerate(voice.id, verifyPath);
         setStep("generating");
         pollGenerate(res.taskId);
@@ -246,7 +247,7 @@ export function useVoiceCloneWizard() {
         setIsWorking(false);
       }
     },
-    [user?.id, voice, pollGenerate, failWith],
+    [userId, voice, pollGenerate, failWith],
   );
 
   const retryLast = useCallback(async () => {

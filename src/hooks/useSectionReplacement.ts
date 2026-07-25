@@ -3,7 +3,7 @@
  * Manages selection, validation, and mutation state with progress tracking
  */
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useSectionEditorStore } from "@/stores/useSectionEditorStore";
 import { useReplaceSectionMutation } from "@/hooks/useReplaceSectionMutation";
 import { useReplaceSectionProgress } from "@/hooks/generation/useReplaceSectionProgress";
@@ -43,18 +43,26 @@ export function useSectionReplacement({
   const isValidDuration = sectionDuration > 0 && (duration === 0 || sectionDuration <= maxDuration);
   const hasSelection = customRange !== null || selectedSection !== null;
 
-  // Initialize tags and lyrics from selection
-  useEffect(() => {
-    if (trackTags && !localTags) {
-      setLocalTags(trackTags);
-    }
-  }, [trackTags]);
+  // Initialize tags and lyrics from selection.
+  // Using the "adjust state during render when prop changes" pattern avoids
+  // setState-in-effect cascading renders. We keep a ref of the last-seen
+  // external value so we only re-seed local state when the external value
+  // actually changes (mirrors the old effect semantics).
+  const prevTrackTagsRef = useRef<string | null | undefined>(trackTags);
+  const prevSectionLyricsRef = useRef<string | undefined>(selectedSection?.lyrics);
+  if (prevTrackTagsRef.current !== trackTags && trackTags && !localTags) {
+    prevTrackTagsRef.current = trackTags;
+    setLocalTags(trackTags);
+  } else if (prevTrackTagsRef.current !== trackTags) {
+    prevTrackTagsRef.current = trackTags;
+  }
 
-  useEffect(() => {
-    if (selectedSection?.lyrics) {
-      setLocalLyrics(selectedSection.lyrics);
-    }
-  }, [selectedSection]);
+  if (prevSectionLyricsRef.current !== selectedSection?.lyrics && selectedSection?.lyrics) {
+    prevSectionLyricsRef.current = selectedSection?.lyrics;
+    setLocalLyrics(selectedSection.lyrics);
+  } else if (prevSectionLyricsRef.current !== selectedSection?.lyrics) {
+    prevSectionLyricsRef.current = selectedSection?.lyrics;
+  }
 
   // Select a detected section
   const selectSection = useCallback(

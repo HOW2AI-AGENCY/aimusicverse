@@ -9,7 +9,7 @@
  * Always exclusive — only one card is visible thanks to HintRegistry.
  */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion } from "@/lib/motion";
 import { X, ChevronRight, Lightbulb } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
@@ -50,9 +50,9 @@ export function UnifiedTipCard({
   const hasSeen = reg.hasSeen(id);
   const overlayOpen = reg.overlayOpen;
 
-  const request = useCallback(() => reg.request(id), [reg.request, id]);
-  const release = useCallback(() => reg.release(id), [reg.release, id]);
-  const markSeen = useCallback(() => reg.markSeen(id), [reg.markSeen, id]);
+  const request = useCallback(() => reg.request(id), [reg, id]);
+  const release = useCallback(() => reg.release(id), [reg, id]);
+  const markSeen = useCallback(() => reg.markSeen(id), [reg, id]);
 
   // Try to claim the visible slot after `delay`, unless already seen.
   useEffect(() => {
@@ -64,9 +64,16 @@ export function UnifiedTipCard({
     return () => clearTimeout(t);
   }, [request, delay, force, hasSeen, overlayOpen]);
 
-  useEffect(() => {
-    if (!isActive) setClaimed(false);
-  }, [isActive]);
+  // Reset claimed state when this card is no longer active. Uses the
+  // render-time setState escape hatch (with a ref guard) instead of an effect
+  // to avoid a cascading render (set-state-in-effect rule).
+  const prevIsActiveRef = useRef(isActive);
+  if (!isActive && prevIsActiveRef.current) {
+    prevIsActiveRef.current = false;
+    setClaimed(false);
+  } else if (isActive) {
+    prevIsActiveRef.current = true;
+  }
 
   // Release on unmount
   useEffect(() => {

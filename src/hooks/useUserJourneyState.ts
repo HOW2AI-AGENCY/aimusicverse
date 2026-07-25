@@ -98,19 +98,22 @@ export const useUserJourneyStore = create<UserJourneyState>()(
 export function useUserJourneyState() {
   const store = useUserJourneyStore();
   const { user } = useAuth();
+  const incrementSession = store.incrementSession;
+  const markTrackGenerated = store.markTrackGenerated;
+  const isNewUser = store.isNewUser;
 
   // Increment session count on mount
   useEffect(() => {
     const lastIncrement = sessionStorage.getItem("journey-session-incremented");
     if (!lastIncrement) {
-      store.incrementSession();
+      incrementSession();
       sessionStorage.setItem("journey-session-incremented", "true");
     }
-  }, []);
+  }, [incrementSession]);
 
   // Check if user has any tracks in DB (for returning users with cleared localStorage)
   useEffect(() => {
-    if (user && store.isNewUser) {
+    if (user && isNewUser) {
       const checkUserTracks = async () => {
         const { count } = await supabase
           .from("tracks")
@@ -119,34 +122,32 @@ export function useUserJourneyState() {
           .limit(1);
 
         if (count && count > 0) {
-          store.markTrackGenerated();
+          markTrackGenerated();
         }
       };
       checkUserTracks();
     }
-  }, [user, store.isNewUser]);
+  }, [user, isNewUser, markTrackGenerated]);
 
   // Calculate journey phase
-  const journeyPhase: JourneyPhase = useMemo(() => {
-    const { hasGeneratedTrack, hasVisitedStudio, hasVisitedProjects, sessionCount } = store;
+  const hasGeneratedTrack = store.hasGeneratedTrack;
+  const hasVisitedStudio = store.hasVisitedStudio;
+  const hasVisitedProjects = store.hasVisitedProjects;
+  const hasPlayedTrack = store.hasPlayedTrack;
+  const sessionCount = store.sessionCount;
 
+  const journeyPhase: JourneyPhase = useMemo(() => {
     if (hasVisitedStudio && hasVisitedProjects && sessionCount > 10) {
       return "pro";
     }
     if (hasGeneratedTrack && sessionCount > 3) {
       return "creator";
     }
-    if (hasGeneratedTrack || store.hasPlayedTrack) {
+    if (hasGeneratedTrack || hasPlayedTrack) {
       return "explorer";
     }
     return "newcomer";
-  }, [
-    store.hasGeneratedTrack,
-    store.hasVisitedStudio,
-    store.hasVisitedProjects,
-    store.hasPlayedTrack,
-    store.sessionCount,
-  ]);
+  }, [hasGeneratedTrack, hasVisitedStudio, hasVisitedProjects, hasPlayedTrack, sessionCount]);
 
   // Should show quick start (new user who hasn't completed it)
   const shouldShowQuickStart = store.isNewUser && !store.completedQuickStart && !store.completedOnboarding;

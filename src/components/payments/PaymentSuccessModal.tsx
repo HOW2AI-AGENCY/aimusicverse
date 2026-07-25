@@ -3,7 +3,7 @@
  * Enhanced with glassmorphism, premium animations and celebration effects
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { CheckCircle2, Sparkles, Star, Zap, Music, Crown } from "@/lib/icons";
 import { UnifiedDialog } from "@/components/dialog";
@@ -20,23 +20,27 @@ interface PaymentSuccessModalProps {
   language?: "en" | "ru";
 }
 
-// Enhanced confetti particle
-function ConfettiParticle({ delay, index }: { delay: number; index: number }) {
-  const colors = ["#10b981", "#34d399", "#6ee7b7", "#fbbf24", "#f59e0b", "#8b5cf6", "#ec4899"];
-  const randomColor = colors[index % colors.length];
-  const randomX = Math.random() * 300 - 150;
-  const randomRotate = Math.random() * 720 - 360;
-  const size = Math.random() * 6 + 4;
+// Enhanced confetti particle. Random visuals are generated ONCE by the parent
+// (in an effect) and passed in as props, so no Math.random() runs during this
+// component's render (purity rule).
+interface ConfettiParticleProps {
+  delay: number;
+  color: string;
+  x: number;
+  rotate: number;
+  size: number;
+}
 
+function ConfettiParticle({ delay, color, x, rotate, size }: ConfettiParticleProps) {
   return (
     <motion.div
       className="absolute top-1/4 left-1/2"
       initial={{ opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }}
       animate={{
         opacity: 0,
-        x: randomX,
+        x,
         y: 300,
-        rotate: randomRotate,
+        rotate,
         scale: 0.5,
       }}
       transition={{
@@ -48,7 +52,7 @@ function ConfettiParticle({ delay, index }: { delay: number; index: number }) {
       <div
         className="rounded-sm"
         style={{
-          backgroundColor: randomColor,
+          backgroundColor: color,
           width: size,
           height: size,
         }}
@@ -81,26 +85,67 @@ function FloatingStar({ delay, x, y }: { delay: number; x: string; y: string }) 
   );
 }
 
+const CONFETTI_COLORS = ["#10b981", "#34d399", "#6ee7b7", "#fbbf24", "#f59e0b", "#8b5cf6", "#ec4899"];
+
+interface ConfettiParticleData {
+  delay: number;
+  color: string;
+  x: number;
+  rotate: number;
+  size: number;
+}
+
+function generateConfettiParticles(count: number): ConfettiParticleData[] {
+  return Array.from({ length: count }, (_, i) => ({
+    delay: i * 0.03,
+    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+    x: Math.random() * 300 - 150,
+    rotate: Math.random() * 720 - 360,
+    size: Math.random() * 6 + 4,
+  }));
+}
+
 export function PaymentSuccessModal({ isOpen, onClose, product, language = "ru" }: PaymentSuccessModalProps) {
-  const [showConfetti, setShowConfetti] = useState(false);
+  // Confetti visibility is derived from isOpen plus a hide flag that the
+  // timeout effect toggles. Deriving from isOpen avoids a setState-in-effect
+  // for the "show" transition.
+  const [confettiHidden, setConfettiHidden] = useState(false);
+  // Particle visuals are generated in the effect (Math.random is impure during
+  // render) and stored here so ConfettiParticle receives them as pure props.
+  const [particles, setParticles] = useState<ConfettiParticleData[]>([]);
+  const showConfetti = isOpen && !confettiHidden;
+
+  // Reset hide flag via render-time pattern when modal closes, so the next
+  // open plays confetti again.
+  const prevIsOpenRef = useRef(isOpen);
+  if (!isOpen && prevIsOpenRef.current) {
+    prevIsOpenRef.current = false;
+    if (confettiHidden) setConfettiHidden(false);
+  } else if (isOpen) {
+    prevIsOpenRef.current = true;
+  }
 
   useEffect(() => {
-    if (isOpen) {
-      setShowConfetti(true);
+    if (!isOpen) return;
 
-      // Launch canvas-confetti burst
-      setTimeout(() => {
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.6, x: 0.5 },
-          colors: ["#10b981", "#34d399", "#fbbf24", "#8b5cf6"],
-        });
-      }, 200);
+    // Generate fresh particle visuals for this open cycle. Done inside the
+    // setTimeout callback (not synchronously in the effect body) to avoid a
+    // cascading render (set-state-in-effect rule).
+    const burstTimer = setTimeout(() => {
+      setParticles(generateConfettiParticles(40));
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6, x: 0.5 },
+        colors: ["#10b981", "#34d399", "#fbbf24", "#8b5cf6"],
+      });
+    }, 200);
 
-      const timer = setTimeout(() => setShowConfetti(false), 3000);
-      return () => clearTimeout(timer);
-    }
+    const hideTimer = setTimeout(() => setConfettiHidden(true), 3000);
+    return () => {
+      clearTimeout(burstTimer);
+      clearTimeout(hideTimer);
+    };
   }, [isOpen]);
 
   const getText = () => {
@@ -165,8 +210,8 @@ export function PaymentSuccessModal({ isOpen, onClose, product, language = "ru" 
       <AnimatePresence>
         {showConfetti && (
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {Array.from({ length: 40 }).map((_, i) => (
-              <ConfettiParticle key={i} delay={i * 0.03} index={i} />
+            {particles.map((p, i) => (
+              <ConfettiParticle key={i} delay={p.delay} color={p.color} x={p.x} rotate={p.rotate} size={p.size} />
             ))}
           </div>
         )}

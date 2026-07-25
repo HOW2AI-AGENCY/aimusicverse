@@ -51,13 +51,34 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
   const { draft, hasDraft, saveDraft, clearDraft } = useGenerateDraft();
   const { activeReference, clearActive: clearAudioReference } = useAudioReference();
 
+  // Destructure setters so individual functions (stable from useState) are
+  // visible to exhaustive-deps linting — avoids `setters` object identity churn.
+  const {
+    setMode,
+    setDescription,
+    setTitle,
+    setLyrics,
+    setStyle,
+    setHasVocals,
+    setModel,
+    setNegativeTags,
+    setVocalGender,
+    setStyleWeight: _setStyleWeight,
+    setWeirdnessConstraint: _setWeirdnessConstraint,
+    setAudioWeight,
+    setSelectedProjectId,
+    setAudioDuration,
+    setPlanTrackId,
+    setApiCredits,
+  } = setters;
+
   // Apply plan track context when available
   useEffect(() => {
     if (open && planTrackContext) {
-      setters.setMode("custom");
-      setters.setTitle(planTrackContext.planTrackTitle);
-      setters.setPlanTrackId(planTrackContext.planTrackId);
-      setters.setSelectedProjectId(planTrackContext.projectId);
+      setMode("custom");
+      setTitle(planTrackContext.planTrackTitle);
+      setPlanTrackId(planTrackContext.planTrackId);
+      setSelectedProjectId(planTrackContext.projectId);
 
       const styleComponents = [
         planTrackContext.stylePrompt,
@@ -67,13 +88,13 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
       ].filter(Boolean);
 
       if (styleComponents.length > 0) {
-        setters.setStyle(styleComponents.join(". "));
+        setStyle(styleComponents.join(". "));
       }
 
       if (planTrackContext.lyrics) {
-        setters.setLyrics(planTrackContext.lyrics);
+        setLyrics(planTrackContext.lyrics);
       } else if (planTrackContext.notes) {
-        setters.setLyrics(planTrackContext.notes);
+        setLyrics(planTrackContext.notes);
       }
 
       toast.success(`Загружены данные: ${planTrackContext.planTrackTitle}`, {
@@ -82,9 +103,17 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
 
       clearPlanTrackContext();
     }
-    // One-shot: apply plan track context when sheet opens; setters are stable ref-like from parent.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, planTrackContext, clearPlanTrackContext]);
+  }, [
+    open,
+    planTrackContext,
+    clearPlanTrackContext,
+    setMode,
+    setTitle,
+    setPlanTrackId,
+    setSelectedProjectId,
+    setStyle,
+    setLyrics,
+  ]);
 
   // Apply guitar analysis parameters from sessionStorage
   useEffect(() => {
@@ -96,10 +125,10 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         if (!paramsStr) return;
 
         const params = JSON.parse(paramsStr);
-        setters.setMode("custom");
+        setMode("custom");
 
         if (params.prompt) {
-          setters.setDescription(params.prompt);
+          setDescription(params.prompt);
         }
 
         const styleComponents: string[] = [];
@@ -119,7 +148,7 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         }
 
         if (styleComponents.length > 0) {
-          setters.setStyle(styleComponents.join(" • "));
+          setStyle(styleComponents.join(" • "));
         }
 
         toast.success("Параметры из Guitar Studio загружены", {
@@ -131,9 +160,7 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         logger.error("Failed to load generation params from sessionStorage", error);
       }
     });
-    // One-shot: consume sessionStorage["generationParams"] on open.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open, setMode, setDescription, setStyle]);
 
   // Apply preset parameters from Quick Create
   useEffect(() => {
@@ -146,7 +173,7 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
           logger.info("Loading Quick Create preset params", { presetId: presetParams.presetId });
 
           if (presetParams.style || presetParams.mood || presetParams.tempo) {
-            setters.setMode("custom");
+            setMode("custom");
           }
 
           const styleComponents: string[] = [];
@@ -158,7 +185,7 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
           }
 
           if (styleComponents.length > 0) {
-            setters.setStyle(styleComponents.join(" • "));
+            setStyle(styleComponents.join(" • "));
           }
 
           toast.success("Preset загружен", {
@@ -174,9 +201,7 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         );
       }
     }
-    // One-shot: consume sessionStorage["presetParams"] on open.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open, setMode, setStyle]);
 
   // Apply "Generate Similar" parameters
   useEffect(() => {
@@ -188,14 +213,14 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
 
           logger.info("Loading Similar Track params", { style: params.style });
 
-          setters.setMode("simple");
+          setMode("simple");
 
           const descParts: string[] = [];
           if (params.style) descParts.push(params.style);
           if (params.prompt) descParts.push(`similar to: ${params.prompt.slice(0, 100)}`);
 
           if (descParts.length > 0) {
-            setters.setDescription(descParts.join(" • "));
+            setDescription(descParts.join(" • "));
           }
 
           toast.success("Создание похожего трека", {
@@ -208,9 +233,7 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         logger.error("Failed to load similar track params", error instanceof Error ? error : new Error(String(error)));
       }
     }
-    // One-shot: consume sessionStorage["similarTrackParams"] on open.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open, setMode, setDescription]);
 
   // Apply Quick Genre Preset from homepage
   useEffect(() => {
@@ -224,13 +247,13 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
 
           logger.info("Loading Quick Genre preset", { presetId: preset.presetId });
 
-          setters.setMode("simple");
+          setMode("simple");
 
           if (preset.description) {
-            setters.setDescription(preset.description);
+            setDescription(preset.description);
           }
           if (typeof preset.hasVocals === "boolean") {
-            setters.setHasVocals(preset.hasVocals);
+            setHasVocals(preset.hasVocals);
           }
 
           sessionStorage.removeItem("quickGenrePreset");
@@ -239,9 +262,7 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         logger.error("Failed to load quick genre preset", error instanceof Error ? error : new Error(String(error)));
       }
     });
-    // One-shot: consume sessionStorage["quickGenrePreset"] on open.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open, setMode, setDescription, setHasVocals]);
 
   // Fetch API credits
   useEffect(() => {
@@ -249,7 +270,7 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
       try {
         const { data } = await supabase.functions.invoke("suno-credits");
         if (data?.credits !== undefined) {
-          setters.setApiCredits(data.credits);
+          setApiCredits(data.credits);
         }
       } catch (error) {
         logger.error("Error fetching API credits", { error });
@@ -259,37 +280,33 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
     if (open) {
       fetchApiCredits();
     }
-    // Fetch API credits when the sheet opens; setters are stable.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open, setApiCredits]);
 
   // Apply audio reference data when loaded
   useEffect(() => {
     if (!activeReference || !open) return;
 
-    setters.setMode("custom");
+    setMode("custom");
 
     if (activeReference.analysis?.styleDescription) {
-      setters.setStyle(activeReference.analysis.styleDescription);
+      setStyle(activeReference.analysis.styleDescription);
     }
     if (activeReference.analysis?.transcription) {
-      setters.setLyrics(activeReference.analysis.transcription);
+      setLyrics(activeReference.analysis.transcription);
     }
     if (activeReference.durationSeconds) {
-      setters.setAudioDuration(activeReference.durationSeconds);
+      setAudioDuration(activeReference.durationSeconds);
     }
     if (activeReference.context?.originalTitle) {
-      setters.setTitle(`${activeReference.context.originalTitle} (ремикс)`.slice(0, TITLE_MAX_LENGTH));
+      setTitle(`${activeReference.context.originalTitle} (ремикс)`.slice(0, TITLE_MAX_LENGTH));
     }
 
     if (activeReference.intendedMode === "extend") {
-      setters.setAudioWeight([0.9]);
+      setAudioWeight([0.9]);
     } else if (activeReference.intendedMode === "cover") {
-      setters.setAudioWeight([0.5]);
+      setAudioWeight([0.5]);
     }
-    // Apply audio reference data when it or `open` changes; setters are stable.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeReference, open]);
+  }, [activeReference, open, setMode, setStyle, setLyrics, setAudioDuration, setTitle, setAudioWeight]);
 
   // Check for remix data from sessionStorage
   useEffect(() => {
@@ -299,10 +316,10 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         if (remixDataStr) {
           const remixData = JSON.parse(remixDataStr);
 
-          setters.setMode("custom");
-          setters.setTitle(remixData.title || "");
-          setters.setStyle(remixData.style || "");
-          setters.setLyrics(remixData.lyrics || "");
+          setMode("custom");
+          setTitle(remixData.title || "");
+          setStyle(remixData.style || "");
+          setLyrics(remixData.lyrics || "");
 
           sessionStorage.setItem("parentTrackId", remixData.parentTrackId);
 
@@ -316,9 +333,7 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         logger.error("Failed to load remix data from sessionStorage", error);
       }
     }
-    // One-shot: consume sessionStorage["musicverse_remix_data"] on open.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open, setMode, setTitle, setStyle, setLyrics]);
 
   // Check for template lyrics from sessionStorage
   useEffect(() => {
@@ -326,10 +341,10 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
       const templateLyrics = sessionStorage.getItem("templateLyrics");
       const templateName = sessionStorage.getItem("templateName");
       if (templateLyrics) {
-        setters.setMode("custom");
-        setters.setLyrics(templateLyrics);
+        setMode("custom");
+        setLyrics(templateLyrics);
         if (templateName) {
-          setters.setTitle(templateName.slice(0, TITLE_MAX_LENGTH));
+          setTitle(templateName.slice(0, TITLE_MAX_LENGTH));
         }
         sessionStorage.removeItem("templateLyrics");
         sessionStorage.removeItem("templateName");
@@ -338,9 +353,7 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         });
       }
     }
-    // One-shot: consume sessionStorage["templateLyrics"] on open.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open, setMode, setLyrics, setTitle]);
 
   // Restore draft when sheet opens
   useEffect(() => {
@@ -349,15 +362,15 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
       if (hasTemplate) return;
 
       const mode = draft.mode === "wizard" ? "custom" : draft.mode;
-      setters.setMode(mode as GenerationMode);
-      setters.setDescription(draft.description);
-      setters.setTitle(draft.title);
-      setters.setLyrics(draft.lyrics);
-      setters.setStyle(draft.style);
-      setters.setHasVocals(draft.hasVocals);
-      setters.setModel(draft.model);
-      setters.setNegativeTags(draft.negativeTags);
-      setters.setVocalGender(draft.vocalGender);
+      setMode(mode as GenerationMode);
+      setDescription(draft.description);
+      setTitle(draft.title);
+      setLyrics(draft.lyrics);
+      setStyle(draft.style);
+      setHasVocals(draft.hasVocals);
+      setModel(draft.model);
+      setNegativeTags(draft.negativeTags);
+      setVocalGender(draft.vocalGender);
 
       toast.info("Черновик восстановлен", {
         description: "Ваши данные сохранены",
@@ -371,9 +384,23 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
         },
       });
     }
-    // One-shot: restore draft on open only; deliberately does not re-run when draft mutates.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [
+    open,
+    hasDraft,
+    draft,
+    planTrackContext,
+    setMode,
+    setDescription,
+    setTitle,
+    setLyrics,
+    setStyle,
+    setHasVocals,
+    setModel,
+    setNegativeTags,
+    setVocalGender,
+    clearDraft,
+    resetForm,
+  ]);
 
   // Auto-save draft
   useEffect(() => {

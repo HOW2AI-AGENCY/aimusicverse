@@ -25,12 +25,27 @@ export function EditableLyricsContent({
   const [editValue, setEditValue] = useState(value);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Sync with external value
-  useEffect(() => {
+  // Declare autoResize BEFORE the effect that uses it (fixes TDZ / immutability
+  // warning and the resulting preserve-manual-memoization skip).
+  const autoResize = useCallback(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, []);
+
+  // Sync editValue with the external value when NOT editing. Uses the
+  // render-time setState escape hatch (ref-guarded) instead of an effect to
+  // avoid a cascading render (set-state-in-effect rule).
+  const prevIsEditingRef = useRef(isEditing);
+  const prevValueRef = useRef(value);
+  if ((!isEditing || prevIsEditingRef.current) && prevValueRef.current !== value) {
+    prevValueRef.current = value;
     if (!isEditing) {
       setEditValue(value);
     }
-  }, [value, isEditing]);
+  }
+  prevIsEditingRef.current = isEditing;
 
   // Focus and auto-resize when editing starts
   useEffect(() => {
@@ -41,14 +56,7 @@ export function EditableLyricsContent({
       textareaRef.current.selectionEnd = textareaRef.current.value.length;
       autoResize();
     }
-  }, [isEditing]);
-
-  const autoResize = useCallback(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-    }
-  }, []);
+  }, [isEditing, autoResize]);
 
   const handleSave = useCallback(() => {
     onChange(editValue);

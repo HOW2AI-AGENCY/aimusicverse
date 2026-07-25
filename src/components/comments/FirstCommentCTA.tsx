@@ -6,7 +6,7 @@
  * Shows as a gradient banner with engaging design
  */
 
-import { memo, useCallback, useState, useEffect } from "react";
+import { memo, useCallback, useState, useRef, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { MessageCircle, X, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
@@ -28,38 +28,70 @@ interface FirstCommentCTAProps {
 const DISMISSED_CTAS_KEY = "dismissed-comment-ctas";
 
 /**
- * Check if user has commented on a track
+ * Check if user has commented on a track.
+ *
+ * Reads localStorage lazily during state initialization and re-derives
+ * whenever `trackId` changes via the React-recommended "adjust state during
+ * render" pattern (avoids a setState-in-effect cascade).
  */
 function useHasCommented(trackId: string) {
-  const [hasCommented, setHasCommented] = useState(false);
+  const [hasCommented, setHasCommented] = useState(() => {
+    const commentedTracks = JSON.parse(localStorage.getItem("commented-tracks") || "[]");
+    return commentedTracks.includes(trackId);
+  });
+  const prevTrackIdRef = useRef(trackId);
 
-  useEffect(() => {
-    // Check localStorage for comment history
+  // Re-derive only when trackId actually changes. Calling setState during
+  // render (with a guard) is the documented escape hatch for derived state
+  // from external sources; React bails out without a cascading render.
+  if (trackId !== prevTrackIdRef.current) {
+    prevTrackIdRef.current = trackId;
     const commentedTracks = JSON.parse(localStorage.getItem("commented-tracks") || "[]");
     setHasCommented(commentedTracks.includes(trackId));
-  }, [trackId]);
+  }
 
   return hasCommented;
 }
 
 /**
- * Check if CTA was dismissed for this track
+ * Check if CTA was dismissed for this track.
+ *
+ * Reads localStorage lazily during state initialization and re-derives
+ * whenever `trackId` changes. The current-time comparison uses a clock value
+ * obtained via useSyncExternalStore, which is the idiomatic way to read a
+ * changing external value (the system clock) during render without violating
+ * the purity rule.
  */
 function useIsDismissed(trackId: string) {
-  const [isDismissed, setIsDismissed] = useState(false);
-
-  useEffect(() => {
+  // Store the raw dismissal timestamp (or null) — no impure calls during init.
+  const [dismissedAt, setDismissedAt] = useState<number | null>(() => {
     const dismissedCtas = JSON.parse(localStorage.getItem(DISMISSED_CTAS_KEY) || "{}");
-    const dismissedAt = dismissedCtas[trackId];
+    return dismissedCtas[trackId] ?? null;
+  });
+  const prevTrackIdRef = useRef(trackId);
 
-    if (dismissedAt) {
-      // Check if dismissed more than 7 days ago
-      const daysSinceDismissed = (Date.now() - dismissedAt) / (1000 * 60 * 60 * 24);
-      setIsDismissed(daysSinceDismissed < 7);
-    }
-  }, [trackId]);
+  // External store for the current time. getSnapshot is allowed to call
+  // Date.now() (it's not "render"); getServerSnapshot returns a stable value.
+  // We subscribe to an hourly tick so long-mounted CTAs eventually re-show
+  // after the 7-day dismissal window expires.
+  const nowTick = useSyncExternalStore(
+    (onChange) => {
+      const id = setInterval(onChange, 60 * 60 * 1000);
+      return () => clearInterval(id);
+    },
+    () => Date.now(),
+    () => 0,
+  );
 
-  return isDismissed;
+  if (trackId !== prevTrackIdRef.current) {
+    prevTrackIdRef.current = trackId;
+    const dismissedCtas = JSON.parse(localStorage.getItem(DISMISSED_CTAS_KEY) || "{}");
+    setDismissedAt(dismissedCtas[trackId] ?? null);
+  }
+
+  if (!dismissedAt) return false;
+  const daysSinceDismissed = (nowTick - dismissedAt) / (1000 * 60 * 60 * 24);
+  return daysSinceDismissed < 7;
 }
 
 /**
@@ -102,7 +134,7 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
     logger.info("First comment CTA tapped", { trackId, trackTitle });
 
     onOpenComments();
-  }, [hapticFeedback, trackEvent, trackId, trackTitle, onOpenComments]);
+  }, [hapticFeedback, trackEvent, trackId, trackTitle, variant, onOpenComments]);
 
   const handleDismiss = useCallback(
     (e: React.MouseEvent) => {
@@ -124,7 +156,7 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
 
       logger.info("First comment CTA dismissed", { trackId });
     },
-    [hapticFeedback, trackEvent, trackId],
+    [hapticFeedback, trackEvent, trackId, variant],
   );
 
   if (hasCommented || isPersistentlyDismissed || internalDismissed) {

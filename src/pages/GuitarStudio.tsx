@@ -7,7 +7,7 @@
  * - Transcription to MIDI, GP5, MusicXML, PDF with notes and tablature
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { useNavigate } from "react-router-dom";
 import {
@@ -97,11 +97,7 @@ export default function GuitarStudio() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("record");
   const [recordingTime, setRecordingTime] = useState(0);
-  const [workflow, setWorkflow] = useState(workflowSteps);
-  const [currentStep, setCurrentStep] = useState(0);
   const [linkDialogOpen, setLinkDialogOpen] = useState(false);
-  const [analysisStage, setAnalysisStage] = useState<AnalysisStage>("idle");
-  const [analysisError, setAnalysisError] = useState<string | undefined>();
 
   const {
     isAnalyzing,
@@ -123,77 +119,76 @@ export default function GuitarStudio() {
   // Save recordings hook
   const { saveRecording } = useGuitarRecordings();
 
-  // Recording timer
+  // Recording timer: only runs while recording; reset is handled in handlers
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isRecording) {
-      interval = setInterval(() => {
-        setRecordingTime((prev) => prev + 1);
-      }, 1000);
-    } else {
-      setRecordingTime(0);
-    }
+    if (!isRecording) return;
+    const interval = setInterval(() => {
+      setRecordingTime((prev) => prev + 1);
+    }, 1000);
     return () => clearInterval(interval);
   }, [isRecording]);
 
-  // Update workflow based on state
-  useEffect(() => {
-    const newWorkflow = [...workflowSteps];
+  // Workflow and current step are derived purely from recording/analysis state.
+  const { workflow, currentStep } = useMemo(() => {
+    const newWorkflow = workflowSteps.map((step) => ({ ...step }));
 
+    let step = 0;
     if (recordedAudioUrl) {
       newWorkflow[0].status = "completed";
-      setCurrentStep(1);
+      step = 1;
     }
-
     if (isAnalyzing) {
       newWorkflow[1].status = "active";
       newWorkflow[2].status = "active";
-      setCurrentStep(1);
+      step = 1;
     }
-
     if (analysisResult) {
       newWorkflow[1].status = "completed";
       newWorkflow[2].status = "completed";
       newWorkflow[3].status = "active";
-      setCurrentStep(3);
+      step = 3;
     }
-
-    setWorkflow(newWorkflow);
+    return { workflow: newWorkflow, currentStep: step };
   }, [recordedAudioUrl, isAnalyzing, analysisResult]);
 
-  // Track analysis stages based on progress
-  useEffect(() => {
+  // Analysis stage/error are derived from analysis state + progress text.
+  const { analysisStage, analysisError } = useMemo<{
+    analysisStage: AnalysisStage;
+    analysisError: string | undefined;
+  }>(() => {
     if (!isAnalyzing) {
-      if (analysisResult) {
-        setAnalysisStage("complete");
-      } else {
-        setAnalysisStage("idle");
-      }
-      setAnalysisError(undefined);
-      return;
+      return {
+        analysisStage: analysisResult ? "complete" : "idle",
+        analysisError: undefined,
+      };
     }
-
-    // Map progress messages to stages
     const progressLower = progress.toLowerCase();
     if (progressLower.includes("загрузка")) {
-      setAnalysisStage("uploading");
-    } else if (progressLower.includes("ритм") || progressLower.includes("биты")) {
-      setAnalysisStage("beat-tracking");
-    } else if (progressLower.includes("аккорд")) {
-      setAnalysisStage("chord-recognition");
-    } else if (progressLower.includes("транскрипц") || progressLower.includes("ноты")) {
-      setAnalysisStage("transcription");
-    } else if (progressLower.includes("обрабатываем")) {
-      setAnalysisStage("processing");
+      return { analysisStage: "uploading", analysisError: undefined };
     }
+    if (progressLower.includes("ритм") || progressLower.includes("биты")) {
+      return { analysisStage: "beat-tracking", analysisError: undefined };
+    }
+    if (progressLower.includes("аккорд")) {
+      return { analysisStage: "chord-recognition", analysisError: undefined };
+    }
+    if (progressLower.includes("транскрипц") || progressLower.includes("ноты")) {
+      return { analysisStage: "transcription", analysisError: undefined };
+    }
+    if (progressLower.includes("обрабатываем")) {
+      return { analysisStage: "processing", analysisError: undefined };
+    }
+    return { analysisStage: "processing", analysisError: undefined };
   }, [isAnalyzing, progress, analysisResult]);
 
   const handleStartRecording = async () => {
+    setRecordingTime(0);
     await startRecording();
   };
 
   const handleStopRecording = () => {
     stopRecording();
+    setRecordingTime(0);
     toast.success("Запись остановлена. Готово к анализу!");
   };
 
@@ -207,8 +202,7 @@ export default function GuitarStudio() {
 
   const handleClear = () => {
     clearRecording();
-    setWorkflow(workflowSteps);
-    setCurrentStep(0);
+    setRecordingTime(0);
     setActiveTab("record");
   };
 

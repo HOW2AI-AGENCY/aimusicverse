@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { X, AlertTriangle, Info, CheckCircle, AlertCircle, Sparkles, HelpCircle } from "@/lib/icons";
@@ -75,17 +75,22 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
   // Progress bar for autoHide
   useEffect(() => {
     if (!alert?.autoHide) {
-      setProgress(100);
       return;
     }
 
-    setProgress(100);
     const duration = alert.autoHide;
     const interval = 50; // Update every 50ms
     const step = (interval / duration) * 100;
+    let firstTick = true;
 
+    // Initialize and update progress inside the interval callback to avoid
+    // calling setState synchronously in the effect body.
     const timer = setInterval(() => {
       setProgress((prev) => {
+        if (firstTick) {
+          firstTick = false;
+          return 100;
+        }
         const next = prev - step;
         if (next <= 0) {
           clearInterval(timer);
@@ -96,7 +101,7 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
     }, interval);
 
     return () => clearInterval(timer);
-  }, [alert?.autoHide, alert?.id]);
+  }, [alert?.autoHide, alert?.id, setProgress]);
 
   const handleLearnMore = useCallback(() => {
     if (alert?.featureKey) {
@@ -104,6 +109,30 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
       setShowFeatureSheet(true);
     }
   }, [alert?.featureKey, haptic]);
+
+  // Precompute sparkle particle positions deterministically from alert id
+  // to avoid calling Math.random() during render (purity rule) and avoid
+  // setState-in-effect cascading renders.
+  const sparklePositions = useMemo(() => {
+    // Simple deterministic pseudo-random based on alert id
+    const seed = alert?.id ?? "default";
+    let initialHash = 0;
+    for (let i = 0; i < seed.length; i++) {
+      initialHash = (initialHash * 31 + seed.charCodeAt(i)) | 0;
+    }
+    const rand = (hash: number, offset: number) => {
+      const next = (hash * 1103515245 + 12345 + offset) & 0x7fffffff;
+      return [next, next / 0x7fffffff] as const;
+    };
+    return Array.from({ length: 8 }, (_, i) => {
+      const [hx, rx] = rand(initialHash, i * 2);
+      const [, ry] = rand(hx, i * 2 + 1);
+      return {
+        x: 10 + rx * 80,
+        y: 10 + ry * 80,
+      };
+    });
+  }, [alert?.id]);
 
   if (!alert) return null;
 
@@ -302,7 +331,7 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
                   {/* Decorative sparkles for success/achievement */}
                   {alert.type === "success" && (
                     <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl">
-                      {[...Array(8)].map((_, i) => (
+                      {sparklePositions.map((pos, i) => (
                         <motion.div
                           key={i}
                           className="absolute w-1.5 h-1.5 rounded-full bg-yellow-400"
@@ -313,8 +342,8 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
                             opacity: 0,
                           }}
                           animate={{
-                            x: `${10 + Math.random() * 80}%`,
-                            y: `${10 + Math.random() * 80}%`,
+                            x: `${pos.x}%`,
+                            y: `${pos.y}%`,
                             scale: [0, 1.2, 0],
                             opacity: [0, 1, 0],
                           }}

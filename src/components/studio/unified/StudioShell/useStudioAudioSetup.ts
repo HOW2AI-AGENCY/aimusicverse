@@ -75,7 +75,7 @@ export function useStudioAudioSetup({
         solo: track.solo,
       };
     });
-  }, [project?.tracks]);
+  }, [project]);
 
   // Convert tracks to TrackStem format for mobile fallback detection
   const tracksAsStems = useMemo((): TrackStem[] => {
@@ -91,7 +91,7 @@ export function useStudioAudioSetup({
         version_id: null,
         created_at: new Date().toISOString(),
       }));
-  }, [project?.tracks, project?.id]);
+  }, [project]);
 
   // Mobile audio fallback handling
   const mobileAudioFallback = useMobileAudioFallback({
