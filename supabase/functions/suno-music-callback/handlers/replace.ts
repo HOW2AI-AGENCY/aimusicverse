@@ -23,7 +23,7 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
     return { success: true, callbackType, skipped: true };
   }
 
-  const clips = audioData || [];
+  const clips = Array.isArray(audioData) ? audioData : audioData ? [audioData] : [];
   if (clips.length === 0) {
     logger.error("No audio clips in replace_section callback");
     await supabase
