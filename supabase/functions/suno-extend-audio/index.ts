@@ -159,21 +159,26 @@ serve(async (req) => {
 
     // Build payload for upload-extend endpoint
     // Per API docs: https://docs.sunoapi.org/suno-api/upload-extend-music
+    // defaultParamFlag: true = custom params (prompt/style/title required), false = original params.
+    // Callers historically passed `true` meaning "use original", so derive the real mode from the
+    // presence of custom fields instead of trusting the flag.
+    const useCustomParams = Boolean((prompt && prompt.trim()) || (style && style.trim()));
+
     const sunoPayload: Record<string, unknown> = {
       uploadUrl: audioUrl,
       continueAt: effectiveContinueAt, // REQUIRED for upload-extend
-      defaultParamFlag, // true = use original params, false = use custom
+      defaultParamFlag: useCustomParams,
       model: effectiveModel,
       callBackUrl: callbackUrl,
       instrumental,
     };
 
-    // Add custom parameters when not using default params
-    if (!defaultParamFlag) {
+    if (useCustomParams) {
       sunoPayload.prompt = prompt || "Continue in the same style";
       sunoPayload.style = style || "seamless continuation";
       sunoPayload.title = effectiveTitle;
     }
+
 
     // Add optional parameters if provided
     if (negativeTags) sunoPayload.negativeTags = negativeTags;

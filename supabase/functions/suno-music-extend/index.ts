@@ -103,17 +103,44 @@ serve(async (req) => {
       );
     }
 
-    // When defaultParamFlag is false (custom mode), we need prompt, style, title
-    // When defaultParamFlag is true (use original), we can skip them
-    const useCustomParams = !defaultParamFlag;
+    // Suno contract (docs.sunoapi.org/suno-api/extend-music):
+    //  defaultParamFlag = true  -> custom params: prompt, style, title, continueAt are REQUIRED
+    //  defaultParamFlag = false -> use original audio params, only audioId is required
+    const useCustomParams = defaultParamFlag === true;
 
-    // Build effective values - always have fallbacks
-    const effectivePrompt = prompt || sourceTrack.prompt || "Продолжить в том же стиле";
+    // Build effective values - always have fallbacks.
+    // For vocal tracks Suno treats `prompt` as the lyrics of the continuation,
+    // so fall back to the source lyrics before the textual prompt.
+    const sourceLyrics = typeof sourceTrack.lyrics === "string" ? sourceTrack.lyrics.trim() : "";
+    const isInstrumental = sourceTrack.is_instrumental === true || sourceTrack.has_vocals === false;
+    const promptFallback = !isInstrumental && sourceLyrics ? sourceLyrics : sourceTrack.prompt;
+    const effectivePrompt = prompt || promptFallback || "Продолжить в том же стиле";
     const effectiveStyle = style || sourceTrack.style || "pop";
     const effectiveTitle = title || `${sourceTrack.title || "Трек"} (Extended)`;
     const effectiveContinueAt = continueAt || sourceTrack.duration_seconds || 30;
 
     const effectiveModel = getApiModelName(model || sourceTrack.suno_model || "V4_5ALL");
+
+    if (useCustomParams) {
+      const promptLimit = effectiveModel === "V4" ? 3000 : 5000;
+      const styleLimit = effectiveModel === "V4" ? 200 : 1000;
+      const titleLimit = effectiveModel === "V4" || effectiveModel === "V4_5ALL" ? 80 : 100;
+      if (
+        effectivePrompt.length > promptLimit ||
+        effectiveStyle.length > styleLimit ||
+        effectiveTitle.length > titleLimit
+      ) {
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: `Превышены лимиты полей для модели ${effectiveModel} (текст ${promptLimit}, стиль ${styleLimit}, название ${titleLimit})`,
+            errorCode: "FIELD_LIMIT_EXCEEDED",
+          }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 },
+        );
+      }
+    }
+
 
     logger.info("Extend track request", {
       sourceTrackId,
@@ -192,33 +219,32 @@ serve(async (req) => {
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
     // Per SunoAPI docs:
-    // defaultParamFlag=true: use original track params (no prompt/style/title needed)
-    // defaultParamFlag=false: use custom params (prompt/style/title required)
+    // defaultParamFlag=true: custom params (prompt/style/title/continueAt required)
+    // defaultParamFlag=false: use original track params (only audioId required)
     const sunoPayload: Record<string, unknown> = {
-      defaultParamFlag,
+      defaultParamFlag: useCustomParams,
       audioId: sourceTrack.suno_id,
       model: effectiveModel,
       callBackUrl: callbackUrl,
-      continueAt: effectiveContinueAt,
     };
 
-    // Always include these for custom mode, and as fallback for default mode
-    if (!defaultParamFlag || prompt) {
+    if (useCustomParams) {
+      sunoPayload.continueAt = effectiveContinueAt;
       sunoPayload.prompt = effectivePrompt;
-    }
-    if (!defaultParamFlag || style) {
       sunoPayload.style = effectiveStyle;
-    }
-    if (!defaultParamFlag || title) {
       sunoPayload.title = effectiveTitle;
+
+      if (negativeTags) sunoPayload.negativeTags = negativeTags;
+      if (vocalGender) sunoPayload.vocalGender = vocalGender;
+      if (styleWeight !== undefined) sunoPayload.styleWeight = styleWeight;
+      if (weirdnessConstraint !== undefined) sunoPayload.weirdnessConstraint = weirdnessConstraint;
+      if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
+      if (personaId) {
+        sunoPayload.personaId = personaId;
+        sunoPayload.personaModel = "style_persona";
+      }
     }
 
-    if (negativeTags) sunoPayload.negativeTags = negativeTags;
-    if (vocalGender) sunoPayload.vocalGender = vocalGender;
-    if (styleWeight !== undefined) sunoPayload.styleWeight = styleWeight;
-    if (weirdnessConstraint !== undefined) sunoPayload.weirdnessConstraint = weirdnessConstraint;
-    if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
-    if (personaId) sunoPayload.personaId = personaId;
 
     logger.info("Sending extend request to SunoAPI", { payload: sunoPayload });
 
