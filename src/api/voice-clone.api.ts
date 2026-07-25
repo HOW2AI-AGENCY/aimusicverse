@@ -88,3 +88,40 @@ export const voiceCloneApi = {
   checkVoice: (voiceId: string) =>
     invoke<{ success: boolean; available: boolean }>("suno-voice-check-voice", { voiceId }),
 };
+
+/** localStorage key holding the last custom voice the user generated with. */
+export const LAST_VOICE_KEY = "mv:last-custom-voice-id";
+
+export function rememberLastVoice(voiceId: string | null) {
+  try {
+    if (voiceId) localStorage.setItem(LAST_VOICE_KEY, voiceId);
+    else localStorage.removeItem(LAST_VOICE_KEY);
+  } catch {
+    /* storage unavailable */
+  }
+}
+
+export function getLastVoice(): string | null {
+  try {
+    return localStorage.getItem(LAST_VOICE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Increment usage_count for a voice after it was used in a generation.
+ * Selects the target row first, then updates by primary key (Supabase update quirk).
+ */
+export async function markVoiceUsed(voiceId: string): Promise<void> {
+  const { data } = await supabase
+    .from("custom_voices")
+    .select("id, usage_count")
+    .eq("voice_id", voiceId)
+    .maybeSingle();
+  if (!data) return;
+  await supabase
+    .from("custom_voices")
+    .update({ usage_count: (data.usage_count ?? 0) + 1 })
+    .eq("id", data.id);
+}

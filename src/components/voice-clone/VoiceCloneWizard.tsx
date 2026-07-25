@@ -4,13 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loader2, Mic, Square, Upload, CheckCircle2, AlertCircle, RotateCcw, FileAudio, Library } from "@/lib/icons";
+import { Loader2, Mic, Square, Upload, CheckCircle2, AlertCircle, RotateCcw } from "@/lib/icons";
 import { useVoiceCloneWizard, STEP_INDEX } from "@/hooks/voice/useVoiceCloneWizard";
 import { useVoiceRecorder } from "@/hooks/voice/useVoiceRecorder";
-import { useUserVocalStems, type UserVocalStem } from "@/hooks/voice/useUserVocalStems";
 import { notify } from "@/lib/notifications";
 import { logger } from "@/lib/logger";
 import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
@@ -45,11 +43,6 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
 
   const phraseRecorder = useVoiceRecorder();
   const sourceRecorder = useVoiceRecorder();
-  const [sourceTab, setSourceTab] = useState<"upload" | "record" | "library">("upload");
-  const [file, setFile] = useState<File | null>(null);
-  const [stemBlob, setStemBlob] = useState<Blob | null>(null);
-  const [selectedStem, setSelectedStem] = useState<UserVocalStem | null>(null);
-  const [stemLoading, setStemLoading] = useState(false);
   const [audioDuration, setAudioDuration] = useState(0);
   const [voiceName, setVoiceName] = useState("");
   const [description, setDescription] = useState("");
@@ -61,11 +54,9 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
     return ["ru", "en", "es", "fr", "de", "it", "ja", "zh", "pt"].includes(l) ? l : "en";
   });
 
-  const stemsQuery = useUserVocalStems(open && sourceTab === "library");
+  // Microphone is the only accepted source for the voice sample (Suno requires sung audio).
+  const sourceBlob: Blob | null = sourceRecorder.blob;
 
-  // Final blob used for validation (either uploaded file, mic recording, or chosen library stem)
-  const sourceBlob: Blob | null =
-    sourceTab === "upload" ? file : sourceTab === "record" ? sourceRecorder.blob : stemBlob;
 
   // Memoized object URL so we don't leak on every render
   const sourceUrl = useMemo(() => {
@@ -148,33 +139,11 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
       reset();
       phraseRecorder.reset();
       sourceRecorder.reset();
-      setFile(null);
-      setStemBlob(null);
-      setSelectedStem(null);
       setVoiceName("");
       setDescription("");
     }, 300);
   }
 
-  async function pickStem(stem: UserVocalStem) {
-    setSelectedStem(stem);
-    setStemBlob(null);
-    setStemLoading(true);
-    try {
-      const res = await fetch(stem.audioUrl);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const blob = await res.blob();
-      setStemBlob(blob);
-      if (!voiceName) setVoiceName(stem.trackTitle.slice(0, 40));
-      notify.success("Стем загружен", { description: stem.trackTitle });
-    } catch (e) {
-      logger.error("Stem fetch failed", e as Error);
-      notify.error("Не удалось загрузить стем", { description: (e as Error).message });
-      setSelectedStem(null);
-    } finally {
-      setStemLoading(false);
-    }
-  }
 
   const stepIndex = STEP_INDEX[step] ?? 0;
   const progressPct = (stepIndex / 6) * 100;
@@ -200,7 +169,7 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
               <Mic className="h-4 w-4 shrink-0 text-primary mt-0.5" />
               <p className="text-xs text-muted-foreground leading-relaxed">
                 <span className="font-medium text-foreground">Микрофон обязателен.</span> Сначала вы даёте образец
-                голоса (файл, запись или стем), затем Suno выдаст контрольную фразу — её нужно будет{" "}
+                голоса — записываете его с микрофона, затем Suno выдаст контрольную фразу — её нужно будет{" "}
                 <span className="font-medium text-foreground">пропеть в микрофон</span>. Без этой записи голос создать
                 нельзя.
               </p>
@@ -227,117 +196,47 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
               />
             </div>
 
-            <Tabs value={sourceTab} onValueChange={(v) => setSourceTab(v as "upload" | "record" | "library")}>
-              <TabsList className="grid grid-cols-3 w-full">
-                <TabsTrigger value="upload" data-testid="voice-tab-upload">
-                  <FileAudio className="mr-2 h-4 w-4" />
-                  Файл
-                </TabsTrigger>
-                <TabsTrigger value="record" data-testid="voice-tab-record">
+            <div className="space-y-3 rounded-2xl border border-border/50 bg-muted/10 p-3">
+              <div className="flex items-center gap-2">
+                <Mic className="h-4 w-4 text-primary" />
+                <Label className="text-xs uppercase tracking-wide text-muted-foreground">Образец голоса</Label>
+              </div>
+              <p className="text-xs text-muted-foreground">Спойте 10–30 секунд в чистой акустике. Без музыки на фоне.</p>
+              {sourceRecorder.state === "recording" && (
+                <VoiceWaveformEditor mode="live" stream={sourceRecorder.stream} height={80} />
+              )}
+              {sourceRecorder.state === "idle" && !sourceRecorder.blob && (
+                <Button
+                  variant="outline"
+                  className="w-full h-12"
+                  data-testid="voice-source-record"
+                  onClick={sourceRecorder.start}
+                >
                   <Mic className="mr-2 h-4 w-4" />
-                  Микрофон
-                </TabsTrigger>
-                <TabsTrigger value="library" data-testid="voice-tab-library">
-                  <Library className="mr-2 h-4 w-4" />
-                  Стемы
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="upload" className="space-y-2 pt-3">
-                <Label htmlFor="voice-file">Исходное аудио (≤25 MB)</Label>
-                <Input
-                  id="voice-file"
-                  type="file"
-                  accept="audio/*"
-                  onChange={(e) => setFile(e.target.files?.[0] || null)}
-                />
-              </TabsContent>
-
-              <TabsContent value="record" className="space-y-3 pt-3">
-                <p className="text-xs text-muted-foreground">
-                  Спойте 10–30 секунд в чистой акустике. Без музыки на фоне.
-                </p>
-                {sourceRecorder.state === "recording" && (
-                  <VoiceWaveformEditor mode="live" stream={sourceRecorder.stream} height={80} />
-                )}
-                {sourceRecorder.state === "idle" && !sourceRecorder.blob && (
-                  <Button variant="outline" className="w-full h-12" onClick={sourceRecorder.start}>
-                    <Mic className="mr-2 h-4 w-4" />
-                    Начать запись
-                  </Button>
-                )}
-                {sourceRecorder.state === "recording" && (
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 text-2xl font-mono tabular-nums">
-                      {sourceRecorder.duration.toFixed(1)}
-                      <span className="text-sm text-muted-foreground ml-1">с</span>
-                    </div>
-                    <Button variant="destructive" className="h-12 px-6" onClick={sourceRecorder.stop}>
-                      <Square className="mr-2 h-4 w-4" />
-                      Стоп
-                    </Button>
+                  Начать запись
+                </Button>
+              )}
+              {sourceRecorder.state === "recording" && (
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 text-2xl font-mono tabular-nums">
+                    {sourceRecorder.duration.toFixed(1)}
+                    <span className="text-sm text-muted-foreground ml-1">с</span>
                   </div>
-                )}
-                {sourceRecorder.state === "stopped" && sourceRecorder.blob && (
-                  <Button variant="outline" size="sm" onClick={sourceRecorder.reset}>
-                    <RotateCcw className="mr-2 h-4 w-4" />
-                    Перезаписать
+                  <Button variant="destructive" className="h-12 px-6" onClick={sourceRecorder.stop}>
+                    <Square className="mr-2 h-4 w-4" />
+                    Стоп
                   </Button>
-                )}
-                {sourceRecorder.state === "error" && <p className="text-sm text-destructive">{sourceRecorder.error}</p>}
-              </TabsContent>
+                </div>
+              )}
+              {sourceRecorder.state === "stopped" && sourceRecorder.blob && (
+                <Button variant="outline" size="sm" onClick={sourceRecorder.reset}>
+                  <RotateCcw className="mr-2 h-4 w-4" />
+                  Перезаписать
+                </Button>
+              )}
+              {sourceRecorder.state === "error" && <p className="text-sm text-destructive">{sourceRecorder.error}</p>}
+            </div>
 
-              <TabsContent value="library" className="space-y-2 pt-3">
-                <p className="text-xs text-muted-foreground">
-                  Выберите вокальный стем из своей библиотеки. Он будет использован как исходник для клонирования.
-                </p>
-                {stemsQuery.isLoading && (
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground py-4 justify-center">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Загружаем ваши стемы…
-                  </div>
-                )}
-                {!stemsQuery.isLoading && (stemsQuery.data?.length ?? 0) === 0 && (
-                  <p className="text-xs text-muted-foreground py-4 text-center">
-                    Вокальных стемов пока нет. Сначала отделите вокал в Studio.
-                  </p>
-                )}
-                {(stemsQuery.data?.length ?? 0) > 0 && (
-                  <div className="max-h-48 overflow-y-auto rounded-md border divide-y" role="listbox">
-                    {stemsQuery.data!.map((s) => {
-                      const active = selectedStem?.id === s.id;
-                      return (
-                        <button
-                          key={s.id}
-                          type="button"
-                          role="option"
-                          aria-selected={active}
-                          data-testid="voice-stem-item"
-                          disabled={stemLoading}
-                          onClick={() => pickStem(s)}
-                          className={`w-full text-left px-3 py-2 text-sm hover:bg-muted/50 flex items-center justify-between gap-2 ${active ? "bg-primary/10" : ""}`}
-                        >
-                          <span className="truncate">
-                            <span className="font-medium">{s.trackTitle}</span>
-                            <span className="ml-2 text-xs text-muted-foreground">{s.stemType}</span>
-                          </span>
-                          {active && stemLoading && <Loader2 className="h-3 w-3 animate-spin shrink-0" />}
-                          {active && !stemLoading && stemBlob && (
-                            <CheckCircle2 className="h-3 w-3 text-primary shrink-0" />
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-                {selectedStem && (
-                  <Button variant="ghost" size="sm" onClick={() => pickStem(selectedStem)} disabled={stemLoading}>
-                    <RotateCcw className="mr-2 h-3 w-3" />
-                    Перезагрузить стем
-                  </Button>
-                )}
-              </TabsContent>
-            </Tabs>
 
             {audioDuration > 0 && sourceBlob && (
               <div className="space-y-2 rounded-2xl border border-border/50 bg-muted/10 p-3">
