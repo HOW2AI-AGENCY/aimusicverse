@@ -219,33 +219,32 @@ serve(async (req) => {
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
     // Per SunoAPI docs:
-    // defaultParamFlag=true: use original track params (no prompt/style/title needed)
-    // defaultParamFlag=false: use custom params (prompt/style/title required)
+    // defaultParamFlag=true: custom params (prompt/style/title/continueAt required)
+    // defaultParamFlag=false: use original track params (only audioId required)
     const sunoPayload: Record<string, unknown> = {
-      defaultParamFlag,
+      defaultParamFlag: useCustomParams,
       audioId: sourceTrack.suno_id,
       model: effectiveModel,
       callBackUrl: callbackUrl,
-      continueAt: effectiveContinueAt,
     };
 
-    // Always include these for custom mode, and as fallback for default mode
-    if (!defaultParamFlag || prompt) {
+    if (useCustomParams) {
+      sunoPayload.continueAt = effectiveContinueAt;
       sunoPayload.prompt = effectivePrompt;
-    }
-    if (!defaultParamFlag || style) {
       sunoPayload.style = effectiveStyle;
-    }
-    if (!defaultParamFlag || title) {
       sunoPayload.title = effectiveTitle;
+
+      if (negativeTags) sunoPayload.negativeTags = negativeTags;
+      if (vocalGender) sunoPayload.vocalGender = vocalGender;
+      if (styleWeight !== undefined) sunoPayload.styleWeight = styleWeight;
+      if (weirdnessConstraint !== undefined) sunoPayload.weirdnessConstraint = weirdnessConstraint;
+      if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
+      if (personaId) {
+        sunoPayload.personaId = personaId;
+        sunoPayload.personaModel = "style_persona";
+      }
     }
 
-    if (negativeTags) sunoPayload.negativeTags = negativeTags;
-    if (vocalGender) sunoPayload.vocalGender = vocalGender;
-    if (styleWeight !== undefined) sunoPayload.styleWeight = styleWeight;
-    if (weirdnessConstraint !== undefined) sunoPayload.weirdnessConstraint = weirdnessConstraint;
-    if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
-    if (personaId) sunoPayload.personaId = personaId;
 
     logger.info("Sending extend request to SunoAPI", { payload: sunoPayload });
 
