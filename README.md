@@ -226,14 +226,15 @@ npm run build            # production build
 | Unit тесты              | 1857 passing (176 test files) |   ✅   |
 | TypeScript              | 0 errors (`--noEmit`)         |   ✅   |
 | E2E specs               | 59                            |   ✅   |
-| Components              | 1043                          |   ✅   |
-| Hooks                   | 440                           |   ✅   |
-| API files               | 32                            |   ✅   |
+| Components              | 1048                          |   ✅   |
+| Hooks                   | 446                           |   ✅   |
+| API files               | 34                            |   ✅   |
 | Services                | 37 `*.service.ts`             |   ✅   |
 | Stores                  | 25                            |   ✅   |
 | Suno edge functions     | 46 (28/28 API — 100%)         |   ✅   |
 | Files >800 LOC в `src/` | 0                             |   ✅   |
 | `any` budget            | 0/50                          |   ✅   |
+| ESLint warnings         | 525 (было 1744, −70%)         |   ✅   |
 | Bundle eager JS         | ~508 KB gzip                  |   ✅   |
 | Bundle total            | 2.11 MB gzip                  |   🟡   |
 | Branch Protection       | активна                       |   ✅   |
