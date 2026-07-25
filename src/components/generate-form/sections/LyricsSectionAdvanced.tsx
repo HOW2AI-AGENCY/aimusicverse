@@ -309,11 +309,14 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
           <LyricsVisualEditorCompact value={lyrics} onChange={onLyricsChange} onAIGenerate={onOpenLyricsAssistant} />
         ) : (
           <div className="space-y-2">
-            {/* Quick-insert section tag chips */}
-            <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-[0.625rem] uppercase tracking-wide text-muted-foreground/70 mr-0.5">
-                <Plus className="inline h-3 w-3 -mt-0.5 mr-0.5" />
-                Секция:
+            {/* Quick-insert section tag chips — compact icon row, horizontally scrollable */}
+            <div
+              className="-mx-1 flex items-center gap-1 overflow-x-auto px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              role="toolbar"
+              aria-label="Вставить секцию"
+            >
+              <span className="shrink-0 text-[0.625rem] uppercase tracking-wide text-muted-foreground/70 pr-1">
+                Секция
               </span>
               {QUICK_SECTION_TYPES.map((t) => {
                 const def = LYRIC_SECTION_BY_VALUE[t];
@@ -323,19 +326,19 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                     key={t}
                     type="button"
                     onClick={() => insertSectionTag(t)}
+                    title={`Вставить [${def.header}]`}
+                    aria-label={`Вставить ${def.label}`}
                     className={cn(
-                      "inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[0.6875rem] font-medium",
-                      "hover:opacity-100 opacity-80 transition-opacity",
+                      "shrink-0 inline-flex items-center justify-center h-6 min-w-[1.5rem] px-1.5 rounded-md border text-[0.6875rem] font-medium leading-none",
+                      "hover:opacity-100 opacity-85 transition-opacity",
                       color.bg,
                       color.border,
                       color.text,
                     )}
-                    aria-label={`Вставить [${def.header}]`}
                   >
                     <span aria-hidden className="font-mono">
                       {def.glyph}
                     </span>
-                    <span>{def.label}</span>
                   </button>
                 );
               })}
