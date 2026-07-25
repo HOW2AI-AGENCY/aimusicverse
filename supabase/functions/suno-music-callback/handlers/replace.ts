@@ -5,7 +5,7 @@
 
 import { getSupabaseClient } from "../../_shared/supabase-client.ts";
 import { createLogger } from "../../_shared/logger.ts";
-import { getAudioUrl, getModelName } from "../../_shared/suno-clip-fields.ts";
+import { getAudioUrl, getImageUrl, getModelName, getStreamUrl, validateClip, type SkipReason } from "../../_shared/suno-clip-fields.ts";
 import { logAuditAction } from "../utils/audit-log.ts";
 
 const logger = createLogger("replace-callback");
@@ -37,64 +37,102 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
     return { success: false, error: "No clips" };
   }
 
-  const clip = clips[0];
-  const audioUrl = getAudioUrl(clip);
-  logger.info("Replace section clip received", { audioUrl: !!audioUrl, duration: clip.duration });
+  const skippedClips: SkipReason[] = [];
+  const createdVersions: { id: string; label: string; audioUrl: string; clip: any }[] = [];
 
-  // Upload to storage
-  let localAudioUrl = null;
-  try {
-    const audioResponse = await fetch(audioUrl);
-    if (audioResponse.ok) {
-      const audioBlob = await audioResponse.blob();
-      const audioFileName = `tracks/${task.user_id}/${trackId}_replace_${Date.now()}.mp3`;
-      const { data: audioUpload } = await supabase.storage
-        .from("project-assets")
-        .upload(audioFileName, audioBlob, { contentType: "audio/mpeg", upsert: true });
-      if (audioUpload) {
-        localAudioUrl = supabase.storage.from("project-assets").getPublicUrl(audioFileName).data.publicUrl;
-        logger.success("Replace section audio uploaded");
-      }
-    }
-  } catch (e) {
-    logger.error("Failed to upload replace section audio", e);
-  }
-
-  const finalAudioUrl = localAudioUrl || audioUrl;
-
-  // Create new version for replaced section
+  // Create new versions for every returned variant (Suno normally returns A/B)
   const { data: latestVersion } = await supabase
     .from("track_versions")
-    .select("version_label")
+    .select("version_label, clip_index")
     .eq("track_id", trackId)
     .order("created_at", { ascending: false })
     .limit(1)
     .single();
 
-  const nextLabel = latestVersion?.version_label
-    ? String.fromCharCode(latestVersion.version_label.charCodeAt(0) + 1)
-    : "A";
+  const baseLabelCode = latestVersion?.version_label?.length === 1 ? latestVersion.version_label.charCodeAt(0) + 1 : 65;
 
-  const { data: newVersion } = await supabase
-    .from("track_versions")
-    .insert({
-      track_id: trackId,
-      audio_url: finalAudioUrl,
-      duration_seconds: Math.round(clip.duration) || null,
-      version_type: "replace_section",
-      version_label: nextLabel,
-      is_primary: false,
-      metadata: {
-        suno_id: clip.id,
-        suno_task_id: task.suno_task_id,
-        replace_section: true,
-        original_task_id: task.id,
-      },
-    })
-    .select()
-    .single();
+  for (let i = 0; i < clips.length; i++) {
+    const clip = clips[i];
+    const skip = validateClip(clip, i, { requireAudio: true });
+    if (skip) {
+      skippedClips.push(skip);
+      logger.error("Skipping replace-section clip — validation failed", null, {
+        skipCode: skip.code,
+        clipIndex: i,
+        availableKeys: skip.availableKeys,
+        message: skip.message,
+      });
+      continue;
+    }
 
-  logger.success("Replace section version created", { versionLabel: nextLabel });
+    const audioUrl = getAudioUrl(clip) as string;
+    const streamUrl = getStreamUrl(clip);
+    const coverUrl = getImageUrl(clip);
+    const versionLabel = String.fromCharCode(baseLabelCode + createdVersions.length);
+    logger.info("Replace section clip received", { clipIndex: i, versionLabel, audioUrl: !!audioUrl, duration: clip.duration });
+
+    let localAudioUrl: string | null = null;
+    try {
+      const audioResponse = await fetch(audioUrl);
+      if (audioResponse.ok) {
+        const audioBlob = await audioResponse.blob();
+        const audioFileName = `tracks/${task.user_id}/${trackId}_replace_${versionLabel}_${Date.now()}.mp3`;
+        const { data: audioUpload } = await supabase.storage
+          .from("project-assets")
+          .upload(audioFileName, audioBlob, { contentType: "audio/mpeg", upsert: true });
+        if (audioUpload) {
+          localAudioUrl = supabase.storage.from("project-assets").getPublicUrl(audioFileName).data.publicUrl;
+          logger.success("Replace section audio uploaded", { versionLabel });
+        }
+      }
+    } catch (e) {
+      logger.error("Failed to upload replace section audio", e, { versionLabel });
+    }
+
+    const finalAudioUrl = localAudioUrl || audioUrl;
+    const { data: newVersion } = await supabase
+      .from("track_versions")
+      .insert({
+        track_id: trackId,
+        audio_url: finalAudioUrl,
+        cover_url: coverUrl || null,
+        duration_seconds: Math.round(clip.duration) || null,
+        version_type: "replace_section",
+        version_label: versionLabel,
+        clip_index: (latestVersion?.clip_index ?? 0) + i + 1,
+        is_primary: false,
+        metadata: {
+          suno_id: clip.id,
+          suno_task_id: task.suno_task_id,
+          replace_section: true,
+          original_task_id: task.id,
+          source_audio_url: audioUrl,
+          stream_audio_url: streamUrl,
+          local_storage: { audio: localAudioUrl },
+        },
+      })
+      .select()
+      .single();
+
+    if (newVersion) {
+      createdVersions.push({ id: newVersion.id, label: versionLabel, audioUrl: finalAudioUrl, clip });
+      logger.success("Replace section version created", { versionLabel, versionId: newVersion.id });
+    }
+  }
+
+  if (createdVersions.length === 0) {
+    await supabase
+      .from("generation_tasks")
+      .update({
+        status: "failed",
+        error_message: `No playable replace-section clips: ${skippedClips.map((s) => s.code).join(", ")}`,
+        callback_received_at: new Date().toISOString(),
+        audio_clips: JSON.stringify(clips),
+        received_clips: 0,
+      })
+      .eq("id", task.id);
+    return { success: false, error: "No playable clips" };
+  }
 
   // Update task
   await supabase
@@ -104,7 +142,11 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
       completed_at: new Date().toISOString(),
       callback_received_at: new Date().toISOString(),
       audio_clips: JSON.stringify(clips),
-      received_clips: 1,
+      received_clips: createdVersions.length,
+      error_message:
+        skippedClips.length > 0
+          ? `${skippedClips.length}/${clips.length} clips skipped: ${skippedClips.map((s) => s.code).join(", ")}`
+          : null,
     })
     .eq("id", task.id);
 
@@ -130,21 +172,24 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
     logger.warn("Could not fetch section timing from started log");
   }
 
-  // Log completion
-  await supabase.from("track_change_log").insert({
-    track_id: trackId,
-    user_id: task.user_id,
-    change_type: "replace_section_completed",
-    changed_by: "suno_api",
-    version_id: newVersion?.id,
-    metadata: {
-      taskId: task.suno_task_id,
-      audioUrl: finalAudioUrl,
-      versionLabel: nextLabel,
-      infillStartS: sectionStart,
-      infillEndS: sectionEnd,
-    },
-  });
+  await supabase.from("track_change_log").insert(
+    createdVersions.map((version) => ({
+      track_id: trackId,
+      user_id: task.user_id,
+      change_type: "replace_section_completed",
+      changed_by: "suno_api",
+      version_id: version.id,
+      metadata: {
+        taskId: task.suno_task_id,
+        audioUrl: version.audioUrl,
+        versionLabel: version.label,
+        infillStartS: sectionStart,
+        infillEndS: sectionEnd,
+      },
+    })),
+  );
+
+  const primaryCreated = createdVersions[0];
 
   // Audit log
   await logAuditAction(supabaseUrl, supabaseServiceKey, {
@@ -152,21 +197,22 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
     entityId: trackId,
     userId: task.user_id,
     actorType: "ai",
-    aiModelUsed: getModelName(clip) || "suno-chirp-v4",
+    aiModelUsed: getModelName(primaryCreated.clip) || "suno-chirp-v4",
     actionType: "section_replaced",
     actionCategory: "modification",
-    contentUrl: finalAudioUrl,
+    contentUrl: primaryCreated.audioUrl,
     promptUsed: task.prompt,
     inputMetadata: {
       suno_task_id: task.suno_task_id,
       section_start: sectionStart,
       section_end: sectionEnd,
-      version_label: nextLabel,
+      version_label: primaryCreated.label,
+      variants_count: createdVersions.length,
     },
     outputMetadata: {
-      audio_url: finalAudioUrl,
-      duration_seconds: Math.round(clip.duration),
-      version_id: newVersion?.id,
+      audio_url: primaryCreated.audioUrl,
+      duration_seconds: Math.round(primaryCreated.clip.duration),
+      version_id: primaryCreated.id,
     },
     chainId: task.id,
   });
@@ -180,11 +226,11 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
         type: "section_replaced",
         chatId: task.telegram_chat_id,
         trackId,
-        audioUrl: finalAudioUrl,
+        audioUrl: primaryCreated.audioUrl,
         title: trackData?.title || "Новая секция",
         coverUrl: trackData?.cover_url,
-        versionLabel: nextLabel,
-        message: `Секция трека успешно заменена! Версия ${nextLabel}`,
+        versionLabel: createdVersions.map((v) => v.label).join("/"),
+        message: `Секция трека успешно заменена! Версии ${createdVersions.map((v) => v.label).join("/")}`,
       },
     });
   }
@@ -193,12 +239,12 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
     user_id: task.user_id,
     type: "section_replaced",
     title: "Секция заменена 🎵",
-    message: "Новая версия секции готова для прослушивания",
+    message: createdVersions.length > 1 ? "Две версии секции готовы для прослушивания" : "Новая версия секции готова для прослушивания",
     action_url: `/studio/${trackId}`,
     group_key: `section_${task.id}`,
-    metadata: { taskId: task.id, trackId },
+    metadata: { taskId: task.id, trackId, versionIds: createdVersions.map((v) => v.id) },
     priority: 6,
   });
 
-  return { success: true, callbackType: "replace_section_complete" };
+  return { success: true, callbackType: "replace_section_complete", versionsCreated: createdVersions.length };
 }
