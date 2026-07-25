@@ -82,6 +82,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
 
       clearPlanTrackContext();
     }
+    // One-shot: apply plan track context when sheet opens; setters are stable ref-like from parent.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, planTrackContext, clearPlanTrackContext]);
 
   // Apply guitar analysis parameters from sessionStorage
