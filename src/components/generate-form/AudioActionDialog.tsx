@@ -417,6 +417,20 @@ export function AudioActionDialog({
     }
   };
 
+  const handleRemove = () => {
+    if (audioUrl && !audioUrl.startsWith("http")) {
+      URL.revokeObjectURL(audioUrl);
+    }
+    setAudioUrl(null);
+    setAudioFile(null);
+    setAudioDuration(null);
+    setIsPlaying(false);
+    setAnalysisResult(null);
+    setExtractedLyrics(null);
+    setHasVocals(null);
+    setSavedAudioId(null);
+  };
+
   // Check if audio is ready for mode selection (analyzed)
   const isAudioReady = audioFile && analysisResult && !isAnalyzing;
 
