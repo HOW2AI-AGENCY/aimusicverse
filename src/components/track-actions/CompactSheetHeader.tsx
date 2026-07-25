@@ -3,7 +3,7 @@
  * Uses UnifiedVersionSelector for A/B version switching
  */
 
-import { memo, useState, useMemo } from "react";
+import { memo, useState } from "react";
 import { Track } from "@/types/track";
 import { Play, Pause, Heart, Share2, ListPlus, Music2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
@@ -11,7 +11,6 @@ import { pill } from "@/lib/overlay-colors";
 import { Badge } from "@/components/ui/badge";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useTracks } from "@/hooks/useTracks";
-import { useTrackVersions } from "@/hooks/useTrackVersions";
 import { hapticImpact } from "@/lib/haptic";
 import { toast } from "sonner";
 import { EditableTrackTitle } from "./EditableTrackTitle";
@@ -34,23 +33,10 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({ track, onCl
   const { activeTrack, isPlaying, playTrack, pauseTrack, addToQueue } = usePlayerStore();
   const { toggleLike } = useTracks();
   const [localTitle, setLocalTitle] = useState(track.title || "Без названия");
-  const { data: versions } = useTrackVersions(track.id);
 
-  // Активная версия — источник истины для обложки/длительности/HD-бейджа.
-  // Меняется мгновенно при переключении версии в UnifiedVersionSelector.
-  const activeVersion = useMemo(() => {
-    if (!versions?.length) return null;
-    const sorted = [...versions].sort((a, b) => (a.clip_index ?? 0) - (b.clip_index ?? 0));
-    return (
-      sorted.find((v) => v.id === track.active_version_id) || sorted.find((v) => v.is_primary) || sorted[0] || null
-    );
-  }, [versions, track.active_version_id]);
-
-  const coverUrl = activeVersion?.cover_url || track.cover_url;
-  const durationSeconds = activeVersion?.duration_seconds ?? track.duration_seconds;
-  const duration = durationSeconds ? formatDuration(durationSeconds) : null;
+  const coverUrl = track.cover_url;
+  const duration = track.duration_seconds ? formatDuration(track.duration_seconds) : null;
   const hasHD = !!track.audio_url_hd || track.audio_quality === "hd";
-
 
   const isCurrentTrack = activeTrack?.id === track.id;
   const isTrackPlaying = isCurrentTrack && isPlaying;

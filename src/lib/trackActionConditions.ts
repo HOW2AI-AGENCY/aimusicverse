@@ -33,8 +33,7 @@ export function isActionAvailable(actionId: ActionId, track: Track, state: Track
   // Action-specific conditions
   switch (actionId) {
     case "open_studio":
-      // Студия имеет смысл только когда к треку уже привязаны стемы
-      return isCompleted && hasAudio && state.stemCount > 0;
+      return isCompleted && hasAudio;
 
     case "replace_section":
       return isCompleted && hasAudio;
