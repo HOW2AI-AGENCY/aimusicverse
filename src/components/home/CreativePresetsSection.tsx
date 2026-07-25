@@ -16,6 +16,7 @@ import { LyricsPresetsRow } from "./LyricsPresetsRow";
 import { TrackPresetsRow, type TrackPreset } from "./TrackPresetsRow";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { glass } from "@/lib/glass";
+import { dispatchOpenGenerateSheet } from "@/lib/events";
 
 interface CreativePresetsSectionProps {
   className?: string;
