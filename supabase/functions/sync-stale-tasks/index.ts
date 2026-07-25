@@ -3,7 +3,7 @@ import { authorize } from "../_shared/auth.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { createLogger } from "../_shared/logger.ts";
 import { corsHeaders } from "../_shared/cors.ts";
-import { getAudioUrl, getImageUrl, getModelName, getStreamUrl } from "../_shared/suno-clip-fields.ts";
+import { getAudioUrl, getImageUrl, getModelName, getStreamUrl, validateClip, type SkipReason } from "../_shared/suno-clip-fields.ts";
 
 const logger = createLogger("sync-stale-tasks");
 
@@ -72,15 +72,11 @@ serve(async (req) => {
       for (const task of recoveryTasks || []) {
         // Skip replace_section tasks - they don't update the main track
         if (task.generation_mode === "replace_section") {
-          // For replace_section, check if version was created
-          const { data: existingVersion } = await supabase
+          const { data: existingVersions } = await supabase
             .from("track_versions")
             .select("id")
             .eq("track_id", task.track_id)
-            .eq("metadata->>original_task_id", task.id)
-            .single();
-
-          if (existingVersion) continue; // Already processed
+            .eq("metadata->>original_task_id", task.id);
 
           logger.info("Recovering replace_section task", { taskId: task.id });
 
@@ -95,63 +91,86 @@ serve(async (req) => {
               continue;
             }
 
-            const clip = clips[0];
-            const audioUrl = getAudioUrl(clip);
+            if ((existingVersions?.length || 0) >= clips.length) continue;
 
-            if (!audioUrl) {
-              logger.error("No audio URL in replace_section clip", null, { taskId: task.id });
-              continue;
-            }
-
-            // Download audio
-            let localAudioUrl = null;
-            try {
-              const audioResponse = await fetch(audioUrl);
-              if (audioResponse.ok) {
-                const audioBlob = await audioResponse.blob();
-                const audioFileName = `tracks/${task.user_id}/${task.track_id}_replace_${Date.now()}.mp3`;
-                const { data: audioUpload } = await supabase.storage
-                  .from("project-assets")
-                  .upload(audioFileName, audioBlob, { contentType: "audio/mpeg", upsert: true });
-                if (audioUpload) {
-                  localAudioUrl = supabase.storage.from("project-assets").getPublicUrl(audioFileName).data.publicUrl;
-                }
-              }
-            } catch (downloadError) {
-              logger.error("Error downloading replace_section audio", downloadError);
-            }
-
-            // Get next version label
             const { data: latestVersion } = await supabase
               .from("track_versions")
-              .select("version_label")
+              .select("version_label, clip_index")
               .eq("track_id", task.track_id)
               .order("created_at", { ascending: false })
               .limit(1)
               .single();
 
-            const nextLabel = latestVersion?.version_label
-              ? String.fromCharCode(latestVersion.version_label.charCodeAt(0) + 1)
-              : "A";
+            const baseLabelCode = latestVersion?.version_label?.length === 1 ? latestVersion.version_label.charCodeAt(0) + 1 : 65;
+            const skippedClips: SkipReason[] = [];
+            const createdVersions: string[] = [];
 
-            // Create version
-            await supabase.from("track_versions").insert({
-              track_id: task.track_id,
-              audio_url: localAudioUrl || audioUrl,
-              duration_seconds: Math.round(clip.duration) || null,
-              version_type: "replace_section",
-              version_label: nextLabel,
-              is_primary: false,
-              metadata: {
-                suno_id: clip.id,
-                suno_task_id: task.suno_task_id,
-                replace_section: true,
-                original_task_id: task.id,
-                recovered: true,
-              },
-            });
+            for (let i = existingVersions?.length || 0; i < clips.length; i++) {
+              const clip = clips[i];
+              const skip = validateClip(clip, i, { requireAudio: true });
+              if (skip) {
+                skippedClips.push(skip);
+                logger.error("No audio URL in replace_section clip", null, {
+                  taskId: task.id,
+                  clipIndex: i,
+                  skipCode: skip.code,
+                  availableKeys: skip.availableKeys,
+                });
+                continue;
+              }
 
-            logger.info("Replace section version created", { versionLabel: nextLabel, taskId: task.id });
+              const audioUrl = getAudioUrl(clip) as string;
+              let localAudioUrl = null;
+              try {
+                const audioResponse = await fetch(audioUrl);
+                if (audioResponse.ok) {
+                  const audioBlob = await audioResponse.blob();
+                  const versionLabelForFile = String.fromCharCode(baseLabelCode + i);
+                  const audioFileName = `tracks/${task.user_id}/${task.track_id}_replace_${versionLabelForFile}_${Date.now()}.mp3`;
+                  const { data: audioUpload } = await supabase.storage
+                    .from("project-assets")
+                    .upload(audioFileName, audioBlob, { contentType: "audio/mpeg", upsert: true });
+                  if (audioUpload) {
+                    localAudioUrl = supabase.storage.from("project-assets").getPublicUrl(audioFileName).data.publicUrl;
+                  }
+                }
+              } catch (downloadError) {
+                logger.error("Error downloading replace_section audio", downloadError);
+              }
+
+              const nextLabel = String.fromCharCode(baseLabelCode + i);
+              await supabase.from("track_versions").insert({
+                track_id: task.track_id,
+                audio_url: localAudioUrl || audioUrl,
+                cover_url: getImageUrl(clip),
+                duration_seconds: Math.round(clip.duration) || null,
+                version_type: "replace_section",
+                version_label: nextLabel,
+                clip_index: (latestVersion?.clip_index ?? 0) + i + 1,
+                is_primary: false,
+                metadata: {
+                  suno_id: clip.id,
+                  suno_task_id: task.suno_task_id,
+                  replace_section: true,
+                  original_task_id: task.id,
+                  source_audio_url: audioUrl,
+                  stream_audio_url: getStreamUrl(clip),
+                  recovered: true,
+                },
+              });
+
+              createdVersions.push(nextLabel);
+              logger.info("Replace section version created", { versionLabel: nextLabel, taskId: task.id });
+            }
+
+            if (skippedClips.length > 0) {
+              await supabase
+                .from("generation_tasks")
+                .update({ error_message: `${skippedClips.length}/${clips.length} clips skipped: ${skippedClips.map((s) => s.code).join(", ")}` })
+                .eq("id", task.id);
+            }
+
+            if (createdVersions.length === 0) continue;
             recoveredCount++;
             continue;
           } catch (recoveryErr) {
