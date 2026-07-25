@@ -15,12 +15,22 @@ export interface LyricSection {
 }
 
 /**
- * Section header: `[Verse]`, `[verse 2]`, `[Pre-Chorus]`, `[PreChorus 1]`…
+ * Section header: `[Verse]`, `[verse 2]`, `[Pre-Chorus]`, `[PreChorus 1]`,
+ * plus Suno v5.5 compound modifiers: `[Verse, energetic, male vocal]`.
+ * The first comma-separated token is the section base; extras become `tags`.
  */
-const SECTION_HEADER_RE = /^\[([a-zа-яё -]+?)(?:\s+\d+)?\]\s*$/i;
+const SECTION_HEADER_RE = /^\[([^\]]+)\]\s*$/;
 
 function makeSectionId(seed: number): string {
   return `sec-${seed}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function parseHeaderInner(inner: string): { type: LyricSectionType | null; tags: string[] } {
+  const parts = inner.split(",").map((p) => p.trim()).filter(Boolean);
+  if (parts.length === 0) return { type: null, tags: [] };
+  const base = parts[0].replace(/\s+\d+$/, "");
+  const type = normalizeSectionType(base);
+  return { type, tags: parts.slice(1) };
 }
 
 export function parseLyrics(input: string): LyricSection[] {
@@ -32,13 +42,14 @@ export function parseLyrics(input: string): LyricSection[] {
   for (const raw of lines) {
     const line = raw.trim();
     const match = line.match(SECTION_HEADER_RE);
-    const type = match ? normalizeSectionType(match[1]) : null;
-    if (type) {
+    const parsed = match ? parseHeaderInner(match[1]) : null;
+    if (parsed && parsed.type) {
       if (current) sections.push(current);
       current = {
         id: makeSectionId(sections.length),
-        type,
+        type: parsed.type,
         content: "",
+        tags: parsed.tags,
       };
       continue;
     }
