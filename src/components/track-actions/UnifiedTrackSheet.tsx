@@ -61,6 +61,7 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
   });
 
   const [trackStatus, setTrackStatus] = useState({ hasMidi: false, hasNotes: false });
+  const [stemsModeOpen, setStemsModeOpen] = useState(false);
 
   const {
     actionState,
@@ -84,7 +85,7 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
 
   // Диалоги живут в этом компоненте (он смонтирован всегда), но лист действий
   // должен визуально уйти, чтобы не перекрывать открытый диалог.
-  const anyDialogOpen = Object.values(dialogs).some(Boolean);
+  const anyDialogOpen = Object.values(dialogs).some(Boolean) || stemsModeOpen;
   const handleCloseDialog = (key: Parameters<typeof closeDialog>[0]) => {
     closeDialog(key);
     onOpenChange(false);
@@ -224,7 +225,14 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
                     />
                   )}
                   {(showStemsSimple || showStemsDetailed) && (
-                    <StemsActionButton onAction={executeAction} isProcessing={isProcessing} />
+                    <StemsActionButton
+                      onAction={executeAction}
+                      isProcessing={isProcessing}
+                      onDialogOpenChange={(dialogOpen) => {
+                        setStemsModeOpen(dialogOpen);
+                        if (!dialogOpen) onOpenChange(false);
+                      }}
+                    />
                   )}
                 </ActionGroup>
 

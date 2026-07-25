@@ -24,19 +24,31 @@ interface StemsActionButtonProps {
   onAction: (actionId: ActionId) => void;
   isProcessing?: boolean;
   variant?: "icon" | "button";
+  /** Сообщает родителю об открытии диалога, чтобы он скрыл лист действий */
+  onDialogOpenChange?: (open: boolean) => void;
 }
 
-export function StemsActionButton({ onAction, isProcessing, variant = "icon" }: StemsActionButtonProps) {
+export function StemsActionButton({
+  onAction,
+  isProcessing,
+  variant = "icon",
+  onDialogOpenChange,
+}: StemsActionButtonProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const setOpen = (open: boolean) => {
+    setDialogOpen(open);
+    onDialogOpenChange?.(open);
+  };
 
   const handleOpenDialog = () => {
     hapticImpact("light");
-    setDialogOpen(true);
+    setOpen(true);
   };
 
   const handleSelectMode = (mode: "simple" | "detailed") => {
     hapticImpact("medium");
-    setDialogOpen(false);
+    setOpen(false);
     onAction(mode === "simple" ? "stems_simple" : "stems_detailed");
   };
 
@@ -51,7 +63,7 @@ export function StemsActionButton({ onAction, isProcessing, variant = "icon" }: 
         </Button>
       )}
 
-      <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <AlertDialog open={dialogOpen} onOpenChange={setOpen}>
         <AlertDialogContent className="max-w-sm">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
