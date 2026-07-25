@@ -242,7 +242,7 @@ export function findSunoTag(value: string): SunoTag | undefined {
  */
 export function formatTagForInsertion(tag: string): string {
   // Remove any existing brackets
-  const clean = tag.replace(/[\[\]]/g, "").trim();
+  const clean = tag.replace(/[[\]]/g, "").trim();
   return `[${clean}]`;
 }
 

@@ -528,7 +528,7 @@ export function findSunoMetaTag(value: string): SunoMetaTag | undefined {
  * Format tag for insertion with brackets
  */
 export function formatMetaTagForInsertion(value: string): string {
-  const clean = value.replace(/[\[\]]/g, "").trim();
+  const clean = value.replace(/[[\]]/g, "").trim();
   return `[${clean}]`;
 }
 

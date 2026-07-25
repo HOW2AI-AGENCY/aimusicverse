@@ -54,7 +54,7 @@ function parseStructureContent(content: string): StructureSection[] {
       ) {
         const tagsStr = trimmedLine.replace(/^.*теги:\s*/i, "");
         const tags = tagsStr.match(/\[([^\]]+)\]|\(([^)]+)\)/g) || [];
-        currentSection.recommendedTags = tags.map((t) => t.replace(/[\[\]\(\)]/g, ""));
+        currentSection.recommendedTags = tags.map((t) => t.replace(/[[\]()]/g, ""));
       }
     }
   }

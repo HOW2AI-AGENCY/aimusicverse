@@ -126,7 +126,7 @@ export function parseStyleTags(input: string | string[] | null | undefined): Par
 
   // 2. Split by common separators: , / . ; | • – —
   const parts = remainingInput
-    .split(/[,\/\.;|•–—]+/)
+    .split(/[,/.;|•–—]+/)
     .map((p) => p.trim())
     .filter((p) => p.length > 0);
 

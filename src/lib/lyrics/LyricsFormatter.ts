@@ -62,7 +62,7 @@ export function isValidBracketTag(tag: string): boolean {
  */
 export function sanitizeTag(tag: string): string {
   // Remove any existing brackets
-  let sanitized = tag.replace(/[\[\]]/g, "");
+  let sanitized = tag.replace(/[[\]]/g, "");
 
   // Trim whitespace
   sanitized = sanitized.trim();

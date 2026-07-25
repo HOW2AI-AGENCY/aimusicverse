@@ -8,10 +8,10 @@ import type { SectionType, ParsedSection, TimestampMatch } from "@/types/section
 
 // Tag patterns - English and Russian (expanded)
 const TAG_PATTERN =
-  /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|post-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|пост-?припев|хук|instrumental|инструментал|interlude|интерлюдия|solo|соло|refrain|рефрен|breakdown|брейкдаун|drop|дроп|break|брейк)(?:\s*\d+)?[\]\)]/gi;
+  /[[(](verse|chorus|bridge|intro|outro|pre-?chorus|post-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|пост-?припев|хук|instrumental|инструментал|interlude|интерлюдия|solo|соло|refrain|рефрен|breakdown|брейкдаун|drop|дроп|break|брейк)(?:\s*\d+)?[\])]/gi;
 
 const TAG_FILTER_PATTERN =
-  /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|хук)(?:\s*\d+)?[\]\)]/i;
+  /[[(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|концовка|пре-?припев|хук)(?:\s*\d+)?[\])]/i;
 
 /**
  * Convert tag text to section type

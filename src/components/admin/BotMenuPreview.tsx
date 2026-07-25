@@ -118,7 +118,7 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
   // Simple MarkdownV2 to HTML conversion
   const renderCaption = (text: string) => {
     return text
-      .replace(/\\\!/g, "!")
+      .replace(/\\!/g, "!")
       .replace(/\\\./g, ".")
       .replace(/\\\|/g, "|")
       .replace(/\\\(/g, "(")
