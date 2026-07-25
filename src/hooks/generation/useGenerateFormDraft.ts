@@ -287,6 +287,8 @@ export function useGenerateFormDraft({ open, setters, values, resetForm }: UseGe
     } else if (activeReference.intendedMode === "cover") {
       setters.setAudioWeight([0.5]);
     }
+    // Apply audio reference data when it or `open` changes; setters are stable.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeReference, open]);
 
   // Check for remix data from sessionStorage
