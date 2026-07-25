@@ -137,7 +137,7 @@ export function GenerateFormCustom({
       <FormDivider />
 
       <FormSection
-        step={hasVocals ? (setCustomVoiceId ? 5 : 4) : 3}
+        step={hasVocals ? (customVoiceId ? 5 : 4) : 3}
         title="Настройки"
         description="Приватность и точная настройка генерации"
         icon={<Settings2 className="w-3.5 h-3.5" />}
