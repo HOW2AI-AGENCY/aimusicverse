@@ -255,36 +255,11 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
                       disabled={isProcessing}
                     />
                   )}
-                  {showAddInstrumental && (
-                    <IconGridButton
-                      icon={Music2}
-                      label="Минус"
-                      color="sky"
-                      onClick={() => executeAction("add_instrumental")}
-                      disabled={isProcessing}
-                    />
-                  )}
-                  {showUpscaleHd &&
-                    (hasHdAudio ? (
-                      <IconGridButton icon={Check} label="HD готов" color="green" disabled onClick={() => {}} />
-                    ) : isUpscaling ? (
-                      <IconGridButton icon={Loader2} label="Улучшение" color="amber" disabled onClick={() => {}} />
-                    ) : (
-                      <IconGridButton
-                        icon={Sparkles}
-                        label="HD Audio"
-                        color="amber"
-                        onClick={() => executeAction("upscale_hd")}
-                        disabled={isProcessing}
-                      />
-                    ))}
                 </ActionGroup>
 
                 {/* Создать новое на основе трека */}
                 <ActionGroup title="Создать">
-                  {showCover && (
-                    <IconGridButton icon={Disc} label="Кавер" color="purple" onClick={() => executeAction("cover")} />
-                  )}
+
                   {showGenerateCover && (
                     <IconGridButton
                       icon={ImagePlus}
