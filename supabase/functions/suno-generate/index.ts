@@ -78,6 +78,7 @@ serve(async (req) => {
             title: title,
             defaultParamFlag: defaultParamFlag ?? true, // Default to using original params
             voiceId,
+            ...passthrough,
           };
         } else {
           targetFunction = "suno-music-extend";
@@ -89,6 +90,7 @@ serve(async (req) => {
             title: title,
             defaultParamFlag: false,
             voiceId,
+            ...passthrough,
           };
         }
         break;
@@ -103,8 +105,10 @@ serve(async (req) => {
           instrumental: makeInstrumental,
           audioWeight: body.audioWeight ?? 0.5, // Pass through audioWeight
           voiceId,
+          ...passthrough,
         };
         break;
+
 
       case "stems":
         targetFunction = "suno-separate-vocals";
