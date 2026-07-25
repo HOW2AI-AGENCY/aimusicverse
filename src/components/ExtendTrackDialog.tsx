@@ -1,5 +1,15 @@
-import { useState, useEffect } from "react";
-import { UnifiedDialog } from "@/components/dialog";
+/**
+ * ExtendTrackDialog — продление трека через Suno `/api/v1/generate/extend`.
+ *
+ * Оформление — единая оболочка формы генерации (GenerateModal), как в RemixTrackDialog.
+ *
+ * Контракт Suno (docs.sunoapi.org/suno-api/extend-music):
+ *  - defaultParamFlag = true  → кастомные параметры: обязательны prompt, style, title, continueAt;
+ *  - defaultParamFlag = false → берутся параметры оригинала, нужен только audioId;
+ *  - prompt для вокального трека = текст (лирика) продолжения; модель должна совпадать с оригиналом.
+ */
+import { useEffect, useMemo, useState } from "react";
+import { GenerateModal } from "@/components/generate-form/primitives/GenerateModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,12 +17,14 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { Loader2, Plus, Sparkles } from "@/lib/icons";
-import { toast } from "sonner";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Badge } from "@/components/ui/badge";
+import { Loader2, Plus, ChevronDown, Sparkles } from "@/lib/icons";
+import { toast } from "sonner";
 import { Track } from "@/types/track";
 import { formatTime } from "@/lib/player-utils";
 import { logger } from "@/lib/logger";
+import { cn } from "@/lib/utils";
 import { useExtendProgress } from "@/hooks/generation/useExtendProgress";
 import { GenerationProgressBar } from "@/components/generation/GenerationProgressBar";
 import { useNavigate } from "react-router";
@@ -21,6 +33,8 @@ import { PromptValidationAlert } from "@/components/generate-form/PromptValidati
 import { validatePromptForGeneration } from "@/lib/errorHandling";
 import { LazyImage } from "@/components/ui/lazy-image";
 import { useExtendMusic } from "@/hooks/studio/useExtendMusic";
+import { SUNO_MODELS } from "@/constants/sunoModels";
+import { ECONOMY } from "@/lib/economy";
 
 interface ExtendTrackDialogProps {
   open: boolean;
@@ -29,6 +43,13 @@ interface ExtendTrackDialogProps {
   activeAudioUrl?: string;
 }
 
+/** Лимиты Suno на длину полей, зависят от модели. */
+const limitsForModel = (model: string) => ({
+  prompt: model === "V4" ? 3000 : 5000,
+  style: model === "V4" ? 200 : 1000,
+  title: model === "V4" || model === "V4_5ALL" ? 80 : 100,
+});
+
 export const ExtendTrackDialog = ({ open, onOpenChange, track, activeAudioUrl }: ExtendTrackDialogProps) => {
   const navigate = useNavigate();
   const playTrack = usePlayerStore((s) => s.playTrack);
@@ -36,50 +57,76 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track, activeAudioUrl }:
   const extendMusicMutation = useExtendMusic();
 
   const [useCustomParams, setUseCustomParams] = useState(true);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
 
-  // Custom parameters
-  const [continueAt, setContinueAt] = useState(track.duration_seconds || 60);
+  const duration = track.duration_seconds || 0;
+  // Модель обязана совпадать с оригиналом (требование Suno).
+  const model = useMemo(() => {
+    const raw = track.suno_model || track.model_name || "V4_5ALL";
+    return SUNO_MODELS[raw] ? raw : "V4_5ALL";
+  }, [track.suno_model, track.model_name]);
+  const limits = limitsForModel(model);
+  const isInstrumental = track.is_instrumental === true || track.has_vocals === false;
+
+  const [continueAt, setContinueAt] = useState(Math.max(1, duration || 60));
   const [prompt, setPrompt] = useState("");
   const [style, setStyle] = useState(track.style || "");
-  const [title, setTitle] = useState(`${track.title || "Track"} (Extended)`);
+  const [title, setTitle] = useState(`${track.title || "Трек"} (Extended)`);
 
-  // Advanced settings
-  const [model, setModel] = useState(track.suno_model || "V4_5ALL");
   const [negativeTags, setNegativeTags] = useState("");
   const [vocalGender, setVocalGender] = useState<"m" | "f" | "auto">("auto");
-  const [styleWeight, setStyleWeight] = useState([0.65]);
-  const [weirdnessConstraint, setWeirdnessConstraint] = useState([0.5]);
-  const [audioWeight, setAudioWeight] = useState([0.65]);
+  const [styleWeight, setStyleWeight] = useState(0.65);
+  const [weirdnessConstraint, setWeirdnessConstraint] = useState(0.5);
+  const [audioWeight, setAudioWeight] = useState(0.65);
 
-  // Reset progress when dialog opens
+  // Подставляем данные трека при каждом открытии
   useEffect(() => {
-    if (open) {
-      extendProgress.reset();
-    }
-  }, [open]);
+    if (!open) return;
+    extendProgress.reset();
+    setContinueAt(Math.max(1, duration || 60));
+    setStyle(track.style || "");
+    setTitle(`${track.title || "Трек"} (Extended)`);
+    // Для вокального трека prompt = лирика продолжения: подставляем оригинальный текст,
+    // чтобы модель продолжила песню связно. Для инструментала — описание из оригинала.
+    setPrompt(isInstrumental ? track.prompt || "" : track.lyrics || track.prompt || "");
+    setVocalGender(track.vocal_gender === "m" || track.vocal_gender === "f" ? track.vocal_gender : "auto");
+    setStyleWeight(typeof track.style_weight === "number" ? track.style_weight : 0.65);
+    setNegativeTags(track.negative_tags || "");
+    setAdvancedOpen(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, track.id]);
 
   const loading = extendProgress.status === "submitting";
+  const hasSunoId = Boolean(track.suno_id);
 
   const handleExtend = async () => {
+    if (!hasSunoId) {
+      toast.error("Для продления нужен готовый трек Suno");
+      return;
+    }
+
     if (useCustomParams) {
-      if (!prompt) {
-        toast.error("Пожалуйста, укажите как продолжить трек");
+      if (!prompt.trim()) {
+        toast.error(isInstrumental ? "Укажите, как продолжить трек" : "Добавьте текст продолжения");
         return;
       }
-      if (!style) {
-        toast.error("Пожалуйста, укажите стиль");
+      if (!style.trim()) {
+        toast.error("Укажите стиль");
         return;
       }
-      if (!title) {
-        toast.error("Пожалуйста, укажите название");
+      if (!title.trim()) {
+        toast.error("Укажите название");
         return;
       }
       if (!continueAt || continueAt <= 0) {
-        toast.error("Пожалуйста, укажите время продолжения");
+        toast.error("Укажите момент продолжения");
+        return;
+      }
+      if (prompt.length > limits.prompt || style.length > limits.style || title.length > limits.title) {
+        toast.error("Превышена максимальная длина полей для выбранной модели");
         return;
       }
 
-      // Validate for blocked artist names
       const validation = validatePromptForGeneration(prompt, style);
       if (!validation.valid) {
         toast.error(validation.error, { description: validation.suggestion });
@@ -92,40 +139,39 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track, activeAudioUrl }:
       const { data, error } = await extendMusicMutation.mutateAsync({
         sourceTrackId: track.id,
         audioUrl: activeAudioUrl,
+        // Suno: true = кастомные параметры, false = параметры оригинала
         defaultParamFlag: useCustomParams,
         continueAt: useCustomParams ? continueAt : undefined,
-        prompt: useCustomParams ? prompt : undefined,
-        style: useCustomParams ? style : undefined,
-        title: useCustomParams ? title : undefined,
+        prompt: useCustomParams ? prompt.trim() : undefined,
+        style: useCustomParams ? style.trim() : undefined,
+        title: useCustomParams ? title.trim() : undefined,
         model,
-        negativeTags: negativeTags || undefined,
-        vocalGender: vocalGender === "auto" ? undefined : vocalGender,
-        styleWeight: styleWeight[0],
-        weirdnessConstraint: weirdnessConstraint[0],
-        audioWeight: audioWeight[0],
+        negativeTags: useCustomParams && negativeTags.trim() ? negativeTags.trim() : undefined,
+        vocalGender: useCustomParams && vocalGender !== "auto" ? vocalGender : undefined,
+        styleWeight: useCustomParams ? styleWeight : undefined,
+        weirdnessConstraint: useCustomParams ? weirdnessConstraint : undefined,
+        audioWeight: useCustomParams ? audioWeight : undefined,
         projectId: track.project_id ?? undefined,
       });
 
       if (error) throw error;
 
-      // Start tracking the task
-      const payload = data as { taskId?: string; trackId?: string; studioProjectId?: string } | null;
+      const payload = data as { taskId?: string; trackId?: string } | null;
       if (payload?.taskId) {
         extendProgress.startTracking(payload.taskId, payload.trackId || track.id);
       } else {
-        toast.success("Расширение началось! 🎵", {
-          description: "Расширенный трек появится в библиотеке через 1-3 минуты",
+        toast.success("Продление началось", {
+          description: "Расширенный трек появится в библиотеке через 1–3 минуты",
         });
         onOpenChange(false);
       }
     } catch (error) {
       logger.error("Extend error", { error });
-
       const errorMessage = error instanceof Error ? error.message : "";
       if (errorMessage.includes("429") || errorMessage.includes("credits")) {
         extendProgress.setError("Недостаточно кредитов");
       } else {
-        extendProgress.setError(errorMessage || "Попробуйте еще раз");
+        extendProgress.setError(errorMessage || "Попробуйте ещё раз");
       }
     }
   };
@@ -148,235 +194,316 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track, activeAudioUrl }:
     }
   };
 
+  const counter = (value: string, max: number) => (
+    <span
+      className={cn(
+        "text-[0.6875rem] tabular-nums",
+        value.length > max ? "text-destructive" : "text-muted-foreground",
+      )}
+    >
+      {value.length}/{max}
+    </span>
+  );
+
   return (
-    <UnifiedDialog
-      variant="modal"
+    <GenerateModal
       open={open}
       onOpenChange={onOpenChange}
-      title="Расширить трек"
-      size="xl"
-      className="max-w-2xl"
-    >
-      <div className="space-y-6">
-        {/* Progress indicator */}
-        {extendProgress.status !== "idle" && (
-          <GenerationProgressBar
-            status={extendProgress.status}
-            progress={extendProgress.progress}
-            message={extendProgress.message}
-            error={extendProgress.error}
-            completedTrack={extendProgress.completedTrack}
-            onPlayTrack={handlePlayTrack}
-            onOpenTrack={handleOpenTrack}
-            onRetry={handleExtend}
-            onDismiss={() => {
-              extendProgress.reset();
-              if (extendProgress.isCompleted) onOpenChange(false);
-            }}
-          />
-        )}
-
-        {/* Track Info */}
-        <div className="p-4 rounded-lg glass border border-border/50">
-          <div className="flex items-center gap-3">
-            {track.cover_url && (
-              <LazyImage src={track.cover_url} alt={track.title || ""} className="w-12 h-12 rounded object-cover" />
+      title="Продлить трек"
+      description="Suno дописывает музыку с выбранного момента"
+      icon={Plus}
+      size="md"
+      data-testid="extend-track-dialog"
+      footer={
+        <div className="space-y-1.5">
+          <Button
+            onClick={handleExtend}
+            disabled={loading || extendProgress.isActive || !hasSunoId}
+            className="h-11 w-full gap-2 font-semibold"
+          >
+            {loading || extendProgress.isActive ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                {extendProgress.message || "Продление…"}
+              </>
+            ) : (
+              <>
+                Продлить трек
+                <Badge variant="secondary" className="ml-1">
+                  {ECONOMY.EXTEND_GENERATION_COST}
+                </Badge>
+              </>
             )}
-            <div className="flex-1">
-              <h3 className="font-semibold">{track.title || "Без названия"}</h3>
-              <p className="text-sm text-muted-foreground">
-                {track.style} • {formatTime(track.duration_seconds || 0)}
-              </p>
-            </div>
-            <Badge>{track.suno_model || "V4"}</Badge>
-          </div>
+          </Button>
+          <p className="text-center text-[0.6875rem] text-muted-foreground">Обычно занимает 1–3 минуты</p>
         </div>
+      }
+    >
+      {extendProgress.status !== "idle" && (
+        <GenerationProgressBar
+          status={extendProgress.status}
+          progress={extendProgress.progress}
+          message={extendProgress.message}
+          error={extendProgress.error}
+          completedTrack={extendProgress.completedTrack}
+          onPlayTrack={handlePlayTrack}
+          onOpenTrack={handleOpenTrack}
+          onRetry={handleExtend}
+          onDismiss={() => {
+            extendProgress.reset();
+            if (extendProgress.isCompleted) onOpenChange(false);
+          }}
+        />
+      )}
 
-        {/* Mode Toggle */}
-        <div className="flex items-center justify-between p-4 rounded-lg glass border border-border/50">
-          <div>
-            <Label className="font-medium">Пользовательские параметры</Label>
-            <p className="text-xs text-muted-foreground mt-1">Изменить стиль и направление продолжения</p>
-          </div>
-          <Switch checked={useCustomParams} onCheckedChange={setUseCustomParams} />
+      {!hasSunoId && (
+        <p className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+          Продление доступно только для завершённых треков Suno.
+        </p>
+      )}
+
+      {/* Источник */}
+      <div className="flex items-center gap-3 rounded-xl border border-border/60 px-3 py-2.5">
+        {track.cover_url ? (
+          <LazyImage
+            src={track.cover_url}
+            alt={track.title || ""}
+            className="h-10 w-10 shrink-0 rounded-lg object-cover"
+          />
+        ) : null}
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium">{track.title || "Без названия"}</p>
+          <p className="truncate text-[0.6875rem] text-muted-foreground">
+            {[track.style, formatTime(duration)].filter(Boolean).join(" • ")}
+          </p>
         </div>
+        <Badge variant="outline" className="shrink-0 text-[0.6875rem]">
+          {SUNO_MODELS[model]?.name || model}
+        </Badge>
+      </div>
 
-        {useCustomParams ? (
-          <>
-            {/* Continue At */}
-            <div>
-              <div className="flex justify-between mb-2">
-                <Label>Продолжить с (секунд)</Label>
-                <Badge variant="outline">{formatTime(continueAt)}</Badge>
-              </div>
-              <Slider
-                value={[continueAt]}
-                onValueChange={(v) => setContinueAt(v[0])}
-                min={1}
-                max={track.duration_seconds || 240}
-                step={1}
-                className="mt-2"
-              />
-              <p className="text-xs text-muted-foreground mt-1">С какого момента начать расширение трека</p>
-            </div>
+      {/* Режим параметров */}
+      <div className="flex items-center justify-between rounded-xl border border-border/60 px-3 py-2.5">
+        <div className="space-y-0.5">
+          <Label htmlFor="extend-custom" className="text-xs font-medium">
+            Свои параметры
+          </Label>
+          <p className="text-[0.6875rem] text-muted-foreground">
+            {useCustomParams ? "Задать текст, стиль и название" : "Использовать параметры оригинала"}
+          </p>
+        </div>
+        <Switch id="extend-custom" checked={useCustomParams} onCheckedChange={setUseCustomParams} />
+      </div>
 
-            {/* Prompt */}
-            <div>
-              <Label htmlFor="prompt">Как продолжить *</Label>
-              <Textarea
-                id="prompt"
-                placeholder="Добавить более энергичную секцию с эпическим нарастанием"
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                rows={4}
-                className="mt-2 resize-none"
-              />
-              <PromptValidationAlert
-                text={prompt}
-                onApplyReplacement={(newText) => setPrompt(newText)}
-                className="mt-2"
-              />
-            </div>
-
-            {/* Style */}
-            <div>
-              <Label htmlFor="style">Стиль *</Label>
-              <Input
-                id="style"
-                placeholder="Electronic Dance Music, 128 BPM"
-                value={style}
-                onChange={(e) => setStyle(e.target.value)}
-                className="mt-2"
-              />
-              <PromptValidationAlert
-                text={style}
-                onApplyReplacement={(newText) => setStyle(newText)}
-                className="mt-2"
-              />
-            </div>
-
-            {/* Title */}
-            <div>
-              <Label htmlFor="title">Название *</Label>
-              <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} className="mt-2" />
-            </div>
-          </>
-        ) : (
-          <div className="p-4 rounded-lg bg-muted/50">
-            <p className="text-sm text-muted-foreground">
-              Трек будет продолжен с использованием оригинальных параметров и стиля
-            </p>
-          </div>
-        )}
-
-        {/* Advanced Settings */}
-        <div className="space-y-4 border-t pt-4">
-          <h3 className="font-semibold flex items-center gap-2 text-sm">
-            <Sparkles className="w-4 h-4" />
-            Расширенные настройки
-          </h3>
-
-          {/* Model */}
-          <div>
-            <Label htmlFor="model">Модель</Label>
-            <Select value={model} onValueChange={setModel}>
-              <SelectTrigger className="mt-2">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="V5">V5 - Новейшая</SelectItem>
-                <SelectItem value="V4_5PLUS">V4.5+ - Богатый звук</SelectItem>
-                <SelectItem value="V4_5ALL">V4.5 All - Лучшая структура</SelectItem>
-                <SelectItem value="V4_5">V4.5 - Быстро</SelectItem>
-                <SelectItem value="V4">V4 - Классика</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Vocal Gender */}
-          {track.has_vocals && (
-            <div>
-              <Label htmlFor="vocal-gender">Пол вокала</Label>
-              <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as "m" | "f" | "auto")}>
-                <SelectTrigger className="mt-2">
-                  <SelectValue placeholder="Автоматически" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="auto">Автоматически</SelectItem>
-                  <SelectItem value="m">Мужской</SelectItem>
-                  <SelectItem value="f">Женский</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          )}
-
-          {/* Audio Weight */}
-          <div>
-            <div className="flex justify-between mb-2">
-              <Label>Вес оригинального аудио</Label>
-              <Badge variant="outline">{audioWeight[0].toFixed(2)}</Badge>
-            </div>
-            <Slider value={audioWeight} onValueChange={setAudioWeight} min={0} max={1} step={0.01} className="mt-2" />
-            <p className="text-xs text-muted-foreground mt-1">Насколько сильно сохранить оригинальное звучание</p>
-          </div>
-
-          {/* Style Weight */}
-          <div>
-            <div className="flex justify-between mb-2">
-              <Label>Вес стиля</Label>
-              <Badge variant="outline">{styleWeight[0].toFixed(2)}</Badge>
-            </div>
-            <Slider value={styleWeight} onValueChange={setStyleWeight} min={0} max={1} step={0.01} className="mt-2" />
-          </div>
-
-          {/* Creativity */}
-          <div>
-            <div className="flex justify-between mb-2">
-              <Label>Креативность</Label>
-              <Badge variant="outline">{weirdnessConstraint[0].toFixed(2)}</Badge>
+      {useCustomParams ? (
+        <>
+          {/* Момент продолжения */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label className="text-xs font-medium">Продолжить с момента</Label>
+              <span className="text-[0.6875rem] tabular-nums text-muted-foreground">{formatTime(continueAt)}</span>
             </div>
             <Slider
-              value={weirdnessConstraint}
-              onValueChange={setWeirdnessConstraint}
-              min={0}
-              max={1}
-              step={0.01}
-              className="mt-2"
+              value={[continueAt]}
+              onValueChange={([v]) => setContinueAt(v)}
+              min={1}
+              max={Math.max(2, duration || 240)}
+              step={1}
+              aria-label="Момент продолжения"
             />
           </div>
 
-          {/* Negative Tags */}
-          <div>
-            <Label htmlFor="negative-tags">Исключить</Label>
+          {/* Текст / описание продолжения */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="extend-prompt" className="text-xs font-medium">
+                {isInstrumental ? "Как продолжить" : "Текст продолжения"}{" "}
+                <span className="text-destructive">*</span>
+              </Label>
+              {counter(prompt, limits.prompt)}
+            </div>
+            <Textarea
+              id="extend-prompt"
+              placeholder={
+                isInstrumental
+                  ? "Добавить энергичную секцию с эпическим нарастанием"
+                  : "[Verse]\nСтроки продолжения песни…"
+              }
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              rows={isInstrumental ? 3 : 6}
+              className={cn("resize-none text-sm", !isInstrumental && "font-mono leading-relaxed")}
+            />
+            {!isInstrumental && (
+              <div className="flex flex-wrap items-center gap-1.5">
+                {track.lyrics && track.lyrics !== prompt && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 px-2 text-[0.6875rem]"
+                    onClick={() => setPrompt(track.lyrics || "")}
+                  >
+                    Вставить оригинальный текст
+                  </Button>
+                )}
+                {["[Verse]", "[Chorus]", "[Bridge]", "[Outro]"].map((tag) => (
+                  <Button
+                    key={tag}
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 px-2 font-mono text-[0.6875rem]"
+                    onClick={() => setPrompt((p) => (p ? `${p.replace(/\s+$/, "")}\n\n${tag}\n` : `${tag}\n`))}
+                  >
+                    {tag}
+                  </Button>
+                ))}
+              </div>
+            )}
+            <p className="text-[0.6875rem] text-muted-foreground">
+              {isInstrumental
+                ? "Опишите развитие: инструменты, динамика, настроение."
+                : "Оригинальный текст задаёт контекст — допишите новые секции в конце."}
+            </p>
+            <PromptValidationAlert text={prompt} onApplyReplacement={(newText) => setPrompt(newText)} />
+          </div>
+
+          {/* Стиль */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="extend-style" className="text-xs font-medium">
+                Стиль <span className="text-destructive">*</span>
+              </Label>
+              {counter(style, limits.style)}
+            </div>
+            <Textarea
+              id="extend-style"
+              placeholder="hip-hop, boom bap drums, soulful sample"
+              value={style}
+              onChange={(e) => setStyle(e.target.value)}
+              rows={2}
+              className="resize-none text-sm"
+            />
+            <PromptValidationAlert text={style} onApplyReplacement={(newText) => setStyle(newText)} />
+          </div>
+
+          {/* Название */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="extend-title" className="text-xs font-medium">
+                Название <span className="text-destructive">*</span>
+              </Label>
+              {counter(title, limits.title)}
+            </div>
             <Input
-              id="negative-tags"
-              placeholder="elements to avoid..."
-              value={negativeTags}
-              onChange={(e) => setNegativeTags(e.target.value)}
-              className="mt-2"
+              id="extend-title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="h-10 text-sm"
             />
           </div>
-        </div>
 
-        <Button onClick={handleExtend} disabled={loading || extendProgress.isActive} size="lg" className="w-full gap-2">
-          {loading || extendProgress.isActive ? (
-            <>
-              <Loader2 className="w-5 h-5 animate-spin" />
-              {extendProgress.message || "Расширение..."}
-            </>
-          ) : (
-            <>
-              <Plus className="w-5 h-5" />
-              Расширить трек
-              <Badge variant="secondary" className="ml-2">
-                10
-              </Badge>
-            </>
-          )}
-        </Button>
+          {/* Расширенные настройки */}
+          <Collapsible open={advancedOpen} onOpenChange={setAdvancedOpen}>
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" size="sm" className="h-9 w-full justify-between px-3 text-xs font-medium">
+                <span className="flex items-center gap-2">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Расширенные настройки
+                </span>
+                <ChevronDown className={cn("h-4 w-4 transition-transform", advancedOpen && "rotate-180")} />
+              </Button>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="space-y-4 pt-3">
+              {!isInstrumental && (
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-medium">Пол вокала</Label>
+                  <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as "m" | "f" | "auto")}>
+                    <SelectTrigger className="h-10 text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="auto">Автоматически</SelectItem>
+                      <SelectItem value="m">Мужской</SelectItem>
+                      <SelectItem value="f">Женский</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
 
-        <p className="text-xs text-center text-muted-foreground">Расширение обычно занимает 1-3 минуты</p>
-      </div>
-    </UnifiedDialog>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs font-medium">Схожесть с оригиналом</Label>
+                  <span className="text-[0.6875rem] tabular-nums text-muted-foreground">
+                    {Math.round(audioWeight * 100)}%
+                  </span>
+                </div>
+                <Slider
+                  value={[audioWeight]}
+                  onValueChange={([v]) => setAudioWeight(v)}
+                  min={0}
+                  max={1}
+                  step={0.05}
+                  aria-label="Схожесть с оригиналом"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs font-medium">Влияние стиля</Label>
+                  <span className="text-[0.6875rem] tabular-nums text-muted-foreground">
+                    {Math.round(styleWeight * 100)}%
+                  </span>
+                </div>
+                <Slider
+                  value={[styleWeight]}
+                  onValueChange={([v]) => setStyleWeight(v)}
+                  min={0}
+                  max={1}
+                  step={0.05}
+                  aria-label="Влияние стиля"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs font-medium">Креативность</Label>
+                  <span className="text-[0.6875rem] tabular-nums text-muted-foreground">
+                    {Math.round(weirdnessConstraint * 100)}%
+                  </span>
+                </div>
+                <Slider
+                  value={[weirdnessConstraint]}
+                  onValueChange={([v]) => setWeirdnessConstraint(v)}
+                  min={0}
+                  max={1}
+                  step={0.05}
+                  aria-label="Креативность"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="extend-negative" className="text-xs font-medium">
+                  Исключить (negative tags)
+                </Label>
+                <Input
+                  id="extend-negative"
+                  placeholder="например: distorted guitar"
+                  value={negativeTags}
+                  onChange={(e) => setNegativeTags(e.target.value)}
+                  className="h-10 text-sm"
+                />
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
+        </>
+      ) : (
+        <p className="rounded-xl border border-border/60 bg-muted/30 px-3 py-2.5 text-xs text-muted-foreground">
+          Трек будет продолжен с текстом, стилем и настройками оригинала. Момент продолжения выберет Suno — конец
+          трека.
+        </p>
+      )}
+    </GenerateModal>
   );
 };
