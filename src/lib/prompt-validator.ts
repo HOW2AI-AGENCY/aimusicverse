@@ -27,7 +27,7 @@ interface PromptValidationOptions {
 
 const LENGTH_LIMITS: Record<PromptType, { min: number; max: number }> = {
   prompt: { min: 3, max: 500 },
-  lyrics: { min: 3, max: 3000 },
+  lyrics: { min: 3, max: 5000 },
   style: { min: 1, max: 200 },
 };
 
