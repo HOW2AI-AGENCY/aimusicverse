@@ -91,7 +91,8 @@ serve(async (req) => {
               continue;
             }
 
-            if ((existingVersions?.length || 0) >= clips.length) continue;
+            const existingCount = existingVersions?.length || 0;
+            if (existingCount >= clips.length) continue;
 
             const { data: latestVersion } = await supabase
               .from("track_versions")
@@ -105,7 +106,7 @@ serve(async (req) => {
             const skippedClips: SkipReason[] = [];
             const createdVersions: string[] = [];
 
-            for (let i = existingVersions?.length || 0; i < clips.length; i++) {
+            for (let i = existingCount; i < clips.length; i++) {
               const clip = clips[i];
               const skip = validateClip(clip, i, { requireAudio: true });
               if (skip) {
@@ -125,7 +126,8 @@ serve(async (req) => {
                 const audioResponse = await fetch(audioUrl);
                 if (audioResponse.ok) {
                   const audioBlob = await audioResponse.blob();
-                  const versionLabelForFile = String.fromCharCode(baseLabelCode + i);
+                  const versionOffset = i - existingCount;
+                  const versionLabelForFile = String.fromCharCode(baseLabelCode + versionOffset);
                   const audioFileName = `tracks/${task.user_id}/${task.track_id}_replace_${versionLabelForFile}_${Date.now()}.mp3`;
                   const { data: audioUpload } = await supabase.storage
                     .from("project-assets")
@@ -138,7 +140,8 @@ serve(async (req) => {
                 logger.error("Error downloading replace_section audio", downloadError);
               }
 
-              const nextLabel = String.fromCharCode(baseLabelCode + i);
+              const versionOffset = i - existingCount;
+              const nextLabel = String.fromCharCode(baseLabelCode + versionOffset);
               await supabase.from("track_versions").insert({
                 track_id: task.track_id,
                 audio_url: localAudioUrl || audioUrl,
@@ -146,7 +149,7 @@ serve(async (req) => {
                 duration_seconds: Math.round(clip.duration) || null,
                 version_type: "replace_section",
                 version_label: nextLabel,
-                clip_index: (latestVersion?.clip_index ?? 0) + i + 1,
+                clip_index: (latestVersion?.clip_index ?? 0) + versionOffset + 1,
                 is_primary: false,
                 metadata: {
                   suno_id: clip.id,
