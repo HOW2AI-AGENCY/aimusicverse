@@ -108,12 +108,12 @@ export function useGenerateSheetValidation(
     }
 
     // ── lyrics ───────────────────────────────────────────────────────
-    if (form.lyrics.length > 3000) {
+    if (form.lyrics.length > 5000) {
       r.push({
         field: "lyrics",
         severity: "error",
         message: "lyrics.too_long",
-        messageRu: "Превышен лимит Suno API (3000 символов)",
+        messageRu: "Превышен лимит Suno API (5000 символов)",
       });
     } else if (form.hasVocals && !form.lyrics.trim()) {
       r.push({
