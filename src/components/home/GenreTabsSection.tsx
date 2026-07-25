@@ -18,7 +18,7 @@ import type { PublicTrackWithCreator } from "@/hooks/usePublicContent";
 import { cn } from "@/lib/utils";
 import { Music2, Disc3, Guitar, Waves, Leaf } from "@/lib/icons";
 import { glass } from "@/lib/glass";
-import { assertGenreIdsMatch } from "@/hooks/public-content/constants";
+import { assertGenreDbValuesMatch, getGenreDbValues } from "@/hooks/public-content/constants";
 
 interface GenreConfig {
   id: string;
@@ -26,87 +26,37 @@ interface GenreConfig {
   icon: typeof Music2;
   color: string;
   gradient: string;
-  keywords: string[];
+  keywords: readonly string[];
 }
 
-// Genre configurations
-// NOTE: IDs must match keys in usePublicContent GENRE_QUERIES and useInfiniteGenreTracks GENRE_DB_VALUES
-const GENRES: GenreConfig[] = [
-  {
-    id: "hiphop",
-    label: "Хип-Хоп",
-    icon: Disc3,
-    color: "text-violet-400",
-    gradient: "from-violet-500/20 to-purple-500/10",
-    keywords: ["hip-hop", "hiphop", "hip hop", "rap", "trap", "drill"],
-  },
-  {
-    id: "pop",
-    label: "Поп",
-    icon: Music2,
-    color: "text-rose-400",
-    gradient: "from-rose-500/20 to-pink-500/10",
-    keywords: ["pop", "dance pop", "synth pop", "electro pop", "electropop"],
-  },
-  {
-    id: "rock",
-    label: "Рок",
-    icon: Guitar,
-    color: "text-violet-300",
-    gradient: "from-violet-500/20 to-fuchsia-500/10",
-    keywords: ["rock", "alternative", "indie", "punk", "grunge"],
-  },
-  {
-    id: "metal",
-    label: "Метал",
-    icon: Guitar,
-    color: "text-red-400",
-    gradient: "from-red-500/20 to-orange-500/10",
-    keywords: ["metal", "heavy metal", "metalcore"],
-  },
-  {
-    id: "electronic",
-    label: "Электро",
-    icon: Waves,
-    color: "text-cyan-400",
-    gradient: "from-cyan-500/20 to-blue-500/10",
-    keywords: ["electronic", "edm", "house", "techno", "dubstep", "trance", "dnb"],
-  },
-  {
-    id: "ambient",
-    label: "Амбиент",
-    icon: Waves,
-    color: "text-sky-300",
-    gradient: "from-sky-500/20 to-indigo-500/10",
-    keywords: ["ambient", "chill", "downtempo"],
-  },
-  {
-    id: "jazz",
-    label: "Джаз",
-    icon: Music2,
-    color: "text-amber-400",
-    gradient: "from-amber-500/20 to-yellow-500/10",
-    keywords: ["jazz", "swing", "bebop", "fusion"],
-  },
-  {
-    id: "classical",
-    label: "Классика",
-    icon: Music2,
-    color: "text-slate-200",
-    gradient: "from-slate-500/20 to-zinc-500/10",
-    keywords: ["classical", "orchestral", "symphony"],
-  },
-  {
-    id: "folk",
-    label: "Фолк",
-    icon: Leaf,
-    color: "text-emerald-300",
-    gradient: "from-emerald-500/20 to-teal-500/10",
-    keywords: ["folk", "acoustic", "country", "americana"],
-  },
+// UI presentation for each genre. `keywords` is DERIVED from the canonical
+// GENRE_QUERIES map — never hand-typed — so client-side keyword fallback
+// filtering stays in sync with DB queries. Only `id`, label, and styling
+// live here.
+const GENRE_PRESENTATION: ReadonlyArray<Omit<GenreConfig, "keywords">> = [
+  { id: "hiphop", label: "Хип-Хоп", icon: Disc3, color: "text-violet-400", gradient: "from-violet-500/20 to-purple-500/10" },
+  { id: "pop", label: "Поп", icon: Music2, color: "text-rose-400", gradient: "from-rose-500/20 to-pink-500/10" },
+  { id: "rock", label: "Рок", icon: Guitar, color: "text-violet-300", gradient: "from-violet-500/20 to-fuchsia-500/10" },
+  { id: "metal", label: "Метал", icon: Guitar, color: "text-red-400", gradient: "from-red-500/20 to-orange-500/10" },
+  { id: "electronic", label: "Электро", icon: Waves, color: "text-cyan-400", gradient: "from-cyan-500/20 to-blue-500/10" },
+  { id: "ambient", label: "Амбиент", icon: Waves, color: "text-sky-300", gradient: "from-sky-500/20 to-indigo-500/10" },
+  { id: "jazz", label: "Джаз", icon: Music2, color: "text-amber-400", gradient: "from-amber-500/20 to-yellow-500/10" },
+  { id: "classical", label: "Классика", icon: Music2, color: "text-slate-200", gradient: "from-slate-500/20 to-zinc-500/10" },
+  { id: "folk", label: "Фолк", icon: Leaf, color: "text-emerald-300", gradient: "from-emerald-500/20 to-teal-500/10" },
 ];
 
-assertGenreIdsMatch("GENRES (UI tabs)", GENRES.map((g) => g.id));
+const GENRES: GenreConfig[] = GENRE_PRESENTATION.map((g) => ({
+  ...g,
+  keywords: getGenreDbValues(g.id),
+}));
+
+// Runtime consistency guard: ids must match canonical set, and every entry
+// has non-empty keywords derived from GENRE_QUERIES.
+assertGenreDbValuesMatch(
+  "GENRES (UI tabs)",
+  Object.fromEntries(GENRES.map((g) => [g.id, g.keywords])),
+);
+
 
 interface GenreTabsSectionProps {
   tracks: PublicTrackWithCreator[];
