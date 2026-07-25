@@ -56,7 +56,6 @@ function reportDrift(msg: string): void {
   if (import.meta.env?.DEV) {
     throw new Error(msg);
   }
-  // eslint-disable-next-line no-console
   console.warn(msg);
 }
 
