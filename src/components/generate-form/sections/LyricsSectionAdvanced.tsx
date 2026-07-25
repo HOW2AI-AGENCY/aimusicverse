@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { FormFieldActions } from "@/components/ui/FormFieldActions";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { LyricsVisualEditorCompact } from "../LyricsVisualEditorCompact";
 import { SaveTemplateDialog } from "../SaveTemplateDialog";
 import { SavedLyricsSelector } from "../SavedLyricsSelector";
