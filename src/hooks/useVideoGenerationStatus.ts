@@ -110,7 +110,7 @@ export function useVideoGenerationStatus(trackId: string | undefined): VideoGene
     if (!trackId) return;
 
     const channel = supabase
-      .channel(`video-track-${trackId}`)
+      .channel(`video-track-${trackId}-${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         {
