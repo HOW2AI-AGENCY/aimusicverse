@@ -23,6 +23,7 @@ import {
   Music,
   Video,
   Mic2,
+  Music2,
   Layers,
   RefreshCw,
   FileMusic,
@@ -70,6 +71,8 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
     executeAction,
     handleConfirmDelete,
     stems,
+    activeVersion,
+    versionCount,
     enableVideoStatusFetch,
   } = useTrackActionsState({
     track: track!,
@@ -174,51 +177,23 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
                 </div>
               )}
 
+              {/* Активная версия — все действия применяются именно к ней */}
+              {activeVersion && versionCount > 1 && (
+                <div className="mb-1 flex items-center gap-2 rounded-lg bg-muted/40 px-2.5 py-1.5 text-[0.6875rem] text-muted-foreground">
+                  <span className="rounded-md bg-primary/10 px-1.5 py-0.5 font-semibold text-primary">
+                    Версия {activeVersion.versionLabel}
+                  </span>
+                  <span className="truncate">действия применяются к активной версии</span>
+                </div>
+              )}
+
               <ActionGridContainer>
-
-                {/* Studio actions - FIRST for quick access */}
-                <ActionGroup title="Студия">
-                  {showStudio && (
-                    <IconGridButton
-                      icon={Layers}
-                      label="Студия"
-                      color="blue"
-                      badge={actionState.stemCount > 0 ? actionState.stemCount : undefined}
-                      onClick={() => executeAction("open_studio")}
-                    />
-                  )}
-                  {showReplaceSection && (
-                    <IconGridButton
-                      icon={RefreshCw}
-                      label="Секция"
-                      color="amber"
-                      onClick={() => executeAction("replace_section")}
-                    />
-                  )}
-                  {/* Unified stems button with mode selector */}
-                  {(showStemsSimple || showStemsDetailed) && (
-                    <StemsActionButton onAction={executeAction} isProcessing={isProcessing} />
-                  )}
-                </ActionGroup>
-
-                {/* Create actions */}
-                <ActionGroup title="Создать">
-                  {showGenerateCover && (
-                    <IconGridButton
-                      icon={ImagePlus}
-                      label="Обложка"
-                      color="pink"
-                      onClick={() => executeAction("generate_cover")}
-                      disabled={isProcessing}
-                    />
-                  )}
-                  {showCover && (
-                    <IconGridButton icon={Disc} label="Кавер" color="purple" onClick={() => executeAction("cover")} />
-                  )}
+                {/* Основное — самые востребованные творческие действия */}
+                <ActionGroup title="Основное">
                   {showExtend && (
                     <IconGridButton
                       icon={Plus}
-                      label="Расширить"
+                      label="Продлить"
                       color="green"
                       onClick={() => executeAction("extend")}
                     />
@@ -232,13 +207,30 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
                       disabled={isProcessing}
                     />
                   )}
-                  <IconGridButton
-                    icon={Video}
-                    label="Видео"
-                    color="blue"
-                    onClick={() => executeAction("generate_video")}
-                    disabled={isProcessing}
-                  />
+                  {showReplaceSection && (
+                    <IconGridButton
+                      icon={RefreshCw}
+                      label="Секция"
+                      color="purple"
+                      onClick={() => executeAction("replace_section")}
+                    />
+                  )}
+                  {(showStemsSimple || showStemsDetailed) && (
+                    <StemsActionButton onAction={executeAction} isProcessing={isProcessing} />
+                  )}
+                </ActionGroup>
+
+                {/* Студия и звук */}
+                <ActionGroup title="Студия и звук">
+                  {showStudio && (
+                    <IconGridButton
+                      icon={Layers}
+                      label="Студия"
+                      color="blue"
+                      badge={actionState.stemCount > 0 ? actionState.stemCount : undefined}
+                      onClick={() => executeAction("open_studio")}
+                    />
+                  )}
                   {showAddVocals && (
                     <IconGridButton
                       icon={Mic2}
@@ -248,9 +240,55 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
                       disabled={isProcessing}
                     />
                   )}
+                  {showAddInstrumental && (
+                    <IconGridButton
+                      icon={Music2}
+                      label="Минус"
+                      color="sky"
+                      onClick={() => executeAction("add_instrumental")}
+                      disabled={isProcessing}
+                    />
+                  )}
+                  {showUpscaleHd &&
+                    (hasHdAudio ? (
+                      <IconGridButton icon={Check} label="HD готов" color="green" disabled onClick={() => {}} />
+                    ) : isUpscaling ? (
+                      <IconGridButton icon={Loader2} label="Улучшение" color="amber" disabled onClick={() => {}} />
+                    ) : (
+                      <IconGridButton
+                        icon={Sparkles}
+                        label="HD Audio"
+                        color="amber"
+                        onClick={() => executeAction("upscale_hd")}
+                        disabled={isProcessing}
+                      />
+                    ))}
                 </ActionGroup>
 
-                {/* Export actions */}
+                {/* Создать новое на основе трека */}
+                <ActionGroup title="Создать">
+                  {showCover && (
+                    <IconGridButton icon={Disc} label="Кавер" color="purple" onClick={() => executeAction("cover")} />
+                  )}
+                  {showGenerateCover && (
+                    <IconGridButton
+                      icon={ImagePlus}
+                      label="Обложка"
+                      color="pink"
+                      onClick={() => executeAction("generate_cover")}
+                      disabled={isProcessing}
+                    />
+                  )}
+                  <IconGridButton
+                    icon={Video}
+                    label="Видео"
+                    color="blue"
+                    onClick={() => executeAction("generate_video")}
+                    disabled={isProcessing}
+                  />
+                </ActionGroup>
+
+                {/* Экспорт файлов */}
                 <ActionGroup title="Экспорт">
                   {showMp3 && (
                     <IconGridButton
@@ -278,6 +316,10 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
                       onClick={() => executeAction("download_stems")}
                     />
                   )}
+                </ActionGroup>
+
+                {/* Поделиться и организовать */}
+                <ActionGroup title="Поделиться">
                   {showTelegram && (
                     <IconGridButton
                       icon={Send}
@@ -313,26 +355,7 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
                   )}
                 </ActionGroup>
 
-                {/* Quality actions */}
-                {showUpscaleHd && (
-                  <ActionGroup title="Качество">
-                    {hasHdAudio ? (
-                      <IconGridButton icon={Check} label="HD 48kHz ✓" color="green" disabled onClick={() => {}} />
-                    ) : isUpscaling ? (
-                      <IconGridButton icon={Loader2} label="Улучшение..." color="amber" disabled onClick={() => {}} />
-                    ) : (
-                      <IconGridButton
-                        icon={Sparkles}
-                        label="HD Audio"
-                        color="amber"
-                        onClick={() => executeAction("upscale_hd")}
-                        disabled={isProcessing}
-                      />
-                    )}
-                  </ActionGroup>
-                )}
-
-                {/* Utils actions */}
+                {/* Управление треком */}
                 <ActionGroup title="Управление">
                   {showDetails && (
                     <IconGridButton icon={Info} label="Детали" color="sky" onClick={() => executeAction("details")} />
@@ -365,6 +388,7 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
         onCloseDialog={closeDialog}
         onConfirmDelete={handleConfirmDelete}
         stems={stems}
+        activeVersion={activeVersion}
       />
     </>
   );

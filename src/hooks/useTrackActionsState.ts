@@ -41,6 +41,7 @@ interface DialogStates {
   addVocals: boolean;
   addInstrumental: boolean;
   mashup: boolean;
+  remix: boolean;
 }
 
 export function useTrackActionsState({
@@ -92,6 +93,7 @@ export function useTrackActionsState({
     addVocals: false,
     addInstrumental: false,
     mashup: false,
+    remix: false,
   });
 
   // Hooks - lazy load video status only when needed
@@ -101,7 +103,6 @@ export function useTrackActionsState({
   const {
     isProcessing,
     handleShare,
-    handleRemix,
     handleSeparateVocals,
     handleTogglePublic,
     handleConvertToWav,
@@ -262,8 +263,8 @@ export function useTrackActionsState({
           openDialog("extend");
           break;
         case "remix":
-          await handleRemix(track);
-          onClose?.();
+          // Открываем форму с параметрами активной версии вместо мгновенного запуска
+          openDialog("remix");
           break;
         case "generate_similar":
           // Store track data in sessionStorage and navigate to generation
@@ -298,10 +299,12 @@ export function useTrackActionsState({
           break;
 
         // Quality actions
-        case "upscale_hd":
-          if (track.audio_url) {
-            await upscaleAudio({ audioUrl: track.audio_url, trackId: track.id });
+        case "upscale_hd": {
+          const upscaleUrl = activeVersion?.audioUrl || track.audio_url;
+          if (upscaleUrl) {
+            await upscaleAudio({ audioUrl: upscaleUrl, trackId: track.id });
           }
+        }
           onClose?.();
           break;
 
@@ -327,7 +330,7 @@ export function useTrackActionsState({
       handleGenerateCover,
       handleConvertToWav,
       handleGenerateVideo,
-      handleRemix,
+      activeVersion,
       handleTogglePublic,
       handleShare,
       upscaleAudio,

@@ -7,25 +7,24 @@
 import { useMutation } from "@tanstack/react-query";
 import { remixTrack } from "@/services/studio.service";
 
-interface RemixTrackInput {
+export interface RemixTrackInput {
   audioId: string;
+  /** Audio URL of the active version (reference source). */
+  audioUrl?: string | null;
   prompt: string;
   style: string;
   title: string;
   instrumental: boolean;
   model?: string;
+  audioWeight?: number;
+  negativeTags?: string;
+  vocalGender?: string;
+  styleWeight?: number;
+  weirdnessConstraint?: number;
 }
 
 export function useRemixTrack() {
   return useMutation({
-    mutationFn: (input: RemixTrackInput) =>
-      remixTrack({
-        audioId: input.audioId,
-        prompt: input.prompt,
-        style: input.style,
-        title: input.title,
-        instrumental: input.instrumental,
-        model: input.model,
-      }),
+    mutationFn: (input: RemixTrackInput) => remixTrack(input),
   });
 }

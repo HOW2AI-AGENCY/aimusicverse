@@ -12,6 +12,7 @@ import { RenameTrackDialog } from "./RenameTrackDialog";
 import { CreateArtistDialog } from "@/components/CreateArtistDialog";
 import { AddVocalsDialog } from "@/components/AddVocalsDialog";
 import { AddInstrumentalDialog } from "@/components/AddInstrumentalDialog";
+import { RemixTrackDialog } from "./RemixTrackDialog";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState, useEffect } from "react";
 import { logger } from "@/lib/logger";
@@ -37,6 +38,7 @@ interface DialogStates {
   addVocals: boolean;
   addInstrumental: boolean;
   mashup: boolean;
+  remix: boolean;
 }
 
 interface TrackDialogsPortalProps {
@@ -45,7 +47,7 @@ interface TrackDialogsPortalProps {
   onCloseDialog: (name: keyof DialogStates) => void;
   onConfirmDelete?: () => void;
   stems?: SimpleStem[];
-  activeVersion?: { versionLabel: string; audioUrl: string } | null;
+  activeVersion?: { versionLabel: string; audioUrl: string; sunoId?: string } | null;
 }
 
 export function TrackDialogsPortal({
@@ -206,6 +208,16 @@ export function TrackDialogsPortal({
           onOpenChange={(open) => !open && onCloseDialog("addVocals")}
           track={track}
           activeAudioUrl={activeVersion?.audioUrl}
+        />
+      )}
+
+      {/* Remix dialog — форма с параметрами активной версии */}
+      {dialogs.remix && (
+        <RemixTrackDialog
+          open={dialogs.remix}
+          onOpenChange={(open) => !open && onCloseDialog("remix")}
+          track={track}
+          activeVersion={activeVersion}
         />
       )}
 
