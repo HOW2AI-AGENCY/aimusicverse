@@ -9,6 +9,43 @@ const logger = createLogger("sync-stale-tasks");
 
 const getLyrics = (clip: any) => clip?.prompt || clip?.lyrics || clip?.lyric || ""; // Suno uses 'prompt' for lyrics
 
+function getRecoveredVersionType(mode: string | null): string {
+  switch (mode) {
+    case "extend":
+      return "extension";
+    case "remix":
+      return "remix";
+    case "cover":
+      return "cover";
+    case "replace_section":
+      return "replace_section";
+    case "inpaint":
+      return "inpaint";
+    case "add_vocals":
+      return "vocal_add";
+    case "add_instrumental":
+      return "instrumental_add";
+    default:
+      return "initial";
+  }
+}
+
+function getRecoveredSourceType(mode: string | null): string {
+  switch (mode) {
+    case "extend":
+      return "extended";
+    case "remix":
+      return "remix";
+    case "cover":
+      return "cover";
+    case "add_vocals":
+    case "add_instrumental":
+      return "studio";
+    default:
+      return "generated";
+  }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -276,18 +313,31 @@ serve(async (req) => {
             const clipImageUrl = getImageUrl(clip);
             const shouldBePrimary = !primaryVersionId;
 
-            // Check if version already exists
-            const { data: existingVersion } = await supabase
+            // Check if version already exists. maybeSingle avoids treating
+            // a legitimately missing row as an error.
+            const { data: existingVersion, error: existingVersionError } = await supabase
               .from("track_versions")
               .select("id")
               .eq("track_id", task.track_id)
               .eq("version_label", versionLabel)
-              .single();
+              .maybeSingle();
+
+            if (existingVersionError) {
+              logger.error("Failed to lookup recovered track version", existingVersionError, {
+                taskId: task.id,
+                trackId: task.track_id,
+                versionLabel,
+                clipIndex: i,
+              });
+              continue;
+            }
 
             const versionData = {
               audio_url: i === 0 ? localAudioUrl || clipAudioUrl : clipAudioUrl,
               cover_url: i === 0 ? localCoverUrl || clipImageUrl : clipImageUrl,
               duration_seconds: Math.round(clip.duration) || null,
+              version_type: getRecoveredVersionType(task.generation_mode),
+              source_type: getRecoveredSourceType(task.generation_mode),
               metadata: {
                 suno_id: clip.id,
                 title: clip.title,
@@ -299,31 +349,62 @@ serve(async (req) => {
             };
 
             if (existingVersion) {
-              await supabase
+              const { error: versionUpdateError } = await supabase
                 .from("track_versions")
                 .update({ ...versionData, is_primary: shouldBePrimary })
                 .eq("id", existingVersion.id);
+              if (versionUpdateError) {
+                logger.error("Failed to update recovered track version", versionUpdateError, {
+                  taskId: task.id,
+                  trackId: task.track_id,
+                  versionId: existingVersion.id,
+                  versionLabel,
+                  clipIndex: i,
+                });
+                continue;
+              }
               if (!primaryVersionId) primaryVersionId = existingVersion.id;
             } else {
-              const { data: newVersion } = await supabase
+              const { data: newVersion, error: versionInsertError } = await supabase
                 .from("track_versions")
                 .insert({
                   track_id: task.track_id,
                   ...versionData,
-                  version_type: i === 0 ? "initial" : "original",
                   version_label: versionLabel,
                   clip_index: i,
                   is_primary: shouldBePrimary,
                 })
                 .select("id")
                 .single();
+
+              if (versionInsertError || !newVersion) {
+                logger.error("Failed to create recovered track version", versionInsertError, {
+                  taskId: task.id,
+                  trackId: task.track_id,
+                  versionLabel,
+                  clipIndex: i,
+                });
+                continue;
+              }
+
               if (!primaryVersionId && newVersion) primaryVersionId = newVersion.id;
               logger.info("Version created for recovered track", { versionLabel });
             }
           }
 
           if (primaryVersionId && !task.tracks.active_version_id) {
-            await supabase.from("tracks").update({ active_version_id: primaryVersionId }).eq("id", task.track_id);
+            const { error: activeVersionError } = await supabase
+              .from("tracks")
+              .update({ active_version_id: primaryVersionId })
+              .eq("id", task.track_id);
+
+            if (activeVersionError) {
+              logger.error("Failed to update recovered track active version", activeVersionError, {
+                taskId: task.id,
+                trackId: task.track_id,
+                primaryVersionId,
+              });
+            }
           }
 
           logger.info("Track recovered successfully", { trackId: task.track_id });
@@ -544,18 +625,31 @@ serve(async (req) => {
               logger.error("Error downloading files for version", downloadError, { versionLabel });
             }
 
-            // Check if version exists
-            const { data: existingVersion } = await supabase
+            // Check if version exists. maybeSingle avoids treating "not found" as
+            // an error, but real lookup errors must be logged before writes.
+            const { data: existingVersion, error: existingVersionError } = await supabase
               .from("track_versions")
               .select("id")
               .eq("track_id", task.track_id)
               .eq("version_label", versionLabel)
-              .single();
+              .maybeSingle();
+
+            if (existingVersionError) {
+              logger.error("Failed to lookup track version during sync", existingVersionError, {
+                taskId: task.id,
+                trackId: task.track_id,
+                versionLabel,
+                clipIndex: i,
+              });
+              continue;
+            }
 
             const versionData = {
               audio_url: versionLocalAudioUrl || clipAudioUrl,
               cover_url: versionLocalCoverUrl || clipImageUrl,
               duration_seconds: Math.round(clip.duration) || null,
+              version_type: getRecoveredVersionType(task.generation_mode),
+              source_type: getRecoveredSourceType(task.generation_mode),
               metadata: {
                 suno_id: clip.id,
                 title: clip.title,
@@ -585,7 +679,6 @@ serve(async (req) => {
                 .insert({
                   track_id: task.track_id,
                   ...versionData,
-                  version_type: i === 0 ? "initial" : "original",
                   version_label: versionLabel,
                   clip_index: i,
                   is_primary: i === 0,
@@ -604,11 +697,18 @@ serve(async (req) => {
               }
 
               if (i === 0) {
-                await supabase
+                const { error: activeVersionError } = await supabase
                   .from("tracks")
                   .update({ active_version_id: newVersion.id })
                   .eq("id", task.track_id)
                   .is("active_version_id", null);
+                if (activeVersionError) {
+                  logger.error("Failed to set active version during sync", activeVersionError, {
+                    taskId: task.id,
+                    trackId: task.track_id,
+                    versionId: newVersion.id,
+                  });
+                }
               }
             }
 

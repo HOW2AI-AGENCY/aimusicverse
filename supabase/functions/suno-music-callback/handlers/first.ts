@@ -51,7 +51,7 @@ export async function handleFirstCallback(payload: any, task: any) {
   const cleanedTitle = sanitizeAndCleanTitle(firstClip.title || task.tracks?.title, "Трек");
   const supabase = getSupabaseClient();
 
-  await supabase
+  const { error: trackUpdateError } = await supabase
     .from("tracks")
     .update({
       status: "streaming_ready",
@@ -60,16 +60,22 @@ export async function handleFirstCallback(payload: any, task: any) {
       title: cleanedTitle,
     })
     .eq("id", trackId);
+  if (trackUpdateError) {
+    logger.error("First callback failed to update track streaming fields", trackUpdateError, { trackId });
+  }
 
-  const { data: existingVersion } = await supabase
+  const { data: existingVersion, error: existingVersionError } = await supabase
     .from("track_versions")
     .select("id")
     .eq("track_id", trackId)
     .eq("version_label", "A")
-    .single();
+    .maybeSingle();
+  if (existingVersionError) {
+    logger.error("First callback failed to lookup Version A", existingVersionError, { trackId });
+  }
 
-  if (!existingVersion) {
-    const { data: newVersion } = await supabase
+  if (!existingVersion && !existingVersionError) {
+    const { data: newVersion, error: versionInsertError } = await supabase
       .from("track_versions")
       .insert({
         track_id: trackId,
@@ -89,13 +95,26 @@ export async function handleFirstCallback(payload: any, task: any) {
       .select()
       .single();
 
+    if (versionInsertError) {
+      logger.error("First callback failed to create Version A", versionInsertError, { trackId, clipId: fields.id });
+    }
+
     if (newVersion) {
-      await supabase.from("tracks").update({ active_version_id: newVersion.id }).eq("id", trackId);
+      const { error: activeVersionError } = await supabase
+        .from("tracks")
+        .update({ active_version_id: newVersion.id })
+        .eq("id", trackId);
+      if (activeVersionError) {
+        logger.error("First callback failed to set active Version A", activeVersionError, {
+          trackId,
+          versionId: newVersion.id,
+        });
+      }
       logger.success("Version A created", { versionId: newVersion.id });
     }
   }
 
-  await supabase
+  const { error: taskUpdateError } = await supabase
     .from("generation_tasks")
     .update({
       audio_clips: JSON.stringify([firstClip]),
@@ -103,6 +122,9 @@ export async function handleFirstCallback(payload: any, task: any) {
       status: "streaming_ready",
     })
     .eq("id", task.id);
+  if (taskUpdateError) {
+    logger.error("First callback failed to update generation task", taskUpdateError, { trackId, taskId: task.id });
+  }
 
   // Send progress notification to Telegram
   if (task.telegram_chat_id) {

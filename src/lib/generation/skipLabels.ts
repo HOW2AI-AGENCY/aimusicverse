@@ -11,6 +11,9 @@ export type GenerationSkipCode =
   | "empty_clip"
   | "partial_delivery"
   | "retry_requested"
+  | "version_lookup_failed"
+  | "version_write_failed"
+  | "track_update_failed"
   | "unknown";
 
 interface SkipCopy {
@@ -42,6 +45,18 @@ export const GENERATION_SKIP_LABELS_RU: Record<GenerationSkipCode, SkipCopy> = {
   retry_requested: {
     title: "Повторная сборка",
     hint: "Запрошена повторная обработка задачи.",
+  },
+  version_lookup_failed: {
+    title: "Не удалось найти версию",
+    hint: "Система получила клип, но не смогла сопоставить его с версией трека. Повторная обработка пересоберёт версии из задачи.",
+  },
+  version_write_failed: {
+    title: "Версия не сохранилась",
+    hint: "Аудио пришло, но запись версии в базу не прошла. Повторная обработка обычно восстанавливает A/B версии.",
+  },
+  track_update_failed: {
+    title: "Карточка трека не обновилась",
+    hint: "Версия могла сохраниться, но обложка, длительность или активная версия не применились к карточке трека.",
   },
   unknown: {
     title: "Неизвестная причина",
