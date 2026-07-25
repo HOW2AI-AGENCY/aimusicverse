@@ -337,6 +337,10 @@ export function useTrackActionsState({
     ],
   );
 
+  const enableVideoStatusFetch = useCallback(() => {
+    setShouldFetchVideoStatus((prev) => prev || true);
+  }, []);
+
   const handleConfirmDelete = useCallback(() => {
     triggerHapticFeedback("success");
     onDelete?.();
@@ -362,8 +366,8 @@ export function useTrackActionsState({
     executeAction,
     handleConfirmDelete,
 
-    // Video status loader
-    enableVideoStatusFetch: () => setShouldFetchVideoStatus(true),
+    // Video status loader (stable identity — consumers use it inside effects)
+    enableVideoStatusFetch,
 
     // Helpers
     isActionAvailable: (actionId: ActionId) => isActionAvailable(actionId, track, actionState),
