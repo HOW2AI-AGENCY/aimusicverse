@@ -61,7 +61,8 @@ export function GlobalAudioProvider({ children }: { children: ReactNode }) {
     }
   }, [volume]);
 
-  useAudioTrackLoader({ audioRef, lastTrackIdRef, isLoadingRef, playPromiseRef, activeTrack, getAudioSource });
+  const loadNonce = usePlayerStore((s) => s.loadNonce);
+  useAudioTrackLoader({ audioRef, lastTrackIdRef, isLoadingRef, playPromiseRef, activeTrack, getAudioSource, loadNonce });
 
   useAudioPlayback({
     audioRef,
