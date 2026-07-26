@@ -346,7 +346,7 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
               },
               audioDuration: audioDuration || undefined,
               customMode: mode === "custom",
-              prompt: mode === "custom" && hasVocals ? lyrics : undefined,
+              prompt: mode === "custom" && hasVocals ? normalizedLyrics : undefined,
               style: mode === "custom" ? style : undefined,
               title: title || undefined,
               instrumental: !hasVocals,
