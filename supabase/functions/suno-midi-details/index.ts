@@ -34,6 +34,12 @@ serve(async (req) => {
     const result = await fetchSunoTaskDetails("midi", taskId);
 
     // Map `/api/v1/midi/record-info` payload to MIDI-specific UI fields.
+    interface SunoNote {
+      pitch: number;
+      start: number;
+      end: number;
+      velocity?: number;
+    }
     const data = result.data as {
       successFlag?: number;
       errorMessage?: string | null;
@@ -41,7 +47,7 @@ serve(async (req) => {
         state?: string;
         midiUrl?: string;
         duration?: number;
-        instruments?: Array<{ notes?: unknown[] }>;
+        instruments?: Array<{ name?: string; notes?: SunoNote[] }>;
       };
     };
 
@@ -55,8 +61,24 @@ serve(async (req) => {
             ? "PROCESSING"
             : (result.status ?? "PROCESSING");
 
-    const notesCount =
-      data.midiData?.instruments?.reduce((sum, inst) => sum + (inst.notes?.length ?? 0), 0) ?? null;
+    // Suno returns note lists per instrument (no ready-made .mid file).
+    // Flatten into the shape `export-midi` expects: { pitch, startTime, duration, velocity }.
+    const notes = (data.midiData?.instruments ?? []).flatMap((inst) =>
+      (inst.notes ?? []).map((n) => {
+        const rawVelocity = typeof n.velocity === "number" ? n.velocity : 0.8;
+        return {
+          pitch: Math.round(n.pitch),
+          startTime: n.start,
+          duration: Math.max(0.01, n.end - n.start),
+          velocity: rawVelocity <= 1 ? Math.max(1, Math.round(rawVelocity * 127)) : Math.round(rawVelocity),
+          instrument: inst.name ?? null,
+        };
+      }),
+    );
+
+    const maxEnd = notes.reduce((m, n) => Math.max(m, n.startTime + n.duration), 0);
+
+    logger.info("Suno MIDI details resolved", { taskId, status, notesCount: notes.length });
 
     return new Response(
       JSON.stringify({
@@ -64,8 +86,9 @@ serve(async (req) => {
         taskId: result.taskId,
         status,
         midiUrl: data.midiData?.midiUrl ?? null,
-        notesCount,
-        duration: data.midiData?.duration ?? null,
+        notes,
+        notesCount: notes.length || null,
+        duration: data.midiData?.duration ?? (maxEnd || null),
         error: data.errorMessage ?? undefined,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 },
