@@ -210,14 +210,14 @@ export function parseLyricsResponse(content: string): ParsedLyricsResponse | nul
  */
 export function parseAIResponse(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Universal parser accepts heterogeneous LLM payloads
-  data: any,
+  data: unknown,
   action: string,
 ): {
   type: string;
   message: string;
   lyrics?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Returned passthrough of caller-supplied payload
-  data?: any;
+  data?: unknown;
   expandedAnalysis?: ExpandedAnalysisData;
   keyInsights?: string[];
   uniqueStrength?: string;

@@ -81,9 +81,9 @@ export default function VoiceHistoryPage() {
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Catch-all unknown error from retry RPC
-    } catch (e: any) {
+    } catch (e) {
       logger.error("Retry failed", e);
-      toast.error(e?.message || "Ошибка повтора");
+      toast.error(e instanceof Error ? e.message : "Ошибка повтора");
     } finally {
       setRetryingId(null);
     }

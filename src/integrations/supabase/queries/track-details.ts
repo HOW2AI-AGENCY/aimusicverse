@@ -50,7 +50,7 @@ export async function fetchTrackDetails({
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Response shape varies with includeVersions; downstream consumers narrow via TrackDetailsResponse
-  const response: any = { track: resolvedTrack };
+  const response: Record<string, unknown> = { track: resolvedTrack };
 
   if (includeVersions) {
     // Uses idx_track_versions_track_created index

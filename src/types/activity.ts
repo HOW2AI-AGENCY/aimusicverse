@@ -13,7 +13,7 @@ export interface ActivityMetadata {
   playlistName?: string;
   playlistCoverUrl?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Activity metadata is heterogeneous; field-by-field typing would bloat the schema
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface Activity {

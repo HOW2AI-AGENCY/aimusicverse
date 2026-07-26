@@ -186,7 +186,7 @@ export function useAITools({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- AI tool response schema varies per action
         const { data: rawData, error } = await executeAiTool(requestBody as any);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const data: any = rawData ?? {};
+        const data = rawData ?? {} as Record<string, unknown>;
 
         if (error) {
           if (error.message?.includes("429")) toast.error("Превышен лимит запросов.");

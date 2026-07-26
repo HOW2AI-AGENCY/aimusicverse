@@ -8,19 +8,19 @@
 // Dialog type guards
 
 export function isModalDialogProps(
-  props: any,
+  props: unknown,
 ): props is import("@/components/dialog/unified-dialog.types").ModalDialogProps {
   return props?.variant === "modal";
 }
 
 export function isSheetDialogProps(
-  props: any,
+  props: unknown,
 ): props is import("@/components/dialog/unified-dialog.types").SheetDialogProps {
   return props?.variant === "sheet";
 }
 
 export function isAlertDialogProps(
-  props: any,
+  props: unknown,
 ): props is import("@/components/dialog/unified-dialog.types").AlertDialogProps {
   return props?.variant === "alert";
 }
