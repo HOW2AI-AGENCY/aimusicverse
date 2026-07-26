@@ -28,7 +28,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { ArtistSelector } from "@/components/generate-form/ArtistSelector";
 import { ProjectTrackSelector } from "@/components/generate-form/ProjectTrackSelector";
 import { PromptHistory } from "@/components/generate-form/PromptHistory";
-import { LyricsChatAssistant } from "@/components/generate-form/LyricsChatAssistant";
+import { LyricsAssistantSheet } from "@/components/generate-form/lyrics/LyricsAssistantSheet";
 import { StylePresetSelector } from "@/components/generate-form/StylePresetSelector";
 import { FormStepper } from "@/components/generate-form/FormStepper";
 
@@ -329,18 +329,19 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
         }}
       />
 
-      <LyricsChatAssistant
+      <LyricsAssistantSheet
         open={lyricsAssistantOpen}
         onOpenChange={setLyricsAssistantOpen}
-        onLyricsGenerated={(newLyrics) => {
+        currentText={form.lyrics}
+        onApply={(newLyrics: string) => {
           form.setMode("custom");
           form.setHasVocals(true);
           form.setLyrics(newLyrics);
         }}
-        onStyleGenerated={(style) => {
+        onApplyStyle={(style) => {
           if (style?.trim()) form.setStyle(style);
         }}
-        onTitleGenerated={(title) => {
+        onApplyTitle={(title) => {
           if (title?.trim()) form.setTitle(title);
         }}
       />
