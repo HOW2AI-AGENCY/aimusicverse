@@ -32,6 +32,8 @@ function formatRelative(iso?: string | null): string {
 export function CustomVoicePicker({ value, onChange }: Props) {
   const { voices, isLoading } = useCustomVoices();
   const [panelOpen, setPanelOpen] = useState(false);
+  const [disclaimerTrigger, setDisclaimerTrigger] = useState(0);
+
   const ready = voices.filter((v: CustomVoice) => v.voice_id && v.status === "ready" && v.is_available);
 
   // Restore the voice the user last generated with (once, when nothing is selected yet).
