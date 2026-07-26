@@ -1,16 +1,17 @@
 /**
- * Sprint 053-A3: API layer for Suno MIDI generation.
+ * Mid-Suno API — MIDI via SunoAPI `/api/v1/midi/generate`.
  *
- * Edge-bridge pattern (Sprint 052 retro): the client never touches `track_versions`
- * directly. All Suno MIDI orchestration flows through edge functions that resolve
- * the track_version→audio_url mapping server-side and write the result back to
- * `track_versions.midi_url` + `midi_generation_source`.
+ * Simple mode (2 stems): call without audioId → MIDI for all tracks.
+ * Detailed mode (6+ stems): call with audioId for a specific stem.
+ *
+ * Flow: stem separation → get taskId → call generateSunoMidi → poll/getSunoMidiStatus
  */
 
 import { supabase } from "@/integrations/supabase/client";
 
 export interface SunoMidiParams {
-  trackVersionId: string;
+  taskId: string;
+  audioId?: string;
   userId: string;
 }
 
