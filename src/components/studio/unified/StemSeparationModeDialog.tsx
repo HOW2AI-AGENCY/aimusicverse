@@ -230,5 +230,6 @@ export function StemSeparationModeDialog({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+    </>
   );
 }
