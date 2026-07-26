@@ -156,13 +156,32 @@ export function useVersionSwitcher() {
       toast.success("Primary version updated successfully");
     },
     onSettled: (data) => {
-      // Refetch to sync with server
-      if (data) {
-        queryClient.invalidateQueries({ queryKey: ["track-versions", data.trackId] });
-        queryClient.invalidateQueries({ queryKey: ["tracks"] });
-        queryClient.invalidateQueries({ queryKey: ["track-change-log", data.trackId] });
-        // Invalidate stems cache since has_stems was reset
-        queryClient.invalidateQueries({ queryKey: ["track-stems", data.trackId] });
+      // Refetch to sync with server.
+      // Every cache that mirrors the tracks row or the version list has to be
+      // invalidated here — otherwise the UI keeps the old master until a full
+      // page reload (badge/cover/duration/lyrics all read from these keys).
+      if (!data) return;
+      const { trackId } = data;
+      const keys: unknown[][] = [
+        ["track-versions", trackId],
+        ["track-versions-unified", trackId],
+        ["track-versions-batch"],
+        ["version-count", trackId],
+        ["master-version", trackId],
+        ["active-version", trackId],
+        ["tracks"],
+        ["tracks-infinite"],
+        ["user-tracks"],
+        ["public-tracks"],
+        ["track-context", trackId],
+        ["track-change-log", trackId],
+        ["track-changelog", trackId],
+        ["track-stems", trackId],
+        ["source-track", trackId],
+        ["timestamped-lyrics"],
+      ];
+      for (const queryKey of keys) {
+        queryClient.invalidateQueries({ queryKey });
       }
     },
   });

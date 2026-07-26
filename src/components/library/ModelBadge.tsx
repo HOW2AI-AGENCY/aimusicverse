@@ -12,6 +12,21 @@ interface ModelDisplayInfo {
 }
 
 const MODEL_DISPLAY: Record<string, ModelDisplayInfo> = {
+  // V5.5 (Amber/Crown) — newest model
+  V5_5: {
+    icon: Crown,
+    label: "V5.5",
+    color: "text-amber-300",
+    bgColor: "bg-amber-500/20",
+    desc: "Новейшая модель V5.5",
+  },
+  "chirp-fenix": {
+    icon: Crown,
+    label: "V5.5",
+    color: "text-amber-300",
+    bgColor: "bg-amber-500/20",
+    desc: "Новейшая модель V5.5",
+  },
   // API model names - V5 (Gold/Crown)
   "chirp-crow": {
     icon: Crown,
@@ -121,6 +136,10 @@ export function getModelDisplayInfo(model: string | null | undefined): ModelDisp
   // Normalize: lowercase, remove underscores, replace _ with nothing
   const modelNormalized = model.toLowerCase().replace(/_/g, "");
 
+  // V5.5 must be matched before the plain "v5" check ("v5_5" -> "v55").
+  if (modelNormalized.includes("v55") || modelNormalized.includes("fenix")) {
+    return MODEL_DISPLAY["V5_5"];
+  }
   if (modelNormalized.includes("v5") || modelNormalized.includes("crow")) {
     return MODEL_DISPLAY["V5"];
   }
