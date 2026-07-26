@@ -111,12 +111,15 @@ export function IntegratedStemTracks({
         type: stem.stem_type,
         level: simulatedLevels.stems[stem.id] ?? 0,
       })),
-    // Empty state
-    if (!stems || stems.length === 0) {
-      return (
-        <div className="flex flex-col items-center justify-center py-12 text-center">
-          <Waves className="w-12 h-12 text-muted-foreground/40 mb-3" />
-          <h3 className="text-sm font-medium text-muted-foreground mb-1">Нет стемов</h3>
+    [stems, simulatedLevels.stems],
+  );
+
+  // Empty state
+  if (!stems || stems.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <Waves className="w-12 h-12 text-muted-foreground/40 mb-3" />
+        <h3 className="text-sm font-medium text-muted-foreground mb-1">Нет стемов</h3>
         <p className="text-xs text-muted-foreground/60 max-w-[200px]">
           Разделите трек на стемы, чтобы редактировать каждую дорожку отдельно
         </p>
