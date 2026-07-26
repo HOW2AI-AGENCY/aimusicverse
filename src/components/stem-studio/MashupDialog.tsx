@@ -33,7 +33,7 @@ interface MashupDialogProps {
 
 export function MashupDialog({ open, onOpenChange, sourceTrack, projectId }: MashupDialogProps) {
   const { user } = useAuth();
-  const { tracks = [] } = useProjectTracks(projectId ?? null);
+  const { tracks = [] } = useTracks({ projectId });
   const [secondTrackId, setSecondTrackId] = useState<string | null>(null);
   const [title, setTitle] = useState(`${sourceTrack.title || "Трек"} (ремикс)`);
   const [style, setStyle] = useState("");
