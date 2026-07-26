@@ -151,7 +151,9 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
     }
 
     const instrumental = !hasVocals;
-    const prompt = mode === "simple" ? description : instrumental ? "" : lyrics;
+    // Suno ignores Markdown decoration (**[Verse]**) — normalize section tags
+    const normalizedLyrics = normalizeSunoLyrics(lyrics);
+    const prompt = mode === "simple" ? description : instrumental ? "" : normalizedLyrics;
 
     if (mode === "simple" && !description) {
       toast.error("Опишите музыку");
