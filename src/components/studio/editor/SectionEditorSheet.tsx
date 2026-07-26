@@ -402,7 +402,7 @@ export function SectionEditorSheet({
 
       {/* Synchronized Lyrics editor */}
       <SynchronizedSectionLyrics
-        words={lyricsData?.alignedWords || []}
+        words={cleanAlignedWords}
         startTime={startTime}
         endTime={endTime}
         currentTime={previewCurrentTime}
