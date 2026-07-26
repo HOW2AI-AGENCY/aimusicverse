@@ -94,6 +94,7 @@ export function StemMidiDrawer({
   trackId,
   trackTitle,
   trackDurationSeconds,
+  stemSeparationTaskId,
 }: StemMidiDrawerProps) {
   const isMobile = useIsMobile();
   const exportMidiMutation = useExportMidi();
