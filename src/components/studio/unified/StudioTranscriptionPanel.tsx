@@ -96,7 +96,21 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   const { mutateAsync: invokeReplicate } = useReplicateMidiTranscription();
   const { mutateAsync: invokeKlangio } = useKlangioAnalyze();
 
-  const [engine, setEngine] = useState<TranscriptionEngine>("klangio");
+  const { user } = useAuth();
+  const { data: separationTask } = useStemSeparationTaskForTrack(trackId);
+
+  // Vocals / instrumental stems come from a Suno separation task, so SunoAPI
+  // MIDI is the default (and cheapest/fastest) engine for them.
+  const isSimpleStem = useMemo(() => {
+    const t = (stemType || track.type || "").toLowerCase();
+    return t.includes("vocal") || t.includes("instrumental") || t.includes("music");
+  }, [stemType, track.type]);
+
+  const canUseSuno = isSimpleStem && !!separationTask?.separation_task_id;
+
+  const [engineOverride, setEngineOverride] = useState<TranscriptionEngine | null>(null);
+  const engine: TranscriptionEngine = engineOverride ?? (canUseSuno ? "suno" : "klangio");
+  const setEngine = setEngineOverride;
   // Auto-detect initial model based on stem/track type
   const detectedModel = autoDetectKlangioModel(stemType, track.type);
   const [klangioModel, setKlangioModel] = useState<KlangioModel>(detectedModel);
