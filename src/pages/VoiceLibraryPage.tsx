@@ -35,6 +35,15 @@ function statusBadge(v: CustomVoice) {
 export default function VoiceLibraryPage() {
   const { voices, isLoading, deleteVoice, isDeleting } = useCustomVoices();
   const [wizardOpen, setWizardOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const useVoice = (v: CustomVoice) => {
+    if (!v.voice_id) return;
+    rememberLastVoice(v.voice_id);
+    toast.success(`Голос «${v.voice_name}» подключён к генерации`);
+    navigate("/?openGenerate=1");
+  };
+
 
   return (
     <div className="container mx-auto p-4 max-w-4xl space-y-4">
