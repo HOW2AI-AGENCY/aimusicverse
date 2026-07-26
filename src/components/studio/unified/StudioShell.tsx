@@ -27,6 +27,7 @@ import { useAutoSave } from "@/hooks/studio/useAutoSave";
 import { registerStudioAudio, unregisterStudioAudio } from "@/hooks/studio/useStudioAudio";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useSectionDetection } from "@/hooks/useSectionDetection";
+import { normalizeSunoLyrics } from "@/lib/lyrics/normalizeSunoLyrics";
 import { useTimestampedLyrics } from "@/hooks/useTimestampedLyrics";
 import { useReplacedSections } from "@/hooks/useReplacedSections";
 import { useSectionEditorStore } from "@/stores/useSectionEditorStore";
