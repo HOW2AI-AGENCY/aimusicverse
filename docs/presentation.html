@@ -861,6 +861,13 @@ section.blk{padding-block:clamp(64px,9vw,116px) 0}
           <p class="ps-r">Результат: <em>пользователи из Москвы и Пхукета получают одинаковую скорость генерации.</em></p>
         </article>
         <article class="ps rv" style="--d:.42s">
+          <span class="ps-k">WebView ≠ браузер</span>
+          <h3>3-4x разница в производительности</h3>
+          <p class="ps-p">Telegram Mini App работает в WebView (Chrome на Android, WKWebView на iOS). Разница в производительности — 3-4x. Бандл 2 МБ gzipped давал 4-6 секунд первого рендера на 3G.</p>
+          <div class="ps-s"><b>Решение</b><p>Code-splitting по маршрутам, lazy-loading Recharts (14 компонентов), SSE streaming вместо ожидания полного ответа, централизованные иконки для tree-shaking.</p></div>
+          <p class="ps-r">Результат: <em>2 МБ → 480 КБ бандл, первый рендер ~1.2с на 3G.</em></p>
+        </article>
+        <article class="ps rv" style="--d:.48s">
           <span class="ps-k">Хрупкость JSON от LLM</span>
           <h3>Модель возвращает грязный JSON</h3>
           <p class="ps-p">Gemini 2.5 Flash в 5% случаев оборачивает JSON в markdown, добавляет trailing commas или не закрывает скобки. Frontend падает на парсинге.</p>
