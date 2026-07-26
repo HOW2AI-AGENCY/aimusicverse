@@ -114,6 +114,7 @@ export function StemSeparationModeDialog({
   };
 
   return (
+    <>
     <UnifiedDialog
       variant="modal"
       open={open}
