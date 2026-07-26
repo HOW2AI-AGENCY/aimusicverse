@@ -91,6 +91,10 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   // Remember previous master volume before muting (F6 fix)
   const [previousMasterVolume, setPreviousMasterVolume] = useState(0.85);
 
+  // True when the studio was opened solely to replace a section (?mode=replace):
+  // the workspace behind the panel is hidden and closing returns to the caller.
+  const [replaceOnlyMode, setReplaceOnlyMode] = useState(false);
+
   const sourceTrackId = project?.sourceTrackId;
   const mainTrack = project?.tracks[0];
   const mainAudioUrl =
