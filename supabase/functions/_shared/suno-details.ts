@@ -15,7 +15,7 @@
  *   - cover       → /api/v1/image/details
  *   - video       → /api/v1/mp4/details
  *   - wav         → /api/v1/generate/wav/details
- *   - midi        → /api/v1/generate/midi/details
+ *   - midi        → /api/v1/midi/record-info (GET ?taskId=)
  *   - lyrics      → /api/v1/lyrics/details
  *   - separation  → /api/v1/vocal-removal/details
  */
@@ -38,7 +38,7 @@ const ENDPOINT_BY_TYPE: Record<SunoTaskType, string> = {
   cover: "https://api.sunoapi.org/api/v1/image/details",
   video: "https://api.sunoapi.org/api/v1/mp4/details",
   wav: "https://api.sunoapi.org/api/v1/generate/wav/details",
-  midi: "https://api.sunoapi.org/api/v1/generate/midi/details",
+  midi: "https://api.sunoapi.org/api/v1/midi/record-info",
   lyrics: "https://api.sunoapi.org/api/v1/lyrics/details",
   separation: "https://api.sunoapi.org/api/v1/vocal-removal/details",
 };
@@ -77,13 +77,17 @@ export async function fetchSunoTaskDetails(taskType: SunoTaskType, taskId: strin
   const url = ENDPOINT_BY_TYPE[taskType];
   log.info("Fetching Suno task details", { taskType, taskId });
 
-  const response = await fetch(url, {
-    method: "POST",
+  // MIDI details is a GET endpoint with a query param; the rest are POST + JSON body.
+  const isGet = taskType === "midi";
+  const requestUrl = isGet ? `${url}?taskId=${encodeURIComponent(taskId)}` : url;
+
+  const response = await fetch(requestUrl, {
+    method: isGet ? "GET" : "POST",
     headers: {
       Authorization: `Bearer ${sunoApiKey}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ taskId }),
+    body: isGet ? undefined : JSON.stringify({ taskId }),
   });
 
   const json = await response.json();
