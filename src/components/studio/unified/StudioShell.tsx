@@ -36,7 +36,7 @@ import { useProjectTrackSync } from "@/hooks/studio/useProjectTrackSync";
 import { useStudioOperationLock } from "@/hooks/studio/useStudioOperationLock";
 import { useSourceTrack } from "@/hooks/studio/useSourceTrack";
 import { useStudioRealtime } from "@/hooks/studio/useStudioRealtime";
-import { useStemSeparationRealtime } from "@/hooks/useStemSeparationRealtime";
+import { useStemRealtime } from "@/hooks/useStemRealtime";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { OptimizedTransport } from "./OptimizedTransport";
@@ -195,7 +195,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
   // ── Stem DB sync + realtime ───────────────────────────────────────────
   const { isMountedRef } = useStudioStemSync({ projectId: project?.id, sourceTrackId });
-  const stemRealtime = useStemSeparationRealtime(sourceTrackId ?? null);
+  const stemRealtime = useStemRealtime(sourceTrackId ?? null);
 
   // Clear separating state when realtime reports completion/failure
   useEffect(() => {

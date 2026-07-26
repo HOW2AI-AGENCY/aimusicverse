@@ -70,6 +70,7 @@ export function StemSeparationModeDialog({
   onConfirm,
   isProcessing = false,
   trackDurationSeconds,
+  hasExistingStems,
 }: StemSeparationModeDialogProps) {
   const [selectedMode, setSelectedMode] = useState<SeparationMode>("simple");
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
