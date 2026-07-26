@@ -25,6 +25,7 @@ import { useStemSeparationTaskForTrack } from "@/hooks/studio/useStemSeparationT
 import { generateSunoMidi, getSunoMidiStatus } from "@/api/midi-suno.api";
 import { useAuth } from "@/contexts/AuthContext";
 import { logger } from "@/lib/logger";
+import { cn } from "@/lib/utils";
 import type { Database } from "@/integrations/supabase/types";
 
 type StemTranscriptionRow = Database["public"]["Tables"]["stem_transcriptions"]["Row"];
