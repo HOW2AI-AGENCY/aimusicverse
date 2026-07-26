@@ -113,5 +113,11 @@
 | S6 | Low | Нет confirm при удалении стема |
 | S7 | Low | Virtual scrolling в Telegram WebView |
 | S8 | Low | Нет preset'ов эффектов |
-| S9 | Medium | Дублирование логики в хуках |
+### S9 (Medium) — Дублирование логики в хуках стемов
+**План:** Создать `useStemRealtime(trackId, { onProgress, onComplete })` — общий
+хук для подписки на Realtime-события стемов. `useStemSeparationRealtime` и
+`useStudioStemSync` перевести на него.
+**Файлы:** `src/hooks/useStemSeparation.ts`, `src/hooks/useStemSeparationRealtime.ts`,
+`src/components/studio/unified/StudioShell/useStudioStemSync.ts`
+**Оценка:** ~1 час
 | S10 | Low | Мобильный skeleton не адаптивный |
