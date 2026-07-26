@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Loader2, Mic, Music2, Palette, Copy, X } from "@/lib/icons";
 import { VoiceInputButton } from "@/components/ui/VoiceInputButton";
+import { CustomVoicePicker } from "@/components/voice-clone/CustomVoicePicker";
 import { SectionLabel, useSectionHints } from "./SectionLabel";
 import { SmartPromptSuggestions } from "./SmartPromptSuggestions";
 import { FormSection, FormDivider } from "./FormSection";
