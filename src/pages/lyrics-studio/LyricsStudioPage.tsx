@@ -86,14 +86,18 @@ export default function LyricsStudio() {
 
   const { user } = useAuth();
   const { templates, saveTemplate, isLoading: templatesLoading } = useLyricsTemplates();
-  const { sectionNotes, saveSectionNote, getAllSuggestedTags } = useSectionNotes(
-    templateId || undefined,
-  ) as unknown as {
-    sectionNotes: Array<{ section_type?: string; notes?: string; tags?: string[] }>;
-    saveSectionNote: (data: SaveSectionNoteData) => Promise<unknown>;
-    getAllSuggestedTags: () => string[];
-  };
-  void saveSectionNote;
+  // useSectionNotes returns { data, createNote, ... } — adapt it to the shape this page needs.
+  const { data: rawSectionNotes } = useSectionNotes(templateId || undefined);
+  const sectionNotes = useMemo(
+    () =>
+      (rawSectionNotes ?? []).map((n) => ({
+        section_type: n.sectionType ?? undefined,
+        notes: n.content ?? undefined,
+        tags: n.tags ?? undefined,
+      })),
+    [rawSectionNotes],
+  );
+
 
   const [sections, setSections] = useState<LyricsSection[]>([]);
   const [globalTags, setGlobalTags] = useState<string[]>([]);
