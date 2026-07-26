@@ -10,17 +10,17 @@
 export function isModalDialogProps(
   props: unknown,
 ): props is import("@/components/dialog/unified-dialog.types").ModalDialogProps {
-  return props?.variant === "modal";
+  return (props as any)?.variant === "modal";
 }
 
 export function isSheetDialogProps(
   props: unknown,
 ): props is import("@/components/dialog/unified-dialog.types").SheetDialogProps {
-  return props?.variant === "sheet";
+  return (props as any)?.variant === "sheet";
 }
 
 export function isAlertDialogProps(
   props: unknown,
 ): props is import("@/components/dialog/unified-dialog.types").AlertDialogProps {
-  return props?.variant === "alert";
+  return (props as any)?.variant === "alert";
 }

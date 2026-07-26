@@ -503,7 +503,8 @@ export default function Library() {
         deepLinkDialogTrack={deepLinkDialogTrack}
         deepLinkDialogType={deepLinkDialogType}
         onCloseDeepLinkDialog={closeDeepLinkDialog}
-      </LibraryDialogs>
+      />
+
     </ErrorBoundaryWrapper>
   );
 }
