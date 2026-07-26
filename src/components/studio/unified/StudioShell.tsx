@@ -322,11 +322,25 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
     if (!trackWithAudio) return;
 
+    // Opened straight from the track menu: show ONLY the replace panel,
+    // the studio workspace behind it must stay hidden (no "two windows").
+    setReplaceOnlyMode(true);
     openSectionEditorForTrack(trackWithAudio);
     const nextParams = new URLSearchParams(searchParams);
     nextParams.delete("mode");
     setSearchParams(nextParams, { replace: true });
   }, [dialogs.showSectionEditor, openSectionEditorForTrack, project, searchParams, setSearchParams]);
+
+  const handleSectionEditorOpenChange = useCallback(
+    (open: boolean) => {
+      dialogs.setShowSectionEditor(open);
+      if (!open && replaceOnlyMode) {
+        setReplaceOnlyMode(false);
+        navigate(-1);
+      }
+    },
+    [dialogs, navigate, replaceOnlyMode],
+  );
 
   // ── Track action handler (needs dialog setters) ───────────────────────
   const handleMobileTrackAction = useCallback(
