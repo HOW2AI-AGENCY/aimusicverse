@@ -1,67 +1,57 @@
-// ProfileStats Component - Sprint 011 Task T022
-// Displays follower, following, and track counts
+import { motion } from "framer-motion";
+import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Music, Play, Heart, Sparkles } from "@/lib/icons";
 
-import { Users, UserPlus, Music } from "@/lib/icons";
-import type { ProfileStats as Stats } from "@/types/profile";
-
-interface ProfileStatsProps {
-  stats: Stats;
-  onFollowersClick?: () => void;
-  onFollowingClick?: () => void;
-  onTracksClick?: () => void;
+interface StatItem {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: number;
+  color: string;
 }
 
-export function ProfileStats({ stats, onFollowersClick, onFollowingClick, onTracksClick }: ProfileStatsProps) {
-  const formatCount = (count: number): string => {
-    if (count >= 1000000) {
-      return `${(count / 1000000).toFixed(1)}M`;
-    }
-    if (count >= 1000) {
-      return `${(count / 1000).toFixed(1)}K`;
-    }
-    return count.toString();
-  };
+const statItems: StatItem[] = [
+  { icon: Music, label: "Треков", value: 0, color: "text-info" },
+  { icon: Play, label: "Прослушиваний", value: 0, color: "text-success" },
+  { icon: Heart, label: "Лайков", value: 0, color: "text-error" },
+  { icon: Sparkles, label: "Генераций", value: 0, color: "text-accent" },
+];
+
+interface ProfileStatsProps {
+  totalTracks?: number;
+  totalPlays?: number;
+  totalLikes?: number;
+  generationsThisMonth?: number;
+  isLoading?: boolean;
+}
+
+export function ProfileStats({ totalTracks, totalPlays, totalLikes, generationsThisMonth, isLoading }: ProfileStatsProps) {
+  const values = [totalTracks ?? 0, totalPlays ?? 0, totalLikes ?? 0, generationsThisMonth ?? 0];
 
   return (
-    <div className="flex items-center gap-6">
-      {/* Followers */}
-      <button
-        onClick={onFollowersClick}
-        className="flex items-center gap-2 transition-colors hover:text-primary"
-        aria-label={`${stats.followers} followers`}
-      >
-        <Users className="h-4 w-4 text-muted-foreground" />
-        <div className="flex items-baseline gap-1">
-          <span className="font-semibold">{formatCount(stats.followers)}</span>
-          <span className="text-sm text-muted-foreground">Followers</span>
-        </div>
-      </button>
-
-      {/* Following */}
-      <button
-        onClick={onFollowingClick}
-        className="flex items-center gap-2 transition-colors hover:text-primary"
-        aria-label={`Following ${stats.following} users`}
-      >
-        <UserPlus className="h-4 w-4 text-muted-foreground" />
-        <div className="flex items-baseline gap-1">
-          <span className="font-semibold">{formatCount(stats.following)}</span>
-          <span className="text-sm text-muted-foreground">Following</span>
-        </div>
-      </button>
-
-      {/* Tracks */}
-      <button
-        onClick={onTracksClick}
-        className="flex items-center gap-2 transition-colors hover:text-primary"
-        aria-label={`${stats.tracks} tracks`}
-      >
-        <Music className="h-4 w-4 text-muted-foreground" />
-        <div className="flex items-baseline gap-1">
-          <span className="font-semibold">{formatCount(stats.tracks)}</span>
-          <span className="text-sm text-muted-foreground">Tracks</span>
-        </div>
-      </button>
-    </div>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.1 }}
+      className="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-4"
+      data-safe-skeleton={isLoading ? "" : undefined}
+    >
+      {statItems.map((stat, i) => (
+        <Card
+          key={stat.label}
+          className="p-4 lg:p-5 glass-card border-border/50 transition-all hover:shadow-md hover:scale-[1.02]"
+        >
+          {isLoading ? (
+            <Skeleton className="h-12 lg:h-16 w-full" />
+          ) : (
+            <div className="text-center">
+              <stat.icon className={`w-5 h-5 lg:w-6 lg:h-6 mx-auto mb-1 lg:mb-2 ${stat.color}`} />
+              <p className="text-2xl lg:text-3xl font-bold">{values[i].toLocaleString()}</p>
+              <p className="text-xs lg:text-sm text-muted-foreground">{stat.label}</p>
+            </div>
+          )}
+        </Card>
+      ))}
+    </motion.div>
   );
 }
