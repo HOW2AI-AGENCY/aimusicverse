@@ -21,7 +21,11 @@ import { useStudioTrackStems } from "@/hooks/studio/useStudioTrackStems";
 import { useLatestStemTranscription } from "@/hooks/studio/useLatestStemTranscription";
 import { useReplicateMidiTranscription } from "@/hooks/studio/useReplicateMidiTranscription";
 import { useKlangioAnalyze } from "@/hooks/studio/useKlangioAnalyze";
+import { useStemSeparationTaskForTrack } from "@/hooks/studio/useStemSeparationTaskForTrack";
+import { generateSunoMidi, getSunoMidiStatus } from "@/api/midi-suno.api";
+import { useAuth } from "@/contexts/AuthContext";
 import { logger } from "@/lib/logger";
+import { cn } from "@/lib/utils";
 import type { Database } from "@/integrations/supabase/types";
 
 type StemTranscriptionRow = Database["public"]["Tables"]["stem_transcriptions"]["Row"];
@@ -36,7 +40,7 @@ interface StudioTranscriptionPanelProps {
   onClose?: () => void;
 }
 
-type TranscriptionEngine = "basic-pitch" | "klangio";
+type TranscriptionEngine = "suno" | "basic-pitch" | "klangio";
 // Valid Klangio models from API: piano, guitar, bass, vocal, universal, lead, detect, drums, multi, wind, string, piano_arrangement
 type KlangioModel =
   | "detect"
@@ -93,7 +97,21 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
   const { mutateAsync: invokeReplicate } = useReplicateMidiTranscription();
   const { mutateAsync: invokeKlangio } = useKlangioAnalyze();
 
-  const [engine, setEngine] = useState<TranscriptionEngine>("klangio");
+  const { user } = useAuth();
+  const { data: separationTask } = useStemSeparationTaskForTrack(trackId);
+
+  // Vocals / instrumental stems come from a Suno separation task, so SunoAPI
+  // MIDI is the default (and cheapest/fastest) engine for them.
+  const isSimpleStem = useMemo(() => {
+    const t = (stemType || track.type || "").toLowerCase();
+    return t.includes("vocal") || t.includes("instrumental") || t.includes("music");
+  }, [stemType, track.type]);
+
+  const canUseSuno = isSimpleStem && !!separationTask?.separation_task_id;
+
+  const [engineOverride, setEngineOverride] = useState<TranscriptionEngine | null>(null);
+  const engine: TranscriptionEngine = engineOverride ?? (canUseSuno ? "suno" : "klangio");
+  const setEngine = setEngineOverride;
   // Auto-detect initial model based on stem/track type
   const detectedModel = autoDetectKlangioModel(stemType, track.type);
   const [klangioModel, setKlangioModel] = useState<KlangioModel>(detectedModel);
@@ -342,14 +360,106 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
     invokeKlangio,
   ]);
 
+  // SunoAPI MIDI (vocals / instrumental — uses the stem separation taskId)
+  const runSuno = useCallback(async () => {
+    const separationTaskId = separationTask?.separation_task_id;
+    if (!separationTaskId || !user?.id) {
+      toast.error("Нет данных разделения стемов для SunoAPI");
+      return;
+    }
+
+    setIsTranscribing(true);
+    setProgress(10);
+
+    try {
+      logger.info("[Transcription] Suno MIDI start", {
+        trackId,
+        stemId: resolvedStemId,
+        stemType: resolvedStemType,
+        separationTaskId,
+      });
+
+      const accepted = await generateSunoMidi({ taskId: separationTaskId, userId: user.id });
+      logger.info("[Transcription] Suno MIDI accepted", { midiTaskId: accepted.taskId });
+
+      const deadline = Date.now() + 120_000;
+      let midiUrl: string | null = null;
+      let notesCount: number | null = null;
+
+      while (Date.now() < deadline) {
+        await new Promise((r) => setTimeout(r, 5000));
+        setProgress((p) => Math.min(90, p + 7));
+
+        const status = await getSunoMidiStatus(accepted.taskId);
+        logger.debug("[Transcription] Suno MIDI poll", { midiTaskId: accepted.taskId, status: status.status });
+
+        if (status.status === "SUCCESS") {
+          midiUrl = status.midiUrl ?? null;
+          notesCount = status.notesCount ?? null;
+          break;
+        }
+        if (status.status === "FAILED") {
+          throw new Error(status.error || "SunoAPI MIDI generation failed");
+        }
+      }
+
+      if (!midiUrl) throw new Error("SunoAPI не вернул MIDI (таймаут)");
+
+      setProgress(100);
+      setResult({ midi_url: midiUrl, notes_count: notesCount ?? undefined });
+
+      if (trackId && resolvedStemId) {
+        try {
+          await saveTranscription({
+            stemId: resolvedStemId,
+            trackId,
+            midiUrl,
+            model: "suno",
+            notes: null,
+            notesCount,
+          });
+        } catch (e: unknown) {
+          logger.warn("[Transcription] Failed to persist Suno MIDI", { error: e });
+        }
+      }
+
+      toast.success("MIDI готов (SunoAPI)");
+      queryClient.invalidateQueries({ queryKey: ["transcription"] });
+      queryClient.invalidateQueries({ queryKey: ["stem-type-transcription-status"] });
+      queryClient.invalidateQueries({ queryKey: ["stem-transcriptions-full"] });
+      if (resolvedStemId) queryClient.invalidateQueries({ queryKey: ["stem-transcriptions", resolvedStemId] });
+      if (trackId) {
+        queryClient.invalidateQueries({ queryKey: ["track-transcriptions", trackId] });
+        queryClient.invalidateQueries({ queryKey: ["track-midi-status", trackId] });
+      }
+      onComplete?.();
+    } catch (err: unknown) {
+      logger.error("[Transcription] Suno MIDI error", err instanceof Error ? err : new Error(String(err)));
+      toast.error(err instanceof Error ? err.message : "Ошибка MIDI через SunoAPI");
+    } finally {
+      setIsTranscribing(false);
+    }
+  }, [
+    separationTask?.separation_task_id,
+    user?.id,
+    trackId,
+    resolvedStemId,
+    resolvedStemType,
+    saveTranscription,
+    queryClient,
+    onComplete,
+  ]);
+
   // Start transcription
   const startTranscription = useCallback(() => {
-    if (engine === "basic-pitch") {
+    if (engine === "suno") {
+      runSuno();
+    } else if (engine === "basic-pitch") {
       runBasicPitch();
     } else {
       runKlangio();
     }
-  }, [engine, runBasicPitch, runKlangio]);
+  }, [engine, runSuno, runBasicPitch, runKlangio]);
 
   // Download file
   const downloadFile = useCallback(async (url: string, filename: string) => {
@@ -413,7 +523,13 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
           <div className="space-y-3">
             <Label className="text-sm font-medium">Движок транскрипции</Label>
             <Tabs value={engine} onValueChange={(v) => setEngine(v as TranscriptionEngine)}>
-              <TabsList className="grid grid-cols-2 w-full">
+              <TabsList className={cn("grid w-full", canUseSuno ? "grid-cols-3" : "grid-cols-2")}>
+                {canUseSuno && (
+                  <TabsTrigger value="suno" className="text-xs">
+                    <Music2 className="w-3 h-3 mr-1.5" />
+                    SunoAPI
+                  </TabsTrigger>
+                )}
                 <TabsTrigger value="basic-pitch" className="text-xs">
                   <Zap className="w-3 h-3 mr-1.5" />
                   Basic Pitch
@@ -423,6 +539,18 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
                   Klangio Pro
                 </TabsTrigger>
               </TabsList>
+
+              {canUseSuno && (
+                <TabsContent value="suno" className="mt-3">
+                  <div className="p-3 rounded-lg bg-primary/10 text-sm">
+                    <p className="font-medium mb-1">MIDI через SunoAPI (по умолчанию)</p>
+                    <p className="text-muted-foreground text-xs">
+                      Использует задачу разделения стемов — самый точный вариант для вокала и инструментала.
+                    </p>
+                  </div>
+                </TabsContent>
+              )}
+
 
               <TabsContent value="basic-pitch" className="mt-3">
                 <div className="p-3 rounded-lg bg-muted/50 text-sm">

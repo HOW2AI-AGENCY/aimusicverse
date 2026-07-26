@@ -94,6 +94,7 @@ export function StemMidiDrawer({
   trackId,
   trackTitle,
   trackDurationSeconds,
+  stemSeparationTaskId,
 }: StemMidiDrawerProps) {
   const isMobile = useIsMobile();
   const exportMidiMutation = useExportMidi();
@@ -218,16 +219,26 @@ export function StemMidiDrawer({
 
       // Simple stems → SunoAPI (using stem separation taskId)
       if (isSimpleStem && stemSeparationTaskId) {
-        setStatus("transcribing");
         const { generateSunoMidi } = await import("@/api/midi-suno.api");
         const { supabase } = await import("@/integrations/supabase/client");
-        const { data: { user } } = await supabase.auth.getUser();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
         if (!user) throw new Error("Not authenticated");
 
-        await generateSunoMidi({
+        logger.info("[StemMidiDrawer] Suno MIDI requested", {
+          trackId,
+          stemId: stem.id,
+          stemType: stem.stem_type,
+          stemSeparationTaskId,
+        });
+
+        const accepted = await generateSunoMidi({
           taskId: stemSeparationTaskId,
           userId: user.id,
         });
+
+        logger.info("[StemMidiDrawer] Suno MIDI task accepted", { midiTaskId: accepted.taskId });
 
         toast.success("MIDI генерация запущена через SunoAPI", {
           description: "Результат придёт через 30-90 секунд",

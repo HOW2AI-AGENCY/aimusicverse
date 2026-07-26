@@ -33,6 +33,8 @@ serve(async (req) => {
     const sunoApiKey = Deno.env.get("SUNO_API_KEY");
     if (!sunoApiKey) throw new Error("SUNO_API_KEY not configured");
 
+    const supabase = getSupabaseClient();
+
     // Auth
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: corsHeaders });
@@ -48,6 +50,12 @@ serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+    if (userId !== user.id) {
+      return new Response(JSON.stringify({ success: false, error: "Forbidden" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     // Rate limit
     const rateLimitResult = checkRateLimit(req, RateLimitConfigs.generation);
@@ -58,14 +66,13 @@ serve(async (req) => {
       });
     }
 
-    const supabase = getSupabaseClient();
-
-    // Verify the separation task exists and belongs to user
+    // Accept either our DB row id or the provider separation_task_id.
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(taskId));
     const { data: task, error: taskError } = await supabase
       .from("stem_separation_tasks")
-      .select("id, track_id, mode, status")
-      .eq("id", taskId)
-      .single();
+      .select("id, track_id, mode, status, separation_task_id")
+      .eq(isUuid ? "id" : "separation_task_id", taskId)
+      .maybeSingle();
 
     if (taskError || !task) {
       return new Response(JSON.stringify({ success: false, error: "Stem separation task not found" }), {
