@@ -27,6 +27,7 @@ import { useAutoSave } from "@/hooks/studio/useAutoSave";
 import { registerStudioAudio, unregisterStudioAudio } from "@/hooks/studio/useStudioAudio";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useSectionDetection } from "@/hooks/useSectionDetection";
+import { normalizeSunoLyrics } from "@/lib/lyrics/normalizeSunoLyrics";
 import { useTimestampedLyrics } from "@/hooks/useTimestampedLyrics";
 import { useReplacedSections } from "@/hooks/useReplacedSections";
 import { useSectionEditorStore } from "@/stores/useSectionEditorStore";
@@ -90,6 +91,10 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
   // Remember previous master volume before muting (F6 fix)
   const [previousMasterVolume, setPreviousMasterVolume] = useState(0.85);
+
+  // True when the studio was opened solely to replace a section (?mode=replace):
+  // the workspace behind the panel is hidden and closing returns to the caller.
+  const [replaceOnlyMode, setReplaceOnlyMode] = useState(false);
 
   const sourceTrackId = project?.sourceTrackId;
   const mainTrack = project?.tracks[0];
@@ -194,7 +199,10 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
   // ── Lyrics + section detection ────────────────────────────────────────
   const { data: lyricsData } = useTimestampedLyrics(sourceTrack?.suno_task_id || null, sourceTrack?.suno_id || null);
-  const detectedSections = useSectionDetection(sourceTrack?.lyrics, lyricsData?.alignedWords, duration);
+  // Suno-tag normalization must happen before detection: markdown-wrapped tags
+  // (**[Verse]**) otherwise leak into section labels and section lyrics.
+  const normalizedTrackLyrics = useMemo(() => normalizeSunoLyrics(sourceTrack?.lyrics ?? null), [sourceTrack?.lyrics]);
+  const detectedSections = useSectionDetection(normalizedTrackLyrics, lyricsData?.alignedWords, duration);
   const { data: replacedSectionsData } = useReplacedSections(sourceTrackId || "");
   const replacedRanges = useMemo(
     () => (replacedSectionsData || []).map((s) => ({ start: s.start, end: s.end })),
@@ -322,11 +330,25 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
     if (!trackWithAudio) return;
 
+    // Opened straight from the track menu: show ONLY the replace panel,
+    // the studio workspace behind it must stay hidden (no "two windows").
+    setReplaceOnlyMode(true);
     openSectionEditorForTrack(trackWithAudio);
     const nextParams = new URLSearchParams(searchParams);
     nextParams.delete("mode");
     setSearchParams(nextParams, { replace: true });
   }, [dialogs.showSectionEditor, openSectionEditorForTrack, project, searchParams, setSearchParams]);
+
+  const handleSectionEditorOpenChange = useCallback(
+    (open: boolean) => {
+      dialogs.setShowSectionEditor(open);
+      if (!open && replaceOnlyMode) {
+        setReplaceOnlyMode(false);
+        navigate(-1);
+      }
+    },
+    [dialogs, navigate, replaceOnlyMode],
+  );
 
   // ── Track action handler (needs dialog setters) ───────────────────────
   const handleMobileTrackAction = useCallback(
@@ -454,6 +476,8 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         className,
       )}
     >
+      {!(replaceOnlyMode && dialogs.showSectionEditor) && (
+        <>
       <StudioShellHeader
         projectName={project.name}
         trackCount={project.tracks.length}
@@ -646,6 +670,8 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           onOpenActions={() => dialogs.setShowActionsSheet(true)}
         />
       )}
+        </>
+      )}
 
       {/* All dialogs & sheets */}
       <StudioShellDialogs
@@ -687,7 +713,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         showExtendDialog={dialogs.showExtendDialog}
         setShowExtendDialog={dialogs.setShowExtendDialog}
         showSectionEditor={dialogs.showSectionEditor}
-        setShowSectionEditor={dialogs.setShowSectionEditor}
+        setShowSectionEditor={handleSectionEditorOpenChange}
         showGenerateSheet={dialogs.showGenerateSheet}
         setShowGenerateSheet={dialogs.setShowGenerateSheet}
         showDownloadPanel={dialogs.showDownloadPanel}

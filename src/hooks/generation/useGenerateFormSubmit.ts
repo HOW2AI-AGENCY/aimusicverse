@@ -13,6 +13,7 @@ import { useAutomaticRetry } from "@/hooks/useAutomaticRetry";
 import { isRetryableError } from "@/lib/suno-error-mapper";
 import { addUserActionBreadcrumb, captureGenerationError } from "@/lib/sentry";
 import { logger } from "@/lib/logger";
+import { normalizeSunoLyrics } from "@/lib/lyrics/normalizeSunoLyrics";
 import { classifyFailure } from "./useGenerateFormTypes";
 import type { GenerationMode } from "./useGenerateFormTypes";
 import type { ArtistRow } from "@/api/artists.api";
@@ -151,7 +152,9 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
     }
 
     const instrumental = !hasVocals;
-    const prompt = mode === "simple" ? description : instrumental ? "" : lyrics;
+    // Suno ignores Markdown decoration (**[Verse]**) — normalize section tags
+    const normalizedLyrics = normalizeSunoLyrics(lyrics);
+    const prompt = mode === "simple" ? description : instrumental ? "" : normalizedLyrics;
 
     if (mode === "simple" && !description) {
       toast.error("Опишите музыку");
@@ -343,7 +346,7 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
               },
               audioDuration: audioDuration || undefined,
               customMode: mode === "custom",
-              prompt: mode === "custom" && hasVocals ? lyrics : undefined,
+              prompt: mode === "custom" && hasVocals ? normalizedLyrics : undefined,
               style: mode === "custom" ? style : undefined,
               title: title || undefined,
               instrumental: !hasVocals,

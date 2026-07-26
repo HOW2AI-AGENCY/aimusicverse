@@ -7,7 +7,8 @@
  * and synchronized lyrics display
  */
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
+import { filterTagWords } from "@/lib/audio/lyricsParser";
 import { motion, AnimatePresence } from "@/lib/motion";
 import {
   X,
@@ -97,6 +98,11 @@ export function SectionEditorSheet({
     pausePreview();
     onClose();
   }, [clearSelection, onClose, pausePreview]);
+
+  // Structure tags ([Verse], **[Chorus]**) must never leak into the lyrics view.
+  const cleanAlignedWords = useMemo(() => filterTagWords(lyricsData?.alignedWords || []), [lyricsData?.alignedWords]);
+
+
 
   const {
     startTime,
@@ -402,7 +408,7 @@ export function SectionEditorSheet({
 
       {/* Synchronized Lyrics editor */}
       <SynchronizedSectionLyrics
-        words={lyricsData?.alignedWords || []}
+        words={cleanAlignedWords}
         startTime={startTime}
         endTime={endTime}
         currentTime={previewCurrentTime}
