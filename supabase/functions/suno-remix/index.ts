@@ -361,16 +361,6 @@ serve(async (req) => {
       });
     }
 
-    // Log credit transaction
-    await supabase.from("credit_transactions").insert({
-      user_id: user.id,
-      amount: -COVER_COST,
-      transaction_type: "debit",
-      action_type: "cover_generation",
-      description: `Cover: ${baseTitle}`,
-      metadata: { trackId: newTrack.id, sunoTaskId },
-    });
-
     logger.success("Cover generation started", {
       trackId: newTrack.id,
       sunoTaskId,
