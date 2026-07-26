@@ -12,13 +12,14 @@
 import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Volume2, VolumeX, ChevronDown, ChevronUp, Headphones, Plus, Loader2, Gauge } from "@/lib/icons";
-import type { TrackStem } from "@/hooks/useTrackStems";
+import { TrackStem } from "@/hooks/useTrackStems";
 import type { StemTranscription } from "@/hooks/useStemTranscription";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useSimulatedStemLevels } from "@/hooks/audio/useSimulatedStemLevels";
 import { StemTrackSkeleton } from "@/components/studio/StemTrackSkeleton";
 import { VirtualizedStemList } from "@/components/studio/VirtualizedStemList";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
@@ -101,7 +102,24 @@ export function IntegratedStemTracks({
     [stems, simulatedLevels.stems],
   );
 
-  if (!stems || stems.length === 0) return null;
+  // Empty state
+  if (!stems || stems.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <Waves className="w-12 h-12 text-muted-foreground/40 mb-3" />
+        <h3 className="text-sm font-medium text-muted-foreground mb-1">Нет стемов</h3>
+        <p className="text-xs text-muted-foreground/60 max-w-[200px]">
+          Разделите трек на стемы, чтобы редактировать каждую дорожку отдельно
+        </p>
+        {onAddTrack && (
+          <Button variant="outline" size="sm" className="mt-4" onClick={onAddTrack}>
+            <Plus className="w-4 h-4 mr-1" />
+            Добавить дорожку
+          </Button>
+        )}
+      </div>
+    );
+  }
 
   const soloedCount = Object.values(stemStates).filter((s) => s.solo).length;
   const mutedCount = Object.values(stemStates).filter((s) => s.muted).length;

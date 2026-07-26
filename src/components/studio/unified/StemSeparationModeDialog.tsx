@@ -10,6 +10,16 @@ import { motion, AnimatePresence } from "@/lib/motion";
 import { Music, Mic2, Drum, Guitar, Piano, Waves, Check, Loader2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { UnifiedDialog } from "@/components/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { useTelegramSecondaryButton } from "@/hooks/telegram/useTelegramSecondaryButton";
@@ -59,10 +69,28 @@ export function StemSeparationModeDialog({
   isProcessing = false,
 }: StemSeparationModeDialogProps) {
   const [selectedMode, setSelectedMode] = useState<SeparationMode>("simple");
+  const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
   const { impact, select } = useHapticFeedback();
 
   const handleCancel = () => {
+    if (isProcessing) {
+      setConfirmCancelOpen(true);
+    } else {
+      onOpenChange(false);
+    }
+  };
+
+  const handleForceClose = () => {
+    setConfirmCancelOpen(false);
     onOpenChange(false);
+  };
+
+  const handleOpenChange = (open: boolean) => {
+    if (!open && isProcessing) {
+      setConfirmCancelOpen(true);
+    } else {
+      onOpenChange(open);
+    }
   };
 
   // Telegram SecondaryButton for cancel action
@@ -88,7 +116,7 @@ export function StemSeparationModeDialog({
     <UnifiedDialog
       variant="modal"
       open={open}
-      onOpenChange={onOpenChange}
+      onOpenChange={handleOpenChange}
       title="Разделение на стемы"
       description="Выберите режим разделения трека на отдельные дорожки"
       size="sm"
@@ -173,5 +201,21 @@ export function StemSeparationModeDialog({
         ))}
       </div>
     </UnifiedDialog>
+
+      {/* Confirm cancel when processing */}
+      <AlertDialog open={confirmCancelOpen} onOpenChange={setConfirmCancelOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Отменить разделение?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Разделение на стемы уже выполняется. Вы уверены, что хотите отменить? Прогресс будет потерян.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Продолжить</AlertDialogCancel>
+            <AlertDialogAction onClick={handleForceClose}>Отменить</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
   );
 }
