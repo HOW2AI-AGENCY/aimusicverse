@@ -15,6 +15,7 @@ import { AdminRoute } from "@/components/AdminRoute";
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
+import { OfflineBanner } from "@/components/OfflineBanner";
 import { MainLayout } from "@/components/MainLayout";
 import { PageSkeleton } from "@/components/skeletons/PageSkeleton";
 import { PageTransition } from "@/components/PageTransition";
@@ -199,6 +200,7 @@ const App = () => (
               <PreferencesApplicator>
                 <NavigationProvider>
                   <DeepLinkHandler />
+                  <OfflineBanner />
                   <Suspense fallback={<PageSkeleton variant="default" />}>
                     <RouteWithTransition>
                       <Routes>
