@@ -5,7 +5,14 @@
 
 import { getSupabaseClient } from "../../_shared/supabase-client.ts";
 import { createLogger } from "../../_shared/logger.ts";
-import { getAudioUrl, getImageUrl, getModelName, getStreamUrl, validateClip, type SkipReason } from "../../_shared/suno-clip-fields.ts";
+import {
+  getAudioUrl,
+  getImageUrl,
+  getModelName,
+  getStreamUrl,
+  validateClip,
+  type SkipReason,
+} from "../../_shared/suno-clip-fields.ts";
 import { logAuditAction } from "../utils/audit-log.ts";
 
 const logger = createLogger("replace-callback");
@@ -69,7 +76,12 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
     const streamUrl = getStreamUrl(clip);
     const coverUrl = getImageUrl(clip);
     const versionLabel = String.fromCharCode(baseLabelCode + createdVersions.length);
-    logger.info("Replace section clip received", { clipIndex: i, versionLabel, audioUrl: !!audioUrl, duration: clip.duration });
+    logger.info("Replace section clip received", {
+      clipIndex: i,
+      versionLabel,
+      audioUrl: !!audioUrl,
+      duration: clip.duration,
+    });
 
     let localAudioUrl: string | null = null;
     try {
@@ -231,6 +243,7 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
       cover_url: getImageUrl(primaryCreated.clip) || null,
       duration_seconds: Math.round(primaryCreated.clip.duration) || null,
       suno_id: primaryCreated.clip.id,
+      suno_task_id: task.suno_task_id,
       has_stems: false,
     })
     .eq("id", trackId);
@@ -290,7 +303,10 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
     user_id: task.user_id,
     type: "section_replaced",
     title: "Секция заменена 🎵",
-    message: createdVersions.length > 1 ? "Две версии секции готовы для прослушивания" : "Новая версия секции готова для прослушивания",
+    message:
+      createdVersions.length > 1
+        ? "Две версии секции готовы для прослушивания"
+        : "Новая версия секции готова для прослушивания",
     action_url: `/studio/${trackId}`,
     group_key: `section_${task.id}`,
     metadata: { taskId: task.id, trackId, versionIds: createdVersions.map((v) => v.id) },

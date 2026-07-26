@@ -165,12 +165,12 @@ export function useVersionSwitcher() {
       const keys: unknown[][] = [
         ["track-versions", trackId],
         ["track-versions-unified", trackId],
+        ["track-versions-switcher", trackId],
         ["track-versions-batch"],
         ["version-count", trackId],
         ["master-version", trackId],
         ["active-version", trackId],
         ["tracks"],
-        ["tracks-infinite"],
         ["user-tracks"],
         ["public-tracks"],
         ["track-context", trackId],

@@ -23,7 +23,6 @@ export const useGenerationRealtime = () => {
 
     const refetchTracks = () => {
       log.info("Refetching tracks...");
-      queryClient.refetchQueries({ queryKey: ["tracks-infinite"] });
       queryClient.refetchQueries({ queryKey: ["tracks"] });
       queryClient.invalidateQueries({ queryKey: ["active_generations"] });
     };

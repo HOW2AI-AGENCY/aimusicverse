@@ -93,13 +93,12 @@ export function VersionSwitcher({ track, size = "medium", className }: VersionSw
 
       // Keep playback in sync with the new primary, preserving the real track id.
       if (activeTrack?.id === originalTrackId) {
-        playTrack({
-          ...activeTrack,
+        usePlayerStore.getState().switchVersionAudio({
           audio_url: version.audio_url,
           streaming_url: version.audio_url,
           local_audio_url: null,
           cover_url: version.cover_url || activeTrack.cover_url,
-        } as Track);
+        });
       }
 
       queryClient.invalidateQueries({ queryKey: ["track-versions-switcher", originalTrackId] });

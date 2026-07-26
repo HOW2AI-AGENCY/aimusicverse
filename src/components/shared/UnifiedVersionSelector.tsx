@@ -130,13 +130,15 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
       try {
         await setPrimaryVersionAsync({ trackId, versionId: version.id });
 
-        // Update player if this track is currently playing
+        // Update player if this track is currently playing.
+        // Use switchVersionAudio instead of playTrack so the audio element
+        // actually reloads the new version's URL (playTrack short-circuits
+        // when the track id is the same and the track is already playing).
         if (activeTrack?.id === trackId) {
-          playTrack({
-            ...activeTrack,
+          usePlayerStore.getState().switchVersionAudio({
             audio_url: version.audioUrl,
             cover_url: version.coverUrl || activeTrack.cover_url,
-          } as unknown as Parameters<typeof playTrack>[0]);
+          });
         }
 
         onVersionChange?.(version);
@@ -158,7 +160,6 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
       isSwitching,
       haptic,
       activeTrack,
-      playTrack,
       onVersionChange,
       setPrimaryVersionAsync,
       versions,

@@ -81,6 +81,13 @@ interface PlayerState {
 
   // Playback control actions
   playTrack: (track?: Track) => void; // Play specific track or resume current
+  /**
+   * Switch the audio source of the CURRENTLY active track (same track id, new
+   * version URL). Unlike playTrack(), this forces the audio element to reload
+   * even though the track id is unchanged — used by A/B version switching so a
+   * playing track picks up the new version's audio without a full track swap.
+   */
+  switchVersionAudio: (patch: Partial<Track>) => void;
   pauseTrack: () => void; // Pause current playback
   closePlayer: () => void; // Close player and stop playback
   nextTrack: () => void; // Skip to next track
@@ -317,6 +324,36 @@ export const usePlayerStore = create<PlayerState>()(
         if (playerMode === "minimized") {
           set({ playerMode: "compact" });
         }
+      },
+
+      /**
+       * Switch version audio action — swaps the audio source of the currently
+       * active track (same id, new version URL) and bumps loadNonce so the
+       * audio element reloads even though the track id is unchanged.
+       *
+       * Fixes the A/B version-switch race: playTrack() short-circuits when the
+       * track id matches and the track is already playing, so the new version's
+       * audio_url was silently ignored and the old version kept playing.
+       */
+      switchVersionAudio: (patch) => {
+        const { activeTrack, queue, currentIndex, loadNonce } = get();
+        if (!activeTrack) return;
+
+        const updatedTrack = { ...activeTrack, ...patch } as Track;
+
+        // Keep the queue entry for the same track in sync so next/prev and the
+        // queue UI reflect the newly selected version.
+        let newQueue = queue;
+        if (queue.length > 0) {
+          newQueue = queue.map((t, i) => (i === currentIndex && t.id === activeTrack.id ? updatedTrack : t));
+        }
+
+        set({
+          activeTrack: updatedTrack,
+          queue: newQueue,
+          isPlaying: true,
+          loadNonce: loadNonce + 1, // force useAudioTrackLoader to reload same-id track
+        });
       },
 
       /**

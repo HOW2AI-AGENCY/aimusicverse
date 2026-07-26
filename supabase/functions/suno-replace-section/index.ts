@@ -50,7 +50,8 @@ serve(async (req) => {
     const tags = body.tags;
     const infillStartS = body.infillStartS ?? body.startTime;
     const infillEndS = body.infillEndS ?? body.endTime;
-    const rawFullLyrics = typeof body.fullLyrics === "string" ? body.fullLyrics : typeof body.lyrics === "string" ? body.lyrics : "";
+    const rawFullLyrics =
+      typeof body.fullLyrics === "string" ? body.fullLyrics : typeof body.lyrics === "string" ? body.lyrics : "";
     const rawSectionLyrics = typeof body.sectionLyrics === "string" ? body.sectionLyrics : "";
     // Suno ignores Markdown decoration (**[Verse]**) — normalize before sending
     const requestFullLyrics = normalizeSunoLyrics(rawFullLyrics);
@@ -170,7 +171,6 @@ serve(async (req) => {
       );
     }
 
-
     // Get user's telegram chat ID for notifications
     const { data: profile } = await supabase.from("profiles").select("telegram_id").eq("user_id", user.id).single();
 
@@ -279,7 +279,7 @@ serve(async (req) => {
         suno_task_id: newTaskId,
         generation_mode: "replace_section",
         model_used: track.model_name || "chirp-v4",
-        telegram_chat_id: profile?.telegram_chat_id,
+        telegram_chat_id: profile?.telegram_id,
         expected_clips: 2,
       })
       .select()

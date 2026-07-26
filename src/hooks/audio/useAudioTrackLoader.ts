@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { MutableRefObject } from "react";
 import type { Track } from "@/types/track";
 import { logger } from "@/lib/logger";
@@ -29,6 +29,8 @@ export function useAudioTrackLoader({
   getAudioSource,
   loadNonce = 0,
 }: AudioTrackLoaderOptions) {
+  const lastNonceRef = useRef(loadNonce);
+  const lastSourceRef = useRef<string | null>(null);
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -75,11 +77,18 @@ export function useAudioTrackLoader({
       return;
     }
 
-    // Force reload when loadNonce changes (retry path) even for the same track id.
+    // Force reload when loadNonce changes (retry/version-switch path) even for
+    // the same track id.  Use edge-detection via lastNonceRef so that after the
+    // first non-zero nonce the bail-out logic still works correctly (comparing
+    // to 0 would fail because loadNonce would always be > 0 thereafter).
     const trackChanged = trackId !== lastTrackIdRef.current;
-    if (!trackChanged && loadNonce === 0) return;
+    const nonceChanged = loadNonce !== lastNonceRef.current;
+    const sourceChanged = source !== lastSourceRef.current;
+    if (!trackChanged && !nonceChanged && !sourceChanged) return;
 
     lastTrackIdRef.current = trackId;
+    lastNonceRef.current = loadNonce;
+    lastSourceRef.current = source;
     isLoadingRef.current = true;
 
     logger.debug("Loading new track", {
