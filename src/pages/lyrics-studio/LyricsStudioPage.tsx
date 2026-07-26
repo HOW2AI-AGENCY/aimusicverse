@@ -207,6 +207,18 @@ export default function LyricsStudio() {
     }
   }, [templateId, templates, isProjectTrackMode]);
 
+  // Hydrate from navigation state (e.g. lyrics typed in the generate form)
+  useEffect(() => {
+    if (isProjectTrackMode || templateId) return;
+    if (navState?.initialTitle) setTitle(navState.initialTitle);
+    if (navState?.initialLyrics?.trim()) {
+      setSections(parseLyricsToSections(navState.initialLyrics));
+      setIsDirty(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navState?.initialLyrics, navState?.initialTitle, isProjectTrackMode, templateId]);
+
+
   const enrichedTags = useMemo(
     () => [...new Set(sectionNotes.flatMap((n) => n.tags ?? []))],
     [sectionNotes],
