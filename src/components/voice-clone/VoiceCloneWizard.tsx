@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2, Mic, Square, CheckCircle2, AlertCircle, RotateCcw, Copy, Sparkles } from "@/lib/icons";
 import { useVoiceCloneWizard, STEP_INDEX, STEP_LABEL, STEP_TOTAL } from "@/hooks/voice/useVoiceCloneWizard";
+import { useCustomVoices } from "@/hooks/voice/useCustomVoices";
 import { useVoiceRecorder } from "@/hooks/voice/useVoiceRecorder";
 import { notify } from "@/lib/notifications";
 import { logger } from "@/lib/logger";
