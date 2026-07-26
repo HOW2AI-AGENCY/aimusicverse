@@ -4,8 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loader2, Mic, Square, CheckCircle2, AlertCircle, RotateCcw, Copy, Sparkles } from "@/lib/icons";
+import { Loader2, Mic, Square, CheckCircle2, AlertCircle, RotateCcw, Copy, Sparkles, Trash2 } from "@/lib/icons";
+import { cn } from "@/lib/utils";
 import { useVoiceCloneWizard, STEP_INDEX, STEP_LABEL, STEP_TOTAL } from "@/hooks/voice/useVoiceCloneWizard";
+import { useCustomVoices } from "@/hooks/voice/useCustomVoices";
 import { useVoiceRecorder } from "@/hooks/voice/useVoiceRecorder";
 import { notify } from "@/lib/notifications";
 import { logger } from "@/lib/logger";
@@ -20,13 +22,17 @@ interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onComplete?: (voiceId: string) => void;
+  /** Currently selected voice_id in the generation form (enables the "select existing" panel). */
+  selectedVoiceId?: string | null;
+  /** Called when the user picks an existing voice (or clears the selection). */
+  onSelectVoice?: (voiceId: string | null) => void;
 }
 
 const MIN_SOURCE_SEC = 5;
 const MAX_SEGMENT_SEC = 30;
 const MIN_PHRASE_REC_SEC = 5;
 
-export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
+export function VoiceCloneWizard({ open, onOpenChange, onComplete, selectedVoiceId, onSelectVoice }: Props) {
   const {
     step,
     voice,
@@ -52,6 +58,17 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
     const l = navigator.language.split("-")[0]?.toLowerCase();
     return ["ru", "en", "es", "fr", "de", "it", "ja", "zh", "pt"].includes(l) ? l : "en";
   });
+
+  // ---- "select existing voice" panel (same window as the recorder) ----
+  const selectionEnabled = !!onSelectVoice;
+  const { voices, isLoading: voicesLoading, deleteVoice } = useCustomVoices();
+  const readyVoices = voices.filter((v) => v.voice_id && v.status === "ready" && v.is_available);
+  const [pane, setPane] = useState<"select" | "create">("select");
+  useEffect(() => {
+    if (!open) return;
+    setPane(selectionEnabled ? "select" : "create");
+  }, [open, selectionEnabled]);
+  const showSelectPane = selectionEnabled && pane === "select";
 
   // Microphone is the only accepted source for the voice sample (Suno requires sung audio).
   const sourceBlob: Blob | null = sourceRecorder.blob;
@@ -173,6 +190,14 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
   const segmentTooShort = vocalEnd - vocalStart < MIN_SOURCE_SEC;
 
   const footer = (() => {
+    if (step === "upload" && showSelectPane) {
+      return (
+        <Button className="w-full h-11" variant="outline" onClick={() => setPane("create")} data-testid="voice-new">
+          <Mic className="mr-2 h-4 w-4" />
+          Записать новый голос · 30 кредитов
+        </Button>
+      );
+    }
     if (step === "upload") {
       return (
         <Button
@@ -229,15 +254,93 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
       open={open}
       onOpenChange={(v) => (v ? onOpenChange(v) : close())}
       title="Кастомный голос"
-      description="30 кредитов · запись только с микрофона"
+      description={
+        showSelectPane ? "Выберите голос или запишите новый" : "30 кредитов · запись только с микрофона"
+      }
       icon={Mic}
       size="lg"
-      step={showSteps ? { current: stepIndex, total: STEP_TOTAL, label: STEP_LABEL[step] } : undefined}
+      step={showSteps && !showSelectPane ? { current: stepIndex, total: STEP_TOTAL, label: STEP_LABEL[step] } : undefined}
       footer={footer}
       data-testid="voice-clone-wizard"
     >
-      {step === "upload" && (
+      {step === "upload" && showSelectPane && (
+        <div className="space-y-2" data-testid="voice-select-pane">
+          <button
+            type="button"
+            onClick={() => {
+              onSelectVoice?.(null);
+              close();
+            }}
+            className={cn(
+              "w-full flex items-center gap-3 rounded-xl border p-3 text-left transition-colors",
+              !selectedVoiceId ? "border-primary/60 bg-primary/5" : "border-border/60 hover:bg-muted/40",
+            )}
+          >
+            <Mic className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm">Без кастомного голоса</span>
+            {!selectedVoiceId && <CheckCircle2 className="ml-auto h-4 w-4 text-primary" />}
+          </button>
+
+          {voicesLoading && <p className="text-xs text-muted-foreground px-1">Загрузка…</p>}
+
+          {!voicesLoading && readyVoices.length === 0 && (
+            <p className="text-xs text-muted-foreground px-1 py-2">
+              Готовых голосов пока нет — запишите первый ниже.
+            </p>
+          )}
+
+          {readyVoices.map((v) => {
+            const active = v.voice_id === selectedVoiceId;
+            return (
+              <div
+                key={v.id}
+                className={cn(
+                  "flex items-center gap-2 rounded-xl border p-3 transition-colors",
+                  active ? "border-primary/60 bg-primary/5" : "border-border/60",
+                )}
+              >
+                <button
+                  type="button"
+                  data-testid="voice-select-option"
+                  className="flex-1 min-w-0 text-left"
+                  onClick={() => {
+                    onSelectVoice?.(v.voice_id!);
+                    close();
+                  }}
+                >
+                  <p className="text-sm font-medium truncate">{v.voice_name}</p>
+                  <p className="text-[0.6875rem] text-muted-foreground truncate">
+                    {v.language ? `${v.language} · ` : ""}использован {v.usage_count ?? 0} раз
+                  </p>
+                </button>
+                {active && <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />}
+                <button
+                  type="button"
+                  aria-label={`Удалить голос ${v.voice_name}`}
+                  className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-destructive"
+                  onClick={() => {
+                    if (confirm(`Удалить голос «${v.voice_name}»?`)) {
+                      if (v.voice_id === selectedVoiceId) onSelectVoice?.(null);
+                      deleteVoice(v.id);
+                    }
+                  }}
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {step === "upload" && !showSelectPane && (
         <>
+          {selectionEnabled && (
+            <Button variant="ghost" size="sm" className="self-start -mb-1" onClick={() => setPane("select")}>
+              <RotateCcw className="mr-2 h-3 w-3" />
+              К списку голосов
+            </Button>
+          )}
           <div className="flex gap-2 rounded-xl border border-primary/25 bg-primary/5 p-3">
             <Mic className="h-4 w-4 shrink-0 text-primary mt-0.5" />
             <p className="text-xs text-muted-foreground leading-relaxed">
