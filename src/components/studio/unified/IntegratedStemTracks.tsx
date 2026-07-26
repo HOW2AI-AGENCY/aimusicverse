@@ -111,8 +111,11 @@ export function IntegratedStemTracks({
         type: stem.stem_type,
         level: simulatedLevels.stems[stem.id] ?? 0,
       })),
-    // Empty state
-    if (!stems || stems.length === 0) {
+    [stems, simulatedLevels],
+  );
+
+  // Empty state
+  if (!stems || stems.length === 0) {
       return (
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <Waves className="w-12 h-12 text-muted-foreground/40 mb-3" />
