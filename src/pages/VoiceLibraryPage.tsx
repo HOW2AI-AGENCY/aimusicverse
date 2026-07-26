@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router";
-import { Mic2, Plus, Trash2, CheckCircle2, Clock, AlertCircle, History } from "@/lib/icons";
+import { Link, useNavigate } from "react-router";
+import { Mic2, Plus, Trash2, CheckCircle2, Clock, AlertCircle, History, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useCustomVoices, type CustomVoice } from "@/hooks/voice/useCustomVoices";
 import { VoiceCloneWizard } from "@/components/voice-clone/VoiceCloneWizard";
+import { rememberLastVoice } from "@/api/voice-clone.api";
+import { toast } from "sonner";
 
 function statusBadge(v: CustomVoice) {
   if (v.status === "ready")
@@ -33,6 +35,15 @@ function statusBadge(v: CustomVoice) {
 export default function VoiceLibraryPage() {
   const { voices, isLoading, deleteVoice, isDeleting } = useCustomVoices();
   const [wizardOpen, setWizardOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const useVoice = (v: CustomVoice) => {
+    if (!v.voice_id) return;
+    rememberLastVoice(v.voice_id);
+    toast.success(`Голос «${v.voice_name}» подключён к генерации`);
+    navigate("/?openGenerate=1");
+  };
+
 
   return (
     <div className="container mx-auto p-4 max-w-4xl space-y-4">
@@ -86,17 +97,26 @@ export default function VoiceLibraryPage() {
               <div>Использован: {v.usage_count} раз</div>
             </div>
             {v.error_message && <p className="text-xs text-destructive">{v.error_message}</p>}
-            <Button
-              size="sm"
-              variant="ghost"
-              disabled={isDeleting}
-              onClick={() => {
-                if (confirm(`Удалить голос «${v.voice_name}»?`)) deleteVoice(v.id);
-              }}
-            >
-              <Trash2 className="mr-2 h-3 w-3" />
-              Удалить
-            </Button>
+            <div className="flex items-center gap-2 pt-1">
+              {v.status === "ready" && v.voice_id && v.is_available && (
+                <Button size="sm" className="flex-1" onClick={() => useVoice(v)} data-testid="voice-use-button">
+                  <Sparkles className="mr-2 h-3 w-3" />
+                  Использовать
+                </Button>
+              )}
+              <Button
+                size="sm"
+                variant="ghost"
+                disabled={isDeleting}
+                onClick={() => {
+                  if (confirm(`Удалить голос «${v.voice_name}»?`)) deleteVoice(v.id);
+                }}
+              >
+                <Trash2 className="mr-2 h-3 w-3" />
+                Удалить
+              </Button>
+            </div>
+
           </Card>
         ))}
       </div>

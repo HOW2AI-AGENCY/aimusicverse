@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Loader2, Mic, Music2, Palette, Copy, X } from "@/lib/icons";
 import { VoiceInputButton } from "@/components/ui/VoiceInputButton";
+import { CustomVoicePicker } from "@/components/voice-clone/CustomVoicePicker";
 import { SectionLabel, useSectionHints } from "./SectionLabel";
 import { SmartPromptSuggestions } from "./SmartPromptSuggestions";
 import { FormSection, FormDivider } from "./FormSection";
@@ -25,6 +26,8 @@ interface GenerateFormSimpleProps {
   onTitleChange: (value: string) => void;
   hasVocals: boolean;
   onHasVocalsChange: (value: boolean) => void;
+  customVoiceId?: string | null;
+  onCustomVoiceChange?: (voiceId: string | null) => void;
   onBoostStyle: () => void;
   boostLoading: boolean;
   onOpenStyles?: () => void;
@@ -37,6 +40,8 @@ export function GenerateFormSimple({
   onTitleChange,
   hasVocals,
   onHasVocalsChange,
+  customVoiceId,
+  onCustomVoiceChange,
   onBoostStyle,
   boostLoading,
   onOpenStyles,
@@ -310,6 +315,16 @@ export function GenerateFormSimple({
           </div>
         </div>
       </FormSection>
+
+      {hasVocals && onCustomVoiceChange && (
+        <>
+          <FormDivider />
+          <FormSection elevated>
+            <CustomVoicePicker value={customVoiceId ?? null} onChange={onCustomVoiceChange} />
+          </FormSection>
+        </>
+      )}
     </motion.div>
+
   );
 }
