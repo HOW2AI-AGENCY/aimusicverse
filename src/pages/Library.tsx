@@ -282,7 +282,7 @@ export default function Library() {
 
         {/* Main Content - with master-detail layout on desktop */}
         <div
-          className={cn("flex-1 min-w-0 flex overflow-hidden", !isMobile && selectedTrackId && "xl:gap-6 2xl:gap-8")}
+          className={cn("flex-1 min-w-0 flex overflow-hidden px-4 sm:px-6", !isMobile && selectedTrackId && "xl:gap-6 2xl:gap-8")}
         >
           {/* Track List Section — only this column scrolls */}
           <div
