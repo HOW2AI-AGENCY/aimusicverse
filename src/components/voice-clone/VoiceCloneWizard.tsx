@@ -189,6 +189,14 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete, selectedVoice
   const segmentTooShort = vocalEnd - vocalStart < MIN_SOURCE_SEC;
 
   const footer = (() => {
+    if (step === "upload" && showSelectPane) {
+      return (
+        <Button className="w-full h-11" variant="outline" onClick={() => setPane("create")} data-testid="voice-new">
+          <Mic className="mr-2 h-4 w-4" />
+          Записать новый голос · 30 кредитов
+        </Button>
+      );
+    }
     if (step === "upload") {
       return (
         <Button
