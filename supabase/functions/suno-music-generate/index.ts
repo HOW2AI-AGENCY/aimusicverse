@@ -182,7 +182,6 @@ serve(async (req) => {
     }
 
     // Validation
-    const customMode = mode === "custom";
     const validationFail = (msg: string, code: string, extra?: Record<string, unknown>) => {
       logger.warn("Validation failed", { code, msg, ...extra });
       emit({
