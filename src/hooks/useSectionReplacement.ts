@@ -40,9 +40,13 @@ export function useSectionReplacement({
   const startTime = customRange?.start ?? selectedSection?.startTime ?? 0;
   const endTime = customRange?.end ?? selectedSection?.endTime ?? 0;
   const sectionDuration = endTime - startTime;
-  // Use a reasonable default max duration if track duration is 0 (not loaded yet)
-  const maxDuration = duration > 0 ? duration * 0.5 : 120; // 2 min default max
-  const isValidDuration = sectionDuration > 0 && (duration === 0 || sectionDuration <= maxDuration);
+  // Suno hard limits for infill: section must be between 6 and 60 seconds.
+  const MIN_SECTION_SECONDS = 6;
+  const MAX_SECTION_SECONDS = 60;
+  // Also cannot exceed 50% of the track duration.
+  const maxDuration = Math.min(MAX_SECTION_SECONDS, duration > 0 ? duration * 0.5 : MAX_SECTION_SECONDS);
+  const isValidDuration = sectionDuration >= MIN_SECTION_SECONDS && sectionDuration <= maxDuration;
+
   const hasSelection = customRange !== null || selectedSection !== null;
 
   // Initialize tags and lyrics from selection.
