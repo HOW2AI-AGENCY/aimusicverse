@@ -72,11 +72,15 @@ export function useTrackActions() {
     }
   };
 
-  const handleSeparateVocals = async (track: Track, mode: "simple" | "detailed" = "simple", versionSunoId?: string) => {
+  const handleSeparateVocals = async (
+    track: Track,
+    mode: "simple" | "detailed" = "simple",
+    versionSunoId?: string,
+  ): Promise<boolean> => {
     const sunoId = versionSunoId || track.suno_id;
     if (!track.suno_task_id || !sunoId) {
       toast.error("Невозможно разделить вокал для этого трека");
-      return;
+      return false;
     }
 
     setIsProcessing(true);
@@ -96,11 +100,18 @@ export function useTrackActions() {
       });
 
       if (error) throw error;
+      if (data?.success === false) throw new Error(data.error || "Ошибка разделения");
 
-      toast.success("Разделение началось! Стемы появятся после завершения");
+      queryClient.invalidateQueries({ queryKey: ["stem-separation-tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["track-stems", track.id] });
+      toast.success("Разделение началось", {
+        description: "Открою студию и покажу прогресс обработки",
+      });
+      return true;
     } catch (error) {
       logger.error("Separation error", error);
       toast.error(error instanceof Error ? error.message : "Ошибка разделения");
+      return false;
     } finally {
       setIsProcessing(false);
     }

@@ -36,11 +36,13 @@ import { useProjectTrackSync } from "@/hooks/studio/useProjectTrackSync";
 import { useStudioOperationLock } from "@/hooks/studio/useStudioOperationLock";
 import { useSourceTrack } from "@/hooks/studio/useSourceTrack";
 import { useStudioRealtime } from "@/hooks/studio/useStudioRealtime";
+import { useStemSeparationRealtime } from "@/hooks/useStemSeparationRealtime";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { OptimizedTransport } from "./OptimizedTransport";
 import { MobileStudioPlayerBar } from "./MobileStudioPlayerBar";
 import { AIActionsFAB } from "./AIActionsFAB";
+import { StemSeparationProgress } from "@/components/stem-studio/StemSeparationProgress";
 import { cn } from "@/lib/utils";
 import { Loader2, Volume2, VolumeX, Upload, Plus } from "@/lib/icons";
 import { toast } from "sonner";
@@ -193,6 +195,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
   // ── Stem DB sync + realtime ───────────────────────────────────────────
   const { isMountedRef } = useStudioStemSync({ projectId: project?.id, sourceTrackId });
+  const stemRealtime = useStemSeparationRealtime(sourceTrackId ?? null);
 
   // ── Source track (via API layer) ──────────────────────────────────────
   const { data: sourceTrack } = useSourceTrack(sourceTrackId ?? null);
@@ -535,6 +538,13 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         showFallbackWarning={showFallbackWarning}
         activeStemsCount={activeStems.length}
         limitedStems={limitedStems as unknown as React.ComponentProps<typeof StudioShellContent>["limitedStems"]}
+        stemProgress={
+          <StemSeparationProgress
+            task={stemRealtime.activeTask}
+            progress={stemRealtime.progress}
+            className="mb-2"
+          />
+        }
         onDismissWarning={dismissWarning}
         onShowAddTrackDialog={() => dialogs.setShowAddTrackDialog(true)}
         isMobile={isMobile}

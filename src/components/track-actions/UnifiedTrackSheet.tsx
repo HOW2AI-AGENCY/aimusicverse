@@ -367,10 +367,9 @@ export function UnifiedTrackSheet({ track, open, onOpenChange, onDelete, onDownl
           if (!dialogOpen) onOpenChange(false);
         }}
         isProcessing={isProcessing}
-        onSelectMode={(mode) => {
+        onSelectMode={async (mode) => {
+          await executeAction(mode === "simple" ? "stems_simple" : "stems_detailed");
           setStemsModeOpen(false);
-          onOpenChange(false);
-          executeAction(mode === "simple" ? "stems_simple" : "stems_detailed");
         }}
       />
 
