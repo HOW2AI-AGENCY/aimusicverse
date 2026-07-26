@@ -638,18 +638,17 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           onExtend={() => {
             const t = project.tracks[0];
             if (t) {
-              dialogs.setExtendingTrackId(t.id);
+              dialogs.setSelectedExtendTrack(t);
               dialogs.setShowExtendDialog(true);
             }
           }}
-          onCover={() => {
+          onAddVocals={() => {
             const t = project.tracks[0];
             if (t) {
-              dialogs.setCoveringTrackId(t.id);
-              dialogs.setShowCoverDialog(true);
+              dialogs.setSelectedVocalsTrack(t);
+              dialogs.setShowAddVocalsDrawer(true);
             }
           }}
-          onAddVocals={() => dialogs.setShowAudioActionDialog(true)}
           onSeparateStems={() => dialogs.setShowStemSeparationDialog(true)}
           onSaveAsVersion={() => dialogs.setShowSaveVersionDialog(true)}
           onAddInstrumental={() => {
