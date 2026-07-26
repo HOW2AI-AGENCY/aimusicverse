@@ -301,6 +301,7 @@ serve(async (req) => {
     } else {
       sunoPayload.prompt = prompt;
     }
+    if (style) sunoPayload.style = style;
     if (negativeTags) sunoPayload.negativeTags = negativeTags;
     if (vocalGender) sunoPayload.vocalGender = vocalGender;
     if (styleWeight !== undefined) sunoPayload.styleWeight = styleWeight;
