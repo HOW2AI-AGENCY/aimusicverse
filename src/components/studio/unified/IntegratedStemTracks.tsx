@@ -89,6 +89,7 @@ export function IntegratedStemTracks({
   const isMobile = useIsMobile();
   const [isExpanded, setIsExpanded] = useState(true);
   const [isHardwareMode, setIsHardwareMode] = useState(false);
+  const [pendingDeleteStem, setPendingDeleteStem] = useState<TrackStem | null>(null);
   const haptic = useHapticFeedback();
 
   const toggleExpand = useCallback(() => {
@@ -100,6 +101,24 @@ export function IntegratedStemTracks({
     haptic.impact();
     setIsHardwareMode((prev) => !prev);
   }, [haptic]);
+
+  // S6 — deleting a stem is destructive and irreversible: require confirmation.
+  const handleStemAction = useCallback<IntegratedStemTracksProps["onStemAction"]>(
+    (stem, action) => {
+      if (action === "delete") {
+        haptic.impact();
+        setPendingDeleteStem(stem);
+        return;
+      }
+      onStemAction(stem, action);
+    },
+    [haptic, onStemAction],
+  );
+
+  const confirmDeleteStem = useCallback(() => {
+    if (pendingDeleteStem) onStemAction(pendingDeleteStem, "delete");
+    setPendingDeleteStem(null);
+  }, [pendingDeleteStem, onStemAction]);
 
   const simulatedLevels = useSimulatedStemLevels(stemStates, masterVolume, masterMuted, isPlaying);
 
