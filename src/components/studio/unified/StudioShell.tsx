@@ -9,7 +9,7 @@
  * - useStudioCallbacks    — save / back / seek / play / stem-separation callbacks
  */
 
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { useUnifiedStudioStore } from "@/stores/useUnifiedStudioStore";
 import { useViewStore } from "@/stores/studio";
@@ -18,7 +18,6 @@ import { StudioShellDialogs } from "./StudioShellDialogs";
 import { StudioShellContent } from "./StudioShell/StudioShellContent";
 import { useStudioShellState } from "./StudioShell/useStudioShellState";
 import { useStudioKeyboardShortcuts } from "./StudioShell/useStudioKeyboardShortcuts";
-import { useStudioStemSync } from "./StudioShell/useStudioStemSync";
 import { useStudioCallbacks } from "./StudioShell/useStudioCallbacks";
 import { useStudioAudioEngine, AudioTrack } from "@/hooks/studio/useStudioAudioEngine";
 import { useMobileAudioFallback } from "@/hooks/studio/useMobileAudioFallback";
