@@ -38,6 +38,7 @@ import { BotContextBanner } from "@/components/home/BotContextBanner";
 import { FirstTimeHeroCard } from "@/components/home/FirstTimeHeroCard";
 import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
 import { CreativePresetsSection } from "@/components/home/CreativePresetsSection";
+import { LyricsStudioBanner } from "@/components/home/LyricsStudioBanner";
 import { DiscoverTabs } from "@/components/home/DiscoverTabs";
 import { HomeDesktopSidebar } from "@/components/home/HomeDesktopSidebar";
 import { HomeMobileSynthHero } from "@/components/home/HomeMobileSynthHero";
@@ -150,7 +151,9 @@ const Index = () => {
         density="compact"
       >
         <HomeQuickCreate onCreateClick={handleCreate} />
+        <LyricsStudioBanner className="mt-3" />
         <CreativePresetsSection onTrackPresetSelect={handleQuickGenrePreset} />
+
       </Section>
     ),
     [t, handleCreate, handleQuickGenrePreset],

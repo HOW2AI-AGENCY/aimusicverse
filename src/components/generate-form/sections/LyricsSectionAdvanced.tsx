@@ -405,7 +405,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                       appendMode
                       onAIAssist={onOpenLyricsAssistant}
                       onOpenTemplates={() => setTemplateSelectorOpen(true)}
-                      onOpenStudio={() => navigate("/lyrics-studio")}
+                      onOpenStudio={() => navigate("/lyrics-studio", { state: { initialLyrics: lyrics } })}
                       onSave={async () => setSaveDialogOpen(true)}
                       showSave
                       size="lg"

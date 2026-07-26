@@ -9,7 +9,7 @@
  */
 
 import { useState, useCallback, useMemo, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router";
+import { useNavigate, useSearchParams, useLocation } from "react-router";
 import { Loader2, Plus, FileText } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -43,11 +43,16 @@ import {
 
 export default function LyricsStudio() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const templateId = searchParams.get("template");
   const projectId = searchParams.get("projectId");
   const trackId = searchParams.get("trackId");
   const isMobile = useIsMobile();
+
+  // Context handed over from the generate form / other entry points
+  const navState = (location.state ?? null) as { initialLyrics?: string; initialTitle?: string } | null;
+
 
   // Project track mode
   const isProjectTrackMode = !!(projectId && trackId);
@@ -86,14 +91,18 @@ export default function LyricsStudio() {
 
   const { user } = useAuth();
   const { templates, saveTemplate, isLoading: templatesLoading } = useLyricsTemplates();
-  const { sectionNotes, saveSectionNote, getAllSuggestedTags } = useSectionNotes(
-    templateId || undefined,
-  ) as unknown as {
-    sectionNotes: Array<{ section_type?: string; notes?: string; tags?: string[] }>;
-    saveSectionNote: (data: SaveSectionNoteData) => Promise<unknown>;
-    getAllSuggestedTags: () => string[];
-  };
-  void saveSectionNote;
+  // useSectionNotes returns { data, createNote, ... } — adapt it to the shape this page needs.
+  const { data: rawSectionNotes } = useSectionNotes(templateId || undefined);
+  const sectionNotes = useMemo(
+    () =>
+      (rawSectionNotes ?? []).map((n) => ({
+        section_type: n.sectionType ?? undefined,
+        notes: n.content ?? undefined,
+        tags: n.tags ?? undefined,
+      })),
+    [rawSectionNotes],
+  );
+
 
   const [sections, setSections] = useState<LyricsSection[]>([]);
   const [globalTags, setGlobalTags] = useState<string[]>([]);
@@ -198,7 +207,23 @@ export default function LyricsStudio() {
     }
   }, [templateId, templates, isProjectTrackMode]);
 
-  const enrichedTags = useMemo(() => getAllSuggestedTags(), [getAllSuggestedTags]);
+  // Hydrate from navigation state (e.g. lyrics typed in the generate form)
+  useEffect(() => {
+    if (isProjectTrackMode || templateId) return;
+    if (navState?.initialTitle) setTitle(navState.initialTitle);
+    if (navState?.initialLyrics?.trim()) {
+      setSections(parseLyricsToSections(navState.initialLyrics));
+      setIsDirty(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navState?.initialLyrics, navState?.initialTitle, isProjectTrackMode, templateId]);
+
+
+  const enrichedTags = useMemo(
+    () => [...new Set(sectionNotes.flatMap((n) => n.tags ?? []))],
+    [sectionNotes],
+  );
+
 
   const handleSectionsChange = useCallback((newSections: LyricsSection[]) => {
     setSections(newSections);
@@ -256,10 +281,14 @@ export default function LyricsStudio() {
 
   const handleSaveNote = useCallback(
     async (data: SaveSectionNoteData) => {
-      await saveSectionNote(data);
+      // Local-only note persistence: attach the note text to the selected section.
+      const content = typeof data === "string" ? data : ((data as { content?: string } | null)?.content ?? "");
+      setSections((prev) => prev.map((s) => (s.id === selectedSection?.id ? { ...s, notes: content } : s)));
+      setIsDirty(true);
     },
-    [saveSectionNote],
+    [selectedSection?.id],
   );
+
 
   const handleLoadTemplate = useCallback(
     (template: { id: string; name: string; lyrics: string }) => {
