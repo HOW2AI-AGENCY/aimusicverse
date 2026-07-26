@@ -263,7 +263,7 @@ export function IntegratedStemTracks({
                 onStemToggle={onStemToggle}
                 onStemVolumeChange={onStemVolumeChange}
                 onSeek={onSeek}
-                onStemAction={onStemAction}
+                onStemAction={handleStemAction}
                 renderMobileRow={(props) => <StemTrackRowMobile {...props} />}
                 renderDesktopRow={(props) => <StemTrackRowDesktop {...props} />}
               />
@@ -271,6 +271,31 @@ export function IntegratedStemTracks({
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AlertDialog open={!!pendingDeleteStem} onOpenChange={(o) => !o && setPendingDeleteStem(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <Trash2 className="w-4 h-4 text-destructive" />
+              Удалить стем?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {pendingDeleteStem
+                ? `Дорожка «${pendingDeleteStem.stem_type}» будет удалена безвозвратно. Это действие нельзя отменить.`
+                : ""}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Отмена</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDeleteStem}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Удалить
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </motion.div>
   );
 }
