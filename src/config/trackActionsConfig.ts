@@ -10,6 +10,7 @@ import {
   Music2,
   Video,
   Layers,
+  Shuffle,
   Plus,
   Music,
   Globe,
@@ -66,6 +67,8 @@ export type ActionId =
   | "generate_cover"
   | "cover"
   | "extend"
+  | "cover"
+  | "mashup"
   | "remix"
   | "generate_similar"
   | "create_artist_persona"
@@ -350,12 +353,20 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     priority: 43,
     requiresCompleted: true,
   },
-  remix: {
-    id: "remix",
-    label: "Ремикс",
+  cover: {
+    id: "cover",
+    label: "Кавер",
     icon: Music,
     category: "create",
     priority: 44,
+    requiresSunoId: true,
+  },
+  mashup: {
+    id: "mashup",
+    label: "Ремикс (мэшап)",
+    icon: Shuffle,
+    category: "create",
+    priority: 45,
     requiresSunoId: true,
   },
   generate_similar: {
