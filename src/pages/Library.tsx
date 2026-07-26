@@ -48,7 +48,6 @@ import { gridGap, containerPadding, contentSpacing, sectionGap } from "@/lib/des
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { DesktopLibrarySidebar } from "@/components/library/DesktopLibrarySidebar";
-import { MobileGenerateFab } from "@/components/library/MobileGenerateFab";
 import { TrackDetailPanel } from "@/components/library/TrackDetailPanel";
 
 // Extracted hooks and components
@@ -504,10 +503,7 @@ export default function Library() {
         deepLinkDialogTrack={deepLinkDialogTrack}
         deepLinkDialogType={deepLinkDialogType}
         onCloseDeepLinkDialog={closeDeepLinkDialog}
-      />
-
-      {/* Mobile FAB + generation sheet */}
-      <MobileGenerateFab />
+      </LibraryDialogs>
     </ErrorBoundaryWrapper>
   );
 }
