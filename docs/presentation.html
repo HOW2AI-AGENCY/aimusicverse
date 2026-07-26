@@ -204,9 +204,36 @@ section.blk{padding-block:clamp(64px,9vw,116px) 0}
 /* ————— AI Harness ————— */
 .harness-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(24px,4vw,48px);margin-top:clamp(36px,5vw,64px);align-items:start}
 @media (max-width:920px){.harness-grid{grid-template-columns:1fr}}
-.harness-diagram img{display:block;width:100%;height:auto}
+.harness-diagram{position:relative}
+.harness-diagram img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--line);background:var(--panel-2);
+  box-shadow:0 20px 60px rgba(0,0,0,.35),inset 0 0 0 1px rgba(47,159,244,.05);
+  transition:box-shadow .4s ease,border-color .4s ease}
+.harness-diagram:hover img{border-color:rgba(47,159,244,.28);box-shadow:0 28px 80px rgba(0,0,0,.4),0 0 40px rgba(47,159,244,.08)}
 .harness-points{display:flex;flex-direction:column;gap:28px}
-.harness-points .th{margin:0}
+.harness-points .th{margin:0;padding:22px 24px;background:var(--panel-2);border:1px solid var(--line);border-radius:14px;
+  transition:border-color .3s,transform .3s;position:relative;overflow:hidden}
+.harness-points .th::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--amber);opacity:0;transition:opacity .3s}
+.harness-points .th:hover{border-color:rgba(240,164,75,.3);transform:translateX(4px)}
+.harness-points .th:hover::before{opacity:1}
+.harness-points .th h3{display:flex;align-items:center;gap:8px}
+.harness-points .th h3::after{content:'';flex:1;height:1px;background:var(--line);margin-left:8px}
+
+/* Pipeline visualization */
+.harness-pipeline{display:flex;align-items:stretch;gap:0;margin-top:clamp(40px,6vw,64px);padding:28px 32px;
+  background:var(--panel-2);border:1px solid var(--line);border-radius:16px;overflow-x:auto;
+  box-shadow:0 14px 40px rgba(0,0,0,.2)}
+.pipe-step{display:flex;flex-direction:column;gap:4px;min-width:140px;padding:14px 18px;border-radius:10px;
+  background:var(--panel);border:1px solid var(--line);position:relative;transition:border-color .3s,background .3s}
+.pipe-step:hover{border-color:rgba(47,159,244,.3);background:rgba(47,159,244,.04)}
+.pipe-step.accent{border-color:rgba(47,159,244,.35);background:rgba(47,159,244,.06)}
+.pipe-step.accent .pipe-num{color:var(--blue)}
+.pipe-num{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.1em}
+.pipe-label{font-family:var(--disp);font-weight:500;font-size:15px;color:var(--paper)}
+.pipe-desc{font-size:12px;color:var(--mute);line-height:1.4}
+.pipe-arrow{display:flex;align-items:center;padding:0 6px;color:var(--dim);font-size:20px;flex:none;
+  animation:pipeFlow 2s ease-in-out infinite}
+@keyframes pipeFlow{0%,100%{opacity:.3;transform:translateX(0)}50%{opacity:1;transform:translateX(3px)}}
+@media (max-width:760px){.harness-pipeline{flex-direction:column;gap:8px}.pipe-arrow{display:none}}
 .th{border-top:1px solid var(--line);padding-top:20px}
 .th .tick{display:block;width:22px;height:3px;background:var(--amber);border-radius:2px;margin-bottom:18px}
 .th h3{font-size:17.5px;font-weight:500;margin-bottom:12px}
@@ -717,7 +744,7 @@ section.blk{padding-block:clamp(64px,9vw,116px) 0}
 
       <div class="harness-grid rv" style="--d:.16s">
         <div class="harness-diagram">
-          <img src="images/lyrics-harness-hero.svg" alt="Архитектура AI-харнесса: UI инструменты → контекстный билдер → Edge Function → Gemini 2.5 Flash" loading="lazy" style="width:100%;border-radius:12px;border:1px solid var(--line);background:var(--panel-2)">
+          <img src="images/lyrics-harness-hero.svg" alt="Архитектура AI-харнесса: UI инструменты → контекстный билдер → Edge Function → Gemini 2.5 Flash" loading="lazy">
           <p class="mono" style="text-align:center;margin-top:10px;color:var(--dim);font-size:11px">fig. — Три слоя: action-пресеты (слева) → контекст (центр) → Edge Function + LLM (справа)</p>
         </div>
 
@@ -745,28 +772,31 @@ section.blk{padding-block:clamp(64px,9vw,116px) 0}
         </div>
       </div>
 
-      <div class="ps-grid" style="margin-top:48px">
-        <article class="ps rv">
-          <span class="ps-k">Блокировки в РФ</span>
-          <h3>Supabase и LLM недоступны напрямую</h3>
-          <p class="ps-p">Значительная часть пользователей — из России, где OpenAI, Anthropic и часть CDN заблокированы. Прямой вызов <code>api.openai.com</code> из Telegram WebView в iOS не проходит.</p>
-          <div class="ps-s"><b>Решение</b><p>Lovable AI Gateway как единая точка входа: запрос идёт через <code>ai.gateway.lovable.dev</code>, который маршрутизируется и ретраится. Edge Function в Supabase Cloud доступна из РФ через собственную CDN.</p></div>
-          <p class="ps-r">Результат: <em>пользователи из Москвы и Пхукета получают одинаковую скорость генерации.</em></p>
-        </article>
-        <article class="ps rv" style="--d:.06s">
-          <span class="ps-k">Скорость в Mini App</span>
-          <h3>WebView ≠ браузер</h3>
-          <p class="ps-p">Telegram Mini App работает в WebView (Chrome на Android, WKWebView на iOS). Разница в производительности — 3-4x. Бандл 2 МБ gzipped давал 4-6 секунд первого рендера на 3G.</p>
-          <div class="ps-s"><b>Решение</b><p>Code-splitting по маршрутам, lazy-loading Recharts (14 компонентов), SSE streaming вместо ожидания полного ответа, централизованные иконки для tree-shaking.</p></div>
-          <p class="ps-r">Результат: <em>2 МБ → 480 КБ бандл, первый рендер ~1.2с на 3G.</em></p>
-        </article>
-        <article class="ps rv" style="--d:.12s">
-          <span class="ps-k">Хрупкость JSON</span>
-          <h3>LLM возвращает грязный JSON</h3>
-          <p class="ps-p">Gemini 2.5 Flash в 5% случаев оборачивает JSON в markdown, добавляет trailing commas или не закрывает скобки. Frontend падает на парсинге.</p>
-          <div class="ps-s"><b>Решение</b><p>Двухуровневый парсер: backend извлекает JSON greedy-регулярками, фронтенд нормализует через <code>extractJSON()</code> с fallback на raw text. Стриминг аккумулирует сырой текст и извлекает поле <code>"lyrics"</code> на лету.</p></div>
-          <p class="ps-r">Результат: <em>95% успешных парсингов, fallback на raw-текст для остальных 5%.</em></p>
-        </article>
+      <!-- Harness pipeline visualization -->
+      <div class="harness-pipeline rv" style="--d:.22s">
+        <div class="pipe-step">
+          <span class="pipe-num">01</span>
+          <span class="pipe-label">UI Tool</span>
+          <span class="pipe-desc">9 action-пресетов</span>
+        </div>
+        <span class="pipe-arrow" aria-hidden="true">→</span>
+        <div class="pipe-step">
+          <span class="pipe-num">02</span>
+          <span class="pipe-label">Context</span>
+          <span class="pipe-desc">альбом · трек · теги · история</span>
+        </div>
+        <span class="pipe-arrow" aria-hidden="true">→</span>
+        <div class="pipe-step">
+          <span class="pipe-num">03</span>
+          <span class="pipe-label">Edge Function</span>
+          <span class="pipe-desc">промпт-реестр · SSE</span>
+        </div>
+        <span class="pipe-arrow" aria-hidden="true">→</span>
+        <div class="pipe-step accent">
+          <span class="pipe-num">04</span>
+          <span class="pipe-label">Gemini 2.5 Flash</span>
+          <span class="pipe-desc">→ JSON результат</span>
+        </div>
       </div>
     </div>
   </section>
@@ -822,6 +852,20 @@ section.blk{padding-block:clamp(64px,9vw,116px) 0}
           <p class="ps-p">Генерации, треки и оплаты — данные, которые нельзя терять или раскрывать, а секреты недопустимо держать на стороне клиента.</p>
           <div class="ps-s"><b>Решение</b><p>Доступ ограничен политиками на уровне базы данных, секреты живут только в серверных функциях, внешние колбэки подписаны, зависимости регулярно проверяются.</p></div>
           <p class="ps-r">Результат: <em>аудит июля 2026, критические замечания закрыты.</em></p>
+        </article>
+        <article class="ps rv" style="--d:.36s">
+          <span class="ps-k">Блокировки в РФ</span>
+          <h3>LLM и API недоступны напрямую</h3>
+          <p class="ps-p">Значительная часть пользователей — из России, где OpenAI, Anthropic и часть CDN заблокированы. Прямой вызов <code>api.openai.com</code> из Telegram WebView в iOS не проходит.</p>
+          <div class="ps-s"><b>Решение</b><p>Lovable AI Gateway как единая точка входа: запрос идёт через шлюз, который маршрутизируется и ретраится. Edge Function в Supabase Cloud доступна из РФ через собственную CDN.</p></div>
+          <p class="ps-r">Результат: <em>пользователи из Москвы и Пхукета получают одинаковую скорость генерации.</em></p>
+        </article>
+        <article class="ps rv" style="--d:.42s">
+          <span class="ps-k">Хрупкость JSON от LLM</span>
+          <h3>Модель возвращает грязный JSON</h3>
+          <p class="ps-p">Gemini 2.5 Flash в 5% случаев оборачивает JSON в markdown, добавляет trailing commas или не закрывает скобки. Frontend падает на парсинге.</p>
+          <div class="ps-s"><b>Решение</b><p>Двухуровневый парсер: backend извлекает JSON greedy-регулярками, фронтенд нормализует через <code>extractJSON()</code> с fallback на raw text. Стриминг аккумулирует текст и извлекает <code>"lyrics"</code> на лету.</p></div>
+          <p class="ps-r">Результат: <em>95% успешных парсингов, fallback на raw-текст для остальных 5%.</em></p>
         </article>
       </div>
     </div>
