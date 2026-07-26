@@ -223,3 +223,41 @@ useLyricsStore.subscribe((state) => {
 });
 
 composedLogger.info("Studio stores composed successfully");
+
+// ============ Project <-> Track store bridge ============
+// UI renders `project.tracks`, while track actions (addTrack/addClip/...) live in
+// useTrackStore. Without this bridge stems added at runtime never appear in the DAW.
+let isSeedingTracks = false;
+let bridgedProjectId: string | null = null;
+
+useProjectStore.subscribe((state) => {
+  const project = state.project;
+  if (!project) {
+    if (bridgedProjectId !== null) {
+      bridgedProjectId = null;
+      isSeedingTracks = true;
+      useTrackStore.getState().clearTracks();
+      isSeedingTracks = false;
+    }
+    return;
+  }
+  if (project.id !== bridgedProjectId) {
+    bridgedProjectId = project.id;
+    isSeedingTracks = true;
+    useTrackStore.getState().setTracks(project.tracks || []);
+    isSeedingTracks = false;
+  }
+});
+
+useTrackStore.subscribe(
+  (state) => state.tracks,
+  (tracks) => {
+    if (isSeedingTracks) return;
+    const { project } = useProjectStore.getState();
+    if (!project || project.tracks === tracks) return;
+    useProjectStore.setState({
+      project: { ...project, tracks },
+      hasUnsavedChanges: true,
+    });
+  },
+);
