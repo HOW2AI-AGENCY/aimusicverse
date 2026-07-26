@@ -630,45 +630,6 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         </div>
       )}
 
-      {/* Mobile FAB */}
-      {isMobile && project.tracks.length > 0 && (
-        <AIActionsFAB
-          onGenerate={() => dialogs.setShowGenerateSheet(true)}
-          onExtend={() => {
-            const t = project.tracks[0];
-            if (t) {
-              dialogs.setSelectedExtendTrack(t);
-              dialogs.setShowExtendDialog(true);
-            }
-          }}
-          onAddVocals={() => {
-            const t = project.tracks[0];
-            if (t) {
-              dialogs.setSelectedVocalsTrack(t);
-              dialogs.setShowAddVocalsDrawer(true);
-            }
-          }}
-          onSeparateStems={() => dialogs.setShowStemSeparationDialog(true)}
-          onSaveAsVersion={() => dialogs.setShowSaveVersionDialog(true)}
-          onAddInstrumental={() => {
-            const vocal = project.tracks.find((t) => t.type === "vocal");
-            if (vocal) {
-              dialogs.setSelectedArrangementTrack(vocal);
-              dialogs.setShowArrangementDialog(true);
-            }
-          }}
-          onOpenMusicLab={() => dialogs.setShowMusicLabSheet(true)}
-          onOpenLyrics={() => dialogs.setShowLyricsSheet(true)}
-          onOpenPresets={() => dialogs.setShowPresetsSheet(true)}
-          onOpenDashboard={() => dialogs.setShowDashboardSheet(true)}
-          disabledOperations={operationLock.blockedOperations}
-          getDisabledReason={operationLock.getBlockReason}
-          canSaveAsNewVersion={operationLock.canSaveAsNewVersion}
-          disabled={isSeparating}
-          className="fixed bottom-28 right-4 z-40"
-        />
-      )}
-
       {/* Mobile player bar */}
       {isMobile && (
         <MobileStudioPlayerBar
