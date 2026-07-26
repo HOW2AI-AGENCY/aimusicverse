@@ -198,7 +198,10 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
   // ── Lyrics + section detection ────────────────────────────────────────
   const { data: lyricsData } = useTimestampedLyrics(sourceTrack?.suno_task_id || null, sourceTrack?.suno_id || null);
-  const detectedSections = useSectionDetection(sourceTrack?.lyrics, lyricsData?.alignedWords, duration);
+  // Suno-tag normalization must happen before detection: markdown-wrapped tags
+  // (**[Verse]**) otherwise leak into section labels and section lyrics.
+  const normalizedTrackLyrics = useMemo(() => normalizeSunoLyrics(sourceTrack?.lyrics ?? null), [sourceTrack?.lyrics]);
+  const detectedSections = useSectionDetection(normalizedTrackLyrics, lyricsData?.alignedWords, duration);
   const { data: replacedSectionsData } = useReplacedSections(sourceTrackId || "");
   const replacedRanges = useMemo(
     () => (replacedSectionsData || []).map((s) => ({ start: s.start, end: s.end })),
