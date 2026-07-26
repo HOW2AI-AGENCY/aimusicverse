@@ -56,7 +56,10 @@ export function CustomVoicePicker({ value, onChange }: Props) {
     restoredRef.current = true;
     rememberLastVoice(next);
     onChange(next);
+    // Occasional reminder (max once per 7 days) that cloning copies timbre/style
+    if (next) setDisclaimerTrigger((n) => n + 1);
   };
+
 
   return (
     <div className="space-y-1" data-testid="custom-voice-picker">
