@@ -12,7 +12,7 @@ import { logger } from "@/lib/logger";
 import { usePreviewAudio } from "@/hooks/audio/usePreviewAudio";
 import { AudioPriority } from "@/lib/audioElementPool";
 import { VoiceWaveformEditor } from "./VoiceWaveformEditor";
-import { trimAudioBlob } from "@/lib/audio/trimAudio";
+import { trimAudioToMp3 } from "@/lib/audio/trimAudio";
 import { GenerateModal } from "@/components/generate-form/primitives";
 import { FormSettingCard } from "@/components/generate-form/primitives";
 
@@ -146,7 +146,7 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
     if (!sourceBlob) return;
     try {
       // Client-side trim to reduce upload size and let backend see clean 0..N range
-      const trimmed = await trimAudioBlob(sourceBlob, vocalStart, vocalEnd);
+      const trimmed = await trimAudioToMp3(sourceBlob, vocalStart, vocalEnd);
       startValidation({
         voiceName,
         sourceFile: trimmed,
