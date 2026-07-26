@@ -119,6 +119,8 @@ serve(async (req) => {
 
     logger.apiCall("SunoAPI", "vocal-removal/generate", { type: apiType, mode });
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
     const startTime = Date.now();
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/vocal-removal/generate", {
       method: "POST",
@@ -127,7 +129,9 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(requestBody),
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
 
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
@@ -171,19 +175,8 @@ serve(async (req) => {
 
     if (deductError) {
       logger.warn("Failed to deduct credits", deductError);
-      // Don't fail the request, but log it
     } else {
       logger.info("Credits deducted", { cost, mode });
-
-      // Log credit transaction only after successful deduction
-      await supabase.from("credit_transactions").insert({
-        user_id: userId,
-        amount: -cost,
-        transaction_type: "debit",
-        action_type: mode === "detailed" ? "stem_separation_detailed" : "stem_separation_simple",
-        description: `Разделение на стемы (${mode === "detailed" ? "детальное" : "простое"})`,
-        metadata: { track_id: track.id, mode, separation_task_id: separationTaskId },
-      });
     }
 
     // Save separation task mapping for callback lookup
