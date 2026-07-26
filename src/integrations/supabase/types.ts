@@ -6847,6 +6847,10 @@ export type Database = {
         }
         Returns: string
       }
+      expire_stale_generations: {
+        Args: { p_timeout_minutes?: number }
+        Returns: Json
+      }
       get_complementary_tags: {
         Args: { _max_depth?: number; _tag_id: string }
         Returns: {

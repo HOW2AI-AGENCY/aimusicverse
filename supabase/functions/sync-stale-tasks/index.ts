@@ -827,13 +827,28 @@ serve(async (req) => {
       }
     }
 
+    // Final safety net: expire anything still "in progress" for > 30 minutes so the
+    // UI never shows a track generating forever (provider callback lost / never sent).
+    let expired: unknown = null;
+    const { data: expireData, error: expireError } = await supabase.rpc("expire_stale_generations", {
+      p_timeout_minutes: 30,
+    });
+    if (expireError) {
+      logger.error("Failed to expire stale generations", expireError);
+    } else {
+      expired = expireData;
+      logger.info("Expired stale generations", { expired });
+    }
+
     logger.info("Sync completed", {
       recovered: recoveryTasks?.filter((t) => t.tracks?.status !== "completed").length || 0,
       checked: staleTasks?.length || 0,
       updated: updatedCount,
       completed: completedCount,
       failed: failedCount,
+      expired,
     });
+
 
     return new Response(
       JSON.stringify({
