@@ -36,7 +36,7 @@ interface StudioTranscriptionPanelProps {
   onClose?: () => void;
 }
 
-type TranscriptionEngine = "basic-pitch" | "klangio";
+type TranscriptionEngine = "suno" | "basic-pitch" | "klangio";
 // Valid Klangio models from API: piano, guitar, bass, vocal, universal, lead, detect, drums, multi, wind, string, piano_arrangement
 type KlangioModel =
   | "detect"
