@@ -5275,6 +5275,7 @@ export type Database = {
           cover_url: string | null
           created_at: string | null
           creator_display_name: string | null
+          custom_voice_id: string | null
           duration_seconds: number | null
           error_message: string | null
           generation_mode: string | null
@@ -5341,6 +5342,7 @@ export type Database = {
           cover_url?: string | null
           created_at?: string | null
           creator_display_name?: string | null
+          custom_voice_id?: string | null
           duration_seconds?: number | null
           error_message?: string | null
           generation_mode?: string | null
@@ -5407,6 +5409,7 @@ export type Database = {
           cover_url?: string | null
           created_at?: string | null
           creator_display_name?: string | null
+          custom_voice_id?: string | null
           duration_seconds?: number | null
           error_message?: string | null
           generation_mode?: string | null
