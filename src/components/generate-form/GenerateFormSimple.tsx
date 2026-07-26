@@ -314,6 +314,16 @@ export function GenerateFormSimple({
           </div>
         </div>
       </FormSection>
+
+      {hasVocals && onCustomVoiceChange && (
+        <>
+          <FormDivider />
+          <FormSection elevated>
+            <CustomVoicePicker value={customVoiceId ?? null} onChange={onCustomVoiceChange} />
+          </FormSection>
+        </>
+      )}
     </motion.div>
+
   );
 }
