@@ -12,7 +12,7 @@
 import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import {
-  Volume2, VolumeX, ChevronDown, ChevronUp, Headphones, Plus, Loader2, Gauge, Trash2,
+  Volume2, VolumeX, ChevronDown, ChevronUp, Headphones, Plus, Loader2, Gauge, Trash2, Waves,
 } from "@/lib/icons";
 import { TrackStem } from "@/hooks/useTrackStems";
 import type { StemTranscription } from "@/hooks/useStemTranscription";
@@ -111,8 +111,11 @@ export function IntegratedStemTracks({
         type: stem.stem_type,
         level: simulatedLevels.stems[stem.id] ?? 0,
       })),
-    // Empty state
-    if (!stems || stems.length === 0) {
+    [stems, simulatedLevels],
+  );
+
+  // Empty state
+  if (!stems || stems.length === 0) {
       return (
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <Waves className="w-12 h-12 text-muted-foreground/40 mb-3" />

@@ -7,7 +7,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Music, Mic2, Drum, Guitar, Piano, Waves, Check, Loader2 } from "@/lib/icons";
+import { Music, Mic2, Drum, Guitar, Piano, Waves, Check, Loader2, AlertCircle } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { UnifiedDialog } from "@/components/dialog";
 import {
@@ -68,6 +68,7 @@ export function StemSeparationModeDialog({
   onOpenChange,
   onConfirm,
   isProcessing = false,
+  trackDurationSeconds,
 }: StemSeparationModeDialogProps) {
   const [selectedMode, setSelectedMode] = useState<SeparationMode>("simple");
   const [confirmCancelOpen, setConfirmCancelOpen] = useState(false);
@@ -114,6 +115,7 @@ export function StemSeparationModeDialog({
   };
 
   return (
+    <>
     <UnifiedDialog
       variant="modal"
       open={open}
@@ -229,5 +231,6 @@ export function StemSeparationModeDialog({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+    </>
   );
 }
