@@ -99,15 +99,16 @@ flowchart LR
 
 ### 3️⃣ Features
 
-| Doc                                                             | Description          | Status |
-| --------------------------------------------------------------- | -------------------- | :----: |
-| [docs/GENERATION_SYSTEM](docs/GENERATION_SYSTEM.md)             | Suno generation flow |   ✅   |
-| [docs/AI_LYRICS_ASSISTANT](docs/AI_LYRICS_ASSISTANT.md)         | Lyrics AI            |   ✅   |
-| [docs/CREATIVE_TOOLS](docs/CREATIVE_TOOLS.md)                   | Creative toolkit     |   ✅   |
-| [docs/STEM_STUDIO](docs/STEM_STUDIO.md)                         | Stem separation      |   ✅   |
-| [docs/AUDIO_UPLOAD_FLOW](docs/AUDIO_UPLOAD_FLOW.md)             | Upload pipeline      |   ✅   |
-| [docs/CONTEXTUAL_HINTS_SYSTEM](docs/CONTEXTUAL_HINTS_SYSTEM.md) | Hints engine         |   ✅   |
-| [docs/DEMO_MODE](docs/DEMO_MODE.md)                             | Demo mode            |   ✅   |
+| Doc                                                             | Description             | Status |
+| --------------------------------------------------------------- | ----------------------- | :----: |
+| [docs/GENERATION_SYSTEM](docs/GENERATION_SYSTEM.md)             | Suno generation flow    |   ✅   |
+| [docs/AI_LYRICS_ASSISTANT](docs/AI_LYRICS_ASSISTANT.md)         | Lyrics AI               |   ✅   |
+| [docs/AI_LYRICS_HARNESS](docs/AI_LYRICS_HARNESS.md)             | AI harness architecture |   ✅   |
+| [docs/CREATIVE_TOOLS](docs/CREATIVE_TOOLS.md)                   | Creative toolkit        |   ✅   |
+| [docs/STEM_STUDIO](docs/STEM_STUDIO.md)                         | Stem separation         |   ✅   |
+| [docs/AUDIO_UPLOAD_FLOW](docs/AUDIO_UPLOAD_FLOW.md)             | Upload pipeline         |   ✅   |
+| [docs/CONTEXTUAL_HINTS_SYSTEM](docs/CONTEXTUAL_HINTS_SYSTEM.md) | Hints engine            |   ✅   |
+| [docs/DEMO_MODE](docs/DEMO_MODE.md)                             | Demo mode               |   ✅   |
 
 ### 4️⃣ API & Integrations
 
