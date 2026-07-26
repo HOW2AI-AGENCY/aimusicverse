@@ -21,6 +21,9 @@ import { useStudioTrackStems } from "@/hooks/studio/useStudioTrackStems";
 import { useLatestStemTranscription } from "@/hooks/studio/useLatestStemTranscription";
 import { useReplicateMidiTranscription } from "@/hooks/studio/useReplicateMidiTranscription";
 import { useKlangioAnalyze } from "@/hooks/studio/useKlangioAnalyze";
+import { useStemSeparationTaskForTrack } from "@/hooks/studio/useStemSeparationTaskForTrack";
+import { generateSunoMidi, getSunoMidiStatus } from "@/api/midi-suno.api";
+import { useAuth } from "@/contexts/AuthContext";
 import { logger } from "@/lib/logger";
 import type { Database } from "@/integrations/supabase/types";
 
