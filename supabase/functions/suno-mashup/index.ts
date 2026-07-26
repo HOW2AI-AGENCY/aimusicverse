@@ -1,82 +1,22 @@
 /**
- * suno-mashup — create a mashup by blending two audio files via Suno.
+ * Suno Mashup — blend two audio files into a mashup via SunoAPI.
  *
- * Body:
- *   {
- *     trackAId: string,         // uuid of existing track (resolves to audio_url)
- *     trackBId: string,         // uuid of existing track
- *     customMode: boolean,
- *     instrumental?: boolean,
- *     prompt?: string,          // required if !instrumental; ≤ 3000/5000 by model
- *     style?: string,           // required if customMode; ≤ 200/1000 by model
- *     title?: string,           // required if customMode; ≤ 80/100 by model
- *     model?: string,           // V4 | V4_5 | V4_5PLUS | V4_5ALL | V5
- *     vocalGender?: "m" | "f",
- *     styleWeight?: number,     // 0..1
- *     weirdnessConstraint?: number,
- *     audioWeight?: number,     // 0..1
- *     projectId?: string,
- *     studioProjectId?: string,
- *     openInStudio?: boolean,
- *   }
+ * Uses /api/v1/generate/mashup endpoint.
+ * Accepts up to 2 direct audio URLs (uploadUrlList).
  *
- * Resolves both track IDs to their audio URLs from Supabase Storage, calls
- * /api/v1/generate/mashup, persists a `tracks` row + `generation_tasks` row
- * with `generation_mode = 'mashup'`, and returns the new task IDs.
- *
- * The Suno callback URL is the existing suno-music-callback — the mashup
- * response shape is identical to a normal generation result, so the existing
- * callback path writes track_versions / track_clips without any extra wiring.
+ * Cost: 10 credits per mashup generation
  */
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
-import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
-import { getApiModelName } from "../_shared/suno-models.ts";
 import { corsHeaders } from "../_shared/cors.ts";
+import { ECONOMY } from "../_shared/economy.ts";
+import { getApiModelName } from "../_shared/suno-models.ts";
+import { createLogger } from "../_shared/logger.ts";
 
 const logger = createLogger("suno-mashup");
-
-// Per-model character caps (mirrors Suno docs).
-const LIMITS = {
-  V4: { prompt: 3000, style: 200, title: 80 },
-  V4_5: { prompt: 5000, style: 1000, title: 100 },
-  V4_5PLUS: { prompt: 5000, style: 1000, title: 100 },
-  V4_5ALL: { prompt: 5000, style: 1000, title: 80 },
-  V5: { prompt: 5000, style: 1000, title: 100 },
-} as const;
-
-type SunoModelKey = keyof typeof LIMITS;
-
-function limitFor(model: SunoModelKey) {
-  return LIMITS[model] ?? LIMITS.V5;
-}
-
-interface MashupBody {
-  trackAId: string;
-  trackBId: string;
-  customMode: boolean;
-  instrumental?: boolean;
-  prompt?: string;
-  style?: string;
-  title?: string;
-  model?: string;
-  vocalGender?: "m" | "f";
-  styleWeight?: number;
-  weirdnessConstraint?: number;
-  audioWeight?: number;
-  projectId?: string;
-  studioProjectId?: string;
-  openInStudio?: boolean;
-}
-
-function bad(message: string, status = 400) {
-  return new Response(JSON.stringify({ error: message }), {
-    status,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
-  });
-}
+const MASHUP_COST = ECONOMY.COVER_GENERATION_COST; // 10 credits
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -84,155 +24,182 @@ serve(async (req) => {
   }
 
   try {
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const sunoApiKey = Deno.env.get("SUNO_API_KEY");
+
     if (!sunoApiKey) {
-      logger.error("SUNO_API_KEY not configured");
-      return bad("API key not configured", 500);
+      throw new Error("SUNO_API_KEY not configured");
     }
 
     const supabase = getSupabaseClient();
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) return bad("No authorization header", 401);
+    if (!authHeader) {
+      throw new Error("No authorization header");
+    }
 
     const {
       data: { user },
-      error: authError,
+      error: userError,
     } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
-    if (authError || !user) return bad("Unauthorized", 401);
-
-    const body: MashupBody = await req.json();
-
-    // Required field validation (Suno: exactly 2 URLs, exactly 2 track IDs).
-    if (!body.trackAId || !body.trackBId) {
-      return bad("trackAId and trackBId are required");
-    }
-    if (body.trackAId === body.trackBId) {
-      return bad("trackAId and trackBId must be different tracks");
-    }
-    if (typeof body.customMode !== "boolean") {
-      return bad("customMode (boolean) is required");
+    if (userError || !user) {
+      throw new Error("Unauthorized");
     }
 
-    const model = (body.model ?? "V5") as SunoModelKey;
-    const limits = limitFor(model);
-    const isInstrumental = body.instrumental ?? false;
+    // Check user credit balance
+    const { data: credits, error: creditsError } = await supabase
+      .from("user_credits")
+      .select("balance")
+      .eq("user_id", user.id)
+      .single();
 
-    if (body.customMode) {
-      if (!body.title) return bad("title is required in customMode");
-      if (body.title.length > limits.title) {
-        return bad(`title exceeds ${limits.title} chars for ${model}`);
-      }
-      if (!body.style) return bad("style is required in customMode");
-      if (body.style.length > limits.style) {
-        return bad(`style exceeds ${limits.style} chars for ${model}`);
-      }
-      if (!isInstrumental && !body.prompt) {
-        return bad("prompt is required when instrumental=false in customMode");
-      }
-    } else {
-      if (!body.prompt) {
-        return bad("prompt is required in non-custom mode");
-      }
-      if (body.prompt.length > 500) {
-        return bad("prompt exceeds 500 chars in non-custom mode");
-      }
-    }
-    if (body.prompt && body.prompt.length > limits.prompt) {
-      return bad(`prompt exceeds ${limits.prompt} chars for ${model}`);
+    if (creditsError) {
+      logger.error("Credits check error", creditsError);
+      throw new Error("Failed to check credit balance");
     }
 
-    // Resolve both tracks to their primary/active version audio URL.
-    const { data: tracks, error: tracksError } = await supabase
+    const currentBalance = credits?.balance ?? 0;
+    if (currentBalance < MASHUP_COST) {
+      throw new Error(`Insufficient credits. Need ${MASHUP_COST}, have ${currentBalance}`);
+    }
+
+    const body = await req.json();
+    const {
+      uploadUrlList,    // [string, string] — exactly 2 audio URLs
+      customMode,
+      prompt,
+      style,
+      title,
+      instrumental = false,
+      model = "V4_5ALL",
+    } = body;
+
+    // Validate uploadUrlList: exactly 2 non-empty URLs
+    if (!Array.isArray(uploadUrlList) || uploadUrlList.length !== 2) {
+      throw new Error("uploadUrlList must be an array of exactly 2 audio URLs");
+    }
+    if (!uploadUrlList[0] || !uploadUrlList[1]) {
+      throw new Error("Both audio URLs in uploadUrlList must be non-empty");
+    }
+    if (uploadUrlList[0] === uploadUrlList[1]) {
+      throw new Error("uploadUrlList entries must be different URLs");
+    }
+
+    if (typeof customMode !== "boolean") {
+      throw new Error("customMode (boolean) is required");
+    }
+
+    const effectiveModel = getApiModelName(model);
+
+    // URL accessibility checks
+    for (let i = 0; i < uploadUrlList.length; i++) {
+      try {
+        const urlCheckController = new AbortController();
+        const urlCheckTimeout = setTimeout(() => urlCheckController.abort(), 30000);
+        const urlCheck = await fetch(uploadUrlList[i], { method: "HEAD", signal: urlCheckController.signal });
+        clearTimeout(urlCheckTimeout);
+        logger.info(`URL ${i + 1} accessibility check`, {
+          status: urlCheck.status,
+          contentType: urlCheck.headers.get("content-type"),
+          accessible: urlCheck.ok,
+        });
+        if (!urlCheck.ok) {
+          logger.warn(`URL ${i + 1} may not be accessible`, {
+            status: urlCheck.status,
+            statusText: urlCheck.statusText,
+          });
+        }
+      } catch (urlError) {
+        logger.warn(`URL ${i + 1} validation failed`, urlError as Error);
+      }
+    }
+
+    logger.info("Creating mashup", {
+      customMode,
+      instrumental,
+      model: effectiveModel,
+    });
+
+    // Create new track record
+    const { data: newTrack, error: newTrackError } = await supabase
       .from("tracks")
-      .select("id, user_id, title, status, active_version_id, track_versions(id, audio_url, is_primary, status)")
-      .in("id", [body.trackAId, body.trackBId]);
+      .insert({
+        user_id: user.id,
+        project_id: null,
+        prompt: prompt || "Mashup",
+        title: title || "AI Mashup",
+        style: style || null,
+        has_vocals: !instrumental,
+        status: "pending",
+        provider: "suno",
+        suno_model: effectiveModel,
+        generation_mode: "mashup",
+      })
+      .select()
+      .single();
 
-    if (tracksError) {
-      logger.error("Failed to load mashup source tracks", tracksError);
-      return bad("Failed to load source tracks", 500);
-    }
-    if (!tracks || tracks.length !== 2) {
-      return bad("One or both source tracks not found", 404);
-    }
-
-    const trackMap = new Map(tracks.map((t) => [t.id as string, t]));
-    const trackA = trackMap.get(body.trackAId);
-    const trackB = trackMap.get(body.trackBId);
-
-    if (trackA?.user_id !== user.id || trackB?.user_id !== user.id) {
-      // Don't disclose existence; user-facing message stays neutral.
-      return bad("Both source tracks must belong to the caller", 403);
-    }
-
-    const pickAudioUrl = (track: (typeof tracks)[number]): string | null => {
-      const versions = (track.track_versions ?? []) as Array<{
-        id: string;
-        audio_url: string | null;
-        is_primary: boolean | null;
-        status: string | null;
-      }>;
-      // Prefer the active version, then primary, then first ready.
-      const active = track.active_version_id ? versions.find((v) => v.id === track.active_version_id) : null;
-      const primary = versions.find((v) => v.is_primary);
-      const ready = versions.find((v) => v.status === "ready" && v.audio_url);
-      const chosen = active ?? primary ?? ready;
-      return chosen?.audio_url ?? null;
-    };
-
-    const audioUrlA = pickAudioUrl(trackA);
-    const audioUrlB = pickAudioUrl(trackB);
-
-    if (!audioUrlA || !audioUrlB) {
-      return bad("Source tracks must have at least one ready version with audio_url");
+    if (newTrackError || !newTrack) {
+      logger.error("Failed to create track record", newTrackError);
+      throw new Error("Failed to create track record");
     }
 
-    const apiModel = getApiModelName(model);
-    const callBackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
+    // Get telegram_chat_id if available
+    const { data: profile } = await supabase.from("profiles").select("telegram_id").eq("user_id", user.id).single();
 
+    // Create generation task
+    const { data: task, error: taskError } = await supabase
+      .from("generation_tasks")
+      .insert({
+        user_id: user.id,
+        prompt: prompt || "Mashup",
+        status: "pending",
+        track_id: newTrack.id,
+        telegram_chat_id: profile?.telegram_id || null,
+        source: "mini_app",
+        generation_mode: "mashup",
+        model_used: effectiveModel,
+        audio_clips: JSON.stringify({
+          source_urls: uploadUrlList,
+        }),
+      })
+      .select()
+      .single();
+
+    if (taskError || !task) {
+      logger.error("Failed to create generation task", taskError);
+      throw new Error("Failed to create generation task");
+    }
+
+    const callbackUrl = `${supabaseUrl}/functions/v1/suno-mashup-callback`;
+
+    // Build payload for mashup endpoint
     const sunoPayload: Record<string, unknown> = {
-      uploadUrlList: [audioUrlA, audioUrlB],
-      customMode: body.customMode,
-      model: apiModel,
-      callBackUrl,
+      uploadUrlList,
+      customMode,
+      title: title || "AI Mashup",
+      instrumental,
+      model: effectiveModel,
+      callBackUrl: callbackUrl,
+      callBackType: "all",
     };
 
-    if (body.customMode) {
-      sunoPayload.style = body.style;
-      sunoPayload.title = body.title;
-      if (isInstrumental) {
-        sunoPayload.instrumental = true;
-      } else if (body.prompt) {
-        sunoPayload.prompt = body.prompt;
-      }
-    } else {
-      sunoPayload.prompt = body.prompt;
-    }
-    if (body.vocalGender === "m" || body.vocalGender === "f") {
-      sunoPayload.vocalGender = body.vocalGender;
-    }
-    if (body.styleWeight !== undefined) {
-      sunoPayload.styleWeight = body.styleWeight;
-    }
-    if (body.weirdnessConstraint !== undefined) {
-      sunoPayload.weirdnessConstraint = body.weirdnessConstraint;
-    }
-    if (body.audioWeight !== undefined) {
-      sunoPayload.audioWeight = body.audioWeight;
+    if (customMode) {
+      if (prompt) sunoPayload.prompt = prompt;
+      if (style) sunoPayload.style = style;
+    } else if (prompt) {
+      sunoPayload.prompt = prompt;
     }
 
-    logger.info("Suno mashup payload prepared", {
-      model: apiModel,
-      customMode: body.customMode,
-      instrumental: isInstrumental,
-      userId: user.id,
-    });
-    logger.apiCall("suno", "/api/v1/generate/mashup", {
-      model: apiModel,
-      customMode: body.customMode,
+    logger.info("Sending to mashup endpoint", {
+      model: effectiveModel,
+      customMode,
+      instrumental,
     });
 
+    // Call SunoAPI mashup endpoint
+    const mashupController = new AbortController();
+    const mashupTimeout = setTimeout(() => mashupController.abort(), 30000);
+    const startTime = Date.now();
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/generate/mashup", {
       method: "POST",
       headers: {
@@ -240,112 +207,137 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(sunoPayload),
-      signal: AbortSignal.timeout(30000),
+      signal: mashupController.signal,
     });
+    clearTimeout(mashupTimeout);
 
+    const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
 
-    if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
-      logger.error("Suno mashup error", null, { sunoData });
-      return new Response(
-        JSON.stringify({
-          error: sunoData.msg || "Failed to start mashup",
-          code: sunoData.code,
-          details: sunoData,
-        }),
-        {
-          status: sunoResponse.status,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        },
-      );
-    }
+    logger.info(`Response (${duration}ms)`, { response: JSON.stringify(sunoData).substring(0, 300) });
 
-    const sunoTaskId: string | undefined = sunoData.data?.taskId;
-    if (!sunoTaskId) {
-      logger.error("No taskId in Suno mashup response", null, { sunoData });
-      throw new Error("No taskId in Suno mashup response");
-    }
-
-    // Persist a tracks row + generation_tasks row. The mashup title is
-    // user-supplied; prompt is what was sent to Suno. We don't reuse either
-    // source track's title to avoid confusion in the library.
-    const defaultTitle = `Mashup: ${trackA.title ?? "A"} + ${trackB.title ?? "B"}`;
-
-    const { data: newTrack, error: newTrackError } = await supabase
-      .from("tracks")
-      .insert({
-        user_id: user.id,
-        project_id: body.projectId ?? null,
-        prompt: body.prompt ?? null,
-        title: body.title ?? defaultTitle,
-        style: body.style ?? null,
-        status: "pending",
-        provider: "suno",
-        suno_model: apiModel,
-        suno_task_id: sunoTaskId,
-        generation_mode: "mashup",
-        has_vocals: !isInstrumental,
-      })
-      .select()
-      .single();
-
-    if (newTrackError || !newTrack) {
-      logger.error("Track creation error (mashup)", newTrackError);
-      throw new Error("Failed to create mashup track");
-    }
-
-    const audioClips = {
-      studio_project_id: body.studioProjectId ?? null,
-      open_in_studio: body.openInStudio ?? false,
-      source_track_ids: [body.trackAId, body.trackBId],
-      settings: {
-        vocalGender: body.vocalGender ?? null,
-        styleWeight: body.styleWeight ?? null,
-        weirdnessConstraint: body.weirdnessConstraint ?? null,
-        audioWeight: body.audioWeight ?? null,
+    // Log API call
+    await supabase.from("api_usage_logs").insert({
+      user_id: user.id,
+      service: "suno",
+      endpoint: "generate/mashup",
+      method: "POST",
+      request_body: {
+        uploadUrlList: uploadUrlList.map((u: string) => u?.substring(0, 100)),
+        customMode,
+        prompt,
+        style,
+        title,
+        instrumental,
+        model: effectiveModel,
       },
-    };
+      response_status: sunoResponse.status,
+      response_body: sunoData,
+      duration_ms: duration,
+      estimated_cost: 0.04,
+    });
 
-    const { data: generationTask, error: taskError } = await supabase
-      .from("generation_tasks")
-      .insert({
-        user_id: user.id,
-        track_id: newTrack.id,
-        prompt: body.prompt ?? body.title ?? "Mashup",
-        status: "pending",
-        suno_task_id: sunoTaskId,
-        model_used: apiModel,
-        generation_mode: "mashup",
-        audio_clips: JSON.stringify(audioClips),
-      })
-      .select("id")
-      .single();
+    if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
+      const errorMsg = sunoData.msg || `SunoAPI mashup failed (${sunoResponse.status})`;
+      logger.error("API error", undefined, { errorMsg, sunoData });
 
-    if (taskError || !generationTask) {
-      logger.error("Task creation error (mashup)", taskError);
-      throw new Error("Failed to create mashup generation task");
+      await supabase
+        .from("generation_tasks")
+        .update({
+          status: "failed",
+          error_message: errorMsg,
+        })
+        .eq("id", task.id);
+
+      await supabase
+        .from("tracks")
+        .update({
+          status: "failed",
+          error_message: errorMsg,
+        })
+        .eq("id", newTrack.id);
+
+      throw new Error(errorMsg);
     }
 
-    logger.info("Mashup generation task created", {
-      taskId: generationTask.id,
+    const sunoTaskId = sunoData.data?.taskId;
+
+    if (!sunoTaskId) {
+      throw new Error("No taskId returned from SunoAPI");
+    }
+
+    await supabase
+      .from("generation_tasks")
+      .update({
+        suno_task_id: sunoTaskId,
+        status: "processing",
+      })
+      .eq("id", task.id);
+
+    await supabase
+      .from("tracks")
+      .update({
+        suno_task_id: sunoTaskId,
+        status: "processing",
+      })
+      .eq("id", newTrack.id);
+
+    // Deduct credits after successful API call
+    const { error: deductError } = await supabase.rpc("deduct_credits", {
+      p_user_id: user.id,
+      p_amount: MASHUP_COST,
+      p_action_type: "mashup_generation",
+      p_description: `Mashup generation: ${title || "AI Mashup"}`,
+    });
+
+    if (deductError) {
+      logger.error("Credit deduct failed", undefined, {
+        userId: user.id,
+        trackId: newTrack.id,
+        sunoTaskId,
+        amount: MASHUP_COST,
+        error: deductError.message,
+      });
+      // Don't fail the request, just log it
+    } else {
+      logger.info("Credit deducted", {
+        userId: user.id,
+        trackId: newTrack.id,
+        sunoTaskId,
+        amount: MASHUP_COST,
+      });
+    }
+
+    logger.success("Mashup generation started", {
+      trackId: newTrack.id,
       sunoTaskId,
+      creditsDeducted: MASHUP_COST,
     });
 
     return new Response(
       JSON.stringify({
         success: true,
-        taskId: generationTask.id,
-        sunoTaskId,
         trackId: newTrack.id,
+        taskId: task.id,
+        sunoTaskId,
       }),
       {
-        status: 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
       },
     );
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : "Internal server error";
-    logger.error("Unhandled error in suno-mashup", error);
-    return bad(message, 500);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    logger.error("Error", undefined, { errorMessage });
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: errorMessage,
+      }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 500,
+      },
+    );
   }
 });
