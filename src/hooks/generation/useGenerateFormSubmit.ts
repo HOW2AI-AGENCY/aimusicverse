@@ -13,6 +13,7 @@ import { useAutomaticRetry } from "@/hooks/useAutomaticRetry";
 import { isRetryableError } from "@/lib/suno-error-mapper";
 import { addUserActionBreadcrumb, captureGenerationError } from "@/lib/sentry";
 import { logger } from "@/lib/logger";
+import { normalizeSunoLyrics } from "@/lib/lyrics/normalizeSunoLyrics";
 import { classifyFailure } from "./useGenerateFormTypes";
 import type { GenerationMode } from "./useGenerateFormTypes";
 import type { ArtistRow } from "@/api/artists.api";
