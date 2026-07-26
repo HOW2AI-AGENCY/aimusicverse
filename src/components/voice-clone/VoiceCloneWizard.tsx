@@ -20,13 +20,17 @@ interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onComplete?: (voiceId: string) => void;
+  /** Currently selected voice_id in the generation form (enables the "select existing" panel). */
+  selectedVoiceId?: string | null;
+  /** Called when the user picks an existing voice (or clears the selection). */
+  onSelectVoice?: (voiceId: string | null) => void;
 }
 
 const MIN_SOURCE_SEC = 5;
 const MAX_SEGMENT_SEC = 30;
 const MIN_PHRASE_REC_SEC = 5;
 
-export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
+export function VoiceCloneWizard({ open, onOpenChange, onComplete, selectedVoiceId, onSelectVoice }: Props) {
   const {
     step,
     voice,
