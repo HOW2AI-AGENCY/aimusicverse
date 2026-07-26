@@ -4,6 +4,7 @@ import { useCustomVoices, type CustomVoice } from "@/hooks/voice/useCustomVoices
 import { cn } from "@/lib/utils";
 import { getLastVoice, rememberLastVoice } from "@/api/voice-clone.api";
 import { VoiceCloneWizard } from "./VoiceCloneWizard";
+import { VoiceCloneDisclaimerDialog } from "./VoiceCloneDisclaimerDialog";
 
 interface Props {
   value?: string | null;
@@ -120,7 +121,7 @@ export function CustomVoicePicker({ value, onChange }: Props) {
         />
       )}
 
-      <VoiceCloneDisclaimerDialog trigger={disclaimerTrigger > 0} />
+      <VoiceCloneDisclaimerDialog key={disclaimerTrigger} trigger={disclaimerTrigger > 0} />
     </div>
   );
 }
