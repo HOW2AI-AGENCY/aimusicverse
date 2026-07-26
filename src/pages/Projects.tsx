@@ -75,7 +75,11 @@ export default function Projects() {
   // Mobile layout
   if (isMobile) {
     return (
-      <PullToRefreshWrapper onRefresh={refetch}>
+      <PullToRefreshWrapper
+        onRefresh={async () => {
+          await refetch();
+        }}
+      >
       <div className={cn(safeAreaClasses.fullHeight, safeAreaClasses.containerWithNav)}>
         <SEOHead {...SEO_PRESETS.projects} />
         <MobileHeaderBar
