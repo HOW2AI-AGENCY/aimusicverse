@@ -57,6 +57,17 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete, selectedVoice
     return ["ru", "en", "es", "fr", "de", "it", "ja", "zh", "pt"].includes(l) ? l : "en";
   });
 
+  // ---- "select existing voice" panel (same window as the recorder) ----
+  const selectionEnabled = !!onSelectVoice;
+  const { voices, isLoading: voicesLoading, deleteVoice } = useCustomVoices();
+  const readyVoices = voices.filter((v) => v.voice_id && v.status === "ready" && v.is_available);
+  const [pane, setPane] = useState<"select" | "create">("select");
+  useEffect(() => {
+    if (!open) return;
+    setPane(selectionEnabled ? "select" : "create");
+  }, [open, selectionEnabled]);
+  const showSelectPane = selectionEnabled && pane === "select";
+
   // Microphone is the only accepted source for the voice sample (Suno requires sung audio).
   const sourceBlob: Blob | null = sourceRecorder.blob;
 
