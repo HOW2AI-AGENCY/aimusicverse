@@ -8,17 +8,15 @@ import { AnimatePresence, motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { backdrop } from "@/lib/overlay-colors";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Sparkles, ChevronLeft, ChevronRight, Loader2, Plus } from "@/lib/icons";
+import { Sparkles, ChevronLeft, ChevronRight, Loader2 } from "@/lib/icons";
 import { toast } from "sonner";
 import { useProjects } from "@/hooks/useProjects";
 import { useArtists } from "@/hooks/useArtists";
 import { useTracks } from "@/hooks/useTracks";
 import { useGenerateForm } from "@/hooks/generation/useGenerateForm";
 import { useAudioReference } from "@/hooks/useAudioReference";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { CollapsibleFormHeader } from "@/components/generate-form/CollapsibleFormHeader";
 import { GenerateFormActions } from "@/components/generate-form/GenerateFormActions";
 import { GenerateFormReferences } from "@/components/generate-form/GenerateFormReferences";
@@ -58,8 +56,6 @@ interface DesktopLibrarySidebarProps {
 }
 
 export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className }: DesktopLibrarySidebarProps) {
-  const isMobile = useIsMobile();
-  const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
   const { projects } = useProjects();
   const { artists } = useArtists();
   const { tracks: allTracks } = useTracks();
@@ -105,100 +101,6 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
   const handleGenerate = () => {
     form.handleGenerate();
   };
-  // Mobile: render FAB + sheet with the form
-  if (isMobile) {
-    return (
-      <>
-        {/* FAB to open the generation form */}
-        <Button
-          onClick={() => setMobileSheetOpen(true)}
-          className="fixed bottom-20 right-4 z-50 h-14 w-14 rounded-full shadow-xl shadow-primary/30"
-          size="icon"
-        >
-          <Plus className="w-6 h-6" />
-        </Button>
-
-        <Sheet open={mobileSheetOpen} onOpenChange={setMobileSheetOpen}>
-          <SheetContent side="bottom" className="h-[90dvh] p-0 rounded-t-2xl">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-border/30">
-              <span className="text-sm font-semibold">Создание трека</span>
-              <Button variant="ghost" size="sm" onClick={() => setMobileSheetOpen(false)}>
-                Готово
-              </Button>
-            </div>
-            <ScrollArea className="flex-1 h-[calc(90dvh-52px)]">
-              <div className="px-4 py-3 space-y-3">
-                <GenerateFormActions
-                  onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
-                  onOpenProjectDialog={() => setProjectDialogOpen(true)}
-                  onOpenArtistDialog={() => setArtistDialogOpen(true)}
-                  onOpenVoiceClone={() => setVoiceCloneOpen(true)}
-                />
-                <GenerateFormReferences
-                  planTrackId={form.planTrackId}
-                  planTrackTitle={form.title}
-                  audioFile={form.audioFile}
-                  audioReferenceLoading={form.audioReferenceLoading}
-                  selectedArtistId={form.selectedArtistId}
-                  selectedProjectId={form.selectedProjectId}
-                  artists={artists}
-                  projects={projects}
-                  onRemoveAudioFile={() => form.setAudioFile(null)}
-                  onRemoveArtist={() => form.setSelectedArtistId(undefined)}
-                  onRemoveProject={() => {
-                    form.setSelectedProjectId(undefined);
-                    form.setSelectedTrackId(undefined);
-                  }}
-                />
-                {form.mode === "custom" && <FormStepper />}
-                <Suspense fallback={<FormSkeleton />}>
-                  <AnimatePresence mode="wait">
-                    {form.mode === "simple" ? (
-                      <GenerateFormSimple
-                        description={form.description}
-                        onDescriptionChange={form.setDescription}
-                        title={form.title}
-                        onTitleChange={form.setTitle}
-                        hasVocals={form.hasVocals}
-                        onHasVocalsChange={form.setHasVocals}
-                        onBoostStyle={form.handleBoostStyle}
-                        boostLoading={form.boostLoading}
-                        onOpenStyles={() => setStylesOpen(true)}
-                      />
-                    ) : (
-                      <GenerateFormCustom
-                        form={form}
-                        onOpenLyricsAssistant={() => setLyricsAssistantOpen(true)}
-                        canMakePrivate={form.canMakePrivate}
-                        advancedOpen={advancedOpen}
-                        onAdvancedOpenChange={setAdvancedOpen}
-                        onOpenStyles={() => setStylesOpen(true)}
-                        hasReferenceAudio={!!form.audioFile || !!activeReference}
-                        hasPersona={!!form.selectedArtistId}
-                      />
-                    )}
-                  </AnimatePresence>
-                </Suspense>
-              </div>
-            </ScrollArea>
-            <div className="p-3 border-t border-border/30">
-              <Button
-                onClick={() => { handleGenerate(); setMobileSheetOpen(false); }}
-                disabled={form.loading}
-                className="w-full h-11 text-sm font-semibold gap-2 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 rounded-xl"
-              >
-                {form.loading ? (
-                  <><Loader2 className="w-4 h-4 animate-spin" /> Создание...</>
-                ) : (
-                  <><Sparkles className="w-4 h-4" /> Сгенерировать</>
-                )}
-              </Button>
-            </div>
-          </SheetContent>
-        </Sheet>
-      </>
-    );
-  }
 
   // Desktop collapsed state
   if (isCollapsed) {
