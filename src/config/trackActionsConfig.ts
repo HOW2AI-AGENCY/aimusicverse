@@ -404,10 +404,10 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     requiresCompleted: true,
     requiresAudio: true,
   },
-  mashup: {
-    id: "mashup",
-    label: "Mashup с другим треком",
-    icon: Disc,
+  remix: {
+    id: "remix",
+    label: "Ремикс",
+    icon: Shuffle,
     category: "create",
     priority: 48,
     requiresCompleted: true,
