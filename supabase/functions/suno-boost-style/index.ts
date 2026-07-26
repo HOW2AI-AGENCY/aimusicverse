@@ -56,12 +56,15 @@ serve(async (req) => {
     console.log("Boosting style with AI:", content.substring(0, 100));
 
     // Use Lovable AI to enhance the style description
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${lovableApiKey}`,
         "Content-Type": "application/json",
       },
+      signal: controller.signal,
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
         messages: [
@@ -122,6 +125,7 @@ serve(async (req) => {
     }
 
     const aiData = await aiResponse.json();
+    clearTimeout(timeout);
     let boostedStyle = aiData.choices?.[0]?.message?.content?.trim();
 
     if (!boostedStyle) {

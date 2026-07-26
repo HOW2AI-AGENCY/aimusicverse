@@ -101,14 +101,18 @@ serve(async (req) => {
     console.log("📤 Calling Suno API for video generation:", requestBody);
 
     const startTime = Date.now();
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/mp4/generate", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${sunoApiKey}`,
         "Content-Type": "application/json",
       },
+      signal: controller.signal,
       body: JSON.stringify(requestBody),
     });
+    clearTimeout(timeout);
 
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();

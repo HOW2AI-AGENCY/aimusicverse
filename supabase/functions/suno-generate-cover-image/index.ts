@@ -78,18 +78,22 @@ serve(async (req) => {
     const imagePrompt = prompt || buildDynamicPrompt(track, style);
 
     // Call Suno API for cover image generation
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/image/generate", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${sunoApiKey}`,
         "Content-Type": "application/json",
       },
+      signal: controller.signal,
       body: JSON.stringify({
         prompt: imagePrompt,
         callBackUrl,
         size: "1024x1024",
       }),
     });
+    clearTimeout(timeout);
 
     const sunoData = await sunoResponse.json();
 

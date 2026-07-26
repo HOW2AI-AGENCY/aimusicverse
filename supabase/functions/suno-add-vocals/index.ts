@@ -186,6 +186,8 @@ serve(async (req) => {
     });
 
     // Call Suno API
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/generate/add-vocals", {
       method: "POST",
       headers: {
@@ -193,7 +195,9 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(requestBody),
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
 
     const sunoData = await sunoResponse.json();
 

@@ -58,7 +58,10 @@ serve(async (req) => {
     logger.info("Cover generation completed", { imageUrl });
 
     // Download cover image
-    const coverResponse = await fetch(imageUrl);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
+    const coverResponse = await fetch(imageUrl, { signal: controller.signal });
+    clearTimeout(timeout);
     const coverBlob = await coverResponse.blob();
     const fileName = `covers/${sunoTaskId}_${Date.now()}.jpg`;
 

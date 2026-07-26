@@ -19,12 +19,16 @@ serve(async (req) => {
 
     logger.info("Fetching SunoAPI credits");
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/generate/credit", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${sunoApiKey}`,
       },
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
 
     if (!sunoResponse.ok) {
       const errorText = await sunoResponse.text();

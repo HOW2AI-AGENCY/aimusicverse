@@ -240,6 +240,8 @@ serve(async (req) => {
     logger.info("Sending extend request to SunoAPI", { payload: sunoPayload });
 
     // Call SunoAPI extend endpoint
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
     const startTime = Date.now();
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/generate/extend", {
       method: "POST",
@@ -248,7 +250,9 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(sunoPayload),
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
 
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();

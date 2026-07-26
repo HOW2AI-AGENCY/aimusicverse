@@ -97,7 +97,10 @@ serve(async (req) => {
     let localVideoUrl = videoUrl;
     try {
       console.log("📥 Downloading video file...");
-      const response = await fetch(videoUrl);
+      const videoController = new AbortController();
+      const videoTimeout = setTimeout(() => videoController.abort(), 30000);
+      const response = await fetch(videoUrl, { signal: videoController.signal });
+      clearTimeout(videoTimeout);
       if (response.ok) {
         const blob = await response.blob();
         const fileName = `videos/${videoTask.user_id}/${track.id}_${Date.now()}.mp4`;

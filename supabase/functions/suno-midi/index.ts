@@ -132,17 +132,21 @@ serve(async (req) => {
     logger.apiCall("SunoAPI", "generate/midi", { trackVersionId });
 
     const startTime = Date.now();
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/generate/midi", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${sunoApiKey}`,
         "Content-Type": "application/json",
       },
+      signal: controller.signal,
       body: JSON.stringify({
         audio_url: audioUrl,
         callBackUrl: callbackUrl,
       }),
     });
+    clearTimeout(timeout);
 
     const durationMs = Date.now() - startTime;
     const sunoData = await sunoResponse.json();

@@ -298,6 +298,9 @@ serve(async (req) => {
 
     logger.apiCall("SunoAPI", "upload-cover", { model: apiModel, customMode, instrumental });
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
+
     // Call Suno API
     const response = await fetch("https://api.sunoapi.org/api/v1/generate/upload-cover", {
       method: "POST",
@@ -306,7 +309,9 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(requestBody),
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
 
     const data = await response.json();
     logger.info("Suno API response", { code: data.code, taskId: data.data?.taskId });

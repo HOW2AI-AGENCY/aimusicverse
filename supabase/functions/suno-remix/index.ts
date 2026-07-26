@@ -138,7 +138,10 @@ serve(async (req) => {
 
     // Validate URL accessibility before sending to Suno
     try {
-      const urlCheck = await fetch(uploadUrl, { method: "HEAD" });
+      const urlCheckController = new AbortController();
+      const urlCheckTimeout = setTimeout(() => urlCheckController.abort(), 30000);
+      const urlCheck = await fetch(uploadUrl, { method: "HEAD", signal: urlCheckController.signal });
+      clearTimeout(urlCheckTimeout);
       logger.info("URL accessibility check", {
         status: urlCheck.status,
         contentType: urlCheck.headers.get("content-type"),
@@ -244,6 +247,8 @@ serve(async (req) => {
     });
 
     // CRITICAL: Use upload-cover endpoint, NOT generic generate!
+    const coverController = new AbortController();
+    const coverTimeout = setTimeout(() => coverController.abort(), 30000);
     const startTime = Date.now();
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/generate/upload-cover", {
       method: "POST",
@@ -252,7 +257,9 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(sunoPayload),
+      signal: coverController.signal,
     });
+    clearTimeout(coverTimeout);
 
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();

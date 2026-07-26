@@ -139,7 +139,10 @@ serve(async (req) => {
         // Download and save to storage
         let localUrl = url;
         try {
-          const response = await fetch(url);
+          const stemController = new AbortController();
+          const stemTimeout = setTimeout(() => stemController.abort(), 30000);
+          const response = await fetch(url, { signal: stemController.signal });
+          clearTimeout(stemTimeout);
           if (response.ok) {
             const blob = await response.blob();
             const fileName = `${track.id}_${stemType}_${Date.now()}.mp3`;

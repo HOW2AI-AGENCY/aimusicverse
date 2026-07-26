@@ -132,6 +132,8 @@ serve(async (req) => {
     logger.apiCall("SunoAPI", "sound/generate", { model, tempo, key, duration });
 
     const startTime = Date.now();
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/sound/generate", {
       method: "POST",
       headers: {
@@ -139,7 +141,9 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(requestBody),
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
 
     const durationMs = Date.now() - startTime;
     const sunoData = await sunoResponse.json();

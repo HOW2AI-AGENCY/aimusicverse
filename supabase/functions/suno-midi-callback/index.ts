@@ -130,7 +130,10 @@ serve(async (req) => {
       midiBytes = new Uint8Array(binary.length);
       for (let i = 0; i < binary.length; i++) midiBytes[i] = binary.charCodeAt(i);
     } else if (clip.midiUrl) {
-      const sunoResp = await fetch(clip.midiUrl);
+      const midiController = new AbortController();
+      const midiTimeout = setTimeout(() => midiController.abort(), 30000);
+      const sunoResp = await fetch(clip.midiUrl, { signal: midiController.signal });
+      clearTimeout(midiTimeout);
       if (!sunoResp.ok) throw new Error(`failed to fetch midiUrl: ${sunoResp.status}`);
       const ab = await sunoResp.arrayBuffer();
       midiBytes = new Uint8Array(ab);

@@ -59,17 +59,21 @@ serve(async (req) => {
     const callBackUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/suno-wav-callback`;
 
     // Call Suno API
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/generate/convert-to-wav", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${sunoApiKey}`,
         "Content-Type": "application/json",
       },
+      signal: controller.signal,
       body: JSON.stringify({
         audioId,
         callBackUrl,
       }),
     });
+    clearTimeout(timeout);
 
     const sunoData = await sunoResponse.json();
 

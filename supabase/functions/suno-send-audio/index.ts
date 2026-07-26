@@ -20,6 +20,9 @@ serve(async (req) => {
       throw new Error("TELEGRAM_BOT_TOKEN not configured");
     }
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
+
     const {
       chatId,
       trackId,
@@ -48,6 +51,7 @@ serve(async (req) => {
       await fetch(`${telegramApiUrl}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify({
           chat_id: chatId,
           text: `❌ Ошибка генерации трека\n\n${errorMessage || "Неизвестная ошибка"}`,
@@ -93,7 +97,7 @@ serve(async (req) => {
     let audioBlob: Blob | null = null;
     try {
       console.log("⬇️ Downloading audio file...");
-      const audioResponse = await fetch(audioUrl);
+      const audioResponse = await fetch(audioUrl, { signal: controller.signal });
       if (audioResponse.ok) {
         audioBlob = await audioResponse.blob();
         console.log(`✅ Audio downloaded: ${audioBlob.size} bytes`);
@@ -108,7 +112,7 @@ serve(async (req) => {
     let thumbBlob: Blob | null = null;
     if (coverUrl) {
       try {
-        const thumbResponse = await fetch(coverUrl);
+        const thumbResponse = await fetch(coverUrl, { signal: controller.signal });
         if (thumbResponse.ok) {
           thumbBlob = await thumbResponse.blob();
           console.log(`✅ Thumbnail downloaded: ${thumbBlob.size} bytes`);
@@ -161,6 +165,7 @@ serve(async (req) => {
       response = await fetch(`${telegramApiUrl}/sendAudio`, {
         method: "POST",
         body: formData,
+        signal: controller.signal,
       });
       result = await response.json();
     } else {
@@ -183,6 +188,7 @@ serve(async (req) => {
       response = await fetch(`${telegramApiUrl}/sendAudio`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify(audioMessage),
       });
       result = await response.json();
@@ -207,6 +213,7 @@ serve(async (req) => {
     }
 
     console.log("✅ Audio sent successfully to Telegram");
+    clearTimeout(timeout);
 
     return new Response(JSON.stringify({ success: true, file_id: result.result?.audio?.file_id }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

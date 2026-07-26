@@ -151,6 +151,8 @@ serve(async (req) => {
     );
 
     // Forward the request with original auth header
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
     const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY") || "";
     const response = await fetch(`${supabaseUrl}/functions/v1/${targetFunction}`, {
       method: "POST",
@@ -160,7 +162,9 @@ serve(async (req) => {
         apikey: supabaseKey,
       },
       body: JSON.stringify(mappedBody),
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
 
     const data = await response.json();
 
