@@ -193,8 +193,14 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
       pauseGlobalPlayer,
     });
 
-  // ── Stem DB sync + realtime ───────────────────────────────────────────
-  const { isMountedRef } = useStudioStemSync({ projectId: project?.id, sourceTrackId });
+  // ── Stem DB sync + realtime (single source: useStemRealtime) ──────────
+  const isMountedRef = useRef(true);
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
   const stemRealtime = useStemRealtime(sourceTrackId ?? null);
 
   // Clear separating state when realtime reports completion/failure
