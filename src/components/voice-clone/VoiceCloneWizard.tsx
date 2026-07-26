@@ -253,15 +253,93 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete, selectedVoice
       open={open}
       onOpenChange={(v) => (v ? onOpenChange(v) : close())}
       title="Кастомный голос"
-      description="30 кредитов · запись только с микрофона"
+      description={
+        showSelectPane ? "Выберите голос или запишите новый" : "30 кредитов · запись только с микрофона"
+      }
       icon={Mic}
       size="lg"
-      step={showSteps ? { current: stepIndex, total: STEP_TOTAL, label: STEP_LABEL[step] } : undefined}
+      step={showSteps && !showSelectPane ? { current: stepIndex, total: STEP_TOTAL, label: STEP_LABEL[step] } : undefined}
       footer={footer}
       data-testid="voice-clone-wizard"
     >
-      {step === "upload" && (
+      {step === "upload" && showSelectPane && (
+        <div className="space-y-2" data-testid="voice-select-pane">
+          <button
+            type="button"
+            onClick={() => {
+              onSelectVoice?.(null);
+              close();
+            }}
+            className={cn(
+              "w-full flex items-center gap-3 rounded-xl border p-3 text-left transition-colors",
+              !selectedVoiceId ? "border-primary/60 bg-primary/5" : "border-border/60 hover:bg-muted/40",
+            )}
+          >
+            <Mic className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm">Без кастомного голоса</span>
+            {!selectedVoiceId && <CheckCircle2 className="ml-auto h-4 w-4 text-primary" />}
+          </button>
+
+          {voicesLoading && <p className="text-xs text-muted-foreground px-1">Загрузка…</p>}
+
+          {!voicesLoading && readyVoices.length === 0 && (
+            <p className="text-xs text-muted-foreground px-1 py-2">
+              Готовых голосов пока нет — запишите первый ниже.
+            </p>
+          )}
+
+          {readyVoices.map((v) => {
+            const active = v.voice_id === selectedVoiceId;
+            return (
+              <div
+                key={v.id}
+                className={cn(
+                  "flex items-center gap-2 rounded-xl border p-3 transition-colors",
+                  active ? "border-primary/60 bg-primary/5" : "border-border/60",
+                )}
+              >
+                <button
+                  type="button"
+                  data-testid="voice-select-option"
+                  className="flex-1 min-w-0 text-left"
+                  onClick={() => {
+                    onSelectVoice?.(v.voice_id!);
+                    close();
+                  }}
+                >
+                  <p className="text-sm font-medium truncate">{v.voice_name}</p>
+                  <p className="text-[0.6875rem] text-muted-foreground truncate">
+                    {v.language ? `${v.language} · ` : ""}использован {v.usage_count ?? 0} раз
+                  </p>
+                </button>
+                {active && <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />}
+                <button
+                  type="button"
+                  aria-label={`Удалить голос ${v.voice_name}`}
+                  className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-destructive"
+                  onClick={() => {
+                    if (confirm(`Удалить голос «${v.voice_name}»?`)) {
+                      if (v.voice_id === selectedVoiceId) onSelectVoice?.(null);
+                      deleteVoice(v.id);
+                    }
+                  }}
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {step === "upload" && !showSelectPane && (
         <>
+          {selectionEnabled && (
+            <Button variant="ghost" size="sm" className="self-start -mb-1" onClick={() => setPane("select")}>
+              <RotateCcw className="mr-2 h-3 w-3" />
+              К списку голосов
+            </Button>
+          )}
           <div className="flex gap-2 rounded-xl border border-primary/25 bg-primary/5 p-3">
             <Mic className="h-4 w-4 shrink-0 text-primary mt-0.5" />
             <p className="text-xs text-muted-foreground leading-relaxed">
