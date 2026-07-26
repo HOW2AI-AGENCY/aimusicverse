@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileText, Edit, Sparkles, Save, X, Music, StickyNote, CheckCircle } from "@/lib/icons";
 import { ProjectTrack } from "@/hooks/useProjectTracks";
-import { LyricsChatAssistant } from "@/components/generate-form/LyricsChatAssistant";
+import { LyricsAssistantSheet } from "@/components/generate-form/lyrics/LyricsAssistantSheet";
 import { cn } from "@/lib/utils";
 
 interface LyricsPreviewSheetProps {
@@ -291,13 +291,14 @@ export function LyricsPreviewSheet({
       </Sheet>
 
       {/* Chat-based AI Assistant with project context */}
-      <LyricsChatAssistant
+      <LyricsAssistantSheet
         open={showChatAssistant}
         onOpenChange={setShowChatAssistant}
-        onLyricsGenerated={handleLyricsGenerated}
-        initialGenre={projectContext?.genre}
-        initialMood={projectContext?.mood ? [projectContext.mood] : undefined}
-        initialLanguage={projectContext?.language}
+        currentText={track.lyrics || ""}
+        onApply={handleLyricsGenerated}
+        genre={projectContext?.genre}
+        mood={projectContext?.mood ? [projectContext.mood] : undefined}
+        language={projectContext?.language}
         projectContext={
           projectContext
             ? {

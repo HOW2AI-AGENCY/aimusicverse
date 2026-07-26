@@ -9,7 +9,7 @@ import { AIActionsDialog } from "@/components/project/AIActionsDialog";
 import { ProjectSettingsSheet } from "@/components/project/ProjectSettingsSheet";
 import { AddTrackDialog } from "@/components/project/AddTrackDialog";
 import { LyricsPreviewSheet } from "@/components/project/LyricsPreviewSheet";
-import { LyricsChatAssistant } from "@/components/generate-form/LyricsChatAssistant";
+import { LyricsAssistantSheet } from "@/components/generate-form/lyrics/LyricsAssistantSheet";
 import { ProjectMediaGenerator } from "@/components/project/ProjectMediaGenerator";
 import { PublishProjectDialog } from "@/components/project/PublishProjectDialog";
 import type { useProjectDetailData } from "@/hooks/project/useProjectDetailData";
@@ -60,13 +60,14 @@ export function ProjectDialogs({ project, tracks, dialogs, handlers, queryClient
         }}
       />
 
-      <LyricsChatAssistant
+      <LyricsAssistantSheet
         open={dialogs.lyricsWizardOpen}
         onOpenChange={dialogs.setLyricsWizardOpen}
-        onLyricsGenerated={(lyrics) => handlers.handleLyricsGenerated(lyrics, dialogs.selectedTrackForLyrics?.id)}
-        initialGenre={project.genre || undefined}
-        initialMood={project.mood ? [project.mood] : undefined}
-        initialLanguage={project.language as "ru" | "en" | undefined}
+        currentText={dialogs.selectedTrackForLyrics?.lyrics || ""}
+        onApply={(lyrics) => handlers.handleLyricsGenerated(lyrics, dialogs.selectedTrackForLyrics?.id)}
+        genre={project.genre || undefined}
+        mood={project.mood ? [project.mood] : undefined}
+        language={project.language as "ru" | "en" | undefined}
         projectContext={{
           projectId: project.id,
           projectTitle: project.title,
@@ -101,12 +102,15 @@ export function ProjectDialogs({ project, tracks, dialogs, handlers, queryClient
                 notes: dialogs.selectedTrackForLyrics.notes || undefined,
                 lyrics: dialogs.selectedTrackForLyrics.lyrics || undefined,
                 lyricsStatus: dialogs.selectedTrackForLyrics.lyrics_status as
-                  "draft" | "prompt" | "generated" | "approved" | undefined,
+                  | "draft"
+                  | "prompt"
+                  | "generated"
+                  | "approved"
+                  | undefined,
               }
             : undefined
         }
       />
-
       <ProjectMediaGenerator
         open={dialogs.mediaGeneratorOpen}
         onOpenChange={dialogs.setMediaGeneratorOpen}

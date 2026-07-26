@@ -15,9 +15,10 @@ export const LazyGenerateSheet = lazy(() =>
   import("@/components/GenerateSheet").then((m) => ({ default: m.GenerateSheet })),
 );
 
-export const LazyLyricsChatAssistant = lazy(() =>
-  import("@/components/generate-form/LyricsChatAssistant").then((m) => ({ default: m.LyricsChatAssistant })),
-);
+// DEPRECATED: replaced by LyricsAssistantSheet (direct import)
+// export const LazyLyricsChatAssistant = lazy(() =>
+//   import("@/components/generate-form/LyricsChatAssistant").then((m) => ({ default: m.LyricsChatAssistant })),
+// );
 
 export const LazyTrackDetailSheet = lazy(() =>
   import("@/components/TrackDetailSheet").then((m) => ({ default: m.TrackDetailSheet })),
@@ -220,7 +221,6 @@ export const preloadRouteComponents = {
   },
   generate: () => {
     preloadComponent(LazyGenerateSheet);
-    preloadComponent(LazyLyricsChatAssistant);
     preloadComponent(LazyGenerateFormCustom);
     preloadComponent(LazyAdvancedSettings);
   },

@@ -9,7 +9,7 @@ import { AIActionsDialog } from "@/components/project/AIActionsDialog";
 import { ProjectSettingsSheet } from "@/components/project/ProjectSettingsSheet";
 import { AddTrackDialog } from "@/components/project/AddTrackDialog";
 import { LyricsPreviewSheet } from "@/components/project/LyricsPreviewSheet";
-import { LyricsChatAssistant } from "@/components/generate-form/LyricsChatAssistant";
+import { LyricsAssistantSheet } from "@/components/generate-form/lyrics/LyricsAssistantSheet";
 import { ProjectMediaGenerator } from "@/components/project/ProjectMediaGenerator";
 import { PublishProjectDialog } from "@/components/project/PublishProjectDialog";
 import type { UseProjectDetailStateReturn } from "@/hooks/project/useProjectDetailState";
@@ -75,13 +75,14 @@ export const ProjectDialogs = memo(function ProjectDialogs({
       />
 
       {/* AI Lyrics Chat Assistant */}
-      <LyricsChatAssistant
+      <LyricsAssistantSheet
         open={state.lyricsWizardOpen}
         onOpenChange={state.setLyricsWizardOpen}
-        onLyricsGenerated={state.handleLyricsGenerated}
-        initialGenre={project.genre || undefined}
-        initialMood={project.mood ? [project.mood] : undefined}
-        initialLanguage={project.language as "ru" | "en" | undefined}
+        currentText={state.selectedTrackForLyrics?.lyrics || ""}
+        onApply={state.handleLyricsGenerated}
+        genre={project.genre || undefined}
+        mood={project.mood ? [project.mood] : undefined}
+        language={project.language as "ru" | "en" | undefined}
         projectContext={{
           projectId: project.id,
           projectTitle: project.title,
@@ -116,15 +117,16 @@ export const ProjectDialogs = memo(function ProjectDialogs({
                 notes: state.selectedTrackForLyrics.notes || undefined,
                 lyrics: state.selectedTrackForLyrics.lyrics || undefined,
                 lyricsStatus: state.selectedTrackForLyrics.lyrics_status as
-                  "draft" | "prompt" | "generated" | "approved" | undefined,
+                  | "draft"
+                  | "prompt"
+                  | "generated"
+                  | "approved"
+                  | undefined,
               }
             : undefined
         }
       />
-
-      {/* Project Media Generator */}
       <ProjectMediaGenerator
-        open={state.mediaGeneratorOpen}
         onOpenChange={state.setMediaGeneratorOpen}
         project={{
           id: project.id,

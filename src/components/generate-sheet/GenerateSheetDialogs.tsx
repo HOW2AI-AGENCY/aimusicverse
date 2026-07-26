@@ -9,7 +9,7 @@ import { useTelegram } from "@/contexts/TelegramContext";
 import { ProjectTrackSelector } from "../generate-form/ProjectTrackSelector";
 import { ArtistSelector } from "../generate-form/ArtistSelector";
 import { AudioActionDialog } from "../generate-form/AudioActionDialog";
-import { LyricsChatAssistant } from "../generate-form/LyricsChatAssistant";
+import { LyricsAssistantSheet } from "../generate-form/lyrics/LyricsAssistantSheet";
 import { PromptHistory } from "../generate-form/PromptHistory";
 import { StylePresetSelector } from "../generate-form/StylePresetSelector";
 import { VoiceCloneWizard } from "../voice-clone/VoiceCloneWizard";
@@ -183,10 +183,11 @@ export function GenerateSheetDialogs({
         }}
       />
 
-      <LyricsChatAssistant
+      <LyricsAssistantSheet
         open={lyricsAssistantOpen}
         onOpenChange={setLyricsAssistantOpen}
-        onLyricsGenerated={(newLyrics: string) => {
+        currentText={form.lyrics}
+        onApply={(newLyrics: string) => {
           form.setMode("custom");
           form.setHasVocals(true);
           form.setLyrics(newLyrics);
@@ -194,23 +195,23 @@ export function GenerateSheetDialogs({
             description: "Лирика с профессиональными тегами Suno готова к генерации",
           });
         }}
-        onStyleGenerated={(generatedStyle: string) => {
+        onApplyStyle={(generatedStyle: string) => {
           if (generatedStyle && generatedStyle.trim()) {
             form.setStyle(generatedStyle);
           }
         }}
-        onTitleGenerated={(generatedTitle: string) => {
+        onApplyTitle={(generatedTitle: string) => {
           if (generatedTitle && generatedTitle.trim()) {
             form.setTitle(generatedTitle);
           }
         }}
-        initialGenre={projects?.find((p) => p.id === form.selectedProjectId)?.genre || undefined}
-        initialMood={
+        genre={projects?.find((p) => p.id === form.selectedProjectId)?.genre || undefined}
+        mood={
           projects?.find((p) => p.id === form.selectedProjectId)?.mood
             ? [projects.find((p) => p.id === form.selectedProjectId)!.mood!]
             : undefined
         }
-        initialLanguage={(projects?.find((p) => p.id === form.selectedProjectId)?.language as "ru" | "en") || "ru"}
+        language={(projects?.find((p) => p.id === form.selectedProjectId)?.language as "ru" | "en") || "ru"}
         projectContext={
           form.selectedProjectId
             ? (() => {

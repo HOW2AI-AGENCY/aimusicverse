@@ -8,16 +8,42 @@
 import { ChatMessageList } from "@/components/generate-form/lyrics-chat/ChatMessageList";
 import { ChatInputArea } from "@/components/generate-form/lyrics-chat/ChatInputArea";
 import { useLyricsAssistant } from "@/hooks/lyrics/useLyricsAssistant";
+import type { UseLyricsAssistantOptions } from "@/hooks/lyrics/useLyricsAssistant";
 
 interface Props {
   currentLyrics: string;
+  genre?: string;
+  mood?: string[];
+  language?: string;
+  projectContext?: UseLyricsAssistantOptions["projectContext"];
+  trackContext?: UseLyricsAssistantOptions["trackContext"];
   onApply: (text: string, targetSectionId?: string) => void;
   onApplyTitle?: (title: string) => void;
   onApplyStyle?: (style: string) => void;
 }
 
-export function LyricsAssistantChat({ currentLyrics, onApply, onApplyTitle, onApplyStyle }: Props) {
-  const state = useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApplyStyle });
+export function LyricsAssistantChat({
+  currentLyrics,
+  genre,
+  mood,
+  language,
+  projectContext,
+  trackContext,
+  onApply,
+  onApplyTitle,
+  onApplyStyle,
+}: Props) {
+  const state = useLyricsAssistant({
+    currentLyrics,
+    genre,
+    mood,
+    language,
+    projectContext,
+    trackContext,
+    onApply,
+    onApplyTitle,
+    onApplyStyle,
+  });
 
   return (
     <div className="flex flex-col h-full">

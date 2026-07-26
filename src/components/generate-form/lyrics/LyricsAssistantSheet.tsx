@@ -15,17 +15,35 @@ import { ChevronDown, ChevronUp } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { LyricsAssistantChat } from "./LyricsAssistantChat";
 import { useScrollLock } from "@/hooks/useScrollLock";
+import type { useLyricsAssistant } from "@/hooks/lyrics/useLyricsAssistant";
 
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   currentText: string;
+  genre?: string;
+  mood?: string[];
+  language?: string;
+  projectContext?: Parameters<typeof useLyricsAssistant>[0]["projectContext"];
+  trackContext?: Parameters<typeof useLyricsAssistant>[0]["trackContext"];
   onApply: (text: string, targetSectionId?: string) => void;
   onApplyTitle?: (title: string) => void;
   onApplyStyle?: (style: string) => void;
 }
 
-export function LyricsAssistantSheet({ open, onOpenChange, currentText, onApply, onApplyTitle, onApplyStyle }: Props) {
+export function LyricsAssistantSheet({
+  open,
+  onOpenChange,
+  currentText,
+  genre,
+  mood,
+  language,
+  projectContext,
+  trackContext,
+  onApply,
+  onApplyTitle,
+  onApplyStyle,
+}: Props) {
   const [previewCollapsed, setPreviewCollapsed] = useState(false);
 
   // Lock body scroll while lyrics assistant sheet is open
@@ -81,6 +99,11 @@ export function LyricsAssistantSheet({ open, onOpenChange, currentText, onApply,
           <div className="flex-1 overflow-hidden">
             <LyricsAssistantChat
               currentLyrics={currentText}
+              genre={genre}
+              mood={mood}
+              language={language}
+              projectContext={projectContext}
+              trackContext={trackContext}
               onApply={onApply}
               onApplyTitle={onApplyTitle}
               onApplyStyle={onApplyStyle}

@@ -17,6 +17,44 @@ import type { ChatMessage } from "@/components/generate-form/lyrics-chat/types";
 
 interface UseLyricsAssistantOptions {
   currentLyrics?: string;
+  genre?: string;
+  mood?: string[];
+  language?: string;
+  projectContext?: {
+    projectId: string;
+    projectTitle: string;
+    genre?: string;
+    mood?: string;
+    language?: "ru" | "en";
+    concept?: string;
+    targetAudience?: string;
+    referenceArtists?: string[];
+    existingTracks?: Array<{
+      position: number;
+      title: string;
+      stylePrompt?: string;
+      draftLyrics?: string;
+      generatedLyrics?: string;
+      recommendedTags?: string[];
+      recommendedStructure?: string;
+      notes?: string;
+      lyrics?: string;
+      lyricsStatus?: "draft" | "prompt" | "generated" | "approved" | undefined;
+    }>;
+    projectType?: string;
+  };
+  trackContext?: {
+    position: number;
+    title: string;
+    stylePrompt?: string;
+    draftLyrics?: string;
+    generatedLyrics?: string;
+    recommendedTags?: string[];
+    recommendedStructure?: string;
+    notes?: string;
+    lyrics?: string;
+    lyricsStatus?: "draft" | "prompt" | "generated" | "approved" | undefined;
+  };
   onApply: (text: string, targetSectionId?: string) => void;
   onApplyTitle?: (title: string) => void;
   onApplyStyle?: (style: string) => void;
@@ -28,7 +66,19 @@ interface LyricsResult {
   style?: string;
 }
 
-export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApplyStyle }: UseLyricsAssistantOptions) {
+export type { UseLyricsAssistantOptions };
+
+export function useLyricsAssistant({
+  currentLyrics,
+  genre: initialGenre,
+  mood: initialMood,
+  language: initialLanguage = "ru",
+  projectContext,
+  trackContext,
+  onApply,
+  onApplyTitle,
+  onApplyStyle,
+}: UseLyricsAssistantOptions) {
   const isMobile = useIsMobile();
 
   // Chat state
@@ -43,9 +93,9 @@ export function useLyricsAssistant({ currentLyrics, onApply, onApplyTitle, onApp
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
-  // Selections
-  const [selectedGenre, setSelectedGenre] = useState("");
-  const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
+  // Selections — pre-seed from incoming context when available
+  const [selectedGenre, setSelectedGenre] = useState(initialGenre || "");
+  const [selectedMoods, setSelectedMoods] = useState<string[]>(initialMood || []);
   const [selectedStructure, setSelectedStructure] = useState("");
 
   // Result
