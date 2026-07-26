@@ -97,17 +97,26 @@ export default function VoiceLibraryPage() {
               <div>Использован: {v.usage_count} раз</div>
             </div>
             {v.error_message && <p className="text-xs text-destructive">{v.error_message}</p>}
-            <Button
-              size="sm"
-              variant="ghost"
-              disabled={isDeleting}
-              onClick={() => {
-                if (confirm(`Удалить голос «${v.voice_name}»?`)) deleteVoice(v.id);
-              }}
-            >
-              <Trash2 className="mr-2 h-3 w-3" />
-              Удалить
-            </Button>
+            <div className="flex items-center gap-2 pt-1">
+              {v.status === "ready" && v.voice_id && v.is_available && (
+                <Button size="sm" className="flex-1" onClick={() => useVoice(v)} data-testid="voice-use-button">
+                  <Sparkles className="mr-2 h-3 w-3" />
+                  Использовать
+                </Button>
+              )}
+              <Button
+                size="sm"
+                variant="ghost"
+                disabled={isDeleting}
+                onClick={() => {
+                  if (confirm(`Удалить голос «${v.voice_name}»?`)) deleteVoice(v.id);
+                }}
+              >
+                <Trash2 className="mr-2 h-3 w-3" />
+                Удалить
+              </Button>
+            </div>
+
           </Card>
         ))}
       </div>
