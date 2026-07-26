@@ -4,6 +4,7 @@ import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { ECONOMY } from "../_shared/economy.ts";
+import { normalizeSunoLyrics, didNormalizeLyrics } from "../_shared/lyrics-normalize.ts";
 
 const logger = createLogger("suno-replace-section");
 const REPLACE_SECTION_COST = ECONOMY.REPLACE_SECTION_COST;

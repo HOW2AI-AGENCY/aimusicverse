@@ -3,6 +3,7 @@ import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { getApiModelName } from "../_shared/suno-models.ts";
 import { getGenerationCost } from "../_shared/economy.ts";
+import { normalizeSunoLyrics, didNormalizeLyrics } from "../_shared/lyrics-normalize.ts";
 import {
   getUserFriendlyError,
   classifyErrorCode,
