@@ -272,13 +272,11 @@ export default function Library() {
             "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
         }}
       >
-        {/* Desktop Generate Sidebar — pinned, own internal scroll, no page scroll */}
-        {isDesktop && (
-          <DesktopLibrarySidebar
-            isCollapsed={generateSidebarCollapsed}
-            onToggleCollapse={() => setGenerateSidebarCollapsed(!generateSidebarCollapsed)}
-          />
-        )}
+        {/* Generate Sidebar — desktop panel or mobile FAB+sheet */}
+        <DesktopLibrarySidebar
+          isCollapsed={generateSidebarCollapsed}
+          onToggleCollapse={() => setGenerateSidebarCollapsed(!generateSidebarCollapsed)}
+        />
 
         {/* Main Content - with master-detail layout on desktop */}
         <div
