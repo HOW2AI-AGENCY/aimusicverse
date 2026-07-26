@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { useProjectTracks } from "@/hooks/useProjectTracks";
+import { useTracks } from "@/hooks/useTracks";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
 import { LazyImage } from "@/components/ui/lazy-image";
