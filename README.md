@@ -73,23 +73,22 @@
 
 ## ✨ Возможности
 
-| Категория         | Функция                                      | Статус |
-| ----------------- | -------------------------------------------- | :----: |
-| 🎵 AI-генерация   | Suno API v5 с A/B версиями                   |   ✅   |
-| 🎤 Voice Clone    | Клонирование тембра + метка на треках        |   ✅   |
-| 📝 Lyrics AI      | AI-помощник для текстов                      |   ✅   |
-| 🤖 AI-харнесс     | 9 инструментов, контекст альбома, SSE stream |   ✅   |
-| 🎸 Инструменты    | Гитара, драм-машина, микшер                  |   ✅   |
-| 🏗 Студия          | Мультитрек-редактор (Studio Lite/Pro)        |   ✅   |
-| 👥 Сообщество     | Лента, артисты, блог                         |   ✅   |
-| 🎛 MIDI            | Klang.io транскрипция (6 моделей)            |   ✅   |
-| 🔀 Стем-сепарация | Извлечение вокала/барабанов/баса             |   ✅   |
-| 💎 Монетизация    | Telegram Stars + Tinkoff, подписки           |   ✅   |
-| 📊 Аналитика      | Dashboard, A/B тесты                         |   ✅   |
-| 🔔 Уведомления    | In-app + Push (завершение генерации)         |   ✅   |
-| ♿ Доступность    | WCAG AA, 14px min, клавиатурная навигация    |   ✅   |
-| 📱 Telegram       | MainButton, BackButton, Haptic, CloudStorage |   ✅   |
-| 🌐 Локализация    | i18n EN/RU (react-i18next)                   |   ✅   |
+| Категория         | Функция                                                                                    | Статус |
+| ----------------- | ------------------------------------------------------------------------------------------ | :----: |
+| 🎨 AI-генерация   | 4 режима: Simple (prompt), Custom (lyrics), Cover (1 трек + style), Remix/Mashup (2 трека) |   ✅   |
+| 🎤 Voice Clone    | Клонирование тембра + метка на треках                                                      |   ✅   |
+| 📝 Lyrics AI      | AI-помощник для текстов                                                                    |   ✅   |
+| 🤖 AI-харнесс     | 9 инструментов, контекст альбома, SSE stream                                               |   ✅   |
+| 🎸 Инструменты    | Гитара, драм-машина, микшер                                                                |   ✅   |
+| 🎛 MIDI            | SunoAPI (vocal/instrumental) + Klang.io (6 моделей для детальных стемов)                   |   ✅   |
+| 🏗 Студия          | Мультитрек-редактор + DAW: mute/solo, EQ, compressor, reverb, waveform                     |   ✅   |
+| 🔀 Стем-сепарация | Извлечение вокала/барабанов/баса (SunoAPI + Klang.io)                                      |   ✅   |
+| 🎵 Кавер          | upload-cover API: 1 трек + style → новый трек                                              |   ✅   |
+| 🔄 Ремикс (мэшап) | mashup API: 2 трека → сведение, выбор второго трека из проекта                             |   ✅   |
+| 🔔 Уведомления    | In-app + Push, NotificationOrchestrator (приоритетная очередь, баннеры)                    |   ✅   |
+| ♿ Доступность    | WCAG AA, 14px min, клавиатурная навигация                                                  |   ✅   |
+| 📱 Telegram       | MainButton, BackButton, Haptic, CloudStorage                                               |   ✅   |
+| 🌐 Локализация    | i18n EN/RU (react-i18next)                                                                 |   ✅   |
 
 <sub><a href="#📱-скриншоты">← Назад: Скриншоты</a> · <a href="#top">↑ К началу</a> · <a href="#🏛-архитектура">Далее: Архитектура →</a></sub>
 
@@ -236,24 +235,24 @@ npm run build            # production build
 
 ## 📊 Прогресс проекта
 
-| Метрика                 | Значение                      | Статус |
-| ----------------------- | ----------------------------- | :----: |
-| Unit тесты              | 1857 passing (176 test files) |   ✅   |
-| TypeScript              | 0 errors (`--noEmit`)         |   ✅   |
-| E2E specs               | 59                            |   ✅   |
-| Components              | 1048                          |   ✅   |
-| Hooks                   | 446                           |   ✅   |
-| API files               | 34                            |   ✅   |
-| Services                | 37 `*.service.ts`             |   ✅   |
-| Stores                  | 25                            |   ✅   |
-| Suno edge functions     | 46 (28/28 API — 100%)         |   ✅   |
-| Files >800 LOC в `src/` | 0                             |   ✅   |
-| `any` budget            | 0/50                          |   ✅   |
-| ESLint warnings         | 525 (было 1744, −70%)         |   ✅   |
-| Bundle eager JS         | ~508 KB gzip                  |   ✅   |
-| Bundle total            | 2.11 MB gzip                  |   🟡   |
-| Branch Protection       | активна                       |   ✅   |
-| Спринтов завершено      | 50+                           |   ✅   |
+| Метрика | Значение                |              Статус              |
+| ------- | ----------------------- | :------------------------------: |
+| Unit тесты              | 1826 passing (176 test files)          |   ✅   |
+| TypeScript              | 0 errors (`--noEmit`)                  |   ✅   |
+| E2E specs               | 59                                      |   ✅   |
+| Components              | 1050+                                   |   ✅   |
+| Hooks                   | 448+                                    |   ✅   |
+| API files               | 35                                      |   ✅   |
+| Services                | 38 `*.service.ts`                       |   ✅   |
+| Stores                  | 25                                      |   ✅   |
+| Suno edge functions     | 46 (25/44 с AbortSignal timeout)        |   ✅   |
+| Files >800 LOC в `src/` | 0                                       |   ✅   |
+| `any` budget            | 0/50                                    |   ✅   |
+| ESLint warnings         | 525 (было 1744, −70%)                   |   ✅   |
+| Bundle eager JS         | ~508 KB gzip                            |   ✅   |
+| Bundle total            | 2.11 MB gzip                            |   🟡   |
+| Branch Protection       | активна                                 |   ✅   |
+| Спринтов завершено      | 51+                                     |   ✅   |
 
 ### Последние спринты
 
@@ -265,7 +264,8 @@ npm run build            # production build
 | 062    | UI/UX Audit P0/P1/P2 (A+B+C)              |   ✅   |
 | 063    | Homepage UX fixes + card refinement       |   ✅   |
 | 064    | P2 polish: tablet cols, error, More       |   ✅   |
-| 065    | Generate v2 + Home Redesign + Visual Regr |   🔄   |
+|| 065    | Generate v2 + Home Redesign + Visual Regr |   ✅   |
+|| 066    | Epic bugfix + stem studio + MIDI SunoAPI + Cover/Mashup split + Notifications |   ✅   |
 
 <sub><a href="#🚀-быстрый-старт">← Назад: Быстрый старт</a> · <a href="#top">↑ К началу</a> · <a href="#🛠-технический-стек">Далее: Технический стек →</a></sub>
 
@@ -282,7 +282,7 @@ npm run build            # production build
 | **Бэкенд**               | Supabase (PostgreSQL + RLS + Realtime + Storage)  |
 | **Serverless**           | 120+ Edge Functions (Deno/TypeScript)             |
 | **Аудио**                | Tone.js 14.9, Wavesurfer.js 7.8                   |
-| **MIDI**                 | Klang.io (6 моделей транскрипции)                 |
+| **MIDI**                 | SunoAPI (vocal/instrumental) + Klang.io (6 моделей для детальных стемов) |
 | **Формы**                | React Hook Form + Zod                             |
 | **Тесты unit**           | Vitest 4.x (jsdom)                                |
 | **Тесты e2e**            | Playwright 1.61 (Chrome, Firefox, Safari, Mobile) |
@@ -427,6 +427,6 @@ PM          → PROJECT_STATUS → ROADMAP → CHANGELOG
 
 **Лицензия:** MIT · **Авторские права:** HOW2AI Agency © 2025–2026 · **Безопасность:** `security@how2ai.agency`
 
-<sub>Последнее обновление: 2026-07-25 · Sprint 065+ (React hooks cleanup · Form consolidation · Edge decomposition · docs/GENERATE_FORM.md) · tsc 0 errors · react-hooks 0 warnings · 1810 unit tests · 59 E2E specs · Vite 6.4.3 · [🤝 Передача проекта](HANDOFF.md)</sub>
+<sub>Последнее обновление: 2026-07-26 · Sprint 066 (Epic bugfix + stem studio + MIDI SunoAPI + Cover/Mashup split + Notifications) · tsc 0 errors · react-hooks 0 warnings · 1826 unit tests · 59 E2E specs · 25/44 edge funcs with timeouts · [🤝 Передача проекта](HANDOFF.md)</sub>
 
 </div>
