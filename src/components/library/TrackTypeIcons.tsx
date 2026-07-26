@@ -1,4 +1,4 @@
-import { Mic2, Guitar, Layers, Music2, FileText, FileMusic, Copy, ArrowRight } from "@/lib/icons";
+import { Mic2, Guitar, Layers, Music2, FileText, FileMusic, Copy, ArrowRight, UserCheck } from "@/lib/icons";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import type { Track } from "@/types/track";
 import { cn } from "@/lib/utils";
@@ -27,6 +27,9 @@ export function TrackTypeIcons({
   const isInstrumental =
     track.is_instrumental === true || (track.is_instrumental == null && track.has_vocals === false);
   const hasStems = track.has_stems === true;
+  // Track was generated with a cloned custom voice (timbre/style clone, not an exact copy)
+  const hasCustomVoice = !!track.custom_voice_id;
+
 
   // Detect cover/extend based on generation_mode
   const isCover =
@@ -38,7 +41,17 @@ export function TrackTypeIcons({
   const hasModel = showModel && !!model;
 
   const hasAnyIcon =
-    hasVocals || isInstrumental || hasStems || hasMidi || hasPdf || hasGp5 || isCover || isExtend || hasModel;
+    hasVocals ||
+    isInstrumental ||
+    hasStems ||
+    hasMidi ||
+    hasPdf ||
+    hasGp5 ||
+    isCover ||
+    isExtend ||
+    hasModel ||
+    hasCustomVoice;
+
 
   if (!hasAnyIcon) {
     return null;
@@ -92,6 +105,26 @@ export function TrackTypeIcons({
             </TooltipContent>
           </Tooltip>
         )}
+
+        {/* Cloned custom voice indicator */}
+        {hasCustomVoice && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div
+                className={cn("cursor-help p-0.5 rounded", trackTypeColors.customVoice.bg)}
+                aria-label="Создано с кастомным голосом"
+                data-testid="custom-voice-icon"
+              >
+                <UserCheck className={cn(iconSize, trackTypeColors.customVoice.text)} />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="text-xs max-w-[200px]">
+              <p>Кастомный голос — клон тембра и стилистики, не точная копия голоса</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+
+
 
         {isInstrumental && (
           <Tooltip>

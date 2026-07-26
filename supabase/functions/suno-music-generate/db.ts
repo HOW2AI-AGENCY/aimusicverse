@@ -14,6 +14,9 @@ export interface CreateTrackParams {
   mode: string;
   model: string;
   vocalGender?: string;
+  /** Provider voice id of the cloned custom voice used for this generation (if any). */
+  customVoiceId?: string | null;
+
   styleWeight?: number;
   negativeTags?: string;
   customMode: boolean;
@@ -38,6 +41,8 @@ export async function createTrackRecord(supabase: any, p: CreateTrackParams, log
       suno_model: p.model,
       generation_mode: p.mode,
       vocal_gender: p.vocalGender,
+      custom_voice_id: p.customVoiceId || null,
+
       style_weight: p.styleWeight,
       negative_tags: p.negativeTags,
       is_public: p.isPublic,

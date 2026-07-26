@@ -13,6 +13,9 @@
 
 - Track version UI must treat `track_versions` rows as the source of truth for selectable/generated variants; raw callback clips are only a fallback while rows are not yet available.
 - Applying a generated replacement variant must update both `track_versions.is_primary` and `tracks.active_version_id` together.
+- Any `track_versions` realtime change must invalidate every version cache key (`track-versions`, `track-versions-unified`, `version-count`, `master-version`, `track-counts`); missing a key leaves selectors stuck on one version.
+- Tracks with `tracks.custom_voice_id` render the custom-voice marker in `TrackTypeIcons`; voice cloning UI must state it clones timbre/style, not an exact voice copy.
+
 
 ## Work Guidance
 
