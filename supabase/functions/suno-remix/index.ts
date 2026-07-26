@@ -95,26 +95,37 @@ serve(async (req) => {
     let baseTitle = title || "AI Cover";
 
     if (audioId) {
-      const { data: trackData, error: trackError } = await supabase
-        .from("tracks")
-        .select("*")
-        .eq("suno_id", audioId)
-        .single();
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(audioId);
 
-      if (trackError || !trackData) {
+      // Try suno_id first, then fall back to the internal track id (UUID)
+      let trackData: Record<string, unknown> | null = null;
+
+      const bySuno = await supabase.from("tracks").select("*").eq("suno_id", audioId).maybeSingle();
+      trackData = bySuno.data ?? null;
+
+      if (!trackData && isUuid) {
+        const byId = await supabase.from("tracks").select("*").eq("id", audioId).maybeSingle();
+        trackData = byId.data ?? null;
+      }
+
+      if (!trackData && !uploadUrl) {
+        logger.error("Original track not found", { audioId });
         throw new Error("Original track not found");
       }
 
-      originalTrack = trackData;
-      uploadUrl = trackData.audio_url;
-      basePrompt = prompt || trackData.prompt || "";
-      baseStyle = style || trackData.style || "";
-      baseTitle = title || `${trackData.title} (Cover)`;
+      if (trackData) {
+        originalTrack = trackData;
+        uploadUrl = uploadUrl || (trackData.audio_url as string);
+        basePrompt = prompt || (trackData.prompt as string) || "";
+        baseStyle = style || (trackData.style as string) || "";
+        baseTitle = title || `${trackData.title} (Cover)`;
+      }
     }
 
     if (!uploadUrl) {
       throw new Error("No audio URL available for cover");
     }
+
 
     // URL Validation logging for debugging cover errors
     logger.info("URL Validation", {
