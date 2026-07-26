@@ -522,7 +522,13 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
           <div className="space-y-3">
             <Label className="text-sm font-medium">Движок транскрипции</Label>
             <Tabs value={engine} onValueChange={(v) => setEngine(v as TranscriptionEngine)}>
-              <TabsList className="grid grid-cols-2 w-full">
+              <TabsList className={cn("grid w-full", canUseSuno ? "grid-cols-3" : "grid-cols-2")}>
+                {canUseSuno && (
+                  <TabsTrigger value="suno" className="text-xs">
+                    <Music2 className="w-3 h-3 mr-1.5" />
+                    SunoAPI
+                  </TabsTrigger>
+                )}
                 <TabsTrigger value="basic-pitch" className="text-xs">
                   <Zap className="w-3 h-3 mr-1.5" />
                   Basic Pitch
@@ -532,6 +538,18 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
                   Klangio Pro
                 </TabsTrigger>
               </TabsList>
+
+              {canUseSuno && (
+                <TabsContent value="suno" className="mt-3">
+                  <div className="p-3 rounded-lg bg-primary/10 text-sm">
+                    <p className="font-medium mb-1">MIDI через SunoAPI (по умолчанию)</p>
+                    <p className="text-muted-foreground text-xs">
+                      Использует задачу разделения стемов — самый точный вариант для вокала и инструментала.
+                    </p>
+                  </div>
+                </TabsContent>
+              )}
+
 
               <TabsContent value="basic-pitch" className="mt-3">
                 <div className="p-3 rounded-lg bg-muted/50 text-sm">
