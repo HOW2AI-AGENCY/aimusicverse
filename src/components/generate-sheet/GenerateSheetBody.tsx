@@ -86,6 +86,8 @@ export function GenerateSheetBody({
                 onTitleChange={form.setTitle}
                 hasVocals={form.hasVocals}
                 onHasVocalsChange={form.setHasVocals}
+                customVoiceId={form.customVoiceId}
+                onCustomVoiceChange={form.setCustomVoiceId}
                 onBoostStyle={form.handleBoostStyle}
                 boostLoading={form.boostLoading}
                 onOpenStyles={onOpenStyles}
