@@ -3,7 +3,7 @@
  * Features: Tabs, Quick Actions, Improved UX
  */
 
-import { useState, useCallback, useRef, useEffect, useMemo } from "react";
+import { useState, useCallback, useRef, useEffect, useMemo, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Send, Loader2, Bot, User, Trash2, X, Sparkles, Tag, Mic, MicOff } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
@@ -17,17 +17,28 @@ import { useVoiceInput } from "@/hooks/useVoiceInput";
 import { useTelegramMainButton } from "@/hooks/telegram/useTelegramMainButton";
 import { useAITools } from "./hooks/useAITools";
 import { useWorkflowEngine } from "./hooks/useWorkflowEngine";
-import {
-  WriteToolPanel,
-  AnalyzeToolPanel,
-  ProducerToolPanel,
-  OptimizeToolPanel,
-  RhymeToolPanel,
-  ContinueToolPanel,
-  StructureToolPanel,
-  StyleConvertToolPanel,
-  TranslateToolPanel,
-} from "./tools";
+// Lazy-loaded tool panels — only loaded when tool panel is opened
+const WriteToolPanel = lazy(() => import("./tools/WriteToolPanel").then((m) => ({ default: m.WriteToolPanel })));
+const AnalyzeToolPanel = lazy(() => import("./tools/AnalyzeToolPanel").then((m) => ({ default: m.AnalyzeToolPanel })));
+const ProducerToolPanel = lazy(() =>
+  import("./tools/ProducerToolPanel").then((m) => ({ default: m.ProducerToolPanel })),
+);
+const OptimizeToolPanel = lazy(() =>
+  import("./tools/OptimizeToolPanel").then((m) => ({ default: m.OptimizeToolPanel })),
+);
+const RhymeToolPanel = lazy(() => import("./tools/RhymeToolPanel").then((m) => ({ default: m.RhymeToolPanel })));
+const ContinueToolPanel = lazy(() =>
+  import("./tools/ContinueToolPanel").then((m) => ({ default: m.ContinueToolPanel })),
+);
+const StructureToolPanel = lazy(() =>
+  import("./tools/StructureToolPanel").then((m) => ({ default: m.StructureToolPanel })),
+);
+const StyleConvertToolPanel = lazy(() =>
+  import("./tools/StyleConvertToolPanel").then((m) => ({ default: m.StyleConvertToolPanel })),
+);
+const TranslateToolPanel = lazy(() =>
+  import("./tools/TranslateToolPanel").then((m) => ({ default: m.TranslateToolPanel })),
+);
 import { HookResultCard, VocalMapResultCard, ParaphraseResultCard, TranslateResultCard } from "./results";
 import { StructuredLyricsDisplay } from "./results/StructuredLyricsDisplay";
 import { AIProgressIndicator } from "./AIProgressIndicator";
@@ -270,25 +281,38 @@ export function MobileAIAgentPanel({
       isLoading,
     };
 
+    const panelMotion = {
+      initial: { opacity: 0, y: 10 },
+      animate: { opacity: 1, y: 0 },
+      exit: { opacity: 0, y: -10 },
+      transition: { duration: 0.15 },
+    };
+
+    const wrapPanel = (children: React.ReactNode) => (
+      <motion.div {...panelMotion}>
+        <Suspense fallback={<Loader2 className="w-5 h-5 animate-spin mx-auto my-4" />}>{children}</Suspense>
+      </motion.div>
+    );
+
     switch (openToolPanel) {
       case "write":
-        return <WriteToolPanel {...panelProps} />;
+        return wrapPanel(<WriteToolPanel {...panelProps} />);
       case "continue":
-        return <ContinueToolPanel {...panelProps} />;
+        return wrapPanel(<ContinueToolPanel {...panelProps} />);
       case "analyze":
-        return <AnalyzeToolPanel {...panelProps} />;
+        return wrapPanel(<AnalyzeToolPanel {...panelProps} />);
       case "producer":
-        return <ProducerToolPanel {...panelProps} />;
+        return wrapPanel(<ProducerToolPanel {...panelProps} />);
       case "optimize":
-        return <OptimizeToolPanel {...panelProps} />;
+        return wrapPanel(<OptimizeToolPanel {...panelProps} />);
       case "rhyme":
-        return <RhymeToolPanel {...panelProps} />;
+        return wrapPanel(<RhymeToolPanel {...panelProps} />);
       case "structure":
-        return <StructureToolPanel {...panelProps} />;
+        return wrapPanel(<StructureToolPanel {...panelProps} />);
       case "style_convert":
-        return <StyleConvertToolPanel {...panelProps} />;
+        return wrapPanel(<StyleConvertToolPanel {...panelProps} />);
       case "translate":
-        return <TranslateToolPanel {...panelProps} />;
+        return wrapPanel(<TranslateToolPanel {...panelProps} />);
       default:
         return null;
     }
