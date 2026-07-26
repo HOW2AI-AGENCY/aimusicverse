@@ -109,14 +109,11 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
   const activeVersionId = versions.find((v) => v.isPrimary)?.id || versions[0]?.id || null;
   const isLoading = isQueryLoading && !isFetched;
   const hasFetched = isFetched;
-  const primaryVersions = versions.filter((version) => version.versionType !== "replace_section");
-  const visibleInlineVersions = primaryVersions.length > 0 ? primaryVersions : versions;
 
   // Reset optimistic state when trackId changes
   useEffect(() => {
     setOptimisticVersions(null);
   }, [trackId]);
-
 
   // Handle version switch
   const handleSwitch = useCallback(
@@ -128,9 +125,7 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
 
       // Optimistic update
       const previousVersions = versions;
-      setOptimisticVersions(
-        versions.map((v) => ({ ...v, isPrimary: v.id === version.id })),
-      );
+      setOptimisticVersions(versions.map((v) => ({ ...v, isPrimary: v.id === version.id })));
 
       try {
         await setPrimaryVersionAsync({ trackId, versionId: version.id });
@@ -156,9 +151,19 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
         setIsSwitching(false);
       }
     },
-    [trackId, activeVersionId, disabled, isSwitching, haptic, activeTrack, playTrack, onVersionChange, setPrimaryVersionAsync, versions],
+    [
+      trackId,
+      activeVersionId,
+      disabled,
+      isSwitching,
+      haptic,
+      activeTrack,
+      playTrack,
+      onVersionChange,
+      setPrimaryVersionAsync,
+      versions,
+    ],
   );
-
 
   // Handle preview play
   const handlePreview = useCallback(
@@ -199,11 +204,11 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
     }
 
     // Don't render if only one version after fetch
-    if (hasFetched && visibleInlineVersions.length <= 1) return null;
+    if (hasFetched && versions.length <= 1) return null;
 
     return (
       <div className={cn("flex items-center gap-1", className)}>
-        {visibleInlineVersions.slice(0, 4).map((version) => {
+        {versions.slice(0, 4).map((version) => {
           const isActive = version.id === activeVersionId;
           return (
             <button
@@ -236,13 +241,11 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
 
   // COMPACT variant - minimal for player bar
   if (variant === "compact") {
-    if (!hasFetched || visibleInlineVersions.length <= 1) return null;
-
-
+    if (!hasFetched || versions.length <= 1) return null;
 
     return (
       <div className={cn("flex items-center gap-0.5", className)}>
-        {visibleInlineVersions.slice(0, 2).map((version) => {
+        {versions.slice(0, 2).map((version) => {
           const isActive = version.id === activeVersionId;
           return (
             <button
