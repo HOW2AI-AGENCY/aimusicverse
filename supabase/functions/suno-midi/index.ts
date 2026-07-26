@@ -57,12 +57,16 @@ serve(async (req) => {
       });
     }
 
-    // Rate limit
-    const rateLimitResult = checkRateLimit(req, RateLimitConfigs.generation);
-    if (!rateLimitResult.allowed) {
+    // Rate limit (per user)
+    const rateLimitResult = checkRateLimit(`suno-midi:${user.id}`, RateLimitConfigs.sensitiveOps);
+    if (rateLimitResult.isLimited) {
       return new Response(JSON.stringify({ success: false, error: "Rate limit exceeded" }), {
         status: 429,
-        headers: { ...corsHeaders, "Content-Type": "application/json", ...getRateLimitHeaders(rateLimitResult) },
+        headers: {
+          ...corsHeaders,
+          "Content-Type": "application/json",
+          ...getRateLimitHeaders(rateLimitResult.limit, rateLimitResult.remaining, rateLimitResult.resetAt),
+        },
       });
     }
 
