@@ -650,8 +650,6 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
             }
           }}
           onAddVocals={() => dialogs.setShowAudioActionDialog(true)}
-        />
-      )}
           onSeparateStems={() => dialogs.setShowStemSeparationDialog(true)}
           onSaveAsVersion={() => dialogs.setShowSaveVersionDialog(true)}
           onAddInstrumental={() => {
