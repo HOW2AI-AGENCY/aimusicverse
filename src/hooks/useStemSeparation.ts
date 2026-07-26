@@ -53,19 +53,23 @@ export const useStemSeparation = () => {
     onMutate: ({ track }) => {
       setSeparatingTrackId(track.id);
     },
-    onSuccess: (_, { mode }) => {
+    onSuccess: (_, { mode, track }) => {
       toast.success(mode === "simple" ? "Разделение на 2 стема запущено" : "Разделение на 6+ стемов запущено", {
         description: "Процесс займёт 1-3 минуты",
       });
+      // Keep separatingTrackId set — realtime hook tracks the async progress
     },
     onError: (error: Error) => {
       logger.error("Error separating stems", error);
       toast.error("Ошибка при разделении стемов", {
         description: error.message,
       });
+      setSeparatingTrackId(null);
     },
     onSettled: () => {
-      setSeparatingTrackId(null);
+      // Don't clear separatingTrackId here! The separation is async (1-3 min).
+      // The realtime hook (useStemSeparationRealtime) tracks actual progress.
+      // Only invalidate queries to refresh stem data
       queryClient.invalidateQueries({ queryKey: ["track-stems"] });
       queryClient.invalidateQueries({ queryKey: ["stem-separation-tasks"] });
     },
@@ -88,5 +92,6 @@ export const useStemSeparation = () => {
     isSeparating: separateMutation.isPending,
     separatingTrackId,
     isTrackSeparating: (trackId: string) => separatingTrackId === trackId,
+    clearSeparatingState: () => setSeparatingTrackId(null),
   };
 };

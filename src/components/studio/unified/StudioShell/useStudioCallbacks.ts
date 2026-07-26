@@ -33,7 +33,7 @@ export function useStudioCallbacks({
   pauseGlobalPlayer,
 }: UseStudioCallbacksProps) {
   const navigate = useNavigate();
-  const { separate: separateStems, isSeparating } = useStemSeparation();
+  const { separate: separateStems, isSeparating, clearSeparatingState } = useStemSeparation();
 
   const {
     saveProject,
@@ -239,6 +239,7 @@ export function useStudioCallbacks({
     mapStemTypeToTrackType,
     mapStemTypeToLabel,
     isSeparating,
+    clearSeparatingState,
     toggleTrackMute,
     toggleTrackSolo,
     setTrackVolume,

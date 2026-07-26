@@ -179,7 +179,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   const duration = audioEngine.duration || project?.durationSeconds || 180;
 
   // ── Callbacks (save, back, seek, play/pause, stem-separation) ─────────
-  const { handleSave, handleBack, handleAddTrack, handleSeek, handlePlayPause, handleStemSeparation, isSeparating } =
+  const { handleSave, handleBack, handleAddTrack, handleSeek, handlePlayPause, handleStemSeparation, isSeparating, clearSeparatingState } =
     useStudioCallbacks({
       project,
       hasUnsavedChanges,
@@ -196,6 +196,13 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   // ── Stem DB sync + realtime ───────────────────────────────────────────
   const { isMountedRef } = useStudioStemSync({ projectId: project?.id, sourceTrackId });
   const stemRealtime = useStemSeparationRealtime(sourceTrackId ?? null);
+
+  // Clear separating state when realtime reports completion/failure
+  useEffect(() => {
+    if (stemRealtime.isCompleted || stemRealtime.isFailed) {
+      clearSeparatingState();
+    }
+  }, [stemRealtime.isCompleted, stemRealtime.isFailed, clearSeparatingState]);
 
   // ── Source track (via API layer) ──────────────────────────────────────
   const { data: sourceTrack } = useSourceTrack(sourceTrackId ?? null);
