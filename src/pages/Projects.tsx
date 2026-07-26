@@ -9,6 +9,7 @@ import { ContentHubTabs } from "@/components/content-hub/ContentHubTabs";
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { MobileHeaderBar } from "@/components/mobile/MobileHeaderBar";
+import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { safeAreaClasses } from "@/hooks/useTelegramSafeArea";
 import { DesktopContentHubLayout } from "@/components/content-hub/DesktopContentHubLayout";
 import { ProjectDetailPreview } from "@/components/content-hub/ProjectDetailPreview";
@@ -37,7 +38,7 @@ export default function Projects() {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { projects } = useProjects();
+  const { projects, refetch } = useProjects();
 
   // Get initial tab from URL or default to 'projects'
   const urlTab = searchParams.get("tab");
@@ -74,6 +75,7 @@ export default function Projects() {
   // Mobile layout
   if (isMobile) {
     return (
+      <PullToRefreshWrapper onRefresh={refetch}>
       <div className={cn(safeAreaClasses.fullHeight, safeAreaClasses.containerWithNav)}>
         <SEOHead {...SEO_PRESETS.projects} />
         <MobileHeaderBar
@@ -86,6 +88,7 @@ export default function Projects() {
           <ContentHubTabs defaultTab={initialTab} onTabChange={setActiveTab} onProjectSelect={setSelectedProjectId} />
         </div>
       </div>
+      </PullToRefreshWrapper>
     );
   }
 

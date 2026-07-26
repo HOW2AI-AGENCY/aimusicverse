@@ -78,10 +78,11 @@
 - ~~UI-5: EmptyState на AudioHub~~ ✅ уже есть в `AudioHubHistory`
 
 ### 🟠 P1 (High)
-- UI-2: Pull-to-Refresh на Index, Projects
-- UI-6: Bottom nav — анимация активного состояния
-- UI-10: Починить AppHeader на мобилах (горизонтальный скролл)
-- UI-13: Offline-индикатор
+- ~~UI-13: Offline-индикатор~~ ✅ `OfflineBanner` в App.tsx
+- ~~UI-2: Pull-to-Refresh на Index~~ ✅ уже есть
+- ~~UI-6: Bottom nav — анимация~~ ✅ уже реализована (pill+scale)
+- ~~UI-10: AppHeader~~ ✅ паттерн `-mx-4 px-5` стандартный, страницы используют `!mx-0`
+- UI-2b: Pull-to-Refresh на Projects — нужен refetch из useProjects
 
 ### 🟡 P2 (Medium)
 - **UI-4**: Анимация переключения треков

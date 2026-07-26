@@ -33,6 +33,7 @@ export const useProjects = () => {
     data: projects,
     isLoading,
     error,
+    refetch,
   } = useQuery({
     queryKey: ["projects", user?.id],
     queryFn: async () => {
@@ -308,5 +309,6 @@ export const useProjects = () => {
     isGenerating: generateProjectConcept.isPending,
     // Project limit check for UI
     checkProjectLimit,
+    refetch,
   };
 };
