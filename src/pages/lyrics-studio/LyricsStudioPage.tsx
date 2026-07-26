@@ -264,10 +264,14 @@ export default function LyricsStudio() {
 
   const handleSaveNote = useCallback(
     async (data: SaveSectionNoteData) => {
-      await saveSectionNote(data);
+      // Local-only note persistence: attach the note text to the selected section.
+      const content = typeof data === "string" ? data : ((data as { content?: string } | null)?.content ?? "");
+      setSections((prev) => prev.map((s) => (s.id === selectedSection?.id ? { ...s, notes: content } : s)));
+      setIsDirty(true);
     },
-    [saveSectionNote],
+    [selectedSection?.id],
   );
+
 
   const handleLoadTemplate = useCallback(
     (template: { id: string; name: string; lyrics: string }) => {
