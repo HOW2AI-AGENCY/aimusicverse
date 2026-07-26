@@ -49,8 +49,14 @@ serve(async (req) => {
     const tags = body.tags;
     const infillStartS = body.infillStartS ?? body.startTime;
     const infillEndS = body.infillEndS ?? body.endTime;
-    const requestFullLyrics = typeof body.fullLyrics === "string" ? body.fullLyrics : typeof body.lyrics === "string" ? body.lyrics : "";
-    const sectionLyrics = typeof body.sectionLyrics === "string" ? body.sectionLyrics : "";
+    const rawFullLyrics = typeof body.fullLyrics === "string" ? body.fullLyrics : typeof body.lyrics === "string" ? body.lyrics : "";
+    const rawSectionLyrics = typeof body.sectionLyrics === "string" ? body.sectionLyrics : "";
+    // Suno ignores Markdown decoration (**[Verse]**) — normalize before sending
+    const requestFullLyrics = normalizeSunoLyrics(rawFullLyrics);
+    const sectionLyrics = normalizeSunoLyrics(rawSectionLyrics);
+    if (didNormalizeLyrics(rawFullLyrics) || didNormalizeLyrics(rawSectionLyrics)) {
+      logger.info("Lyrics normalized for Suno", { trackId });
+    }
 
     logger.info("Replace section request", {
       trackId,
