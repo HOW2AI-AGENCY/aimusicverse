@@ -43,11 +43,16 @@ import {
 
 export default function LyricsStudio() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const templateId = searchParams.get("template");
   const projectId = searchParams.get("projectId");
   const trackId = searchParams.get("trackId");
   const isMobile = useIsMobile();
+
+  // Context handed over from the generate form / other entry points
+  const navState = (location.state ?? null) as { initialLyrics?: string; initialTitle?: string } | null;
+
 
   // Project track mode
   const isProjectTrackMode = !!(projectId && trackId);
