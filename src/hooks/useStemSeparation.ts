@@ -53,7 +53,14 @@ export const useStemSeparation = () => {
     onMutate: ({ track }) => {
       setSeparatingTrackId(track.id);
     },
-    onSuccess: (_, { mode, track }) => {
+    onSuccess: (data, { mode, track }) => {
+      if (!data?.separationTaskId) {
+        toast.error("Ошибка: API не вернул ID задачи разделения", {
+          description: "Попробуйте ещё раз позже",
+        });
+        setSeparatingTrackId(null);
+        return;
+      }
       toast.success(mode === "simple" ? "Разделение на 2 стема запущено" : "Разделение на 6+ стемов запущено", {
         description: "Процесс займёт 1-3 минуты",
       });

@@ -31,6 +31,7 @@ interface StemSeparationModeDialogProps {
   onOpenChange: (open: boolean) => void;
   onConfirm: (mode: SeparationMode) => void;
   isProcessing?: boolean;
+  trackDurationSeconds?: number;
 }
 
 const MODES = {
@@ -145,6 +146,17 @@ export function StemSeparationModeDialog({
         </div>
       }
     >
+      {/* Duration warning for long tracks */}
+      {trackDurationSeconds && trackDurationSeconds > 300 && (
+        <div className="px-4 pt-2">
+          <div className="flex items-start gap-2 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs text-amber-700 dark:text-amber-300">
+            <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+            <span>
+              Трек длиннее 5 минут ({Math.round(trackDurationSeconds / 60)} мин). Разделение может занять больше времени.
+            </span>
+          </div>
+        </div>
+      )}
       <div className="space-y-3 py-4">
         {(Object.entries(MODES) as [SeparationMode, typeof MODES.simple][]).map(([mode, config]) => (
           <motion.button

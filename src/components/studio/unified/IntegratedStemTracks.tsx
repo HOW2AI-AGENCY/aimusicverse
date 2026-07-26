@@ -11,7 +11,9 @@
 
 import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Volume2, VolumeX, ChevronDown, ChevronUp, Headphones, Plus, Loader2, Gauge } from "@/lib/icons";
+import {
+  Volume2, VolumeX, ChevronDown, ChevronUp, Headphones, Plus, Loader2, Gauge, Trash2,
+} from "@/lib/icons";
 import { TrackStem } from "@/hooks/useTrackStems";
 import type { StemTranscription } from "@/hooks/useStemTranscription";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
@@ -20,6 +22,16 @@ import { useSimulatedStemLevels } from "@/hooks/audio/useSimulatedStemLevels";
 import { StemTrackSkeleton } from "@/components/studio/StemTrackSkeleton";
 import { VirtualizedStemList } from "@/components/studio/VirtualizedStemList";
 import { EmptyState } from "@/components/ui/EmptyState";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
@@ -99,15 +111,12 @@ export function IntegratedStemTracks({
         type: stem.stem_type,
         level: simulatedLevels.stems[stem.id] ?? 0,
       })),
-    [stems, simulatedLevels.stems],
-  );
-
-  // Empty state
-  if (!stems || stems.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <Waves className="w-12 h-12 text-muted-foreground/40 mb-3" />
-        <h3 className="text-sm font-medium text-muted-foreground mb-1">Нет стемов</h3>
+    // Empty state
+    if (!stems || stems.length === 0) {
+      return (
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <Waves className="w-12 h-12 text-muted-foreground/40 mb-3" />
+          <h3 className="text-sm font-medium text-muted-foreground mb-1">Нет стемов</h3>
         <p className="text-xs text-muted-foreground/60 max-w-[200px]">
           Разделите трек на стемы, чтобы редактировать каждую дорожку отдельно
         </p>

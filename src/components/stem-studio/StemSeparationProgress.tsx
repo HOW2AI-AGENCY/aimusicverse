@@ -4,9 +4,10 @@
 
 import { memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Loader2, Check, AlertCircle, Music, Mic2, Drum, Waves, Piano, Guitar } from "@/lib/icons";
+import { Loader2, Check, AlertCircle, Music, Mic2, Drum, Waves, Piano, Guitar, Music2 } from "@/lib/icons";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { SeparationProgress } from "@/hooks/useStemSeparationRealtime";
 
@@ -14,6 +15,7 @@ interface StemSeparationProgressProps {
   task: SeparationProgress | null;
   progress: number;
   className?: string;
+  onOpenInStudio?: () => void;
 }
 
 const STEM_ICONS = {
@@ -122,6 +124,16 @@ export const StemSeparationProgress = memo(function StemSeparationProgress({
             );
           })}
         </div>
+
+        {/* Open in studio button on completion */}
+        {isCompleted && (
+          <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} className="mt-3">
+            <Button size="sm" variant="outline" className="w-full text-xs gap-1.5" onClick={onOpenInStudio}>
+              <Music2 className="w-3.5 h-3.5" />
+              Открыть в студии
+            </Button>
+          </motion.div>
+        )}
       </motion.div>
     </AnimatePresence>
   );
