@@ -15,6 +15,16 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { LyricsSection } from "@/components/lyrics-workspace";
 import { useLyricsTemplates } from "@/hooks/useLyricsTemplates";
 import { useLyricsVersioning } from "@/hooks/useLyricsVersioning";
@@ -113,6 +123,7 @@ export default function LyricsStudio() {
   const [tagsPanelOpen, setTagsPanelOpen] = useState(false);
   const [versionsPanelOpen, setVersionsPanelOpen] = useState(false);
   const [isSavingLyrics, setIsSavingLyrics] = useState(false);
+  const [confirmBackOpen, setConfirmBackOpen] = useState(false);
 
   // Versioning
   const lyricsVersioning = useLyricsVersioning({
@@ -132,6 +143,20 @@ export default function LyricsStudio() {
       }
     },
   });
+
+  // Enable Telegram closing confirmation when there are unsaved changes
+  useEffect(() => {
+    const tg = (
+      window as unknown as {
+        Telegram?: { WebApp?: { enableClosingConfirmation?: () => void; disableClosingConfirmation?: () => void } };
+      }
+    ).Telegram;
+    if (isDirty) {
+      tg?.WebApp?.enableClosingConfirmation?.();
+    } else {
+      tg?.WebApp?.disableClosingConfirmation?.();
+    }
+  }, [isDirty]);
 
   // Load project track data when in project mode
   useEffect(() => {
@@ -303,11 +328,28 @@ export default function LyricsStudio() {
   }, [navigate, isProjectTrackMode]);
 
   const handleBack = useCallback(() => {
+    if (isDirty) {
+      setConfirmBackOpen(true);
+      return;
+    }
     if (isProjectTrackMode && projectId) {
       navigate(`/projects/${projectId}`);
     } else {
       // Защита от `navigate(-1)` при пустой истории — в Telegram Mini App
       // это может закрыть Mini App и вернуть в чат. Fallback на главную.
+      if (window.history.length > 1) {
+        navigate(-1);
+      } else {
+        navigate("/");
+      }
+    }
+  }, [isDirty, isProjectTrackMode, projectId, navigate]);
+
+  const handleConfirmBack = useCallback(() => {
+    setConfirmBackOpen(false);
+    if (isProjectTrackMode && projectId) {
+      navigate(`/projects/${projectId}`);
+    } else {
       if (window.history.length > 1) {
         navigate(-1);
       } else {
@@ -570,6 +612,22 @@ export default function LyricsStudio() {
         }}
         onDeleteVersion={lyricsVersioning.deleteVersion}
       />
+
+      {/* Confirm back dialog when there are unsaved changes */}
+      <AlertDialog open={confirmBackOpen} onOpenChange={setConfirmBackOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Несохранённые изменения</AlertDialogTitle>
+            <AlertDialogDescription>
+              У вас есть несохранённые изменения. Вы уверены, что хотите выйти? Все несохранённые данные будут потеряны.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Остаться</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmBack}>Выйти</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
