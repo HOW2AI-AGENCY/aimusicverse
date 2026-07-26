@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router";
-import { Mic2, Plus, Trash2, CheckCircle2, Clock, AlertCircle, History } from "@/lib/icons";
+import { Link, useNavigate } from "react-router";
+import { Mic2, Plus, Trash2, CheckCircle2, Clock, AlertCircle, History, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useCustomVoices, type CustomVoice } from "@/hooks/voice/useCustomVoices";
 import { VoiceCloneWizard } from "@/components/voice-clone/VoiceCloneWizard";
+import { rememberLastVoice } from "@/api/voice-clone.api";
+import { toast } from "sonner";
 
 function statusBadge(v: CustomVoice) {
   if (v.status === "ready")
