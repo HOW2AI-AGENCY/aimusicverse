@@ -17,9 +17,9 @@ const GenerateFormCustom = lazy(() =>
 
 const FormSkeleton = () => (
   <div data-safe-skeleton="" className="space-y-3 p-4">
-    <Skeleton className="h-10 w-full" />
-    <Skeleton className="h-24 w-full" />
-    <Skeleton className="h-10 w-full" />
+    <Skeleton className="h-10 w-full @[420px]:h-12" />
+    <Skeleton className="h-20 w-full sm:h-24" />
+    <Skeleton className="h-10 w-full @[420px]:h-12" />
   </div>
 );
 
