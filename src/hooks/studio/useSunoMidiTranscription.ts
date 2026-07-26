@@ -41,6 +41,10 @@ export interface MidiTranscribeInput {
   trackVersionId: string;
   /** Required for Replicate fallback path. */
   audioUrl: string;
+  /** Suno stem-separation taskId — required to use the Suno MIDI endpoint. */
+  stemTaskId?: string | null;
+  /** Suno clip audioId — optional; omit for MIDI of all tracks in the task. */
+  audioId?: string | null;
   /** Optional — forwarded to Replicate mutation for backfill into its result row. */
   trackId?: string;
   stemId?: string | null;
