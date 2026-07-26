@@ -280,17 +280,12 @@ export function useGenerateFormSubmit(params: UseGenerateFormSubmitParams) {
           }
         } catch (e) {
           const err = e as { code?: string; message?: string };
-          logger.error("Voice pre-check failed", e, {
+          // The pre-check is advisory only: a provider/network hiccup must not block generation.
+          logger.warn("Voice pre-check failed, continuing without it", {
             voiceIdHash: customVoiceId.slice(0, 8),
             code: err?.code,
+            message: err?.message,
           });
-          toast.dismiss(toastId);
-          toast.error("Не удалось проверить кастомный голос", {
-            description: `${err?.message || "Сетевая ошибка"}${err?.code ? ` (код: ${err.code})` : ""}. Попробуйте ещё раз — кредиты не списаны.`,
-            duration: 8000,
-          });
-          setLoading(false);
-          return;
         }
       }
 
