@@ -12,7 +12,7 @@
 import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import {
-  Volume2, VolumeX, ChevronDown, ChevronUp, Headphones, Plus, Loader2, Gauge, Trash2,
+  Volume2, VolumeX, ChevronDown, ChevronUp, Headphones, Plus, Loader2, Gauge, Trash2, Waves,
 } from "@/lib/icons";
 import { TrackStem } from "@/hooks/useTrackStems";
 import type { StemTranscription } from "@/hooks/useStemTranscription";
