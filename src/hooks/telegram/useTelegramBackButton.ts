@@ -56,7 +56,7 @@ export function useTelegramBackButton({
   fallbackPathRef.current = fallbackPath;
 
   // Determine environment
-  const isRealMiniApp = Boolean(platform && platform !== "web" && platform !== "" && !isDevelopmentMode);
+  const isRealMiniApp = Boolean(platform !== "web" && !isDevelopmentMode);
   const shouldShowUIButton = !isRealMiniApp;
 
   // Default handler with haptic feedback

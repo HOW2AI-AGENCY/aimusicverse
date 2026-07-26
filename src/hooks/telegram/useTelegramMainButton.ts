@@ -81,7 +81,7 @@ export function useTelegramMainButton({
   // IMPORTANT: On iOS/Android, even in dev mode, we should use native MainButton if available
   const isNativePlatform = platform === "ios" || platform === "android" || platform === "tdesktop";
   const isRealMiniApp = Boolean(
-    hasMainButtonAPI && platform && platform !== "web" && platform !== "" && (isNativePlatform || !isDevelopmentMode), // Allow native button on iOS/Android even in dev mode
+    hasMainButtonAPI && (platform !== "web" || !platform) && (isNativePlatform || !isDevelopmentMode),
   );
 
   // CRITICAL FIX: Always show UI button as fallback if MainButton is not visibly rendering

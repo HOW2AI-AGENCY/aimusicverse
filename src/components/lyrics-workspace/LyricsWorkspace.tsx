@@ -381,9 +381,20 @@ export function LyricsWorkspace({
             <Textarea
               value={importText}
               onChange={(e) => setImportText(e.target.value)}
-              placeholder={"[Verse 1]\nЗдесь ваш текст...\n\n[Chorus]\nПрипев..."}
+              onPaste={(e) => {
+                const pasted = e.clipboardData?.getData("text/plain");
+                if (pasted) {
+                  e.preventDefault();
+                  setImportText(pasted);
+                }
+              }}
+              placeholder="[Verse 1]\nЗдесь ваш текст...\n\n[Chorus]\nПрипев..."
               className="min-h-[200px] resize-none text-sm font-mono"
-              autoFocus
+              ref={(el) => {
+                if (el && importOpen) {
+                  setTimeout(() => el.focus(), 300);
+                }
+              }}
             />
           </div>
           <DialogFooter>
