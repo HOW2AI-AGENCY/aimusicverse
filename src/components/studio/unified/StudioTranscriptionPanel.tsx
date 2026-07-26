@@ -23,6 +23,7 @@ import { useReplicateMidiTranscription } from "@/hooks/studio/useReplicateMidiTr
 import { useKlangioAnalyze } from "@/hooks/studio/useKlangioAnalyze";
 import { useStemSeparationTaskForTrack } from "@/hooks/studio/useStemSeparationTaskForTrack";
 import { generateSunoMidi, getSunoMidiStatus } from "@/api/midi-suno.api";
+import { exportMidi } from "@/services/studio/studio-stems.service";
 import { useAuth } from "@/contexts/AuthContext";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
