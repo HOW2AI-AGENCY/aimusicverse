@@ -9,6 +9,47 @@ const logger = createLogger("sync-stale-tasks");
 
 const getLyrics = (clip: any) => clip?.prompt || clip?.lyrics || clip?.lyric || ""; // Suno uses 'prompt' for lyrics
 
+const STEM_TYPE_MAP: Record<string, string> = {
+  vocal_url: "vocal",
+  instrumental_url: "instrumental",
+  vocals_url: "vocal",
+  backing_vocals_url: "backing_vocals",
+  drums_url: "drums",
+  bass_url: "bass",
+  guitar_url: "guitar",
+  keyboard_url: "keyboard",
+  strings_url: "strings",
+  brass_url: "brass",
+  woodwinds_url: "woodwinds",
+  percussion_url: "percussion",
+  synth_url: "synth",
+  fx_url: "fx",
+  other_url: "other",
+};
+
+function getStemInfoFromResponse(data: any): Record<string, unknown> | null {
+  return (
+    data?.response?.vocal_removal_info ||
+    data?.response?.vocalRemovalInfo ||
+    data?.vocal_removal_info ||
+    data?.vocalRemovalInfo ||
+    data?.data?.vocal_removal_info ||
+    data?.data?.vocalRemovalInfo ||
+    data ||
+    null
+  );
+}
+
+function isProviderSuccess(status: string | null | undefined): boolean {
+  const normalized = (status || "").toUpperCase();
+  return normalized === "SUCCESS" || normalized === "COMPLETED" || normalized === "COMPLETE";
+}
+
+function isProviderFailure(status: string | null | undefined): boolean {
+  const normalized = (status || "").toUpperCase();
+  return normalized.includes("FAILED") || normalized.includes("ERROR");
+}
+
 function getRecoveredVersionType(mode: string | null): string {
   switch (mode) {
     case "extend":
@@ -141,7 +182,7 @@ serve(async (req) => {
 
             const baseLabelCode = latestVersion?.version_label?.length === 1 ? latestVersion.version_label.charCodeAt(0) + 1 : 65;
             const skippedClips: SkipReason[] = [];
-            const createdVersions: string[] = [];
+            const createdVersions: { id: string; label: string; audioUrl: string; clip: any }[] = [];
 
             for (let i = existingCount; i < clips.length; i++) {
               const clip = clips[i];
@@ -179,9 +220,10 @@ serve(async (req) => {
 
               const versionOffset = i - existingCount;
               const nextLabel = String.fromCharCode(baseLabelCode + versionOffset);
-              await supabase.from("track_versions").insert({
+              const finalAudioUrl = localAudioUrl || audioUrl;
+              const { data: insertedVersion, error: insertVersionError } = await supabase.from("track_versions").insert({
                 track_id: task.track_id,
-                audio_url: localAudioUrl || audioUrl,
+                audio_url: finalAudioUrl,
                 cover_url: getImageUrl(clip),
                 duration_seconds: Math.round(clip.duration) || null,
                 version_type: "replace_section",
@@ -197,9 +239,19 @@ serve(async (req) => {
                   stream_audio_url: getStreamUrl(clip),
                   recovered: true,
                 },
-              });
+              }).select("id").single();
 
-              createdVersions.push(nextLabel);
+              if (insertVersionError || !insertedVersion) {
+                logger.error("Failed to create recovered replace-section version", insertVersionError, {
+                  taskId: task.id,
+                  trackId: task.track_id,
+                  versionLabel: nextLabel,
+                  clipIndex: i,
+                });
+                continue;
+              }
+
+              createdVersions.push({ id: insertedVersion.id, label: nextLabel, audioUrl: finalAudioUrl, clip });
               logger.info("Replace section version created", { versionLabel: nextLabel, taskId: task.id });
             }
 
@@ -211,6 +263,48 @@ serve(async (req) => {
             }
 
             if (createdVersions.length === 0) continue;
+            const primaryCreated = createdVersions[0];
+            const { error: unsetPrimaryError } = await supabase
+              .from("track_versions")
+              .update({ is_primary: false })
+              .eq("track_id", task.track_id);
+            if (unsetPrimaryError) {
+              logger.error("Failed to unset primary versions for recovered replacement", unsetPrimaryError, {
+                taskId: task.id,
+                trackId: task.track_id,
+              });
+            }
+
+            const { error: setPrimaryError } = await supabase
+              .from("track_versions")
+              .update({ is_primary: true })
+              .eq("id", primaryCreated.id);
+            if (setPrimaryError) {
+              logger.error("Failed to set recovered replacement primary", setPrimaryError, {
+                taskId: task.id,
+                trackId: task.track_id,
+                versionId: primaryCreated.id,
+              });
+            }
+
+            const { error: replacementTrackError } = await supabase
+              .from("tracks")
+              .update({
+                active_version_id: primaryCreated.id,
+                audio_url: primaryCreated.audioUrl,
+                streaming_url: getStreamUrl(primaryCreated.clip) || primaryCreated.audioUrl,
+                cover_url: getImageUrl(primaryCreated.clip),
+                duration_seconds: Math.round(primaryCreated.clip.duration) || null,
+                suno_id: primaryCreated.clip.id,
+                has_stems: false,
+              })
+              .eq("id", task.track_id);
+            if (replacementTrackError) {
+              logger.error("Failed to apply recovered replacement to track", replacementTrackError, {
+                taskId: task.id,
+                trackId: task.track_id,
+              });
+            }
             recoveredCount++;
             continue;
           } catch (recoveryErr) {
@@ -493,7 +587,7 @@ serve(async (req) => {
         logger.info("Task status", { taskId: task.id, status: taskData.status });
 
         // Check if generation is complete
-        if (taskData.status === "SUCCESS" && taskData.response?.sunoData && taskData.response.sunoData.length > 0) {
+        if (isProviderSuccess(taskData.status) && taskData.response?.sunoData && taskData.response.sunoData.length > 0) {
           const clips = taskData.response.sunoData;
           const firstClip = clips[0];
           logger.info("Task completed, processing clips", { taskId: task.id, clipCount: clips.length });
@@ -792,7 +886,7 @@ serve(async (req) => {
           }
 
           completedCount++;
-        } else if (taskData.status && (taskData.status.includes("FAILED") || taskData.status.includes("ERROR"))) {
+        } else if (isProviderFailure(taskData.status)) {
           // Mark as failed
           const errorMessage = taskData.errorMessage || "Generation failed";
           logger.info("Task failed", { taskId: task.id, errorMessage });
@@ -827,6 +921,183 @@ serve(async (req) => {
       }
     }
 
+    // PHASE 3: Recover stem-separation tasks when the provider callback was lost.
+    let stemCheckedCount = 0;
+    let stemCompletedCount = 0;
+    let stemFailedCount = 0;
+    let stemQuery = supabase
+      .from("stem_separation_tasks")
+      .select("*, tracks(*)")
+      .eq("status", "processing")
+      .lt("created_at", new Date(Date.now() - 5 * 60 * 1000).toISOString())
+      .order("created_at", { ascending: true })
+      .limit(20);
+
+    if (userId) {
+      stemQuery = stemQuery.eq("tracks.user_id", userId);
+    }
+
+    const { data: staleStemTasks, error: staleStemError } = await stemQuery;
+    if (staleStemError) {
+      logger.error("Error fetching stale stem tasks", staleStemError);
+    } else {
+      logger.info("Found stale stem tasks to check with Suno API", { count: staleStemTasks?.length || 0 });
+    }
+
+    for (const stemTask of staleStemTasks || []) {
+      stemCheckedCount++;
+      try {
+        const separationTaskId = stemTask.separation_task_id;
+        if (!separationTaskId) continue;
+
+        const stemResponse = await fetch(
+          `https://api.sunoapi.org/api/v1/vocal-removal/record-info?taskId=${separationTaskId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${sunoApiKey}`,
+              "Content-Type": "application/json",
+            },
+          },
+        );
+
+        if (!stemResponse.ok) {
+          logger.error("Suno stem record-info HTTP error", null, {
+            taskId: stemTask.id,
+            separationTaskId,
+            status: stemResponse.status,
+          });
+          continue;
+        }
+
+        const stemData = await stemResponse.json();
+        if (stemData.code !== 200) {
+          logger.error("Suno stem record-info error", null, {
+            taskId: stemTask.id,
+            separationTaskId,
+            message: stemData.msg,
+          });
+          continue;
+        }
+
+        const providerData = stemData.data;
+        const providerStatus = providerData?.status;
+        logger.info("Stem task status", { taskId: stemTask.id, separationTaskId, status: providerStatus });
+
+        if (isProviderFailure(providerStatus)) {
+          const errorMessage = providerData?.errorMessage || providerData?.error_message || "Stem separation failed";
+          await supabase
+            .from("stem_separation_tasks")
+            .update({ status: "failed", completed_at: new Date().toISOString() })
+            .eq("id", stemTask.id);
+          await supabase.from("track_change_log").insert({
+            track_id: stemTask.track_id,
+            user_id: stemTask.tracks?.user_id,
+            change_type: "vocal_separation_failed",
+            changed_by: "sync_stale_tasks",
+            metadata: { error: errorMessage, separation_task_id: separationTaskId, auto_synced: true },
+          });
+          stemFailedCount++;
+          continue;
+        }
+
+        const stemInfo = getStemInfoFromResponse(providerData);
+        const stemsToInsert: Array<{ track_id: string; stem_type: string; audio_url: string; separation_mode: string }> = [];
+
+        for (const [key, stemType] of Object.entries(STEM_TYPE_MAP)) {
+          const url = stemInfo?.[key];
+          if (!url || typeof url !== "string") continue;
+
+          let localUrl = url;
+          try {
+            const response = await fetch(url);
+            if (response.ok) {
+              const blob = await response.blob();
+              const fileName = `${stemTask.track_id}_${stemType}_${Date.now()}.mp3`;
+              const { data: uploadData, error: uploadError } = await supabase.storage
+                .from("project-assets")
+                .upload(`stems/${fileName}`, blob, { contentType: "audio/mpeg", upsert: true });
+              if (uploadError) {
+                logger.error("Failed to upload recovered stem", uploadError, { trackId: stemTask.track_id, stemType });
+              } else if (uploadData) {
+                localUrl = supabase.storage.from("project-assets").getPublicUrl(`stems/${fileName}`).data.publicUrl;
+              }
+            }
+          } catch (downloadError) {
+            logger.error("Error downloading recovered stem", downloadError, { trackId: stemTask.track_id, stemType });
+          }
+
+          stemsToInsert.push({
+            track_id: stemTask.track_id,
+            stem_type: stemType,
+            audio_url: localUrl,
+            separation_mode: stemTask.mode || "simple",
+          });
+        }
+
+        if (stemsToInsert.length === 0) {
+          if (isProviderSuccess(providerStatus)) {
+            await supabase
+              .from("stem_separation_tasks")
+              .update({ status: "failed", completed_at: new Date().toISOString() })
+              .eq("id", stemTask.id);
+            stemFailedCount++;
+          }
+          continue;
+        }
+
+        const { data: existingStems, error: existingStemsError } = await supabase
+          .from("track_stems")
+          .select("stem_type")
+          .eq("track_id", stemTask.track_id);
+        if (existingStemsError) {
+          logger.error("Failed to lookup existing stems during recovery", existingStemsError, { trackId: stemTask.track_id });
+          continue;
+        }
+
+        const existingTypes = new Set((existingStems || []).map((stem: { stem_type: string }) => stem.stem_type));
+        const newStems = stemsToInsert.filter((stem) => !existingTypes.has(stem.stem_type));
+
+        if (newStems.length > 0) {
+          const { error: insertStemsError } = await supabase.from("track_stems").insert(newStems);
+          if (insertStemsError) {
+            logger.error("Failed to insert recovered stems", insertStemsError, { trackId: stemTask.track_id });
+            continue;
+          }
+        }
+
+        const { error: updateTrackStemsError } = await supabase
+          .from("tracks")
+          .update({ has_stems: true })
+          .eq("id", stemTask.track_id);
+        if (updateTrackStemsError) {
+          logger.error("Failed to mark recovered track as having stems", updateTrackStemsError, {
+            trackId: stemTask.track_id,
+          });
+        }
+
+        await supabase
+          .from("stem_separation_tasks")
+          .update({ status: "completed", completed_at: new Date().toISOString() })
+          .eq("id", stemTask.id);
+
+        await supabase.from("track_change_log").insert({
+          track_id: stemTask.track_id,
+          user_id: stemTask.tracks?.user_id,
+          change_type: "vocal_separation_completed",
+          changed_by: "sync_stale_tasks",
+          metadata: {
+            stems_created: newStems.length,
+            stem_types: stemsToInsert.map((stem) => stem.stem_type),
+            separation_task_id: separationTaskId,
+            auto_synced: true,
+          },
+        });
+        stemCompletedCount++;
+      } catch (stemTaskError: any) {
+        logger.error("Error processing stale stem task", stemTaskError, { taskId: stemTask.id });
+      }
+    }
+
     // Final safety net: expire anything still "in progress" for > 30 minutes so the
     // UI never shows a track generating forever (provider callback lost / never sent).
     let expired: unknown = null;
@@ -846,6 +1117,9 @@ serve(async (req) => {
       updated: updatedCount,
       completed: completedCount,
       failed: failedCount,
+      stemChecked: stemCheckedCount,
+      stemCompleted: stemCompletedCount,
+      stemFailed: stemFailedCount,
       expired,
     });
 
@@ -858,6 +1132,9 @@ serve(async (req) => {
         updated: updatedCount,
         completed: completedCount,
         failed: failedCount,
+        stemChecked: stemCheckedCount,
+        stemCompleted: stemCompletedCount,
+        stemFailed: stemFailedCount,
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },

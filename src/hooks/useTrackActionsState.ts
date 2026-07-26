@@ -231,17 +231,19 @@ export function useTrackActionsState({
           onClose?.();
           break;
         case "stems_simple":
-          await handleSeparateVocals(track, "simple", activeVersion?.sunoId);
-          // Автоматически открыть студию после запуска разделения
-          navigate(`/studio-v2/track/${track.id}?stems=pending`);
-          onClose?.();
-          break;
+          if (await handleSeparateVocals(track, "simple", activeVersion?.sunoId)) {
+            navigate(`/studio-v2/track/${track.id}?stems=pending`);
+            onClose?.();
+            return true;
+          }
+          return false;
         case "stems_detailed":
-          await handleSeparateVocals(track, "detailed", activeVersion?.sunoId);
-          // Автоматически открыть студию после запуска разделения
-          navigate(`/studio-v2/track/${track.id}?stems=pending`);
-          onClose?.();
-          break;
+          if (await handleSeparateVocals(track, "detailed", activeVersion?.sunoId)) {
+            navigate(`/studio-v2/track/${track.id}?stems=pending`);
+            onClose?.();
+            return true;
+          }
+          return false;
         case "transcribe_midi":
           navigate(`/studio-v2/track/${track.id}?mode=midi`);
           onClose?.();

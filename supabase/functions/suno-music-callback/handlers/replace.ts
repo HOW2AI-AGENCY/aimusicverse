@@ -90,7 +90,7 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
     }
 
     const finalAudioUrl = localAudioUrl || audioUrl;
-    const { data: newVersion } = await supabase
+    const { data: newVersion, error: versionInsertError } = await supabase
       .from("track_versions")
       .insert({
         track_id: trackId,
@@ -114,10 +114,18 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
       .select()
       .single();
 
-    if (newVersion) {
-      createdVersions.push({ id: newVersion.id, label: versionLabel, audioUrl: finalAudioUrl, clip });
-      logger.success("Replace section version created", { versionLabel, versionId: newVersion.id });
+    if (versionInsertError || !newVersion) {
+      logger.error("Failed to create replace-section version", versionInsertError, {
+        taskId: task.id,
+        trackId,
+        versionLabel,
+        clipIndex: i,
+      });
+      continue;
     }
+
+    createdVersions.push({ id: newVersion.id, label: versionLabel, audioUrl: finalAudioUrl, clip });
+    logger.success("Replace section version created", { versionLabel, versionId: newVersion.id });
   }
 
   if (createdVersions.length === 0) {
@@ -190,6 +198,49 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
   );
 
   const primaryCreated = createdVersions[0];
+
+  const { error: unsetPrimaryError } = await supabase
+    .from("track_versions")
+    .update({ is_primary: false })
+    .eq("track_id", trackId);
+  if (unsetPrimaryError) {
+    logger.error("Failed to unset previous primary versions after replace-section", unsetPrimaryError, {
+      taskId: task.id,
+      trackId,
+    });
+  }
+
+  const { error: setPrimaryError } = await supabase
+    .from("track_versions")
+    .update({ is_primary: true })
+    .eq("id", primaryCreated.id);
+  if (setPrimaryError) {
+    logger.error("Failed to mark replacement version as primary", setPrimaryError, {
+      taskId: task.id,
+      trackId,
+      versionId: primaryCreated.id,
+    });
+  }
+
+  const { error: trackUpdateError } = await supabase
+    .from("tracks")
+    .update({
+      active_version_id: primaryCreated.id,
+      audio_url: primaryCreated.audioUrl,
+      streaming_url: getStreamUrl(primaryCreated.clip) || primaryCreated.audioUrl,
+      cover_url: getImageUrl(primaryCreated.clip) || null,
+      duration_seconds: Math.round(primaryCreated.clip.duration) || null,
+      suno_id: primaryCreated.clip.id,
+      has_stems: false,
+    })
+    .eq("id", trackId);
+  if (trackUpdateError) {
+    logger.error("Failed to apply replacement version to track", trackUpdateError, {
+      taskId: task.id,
+      trackId,
+      versionId: primaryCreated.id,
+    });
+  }
 
   // Audit log
   await logAuditAction(supabaseUrl, supabaseServiceKey, {

@@ -60,6 +60,7 @@ export interface StudioShellContentProps {
   showFallbackWarning: boolean;
   activeStemsCount: number;
   limitedStems: TrackStemRow[];
+  stemProgress?: React.ReactNode;
   onDismissWarning: () => void;
 
   // Add track dialog
@@ -97,6 +98,7 @@ export const StudioShellContent = React.forwardRef<HTMLDivElement, StudioShellCo
       showFallbackWarning,
       activeStemsCount,
       limitedStems,
+      stemProgress,
       onDismissWarning,
       onShowAddTrackDialog,
       isMobile,
@@ -145,6 +147,8 @@ export const StudioShellContent = React.forwardRef<HTMLDivElement, StudioShellCo
         {/* Unified Tracks List - always visible, no tabs */}
         <ScrollArea className="flex-1">
           <div className={cn("p-3 space-y-2", isMobile && "pb-4")}>
+            {stemProgress}
+
             <SortableTrackList
               tracks={tracks}
               isPlaying={isPlaying}
