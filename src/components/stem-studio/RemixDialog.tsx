@@ -43,6 +43,9 @@ export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
   const [style, setStyle] = useState(track.style || "");
   const [prompt, setPrompt] = useState("");
   const [isInstrumental, setIsInstrumental] = useState(track.is_instrumental ?? false);
+  const [audioWeight, setAudioWeight] = useState(50); // 0-100%
+  const [negativeTags, setNegativeTags] = useState("");
+  const [submitted, setSubmitted] = useState(false);
   const remixMutation = useRemixTrack();
 
   const handlePresetClick = (preset: (typeof STYLE_PRESETS)[0]) => {
@@ -58,26 +61,34 @@ export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
       toast.error("Не авторизован");
       return;
     }
+    if (!style.trim()) {
+      toast.error("Укажите стиль для ремикса");
+      return;
+    }
 
     try {
+      setSubmitted(true);
       const { error } = await remixMutation.mutateAsync({
         audioId: track.suno_id,
         prompt: prompt || `Ремикс в стиле: ${style}`,
         style,
         title,
         instrumental: isInstrumental,
+        audioWeight: audioWeight / 100,
+        negativeTags: negativeTags || undefined,
       });
 
       if (error) throw error;
 
       toast.success("Создание ремикса запущено", {
-        description: "Процесс займёт 1-3 минуты",
+        description: "Процесс займёт 1-3 минуты. Новый трек появится в проекте.",
       });
 
       onOpenChange(false);
     } catch (error) {
       logger.error("Error creating remix", error);
       toast.error("Ошибка при создании ремикса");
+      setSubmitted(false);
     }
   };
 
@@ -85,9 +96,9 @@ export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
     <UnifiedDialog
       variant="modal"
       open={open}
-      onOpenChange={onOpenChange}
-      title="Создать ремикс"
-      description="AI создаст новую версию трека в выбранном стиле"
+      onOpenChange={(open) => { if (!open) setSubmitted(false); onOpenChange(open); }}
+      title={submitted ? "Ремикс создаётся..." : "Создать ремикс"}
+      description={submitted ? "Подождите 1-3 минуты" : "AI создаст новую версию трека в выбранном стиле"}
     >
       <div className="space-y-4 py-2">
         {/* Original Track */}
@@ -148,40 +159,72 @@ export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
           <Textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Добавьте детали для AI: темп, настроение, инструменты..."
+            placeholder="Дополнительные пожелания к ремиксу..."
             rows={2}
           />
         </div>
 
-        {/* Instrumental Toggle */}
-        <label className="flex items-center gap-2 cursor-pointer">
+        {/* Audio Weight — влияние оригинала */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <Label>Влияние оригинала</Label>
+            <span className="text-xs text-muted-foreground tabular-nums">{audioWeight}%</span>
+          </div>
           <input
-            type="checkbox"
-            checked={isInstrumental}
-            onChange={(e) => setIsInstrumental(e.target.checked)}
-            className="rounded border-border"
+            type="range"
+            min={0}
+            max={100}
+            value={audioWeight}
+            onChange={(e) => setAudioWeight(Number(e.target.value))}
+            className="w-full h-1.5 bg-muted rounded-full appearance-none cursor-pointer accent-primary
+              [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
+              [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary"
           />
-          <span className="text-sm">Инструментальная версия (без вокала)</span>
-        </label>
-      </div>
+          <div className="flex justify-between text-[10px] text-muted-foreground">
+            <span>Новое звучание</span>
+            <span>Близко к оригиналу</span>
+          </div>
+        </div>
 
-      <div className="flex justify-end gap-2 pt-2">
-        <Button variant="outline" onClick={() => onOpenChange(false)}>
-          Отмена
-        </Button>
-        <Button onClick={handleSubmit} disabled={remixMutation.isPending || !style.trim()}>
-          {remixMutation.isPending ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Создаём...
-            </>
+        {/* Negative Tags */}
+        <div className="space-y-2">
+          <Label>Чего избегать (опционально)</Label>
+          <Input
+            value={negativeTags}
+            onChange={(e) => setNegativeTags(e.target.value)}
+            placeholder="Например: auto-tune, distortion, heavy bass"
+          />
+        </div>
+
+        {/* Instrumental toggle */}
+        <div className="flex items-center justify-between pt-1">
+          <span className="text-sm">Без вокала (инструментал)</span>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isInstrumental}
+              onChange={(e) => setIsInstrumental(e.target.checked)}
+              className="rounded border-border"
+            />
+          </label>
+        </div>
+
+        <div className="flex justify-end gap-2 pt-2">
+          {submitted ? (
+            <Button variant="outline" onClick={() => onOpenChange(false)}>Закрыть</Button>
           ) : (
             <>
-              <Shuffle className="w-4 h-4 mr-2" />
-              Создать ремикс
+              <Button variant="outline" onClick={() => onOpenChange(false)}>Отмена</Button>
+              <Button onClick={handleSubmit} disabled={remixMutation.isPending || !style.trim()}>
+                {remixMutation.isPending ? (
+                  <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Создаём...</>
+                ) : (
+                  <><Shuffle className="w-4 h-4 mr-2" />Создать ремикс</>
+                )}
+              </Button>
             </>
           )}
-        </Button>
+        </div>
       </div>
     </UnifiedDialog>
   );
