@@ -260,8 +260,14 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     return () => unregisterStudioAudio("studio-shell");
   }, [audioEngine, pause]);
 
+  // Sync track volumes + mute/solo to audio engine
   useEffect(() => {
-    project?.tracks.forEach((track) => audioEngine.setTrackVolume(track.id, track.volume));
+    const tracks = project?.tracks ?? [];
+    const hasAnySolo = tracks.some((t) => t.solo);
+    tracks.forEach((track) => {
+      const effectiveVolume = track.muted ? 0 : hasAnySolo && !track.solo ? 0 : track.volume;
+      audioEngine.setTrackVolume(track.id, effectiveVolume);
+    });
   }, [project?.tracks, audioEngine]);
 
   // ── Generation tasks realtime subscription (via api layer) ───────────
