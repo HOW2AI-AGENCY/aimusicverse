@@ -1,4 +1,4 @@
-import { Mic2, Guitar, Layers, Music2, FileText, FileMusic, Copy, ArrowRight } from "@/lib/icons";
+import { Mic2, Guitar, Layers, Music2, FileText, FileMusic, Copy, ArrowRight, UserRoundCheck } from "@/lib/icons";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import type { Track } from "@/types/track";
 import { cn } from "@/lib/utils";
