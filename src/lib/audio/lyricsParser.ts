@@ -75,10 +75,16 @@ export function parseSectionsFromLyrics(lyrics: string): ParsedSection[] {
 }
 
 /**
- * Filter out tag words from aligned words
+ * Filter out tag words from aligned words.
+ * Suno timestamps sometimes deliver markdown-wrapped tags (`**[Verse]**`, `__[Chorus]__`)
+ * or bare tag words, so markdown decoration is stripped before matching.
  */
 export function filterTagWords(words: AlignedWord[]): AlignedWord[] {
-  return words.filter((w) => !TAG_FILTER_PATTERN.test(w.word.trim()));
+  return words.filter((w) => {
+    const bare = w.word.trim().replace(/[*_`#]/g, "");
+    if (!bare) return false;
+    return !TAG_FILTER_PATTERN.test(bare);
+  });
 }
 
 /**
