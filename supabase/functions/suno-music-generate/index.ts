@@ -242,6 +242,8 @@ serve(async (req) => {
         mode,
         model,
         vocalGender,
+        customVoiceId: voiceId || null,
+
         styleWeight,
         negativeTags,
         customMode,
