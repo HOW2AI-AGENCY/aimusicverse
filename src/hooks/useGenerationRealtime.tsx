@@ -108,16 +108,30 @@ export const useGenerationRealtime = () => {
           .on(
             "postgres_changes",
             {
-              event: "INSERT",
+              event: "*",
               schema: "public",
               table: "track_versions",
             },
             (payload) => {
-              log.debug("track_versions INSERT");
+              log.debug("track_versions change");
+              const row = (payload.new ?? payload.old) as { track_id?: string } | null;
+              const trackId = row?.track_id;
+              // All caches that hold version data — keys must stay in sync with:
+              // UnifiedVersionSelector (track-versions-unified), useTrackVersions
+              // (track-versions), queryKeys.tracks.versions, useTrackCounts.
               queryClient.invalidateQueries({ queryKey: ["track_versions"] });
+              queryClient.invalidateQueries({ queryKey: ["track-versions"] });
+              queryClient.invalidateQueries({ queryKey: ["track-versions-unified"] });
+              queryClient.invalidateQueries({ queryKey: ["track-counts"] });
+              queryClient.invalidateQueries({ queryKey: ["version-count"] });
+              queryClient.invalidateQueries({ queryKey: ["master-version"] });
+              if (trackId) {
+                queryClient.invalidateQueries({ queryKey: ["tracks", trackId] });
+              }
               refetchTracks();
             },
           )
+
           .subscribe((status) => {
             log.debug("Realtime status", { status });
             if (status === "CHANNEL_ERROR") {
