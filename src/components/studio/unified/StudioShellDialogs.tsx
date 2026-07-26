@@ -445,7 +445,7 @@ export const StudioShellDialogs = memo(function StudioShellDialogs(props: Studio
           detectedSections={detectedSections}
           sunoTaskId={sourceTrack?.suno_task_id ?? null}
           sunoId={sourceTrack?.suno_id ?? null}
-          trackLyrics={sourceTrack?.lyrics ?? null}
+          trackLyrics={normalizeSunoLyrics(sourceTrack?.lyrics ?? null) || null}
         />
       )}
 
