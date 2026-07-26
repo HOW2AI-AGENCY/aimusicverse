@@ -371,7 +371,7 @@ export function useGuitarAnalysis() {
           if (chordResult.data.chords && Array.isArray(chordResult.data.chords)) {
             // Edge function already converts to objects with chord, startTime, endTime
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Edge function chord result is union of named/snake_case keys; shape not yet typed
-            chords = chordResult.data.chords.map((c: Record<string, unknown>) => ({
+            chords = chordResult.data.chords.map((c: any) => ({
               chord: c.chord || c.name || c.label || "N",
               startTime: c.startTime ?? c.start_time ?? c.time ?? 0,
               endTime: c.endTime ?? c.end_time ?? (c.startTime ? c.startTime + 2 : 2),
@@ -380,7 +380,7 @@ export function useGuitarAnalysis() {
 
           if (chordResult.data.strumming && Array.isArray(chordResult.data.strumming)) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Edge function strumming result is union of timestamp keys; shape not yet typed
-            strumming = chordResult.data.strumming.map((s: Record<string, unknown>) => ({
+            strumming = chordResult.data.strumming.map((s: any) => ({
               time: s.time || s.timestamp || 0,
               direction: s.direction === "up" || s.direction === "U" ? "U" : "D",
             }));
@@ -415,7 +415,7 @@ export function useGuitarAnalysis() {
           // Parse notes from transcription data if available
           if (transcriptionResult.data.notes && Array.isArray(transcriptionResult.data.notes)) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Edge function notes result has heterogeneous key names; shape not yet typed
-            notes = transcriptionResult.data.notes.map((n: Record<string, unknown>) => ({
+            notes = transcriptionResult.data.notes.map((n: any) => ({
               pitch: n.pitch || n.midi || 60,
               startTime: n.start_time ?? n.startTime ?? n.time ?? 0,
               endTime: n.end_time ?? n.endTime ?? (n.startTime ? n.startTime + (n.duration || 0.5) : 0.5),
