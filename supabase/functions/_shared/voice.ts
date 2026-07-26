@@ -106,6 +106,37 @@ export async function sunoFetch(path: string, init: RequestInit = {}): Promise<a
   return json;
 }
 
+/**
+ * Re-host a (possibly signed) audio URL on Suno's own file storage and return a
+ * clean public download URL. Suno's /voice/validate downloader chokes on signed
+ * URLs with query strings, so we hand it a plain URL instead.
+ * Returns null when re-hosting is unavailable — caller should fall back.
+ */
+export async function rehostOnSuno(fileUrl: string, fileName: string): Promise<string | null> {
+  try {
+    const res = await fetch("https://sunoapiorg.redpandaai.co/api/file-url-upload", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${getSunoKey()}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ fileUrl, uploadPath: "audio/voice-sources", fileName }),
+    });
+    const text = await res.text();
+    if (!res.ok) {
+      console.error("[voice] file-url-upload failed", { status: res.status, body: text.slice(0, 300) });
+      return null;
+    }
+    const json = JSON.parse(text);
+    const url = json?.data?.downloadUrl ?? null;
+    if (!url) console.error("[voice] file-url-upload returned no downloadUrl", { body: text.slice(0, 300) });
+    return url;
+  } catch (e) {
+    console.error("[voice] file-url-upload threw", { message: (e as Error)?.message });
+    return null;
+  }
+}
+
 export function errorResponse(e: unknown, fallbackStatus = 500) {
   const err = e as Partial<VoiceError> & Error;
   const status = err?.status || fallbackStatus;

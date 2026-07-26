@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { corsHeaders } from "../_shared/cors.ts";
-import { getServiceClient, getAuthUser, sunoFetch, callbackUrl, toVoiceError } from "../_shared/voice.ts";
+import { getServiceClient, getAuthUser, sunoFetch, callbackUrl, rehostOnSuno } from "../_shared/voice.ts";
 
 const VOICE_CLONE_COST = 30;
 
@@ -76,13 +76,26 @@ serve(async (req) => {
       return json({ error: "Cannot sign source URL" }, 500);
     }
 
+    // Suno cannot reliably download signed storage URLs (query string + no
+    // extension), so re-host the sample on Suno's own file storage first.
+    const ext = sourcePath.split(".").pop()?.toLowerCase() || "mp3";
+    const hosted = await rehostOnSuno(signed.signedUrl, `voice_${Date.now()}.${ext}`);
+    const voiceUrl = hosted ?? signed.signedUrl;
+    console.log("[voice] validate request", {
+      rehosted: Boolean(hosted),
+      ext,
+      vocalStartS: Math.floor(vocalStartS),
+      vocalEndS: Math.floor(vocalEndS),
+      language,
+    });
+
     // Call Suno
     let sunoRes: any;
     try {
       sunoRes = await sunoFetch("/validate", {
         method: "POST",
         body: JSON.stringify({
-          voiceUrl: signed.signedUrl,
+          voiceUrl,
           vocalStartS: Math.floor(vocalStartS),
           vocalEndS: Math.floor(vocalEndS),
           language,
@@ -116,7 +129,7 @@ serve(async (req) => {
         style: style ?? null,
         language,
         source_path: sourcePath,
-        source_audio_url: signed.signedUrl,
+        source_audio_url: voiceUrl,
         vocal_start_s: Math.floor(vocalStartS),
         vocal_end_s: Math.floor(vocalEndS),
         validate_task_id: taskId,
