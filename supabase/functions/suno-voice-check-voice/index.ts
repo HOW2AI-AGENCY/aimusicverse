@@ -14,15 +14,22 @@ serve(async (req) => {
     const supabase = getServiceClient();
     const { data: row } = await supabase
       .from("custom_voices")
-      .select("id, user_id")
+      .select("id, user_id, generate_task_id, validate_task_id")
       .eq("voice_id", voiceId)
       .eq("user_id", user.id)
       .maybeSingle();
     if (!row) return json({ error: "Voice not found" }, 404);
 
+    // Suno's /check-voice requires the originating taskId alongside the voiceId.
+    const taskId = (row as any).generate_task_id || (row as any).validate_task_id;
+    if (!taskId) {
+      // Nothing to ask Suno about — trust local state instead of blocking generation.
+      return json({ success: true, available: true, skipped: "no_task_id" });
+    }
+
     const res = await sunoFetch("/check-voice", {
       method: "POST",
-      body: JSON.stringify({ voiceId }),
+      body: JSON.stringify({ voiceId, taskId }),
     });
     const data = res?.data || res;
     const available = data?.available ?? data?.isAvailable ?? res?.code === 200;
