@@ -102,9 +102,31 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
     form.handleGenerate();
   };
 
-  // Desktop collapsed state
+  // Desktop collapsed state — compact vertical rail with create button
   if (isCollapsed) {
-    return null;
+    return (
+      <div className="flex flex-col items-center gap-3 pt-4 w-12 border-r border-border/30 bg-card/20">
+        <Button
+          onClick={onToggleCollapse}
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
+          aria-label="Развернуть форму"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </Button>
+        <div className="flex-1 flex items-start justify-center pt-2">
+          <Button
+            onClick={handleGenerate}
+            size="icon"
+            className="h-10 w-10 rounded-xl bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25"
+            aria-label="Создать трек"
+          >
+            <Sparkles className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   return (
