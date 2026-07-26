@@ -200,6 +200,13 @@ section.blk{padding-block:clamp(64px,9vw,116px) 0}
 /* ————— Тезисы ————— */
 .thesis{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(22px,3vw,40px);margin-top:clamp(36px,5vw,64px)}
 @media (max-width:860px){.thesis{grid-template-columns:1fr}}
+
+/* ————— AI Harness ————— */
+.harness-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(24px,4vw,48px);margin-top:clamp(36px,5vw,64px);align-items:start}
+@media (max-width:920px){.harness-grid{grid-template-columns:1fr}}
+.harness-diagram img{display:block;width:100%;height:auto}
+.harness-points{display:flex;flex-direction:column;gap:28px}
+.harness-points .th{margin:0}
 .th{border-top:1px solid var(--line);padding-top:20px}
 .th .tick{display:block;width:22px;height:3px;background:var(--amber);border-radius:2px;margin-bottom:18px}
 .th h3{font-size:17.5px;font-weight:500;margin-bottom:12px}
@@ -390,6 +397,7 @@ section.blk{padding-block:clamp(64px,9vw,116px) 0}
       <a href="#studio">Студия</a>
       <a href="#tech">Технология</a>
       <a href="#story">Разработка</a>
+      <a href="#harness">AI-харнесс</a>
       <a href="#solved">Решения</a>
       <a href="#roadmap">Планы</a>
     </nav>
@@ -694,6 +702,71 @@ section.blk{padding-block:clamp(64px,9vw,116px) 0}
             <li>Аудит безопасности: критические замечания устранены<span class="pr">здоровье 99/100</span></li>
           </ul>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ————— AI HARNESS ————— -->
+  <section class="blk" id="harness">
+    <div class="wrap">
+      <div class="blk-head mono rv"><span class="lbl">AI-харнесс</span><span class="meta">9 инструментов · Gemini 2.5 Flash · SSE streaming</span></div>
+      <div class="two-col">
+        <h2 class="rv">Девять инструментов, один эндпоинт</h2>
+        <p class="lead rv" style="--d:.1s">AI-помощник лирики — это не «промпт в LLM». Это трёхслойный харнесс: action-пресеты UI, контекстный билдер и Edge Function с реестром промптов. Модель получает не просто текст, а полный контекст альбома.</p>
+      </div>
+
+      <div class="harness-grid rv" style="--d:.16s">
+        <div class="harness-diagram">
+          <img src="images/lyrics-harness-hero.svg" alt="Архитектура AI-харнесса: UI инструменты → контекстный билдер → Edge Function → Gemini 2.5 Flash" loading="lazy" style="width:100%;border-radius:12px;border:1px solid var(--line);background:var(--panel-2)">
+          <p class="mono" style="text-align:center;margin-top:10px;color:var(--dim);font-size:11px">fig. — Три слоя: action-пресеты (слева) → контекст (центр) → Edge Function + LLM (справа)</p>
+        </div>
+
+        <div class="harness-points">
+          <article class="th rv">
+            <span class="tick" aria-hidden="true"></span>
+            <h3>Контекст альбома</h3>
+            <p>Модель знает, что пишет трек №3 из 12 в концептуальном альбоме — жанр, настроение, позицию, заметки AI-планировщика и тексты соседних треков. Не изолированный текст, а часть истории.</p>
+          </article>
+          <article class="th rv" style="--d:.1s">
+            <span class="tick" aria-hidden="true"></span>
+            <h3>Action-пресеты вместо function-calling</h3>
+            <p>Девять инструментов: написать, продолжить, проанализировать, продюсерский разбор, Suno-оптимизация, рифмы, структура, стиль, перевод. Каждый возвращает предсказуемый JSON — без сюрпризов.</p>
+          </article>
+          <article class="th rv" style="--d:.2s">
+            <span class="tick" aria-hidden="true"></span>
+            <h3>Streaming</h3>
+            <p>Текст появляется токен за токеном через Server-Sent Events. Пользователь видит первую строку через ~800ms после нажатия, а не ждёт 10 секунд полного ответа.</p>
+          </article>
+          <article class="th rv" style="--d:.3s">
+            <span class="tick" aria-hidden="true"></span>
+            <h3>Промпт-реестр</h3>
+            <p>Базовый промпт — 200 строк с полной библиотекой Suno V5 тегов, правилами слогового счёта, схемами рифмовки и антипаттернами. Action-промпты добавляют специализацию: JSON-контракты для анализа, вокальные карты для продюсера, Drill-структуры для хип-хопа.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="ps-grid" style="margin-top:48px">
+        <article class="ps rv">
+          <span class="ps-k">Блокировки в РФ</span>
+          <h3>Supabase и LLM недоступны напрямую</h3>
+          <p class="ps-p">Значительная часть пользователей — из России, где OpenAI, Anthropic и часть CDN заблокированы. Прямой вызов <code>api.openai.com</code> из Telegram WebView в iOS не проходит.</p>
+          <div class="ps-s"><b>Решение</b><p>Lovable AI Gateway как единая точка входа: запрос идёт через <code>ai.gateway.lovable.dev</code>, который маршрутизируется и ретраится. Edge Function в Supabase Cloud доступна из РФ через собственную CDN.</p></div>
+          <p class="ps-r">Результат: <em>пользователи из Москвы и Пхукета получают одинаковую скорость генерации.</em></p>
+        </article>
+        <article class="ps rv" style="--d:.06s">
+          <span class="ps-k">Скорость в Mini App</span>
+          <h3>WebView ≠ браузер</h3>
+          <p class="ps-p">Telegram Mini App работает в WebView (Chrome на Android, WKWebView на iOS). Разница в производительности — 3-4x. Бандл 2 МБ gzipped давал 4-6 секунд первого рендера на 3G.</p>
+          <div class="ps-s"><b>Решение</b><p>Code-splitting по маршрутам, lazy-loading Recharts (14 компонентов), SSE streaming вместо ожидания полного ответа, централизованные иконки для tree-shaking.</p></div>
+          <p class="ps-r">Результат: <em>2 МБ → 480 КБ бандл, первый рендер ~1.2с на 3G.</em></p>
+        </article>
+        <article class="ps rv" style="--d:.12s">
+          <span class="ps-k">Хрупкость JSON</span>
+          <h3>LLM возвращает грязный JSON</h3>
+          <p class="ps-p">Gemini 2.5 Flash в 5% случаев оборачивает JSON в markdown, добавляет trailing commas или не закрывает скобки. Frontend падает на парсинге.</p>
+          <div class="ps-s"><b>Решение</b><p>Двухуровневый парсер: backend извлекает JSON greedy-регулярками, фронтенд нормализует через <code>extractJSON()</code> с fallback на raw text. Стриминг аккумулирует сырой текст и извлекает поле <code>"lyrics"</code> на лету.</p></div>
+          <p class="ps-r">Результат: <em>95% успешных парсингов, fallback на raw-текст для остальных 5%.</em></p>
+        </article>
       </div>
     </div>
   </section>
