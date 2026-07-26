@@ -127,7 +127,9 @@ export const ProjectDialogs = memo(function ProjectDialogs({
         }
       />
       <ProjectMediaGenerator
+        open={state.mediaGeneratorOpen}
         onOpenChange={state.setMediaGeneratorOpen}
+
         project={{
           id: project.id,
           title: project.title,
