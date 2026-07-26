@@ -20,6 +20,31 @@ interface AudioTrackLoaderOptions {
 
 const truncateUrl = (s: string, max = 200): string => (s.length > max ? `${s.slice(0, max)}…` : s);
 
+/**
+ * Fade audio volume from current to target over `durationMs`.
+ * Returns a promise that resolves when the transition window has elapsed.
+ */
+function fadeVolume(audio: HTMLAudioElement, target: number, durationMs = 150): Promise<void> {
+  const start = audio.volume;
+  const diff = target - start;
+  const startTime = performance.now();
+  return new Promise((resolve) => {
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / durationMs, 1);
+      // cubic ease-out
+      audio.volume = start + diff * (1 - Math.pow(1 - t, 3));
+      if (t < 1) {
+        requestAnimationFrame(step);
+      } else {
+        audio.volume = target;
+        resolve();
+      }
+    };
+    requestAnimationFrame(step);
+  });
+}
+
 export function useAudioTrackLoader({
   audioRef,
   lastTrackIdRef,
@@ -29,44 +54,19 @@ export function useAudioTrackLoader({
   getAudioSource,
   loadNonce = 0,
 }: AudioTrackLoaderOptions) {
-  const lastNonceRef = useRef(loadNonce);
+  const lastNonceRef = useRef<number>(-1);
   const lastSourceRef = useRef<string | null>(null);
+  const restoreVolumeRef = useRef<number>(1);
+
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const source = getAudioSource();
     const trackId = activeTrack?.id ?? null;
+    const source = getAudioSource();
 
-    const isValidSource = (s: string | null | undefined): s is string => {
-      if (!s || typeof s !== "string") return false;
-      const trimmed = s.trim();
-      if (!trimmed) return false;
-      return /^(https?:|blob:|data:audio\/|\/)/i.test(trimmed);
-    };
-
-    if (!isValidSource(source)) {
-      if (source) {
-        // Invalid but non-empty source — this is a bug or bad data upstream.
-        logger.warn("Audio source rejected — invalid URL", {
-          trackId,
-          title: activeTrack?.title,
-          source: truncateUrl(source),
-        });
-        recordError("audio:load:invalid_src", "Invalid audio source rejected", {
-          trackId,
-          source: truncateUrl(source),
-        });
-      } else if (activeTrack) {
-        // Active track but no playable source — telemetry, not just debug.
-        logger.warn("Audio source missing for active track", { trackId, title: activeTrack.title });
-        recordError("audio:load:empty_src", "Active track has no playable source", {
-          trackId,
-          title: activeTrack.title ?? null,
-        });
-      } else {
-        logger.debug("No source available, clearing audio");
-      }
+    // No track — clear audio
+    if (!activeTrack || !source) {
       audio.pause();
       if (audio.src) {
         audio.removeAttribute("src");
@@ -77,10 +77,7 @@ export function useAudioTrackLoader({
       return;
     }
 
-    // Force reload when loadNonce changes (retry/version-switch path) even for
-    // the same track id.  Use edge-detection via lastNonceRef so that after the
-    // first non-zero nonce the bail-out logic still works correctly (comparing
-    // to 0 would fail because loadNonce would always be > 0 thereafter).
+    // Edge-detection: only proceed if track, nonce, or source actually changed
     const trackChanged = trackId !== lastTrackIdRef.current;
     const nonceChanged = loadNonce !== lastNonceRef.current;
     const sourceChanged = source !== lastSourceRef.current;
@@ -91,44 +88,53 @@ export function useAudioTrackLoader({
     lastSourceRef.current = source;
     isLoadingRef.current = true;
 
-    logger.debug("Loading new track", {
-      trackId,
-      title: activeTrack?.title,
-      loadNonce,
-      src: truncateUrl(source),
-    });
-
     playPromiseRef.current = null;
-    audio.pause();
-    try {
-      audio.src = source;
-      audio.load();
-    } catch (err) {
-      const code = audio.error?.code ?? null;
-      logger.error("Failed to set audio source", err, {
-        trackId,
-        src: truncateUrl(source),
-        mediaErrorCode: code,
-      });
-      recordError("audio:load:set_src_failed", err instanceof Error ? err.message : String(err), {
-        trackId,
-        src: truncateUrl(source),
-        mediaErrorCode: code,
-      });
-      isLoadingRef.current = false;
-      return;
-    }
 
-    const handleCanPlayThrough = () => {
-      isLoadingRef.current = false;
-      audio.removeEventListener("canplaythrough", handleCanPlayThrough);
-    };
-    audio.addEventListener("canplaythrough", handleCanPlayThrough);
+    // --- Crossfade: fade out before changing source ---
+    const prevVolume = audio.volume;
+    restoreVolumeRef.current = prevVolume;
 
-    const handleLoadedData = () => {
-      if (audio.readyState >= 2) isLoadingRef.current = false;
-      audio.removeEventListener("loadeddata", handleLoadedData);
-    };
-    audio.addEventListener("loadeddata", handleLoadedData);
+    (async () => {
+      // Only fade if currently playing and not already silent
+      if (!audio.paused && prevVolume > 0.05) {
+        await fadeVolume(audio, 0, 150);
+      }
+
+      audio.pause();
+      try {
+        audio.src = source;
+        audio.load();
+      } catch (err) {
+        const code = audio.error?.code ?? null;
+        logger.error("Failed to set audio source", err, {
+          trackId,
+          src: truncateUrl(source),
+          mediaErrorCode: code,
+        });
+        recordError("audio:load:set_src_failed", err instanceof Error ? err.message : String(err), {
+          trackId,
+          src: truncateUrl(source),
+          mediaErrorCode: code,
+        });
+        isLoadingRef.current = false;
+        return;
+      }
+
+      const handleCanPlayThrough = () => {
+        isLoadingRef.current = false;
+        audio.removeEventListener("canplaythrough", handleCanPlayThrough);
+        // Fade volume back to previous level when playback is ready
+        audio.volume = 0;
+        fadeVolume(audio, restoreVolumeRef.current, 200);
+      };
+      audio.addEventListener("canplaythrough", handleCanPlayThrough);
+
+      const handleLoadedData = () => {
+        if (audio.readyState >= 2) isLoadingRef.current = false;
+        audio.removeEventListener("loadeddata", handleLoadedData);
+      };
+      audio.addEventListener("loadeddata", handleLoadedData);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTrack?.id, activeTrack?.title, getAudioSource, loadNonce]);
 }
