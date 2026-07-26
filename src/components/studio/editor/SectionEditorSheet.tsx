@@ -464,7 +464,7 @@ export function SectionEditorSheet({
       {!isValidDuration && (
         <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-destructive/10 border border-destructive/20">
           <p className="text-xs text-destructive">
-            Секция слишком длинная. Максимум — 50% длительности трека ({maxDuration.toFixed(0)} сек)
+            Длительность секции должна быть от 6 до {maxDuration.toFixed(0)} сек (не более 60 сек и 50% трека)
           </p>
         </div>
       )}

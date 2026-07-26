@@ -154,18 +154,22 @@ serve(async (req) => {
       });
     }
 
-    // Validate section duration (must be ≤50% of track duration)
+    // Validate section duration: Suno accepts 6-60s, and we cap at 50% of the track.
     const sectionDuration = infillEndS - infillStartS;
     const trackDuration = track.duration_seconds || 0;
-    if (trackDuration > 0 && sectionDuration > trackDuration * 0.5) {
+    const maxAllowed = Math.min(60, trackDuration > 0 ? trackDuration * 0.5 : 60);
+
+    if (sectionDuration < 6 || sectionDuration > maxAllowed) {
       return new Response(
         JSON.stringify({
-          error: `Section too long. Maximum: ${Math.floor(trackDuration * 0.5)}s (50% of track)`,
-          maxDuration: Math.floor(trackDuration * 0.5),
+          error: `Selected section must be between 6 and ${Math.floor(maxAllowed)} seconds (Suno limit: 6-60s, max 50% of track)`,
+          maxDuration: Math.floor(maxAllowed),
+          minDuration: 6,
         }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
+
 
     // Get user's telegram chat ID for notifications
     const { data: profile } = await supabase.from("profiles").select("telegram_id").eq("user_id", user.id).single();
