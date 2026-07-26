@@ -76,11 +76,27 @@ serve(async (req) => {
       patch.status = "ready";
       patch.is_available = true;
     }
-    await supabase
+    const { error: updErr } = await supabase
       .from("custom_voices")
       .update(patch as any)
       .eq("id", row.id);
+    if (updErr) {
+      console.error("[suno-voice-generate-callback] update failed", updErr.message);
+      return json({ error: updErr.message }, 500);
+    }
+
+    // Refund the clone fee when the final generation fails (charged up-front in suno-voice-validate).
+    if (patch.status === "failed" && row.status !== "failed") {
+      const { error: refundErr } = await supabase.rpc("secure_credit_update", {
+        _user_id: row.user_id,
+        _amount: VOICE_CLONE_COST,
+        _action_type: "voice_clone_refund",
+        _description: `Voice generation failed: ${String(patch.error_message ?? "unknown")}`,
+      });
+      if (refundErr) console.error("[suno-voice-generate-callback] refund failed", refundErr.message);
+    }
     return json({ ok: true });
+
   } catch (e) {
     return json({ error: String((e as Error).message) }, 500);
   }
