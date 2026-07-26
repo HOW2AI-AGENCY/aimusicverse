@@ -159,7 +159,7 @@ export const NotationDrawer = memo(function NotationDrawer({
                     {availableFiles.map((file) => (
                       <DropdownMenuItem
                         key={file.key}
-                        onClick={() => handleDownload(file.url!, `${track.name}${file.ext}`)}
+                        onClick={() => handleDownload(file.url!, `${trackTitle} - ${track.name}${file.ext}`)}
                         disabled={isDownloading === `${track.name}${file.ext}`}
                       >
                         {isDownloading === `${track.name}${file.ext}` ? (
@@ -199,7 +199,7 @@ export const NotationDrawer = memo(function NotationDrawer({
             musicXmlUrl={transcriptionData?.mxml_url}
             currentTime={currentTime}
             isPlaying={isPlaying}
-            enablePlayback={false}
+            enablePlayback={true}
             trackTitle={track.name}
             height={680}
             className="h-full"
