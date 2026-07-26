@@ -32,6 +32,7 @@ interface StemSeparationModeDialogProps {
   onConfirm: (mode: SeparationMode) => void;
   isProcessing?: boolean;
   trackDurationSeconds?: number;
+  hasExistingStems?: boolean;
 }
 
 const MODES = {
@@ -148,6 +149,17 @@ export function StemSeparationModeDialog({
         </div>
       }
     >
+      {/* Existing stems warning */}
+      {hasExistingStems && (
+        <div className="px-4 pt-2">
+          <div className="flex items-start gap-2 p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 text-xs text-blue-700 dark:text-blue-300">
+            <Check className="w-4 h-4 mt-0.5 flex-shrink-0" />
+            <span>
+              Стемы для этого трека уже существуют. Повторное разделение создаст дополнительные стемы и спишет кредиты.
+            </span>
+          </div>
+        </div>
+      )}
       {/* Duration warning for long tracks */}
       {trackDurationSeconds && trackDurationSeconds > 300 && (
         <div className="px-4 pt-2">

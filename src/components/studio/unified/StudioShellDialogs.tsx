@@ -616,6 +616,7 @@ export const StudioShellDialogs = memo(function StudioShellDialogs(props: Studio
         onOpenChange={props.setShowStemSeparationDialog}
         onConfirm={props.onStemSeparation}
         isProcessing={isSeparating}
+        hasExistingStems={!props.operationLock.isOperationAllowed("separate_stems")}
       />
     </>
   );

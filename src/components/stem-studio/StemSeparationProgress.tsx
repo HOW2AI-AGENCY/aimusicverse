@@ -127,7 +127,7 @@ export const StemSeparationProgress = memo(function StemSeparationProgress({
         </div>
 
         {/* Open in studio button on completion */}
-        {isCompleted && (
+        {isCompleted && onOpenInStudio && (
           <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} className="mt-3">
             <Button size="sm" variant="outline" className="w-full text-xs gap-1.5" onClick={onOpenInStudio}>
               <Music2 className="w-3.5 h-3.5" />
