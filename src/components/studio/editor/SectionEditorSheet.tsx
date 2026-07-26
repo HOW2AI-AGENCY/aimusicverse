@@ -7,7 +7,8 @@
  * and synchronized lyrics display
  */
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
+import { filterTagWords } from "@/lib/audio/lyricsParser";
 import { motion, AnimatePresence } from "@/lib/motion";
 import {
   X,
