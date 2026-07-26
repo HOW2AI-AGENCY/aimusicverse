@@ -2,7 +2,7 @@
  * useSectionReplacementHistory - Loads recent section-replacement history for a track.
  *
  * Returns the most recent section-replacement entries (max 10) for display in
- * the SectionEditorPanel A/B compare overlay.
+ * the section editor A/B compare overlay.
  */
 
 import { useQuery } from "@tanstack/react-query";

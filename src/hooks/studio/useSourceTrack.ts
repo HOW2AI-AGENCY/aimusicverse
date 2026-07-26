@@ -1,7 +1,7 @@
 /**
  * useSourceTrack - Query hook for fetching source track metadata (lyrics + suno IDs).
  *
- * Used by MobileSectionsContent and other studio components that need
+ * Used by the section editor and other studio components that need
  * to read lyrics, suno_task_id, or suno_id for a given track id.
  */
 
