@@ -41,7 +41,17 @@ export function TrackTypeIcons({
   const hasModel = showModel && !!model;
 
   const hasAnyIcon =
-    hasVocals || isInstrumental || hasStems || hasMidi || hasPdf || hasGp5 || isCover || isExtend || hasModel;
+    hasVocals ||
+    isInstrumental ||
+    hasStems ||
+    hasMidi ||
+    hasPdf ||
+    hasGp5 ||
+    isCover ||
+    isExtend ||
+    hasModel ||
+    hasCustomVoice;
+
 
   if (!hasAnyIcon) {
     return null;
