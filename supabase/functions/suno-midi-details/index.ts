@@ -33,16 +33,40 @@ serve(async (req) => {
     // fetchSunoTaskDetails reads SUNO_API_KEY from env internally.
     const result = await fetchSunoTaskDetails("midi", taskId);
 
-    // Map shared result to MIDI-specific UI fields.
-    const data = result.data as { midiUrl?: string; notesCount?: number; duration?: number };
+    // Map `/api/v1/midi/record-info` payload to MIDI-specific UI fields.
+    const data = result.data as {
+      successFlag?: number;
+      errorMessage?: string | null;
+      midiData?: {
+        state?: string;
+        midiUrl?: string;
+        duration?: number;
+        instruments?: Array<{ notes?: unknown[] }>;
+      };
+    };
+
+    const state = data.midiData?.state;
+    const status: "PENDING" | "PROCESSING" | "SUCCESS" | "FAILED" =
+      data.errorMessage || data.successFlag === 0
+        ? "FAILED"
+        : state === "complete"
+          ? "SUCCESS"
+          : state
+            ? "PROCESSING"
+            : (result.status ?? "PROCESSING");
+
+    const notesCount =
+      data.midiData?.instruments?.reduce((sum, inst) => sum + (inst.notes?.length ?? 0), 0) ?? null;
+
     return new Response(
       JSON.stringify({
         success: true,
         taskId: result.taskId,
-        status: result.status,
-        midiUrl: data.midiUrl ?? null,
-        notesCount: data.notesCount ?? null,
-        duration: data.duration ?? null,
+        status,
+        midiUrl: data.midiData?.midiUrl ?? null,
+        notesCount,
+        duration: data.midiData?.duration ?? null,
+        error: data.errorMessage ?? undefined,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 },
     );
