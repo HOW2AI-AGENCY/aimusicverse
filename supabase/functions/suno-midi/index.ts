@@ -123,7 +123,7 @@ serve(async (req) => {
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/midi/generate", {
       method: "POST",
       headers: {
-        Authorization: *** ${sunoApiKey}`,
+        Authorization: `Bearer ${sunoApiKey}`,
         "Content-Type": "application/json",
       },
       signal: controller.signal,
