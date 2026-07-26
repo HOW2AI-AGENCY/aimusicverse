@@ -34,6 +34,10 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
   const { activeTrack, queue, currentIndex, isPlaying } = usePlayerStore();
 
   const prefetchedRef = useRef<Set<string>>(new Set());
+  // NOTE: keep dead useRefs in place for hook-count stability across builds.
+  // Removing them shifts the hook index, causing "Should have a queue" on HMR.
+  const _deadBlobUrlRef = useRef<string | null>(null);
+  const _deadCrossfadingRef = useRef(false);
   const healthCheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const lastPrefetchIndexRef = useRef<number>(-1);
 
@@ -100,7 +104,8 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
   }, [enablePrefetch, queue, currentIndex, networkAllowsPrefetch, isOnline, prefetchCount]);
 
   /**
-   * Load track — cache + prefetch side-effects only.
+   * Load track — called when activeTrack changes. No longer sets audio.src
+   * (useAudioTrackLoader owns that). Only cache + prefetch side-effects.
    */
   const loadTrack = useCallback(
     async (track: typeof activeTrack) => {
@@ -110,13 +115,11 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
       log.debug("Optimized audio side-effects for track", { trackId: track.id, title: track.title });
 
       try {
-        // Cache the audio in background (don't touch audio.src — useAudioTrackLoader owns that)
         const sourceUrl = track.streaming_url || track.local_audio_url || track.audio_url;
         if (sourceUrl && !sourceUrl.startsWith("blob:")) {
           cacheCurrentAudio(sourceUrl, 0);
         }
 
-        // Prefetch next tracks
         prefetchNextTracks();
       } catch (error) {
         log.error("Optimized audio side-effects failed", error, { trackId: track?.id });
@@ -124,6 +127,12 @@ export function useOptimizedAudioPlayer(options: UseOptimizedAudioPlayerOptions 
     },
     [cacheCurrentAudio, prefetchNextTracks],
   );
+
+  // Keep dead loadTrack effect in place (hook-count stability). Was: audio.src = source; audio.load();
+  /** @deprecated audio.src is owned by useAudioTrackLoader */
+  const _deadGetAudioSource = useCallback(async (_track: typeof activeTrack) => null, []);
+  /** @deprecated crossfade was only used by old loadTrack */
+  const _deadApplyCrossfade = useCallback(async (_audio: HTMLAudioElement, _out: boolean) => {}, []);
 
   /**
    * Effect: Run cache + prefetch side-effects when active track changes.
