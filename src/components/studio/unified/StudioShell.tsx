@@ -40,6 +40,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { OptimizedTransport } from "./OptimizedTransport";
 import { MobileStudioPlayerBar } from "./MobileStudioPlayerBar";
+import { AIActionsFAB } from "./AIActionsFAB";
 import { StemSeparationProgress } from "@/components/stem-studio/StemSeparationProgress";
 import { cn } from "@/lib/utils";
 import { Loader2, Volume2, VolumeX, Upload, Plus } from "@/lib/icons";
