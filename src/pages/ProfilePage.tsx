@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useOnboarding } from "@/hooks/useOnboarding";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useUserStats } from "@/hooks/useUserStats";
+import { useReferralStats } from "@/hooks/useReferrals";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { DesktopDashboardLayout } from "@/components/layout/desktop";
@@ -24,11 +25,14 @@ export const ProfilePage = () => {
   const { startOnboarding } = useOnboarding();
   const { data: adminAuth } = useAdminAuth();
   const { data: stats, isLoading: statsLoading } = useUserStats();
+  const { data: referralStats } = useReferralStats();
   const isMobile = useIsMobile();
 
   useTelegramBackButton({ visible: true, fallbackPath: "/" });
 
-  const displayUser = profile || telegramUser;
+  const displayUser = (profile || telegramUser) as
+    | { photo_url?: string; first_name?: string; last_name?: string; username?: string }
+    | null;
 
   const handleNavigate = (path: string) => {
     hapticFeedback("light");
@@ -64,7 +68,7 @@ export const ProfilePage = () => {
           <div className="w-px h-10 lg:h-12 bg-border" />
           <button onClick={() => handleNavigate("/referral")} className="transition-transform hover:scale-105">
             <TrendingUp className="w-5 h-5 lg:w-6 lg:h-6 mx-auto mb-1 lg:mb-2 text-success" />
-            <p className="text-lg lg:text-xl font-semibold">{stats?.referralCount || 0}</p>
+            <p className="text-lg lg:text-xl font-semibold">{referralStats?.referralCount || 0}</p>
             <p className="text-xs lg:text-sm text-muted-foreground">Рефералов</p>
           </button>
         </div>
@@ -103,7 +107,7 @@ export const ProfilePage = () => {
   // Desktop layout
   return (
     <DesktopDashboardLayout
-      sidebar={
+      leftColumn={
         <div className="space-y-4">
           <ProfileCard displayUser={displayUser} subscriptionTier={profile?.subscription_tier} />
           <ProfileMenu
@@ -114,14 +118,17 @@ export const ProfilePage = () => {
           />
         </div>
       }
-    >
-      <div className="space-y-6">
+      rightColumn={
+        <div className="space-y-6">
         <ProfileStats {...stats} isLoading={statsLoading} />
         {QuickStatsRow}
         <div className="flex justify-center">
           <LanguageSwitcher />
+          </div>
         </div>
-      </div>
-    </DesktopDashboardLayout>
+      }
+    />
   );
 };
+
+export default ProfilePage;
