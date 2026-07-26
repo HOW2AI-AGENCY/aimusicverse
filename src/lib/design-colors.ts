@@ -453,6 +453,12 @@ export const trackTypeColors = {
     bg: "bg-blue-500/10",
     text: "text-blue-500",
   },
+  /** Track generated with a cloned custom voice */
+  customVoice: {
+    bg: "bg-pink-500/10",
+    text: "text-pink-500",
+  },
+
   instrumental: {
     bg: "bg-green-500/10",
     text: "text-green-500",
