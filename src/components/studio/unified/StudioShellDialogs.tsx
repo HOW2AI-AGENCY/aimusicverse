@@ -19,6 +19,7 @@ import { ImportAudioDialog } from "./ImportAudioDialog";
 import { AddTrackDialog } from "./AddTrackDialog";
 import { InstrumentalResultHandler, InstrumentalResultData } from "./InstrumentalResultHandler";
 import { SectionEditorSheet } from "@/components/studio/editor/SectionEditorSheet";
+import { normalizeSunoLyrics } from "@/lib/lyrics/normalizeSunoLyrics";
 import { ExtendTrackDialog } from "@/components/ExtendTrackDialog";
 import { LazyAddVocalsDrawer, LazyGenerateSheet } from "@/components/lazy";
 import { Loader2 } from "@/lib/icons";
