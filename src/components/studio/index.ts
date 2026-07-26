@@ -43,7 +43,6 @@ export { StudioPendingTrackRow } from "./unified/StudioPendingTrackRow";
 // Mobile studio components (UnifiedDAWLayout is the primary interface)
 export { MobilePlayerContent } from "./unified/MobilePlayerContent";
 export { MobileTracksContent } from "./unified/MobileTracksContent";
-export { MobileSectionsContent } from "./unified/MobileSectionsContent";
 export { MobileMixerContent } from "./unified/MobileMixerContent";
 export { MobileActionsContent } from "./unified/MobileActionsContent";
 

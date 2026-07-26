@@ -61,7 +61,6 @@ export type { ChordSheetProps } from "./ChordSheet";
 export { AddInstrumentalDrawer } from "./AddInstrumentalDrawer";
 export type { AddInstrumentalDrawerProps } from "./AddInstrumentalDrawer";
 export { AudioUpscaleButton } from "../AudioUpscaleButton";
-export { UnifiedSectionEditor } from "./UnifiedSectionEditor";
 export { StudioLyricsSheet } from "./StudioLyricsSheet";
 
 // DAW Canvas Components (ADR-011 - unified interface)

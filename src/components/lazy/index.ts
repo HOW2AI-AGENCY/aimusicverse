@@ -121,9 +121,7 @@ export const LazyStemEffectsDrawer = lazy(() =>
   import("@/components/studio/unified/StemEffectsDrawer").then((m) => ({ default: m.StemEffectsDrawer })),
 );
 
-export const LazySectionEditorPanel = lazy(() =>
-  import("@/components/stem-studio/SectionEditorPanel").then((m) => ({ default: m.SectionEditorPanel })),
-);
+
 
 export const LazyAddTrackDrawer = lazy(() =>
   import("@/components/studio/unified/AddTrackDrawer").then((m) => ({ default: m.AddTrackDrawer })),
