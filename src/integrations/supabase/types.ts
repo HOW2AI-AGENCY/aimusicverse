@@ -6665,6 +6665,19 @@ export type Database = {
         Args: { preset_id: string; track_id: string }
         Returns: Json
       }
+      apply_replacement_version: {
+        Args: {
+          p_audio_url: string
+          p_cover_url?: string
+          p_duration_seconds?: number
+          p_streaming_url?: string
+          p_suno_id?: string
+          p_suno_task_id?: string
+          p_track_id: string
+          p_version_id: string
+        }
+        Returns: undefined
+      }
       archive_old_api_usage_logs: { Args: never; Returns: Json }
       archive_old_error_logs: { Args: never; Returns: Json }
       backfill_active_versions: {
