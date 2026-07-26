@@ -1,60 +1,117 @@
 /**
  * Unit tests for midi-suno.api.ts
- * Sprint 040 — API Test Coverage
+ * Sprint 053-A3 — Suno MIDI API coverage
  */
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { supabase } from "@/integrations/supabase/client";
 import { generateSunoMidi, getSunoMidiStatus } from "@/api/midi-suno.api";
+import type { SunoMidiAccepted, SunoMidiStatus } from "@/api/midi-suno.api";
+
+vi.mock("@/lib/logger", () => ({ logger: { error: vi.fn(), warn: vi.fn(), info: vi.fn() } }));
 
 const mockFunctions = supabase.functions as unknown as { invoke: ReturnType<typeof vi.fn> };
 
-beforeEach(() => vi.clearAllMocks());
+describe("generateSunoMidi", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-describe("midi-suno.api", () => {
-  describe("generateSunoMidi", () => {
-    it("invokes suno-midi and returns taskId", async () => {
-      mockFunctions.invoke.mockResolvedValue({ data: { success: true, taskId: "midi-task-1" }, error: null });
-      const res = await generateSunoMidi({ trackVersionId: "v1", userId: "u1" });
-      expect(res.taskId).toBe("midi-task-1");
-      expect(mockFunctions.invoke).toHaveBeenCalledWith("suno-midi", {
-        body: { trackVersionId: "v1", userId: "u1" },
-      });
-    });
+  it("should accept taskId and userId, return accepted response with taskId", async () => {
+    const expected: SunoMidiAccepted = { success: true, taskId: "midi-task-123" };
+    mockFunctions.invoke.mockResolvedValue({ data: expected, error: null });
 
-    it("throws on edge function error", async () => {
-      mockFunctions.invoke.mockResolvedValue({ data: null, error: { message: "midi failed" } });
-      await expect(generateSunoMidi({ trackVersionId: "v1", userId: "u1" })).rejects.toThrow("midi failed");
-    });
+    const result = await generateSunoMidi({ taskId: "sep-task-001", userId: "user-001" });
 
-    it("throws when no taskId returned", async () => {
-      mockFunctions.invoke.mockResolvedValue({ data: { success: true }, error: null });
-      await expect(generateSunoMidi({ trackVersionId: "v1", userId: "u1" })).rejects.toThrow(
-        "suno-midi returned no taskId",
-      );
+    expect(result).toEqual(expected);
+    expect(mockFunctions.invoke).toHaveBeenCalledWith("suno-midi", {
+      body: { taskId: "sep-task-001", userId: "user-001" },
     });
   });
 
-  describe("getSunoMidiStatus", () => {
-    it("returns status on success", async () => {
-      const status = { success: true, taskId: "t1", status: "SUCCESS" as const, midiUrl: "midi.mid", notesCount: 120 };
-      mockFunctions.invoke.mockResolvedValue({ data: status, error: null });
-      const res = await getSunoMidiStatus("t1");
-      expect(res.status).toBe("SUCCESS");
-      expect(res.midiUrl).toBe("midi.mid");
-      expect(mockFunctions.invoke).toHaveBeenCalledWith("suno-midi-details", { body: { taskId: "t1" } });
+  it("should accept optional audioId for specific stem", async () => {
+    const expected: SunoMidiAccepted = { success: true, taskId: "midi-task-456" };
+    mockFunctions.invoke.mockResolvedValue({ data: expected, error: null });
+
+    const result = await generateSunoMidi({
+      taskId: "sep-task-001",
+      audioId: "stem-audio-id-xyz",
+      userId: "user-001",
     });
 
-    it("throws on edge function error", async () => {
-      mockFunctions.invoke.mockResolvedValue({ data: null, error: { message: "details failed" } });
-      await expect(getSunoMidiStatus("t1")).rejects.toThrow("details failed");
+    expect(result).toEqual(expected);
+    expect(mockFunctions.invoke).toHaveBeenCalledWith("suno-midi", {
+      body: { taskId: "sep-task-001", audioId: "stem-audio-id-xyz", userId: "user-001" },
     });
+  });
 
-    it("returns fallback when no data", async () => {
-      mockFunctions.invoke.mockResolvedValue({ data: null, error: null });
-      const res = await getSunoMidiStatus("t1");
-      expect(res.success).toBe(false);
-      expect(res.status).toBe("PROCESSING");
-      expect(res.error).toBe("no data");
+  it("should throw on edge function error", async () => {
+    mockFunctions.invoke.mockResolvedValue({ data: null, error: new Error("Network failure") });
+
+    await expect(generateSunoMidi({ taskId: "sep-task-001", userId: "user-001" })).rejects.toThrow(
+      "Network failure",
+    );
+  });
+
+  it("should throw when edge returns no taskId", async () => {
+    mockFunctions.invoke.mockResolvedValue({ data: { success: true }, error: null });
+
+    await expect(generateSunoMidi({ taskId: "sep-task-001", userId: "user-001" })).rejects.toThrow(
+      "suno-midi returned no taskId",
+    );
+  });
+});
+
+describe("getSunoMidiStatus", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should return midi status with URL on success", async () => {
+    const expected: SunoMidiStatus = {
+      success: true,
+      taskId: "midi-task-123",
+      status: "SUCCESS",
+      midiUrl: "https://storage.example.com/song.mid",
+      notesCount: 420,
+      duration: 180,
+    };
+    mockFunctions.invoke.mockResolvedValue({ data: expected, error: null });
+
+    const result = await getSunoMidiStatus("midi-task-123");
+
+    expect(result).toEqual(expected);
+    expect(mockFunctions.invoke).toHaveBeenCalledWith("suno-midi-details", {
+      body: { taskId: "midi-task-123" },
     });
+  });
+
+  it("should return PROCESSING status when task is still running", async () => {
+    const processing: SunoMidiStatus = {
+      success: true,
+      taskId: "midi-task-123",
+      status: "PROCESSING",
+    };
+    mockFunctions.invoke.mockResolvedValue({ data: processing, error: null });
+
+    const result = await getSunoMidiStatus("midi-task-123");
+
+    expect(result.status).toBe("PROCESSING");
+    expect(result.midiUrl).toBeUndefined();
+  });
+
+  it("should throw on network error", async () => {
+    mockFunctions.invoke.mockResolvedValue({ data: null, error: new Error("API unreachable") });
+
+    await expect(getSunoMidiStatus("midi-task-123")).rejects.toThrow("API unreachable");
+  });
+
+  it("should return fallback when data is null", async () => {
+    mockFunctions.invoke.mockResolvedValue({ data: null, error: null });
+
+    const result = await getSunoMidiStatus("midi-task-123");
+
+    expect(result.success).toBe(false);
+    expect(result.status).toBe("PROCESSING");
+    expect(result.error).toBe("no data");
   });
 });
