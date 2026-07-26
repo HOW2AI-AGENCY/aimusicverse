@@ -106,6 +106,26 @@ export function TrackTypeIcons({
           </Tooltip>
         )}
 
+        {/* Cloned custom voice indicator */}
+        {hasCustomVoice && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div
+                className={cn("cursor-help p-0.5 rounded", trackTypeColors.customVoice.bg)}
+                aria-label="Создано с кастомным голосом"
+                data-testid="custom-voice-icon"
+              >
+                <UserCheck className={cn(iconSize, trackTypeColors.customVoice.text)} />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="text-xs max-w-[200px]">
+              <p>Кастомный голос — клон тембра и стилистики, не точная копия голоса</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+
+
+
         {isInstrumental && (
           <Tooltip>
             <TooltipTrigger asChild>
