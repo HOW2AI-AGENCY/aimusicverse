@@ -14,6 +14,9 @@ export interface CreateTrackParams {
   mode: string;
   model: string;
   vocalGender?: string;
+  /** Provider voice id of the cloned custom voice used for this generation (if any). */
+  customVoiceId?: string | null;
+
   styleWeight?: number;
   negativeTags?: string;
   customMode: boolean;
