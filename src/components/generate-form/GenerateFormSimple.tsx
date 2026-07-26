@@ -25,6 +25,8 @@ interface GenerateFormSimpleProps {
   onTitleChange: (value: string) => void;
   hasVocals: boolean;
   onHasVocalsChange: (value: boolean) => void;
+  customVoiceId?: string | null;
+  onCustomVoiceChange?: (voiceId: string | null) => void;
   onBoostStyle: () => void;
   boostLoading: boolean;
   onOpenStyles?: () => void;
@@ -37,6 +39,8 @@ export function GenerateFormSimple({
   onTitleChange,
   hasVocals,
   onHasVocalsChange,
+  customVoiceId,
+  onCustomVoiceChange,
   onBoostStyle,
   boostLoading,
   onOpenStyles,
