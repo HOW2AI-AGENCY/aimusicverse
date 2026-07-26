@@ -20,11 +20,20 @@ export interface SunoMidiAccepted {
   taskId: string;
 }
 
+export interface SunoMidiNote {
+  pitch: number;
+  startTime: number;
+  duration: number;
+  velocity: number;
+  instrument?: string | null;
+}
+
 export interface SunoMidiStatus {
   success: boolean;
   taskId?: string;
   status: "PENDING" | "PROCESSING" | "SUCCESS" | "FAILED";
   midiUrl?: string | null;
+  notes?: SunoMidiNote[];
   notesCount?: number | null;
   duration?: number | null;
   error?: string;

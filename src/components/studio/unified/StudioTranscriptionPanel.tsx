@@ -23,6 +23,7 @@ import { useReplicateMidiTranscription } from "@/hooks/studio/useReplicateMidiTr
 import { useKlangioAnalyze } from "@/hooks/studio/useKlangioAnalyze";
 import { useStemSeparationTaskForTrack } from "@/hooks/studio/useStemSeparationTaskForTrack";
 import { generateSunoMidi, getSunoMidiStatus } from "@/api/midi-suno.api";
+import { exportMidi } from "@/services/studio/studio-stems.service";
 import { useAuth } from "@/contexts/AuthContext";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
@@ -391,11 +392,28 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
         setProgress((p) => Math.min(90, p + 7));
 
         const status = await getSunoMidiStatus(accepted.taskId);
-        logger.debug("[Transcription] Suno MIDI poll", { midiTaskId: accepted.taskId, status: status.status });
+        logger.debug("[Transcription] Suno MIDI poll", {
+          midiTaskId: accepted.taskId,
+          status: status.status,
+          notesCount: status.notesCount,
+        });
 
         if (status.status === "SUCCESS") {
-          midiUrl = status.midiUrl ?? null;
           notesCount = status.notesCount ?? null;
+          midiUrl = status.midiUrl ?? null;
+
+          // SunoAPI returns note data, not a ready .mid file — build one locally.
+          if (!midiUrl && status.notes?.length) {
+            const exported = await exportMidi({
+              notes: status.notes,
+              bpm: 120,
+              timeSignature: "4/4",
+              trackName: resolvedStemType ? `${resolvedStemType} (SunoAPI)` : "SunoAPI MIDI",
+            });
+            if (exported?.data) {
+              midiUrl = `data:audio/midi;base64,${exported.data}`;
+            }
+          }
           break;
         }
         if (status.status === "FAILED") {
