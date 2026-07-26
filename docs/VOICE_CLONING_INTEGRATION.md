@@ -753,6 +753,46 @@ logger.warn("Voice quality issues detected", {
 - [API Documentation](https://docs.sunoapi.org/) - Suno API docs
 - [Troubleshooting](TROUBLESHOOTING_GUIDE.md) - Общие troubleshooting
 
+## 🏷 Маркировка треков и дисклеймер
+
+### Хранение
+
+При генерации с выбранным кастомным голосом edge-функция `suno-music-generate`
+записывает провайдерский `voice_id` в колонку `tracks.custom_voice_id`
+(nullable TEXT, частичный индекс `tracks_custom_voice_id_idx`). Значение
+приходит из формы генерации (`customVoiceId` → payload `voiceId`) и
+одновременно используется как `personaId` + `personaModel: "voice_persona"`
+в запросе к Suno.
+
+### Иконка в интерфейсе
+
+Компонент [`TrackTypeIcons`](../src/components/library/TrackTypeIcons.tsx)
+(список библиотеки, шапка меню действий трека) показывает иконку `UserCheck`
+в розовом токене `trackTypeColors.customVoice`, когда `track.custom_voice_id`
+заполнен. Тултип: «Кастомный голос — клон тембра и стилистики, не точная копия
+голоса». Тест-хук: `data-testid="custom-voice-icon"`.
+
+Иконки берутся только из `@/lib/icons`, цвета — из `@/lib/design-colors`.
+
+### Дисклеймер (изредка)
+
+[`VoiceCloneDisclaimerDialog`](../src/components/voice-clone/VoiceCloneDisclaimerDialog.tsx)
+объясняет, что клонирование воспроизводит **тембр и стилистику пения**, а не
+точную копию голоса человека. Показывается при выборе голоса в
+`CustomVoicePicker`, но не чаще одного раза в 7 дней
+(`DISCLAIMER_INTERVAL_MS`, метка в localStorage
+`mv:voice-clone-disclaimer-shown-at`).
+
+### Версионирование треков с голосом
+
+Треки с кастомным голосом проходят обычный A/B-пайплайн (2 клипа → 2 строки в
+`track_versions`). Клипы приходят разными коллбэками, поэтому realtime-хук
+`useGenerationRealtime` инвалидирует все кэши версий (`track-versions`,
+`track-versions-unified`, `version-count`, `master-version`) на любое изменение
+`track_versions` — иначе селектор версий остаётся с одной версией до перезагрузки.
+
+---
+
 ### Code Examples
 
 - [VoiceCloneWizard](../src/components/voice-clone/VoiceCloneWizard.tsx) - UI компонент
