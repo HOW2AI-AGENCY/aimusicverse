@@ -27,6 +27,9 @@ export function TrackTypeIcons({
   const isInstrumental =
     track.is_instrumental === true || (track.is_instrumental == null && track.has_vocals === false);
   const hasStems = track.has_stems === true;
+  // Track was generated with a cloned custom voice (timbre/style clone, not an exact copy)
+  const hasCustomVoice = !!track.custom_voice_id;
+
 
   // Detect cover/extend based on generation_mode
   const isCover =
