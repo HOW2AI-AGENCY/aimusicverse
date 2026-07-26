@@ -20,7 +20,9 @@ import {
   Trash2,
   Play,
   Save,
+  ClipboardCopy,
 } from "@/lib/icons";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -82,6 +84,8 @@ export function LyricsWorkspace({
   const isMobile = useIsMobile();
   const [selectedSection, setSelectedSection] = useState<LyricsSection | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
+  const [importText, setImportText] = useState("");
 
   const addSection = useCallback(
     (type: LyricsSection["type"] = "verse") => {
@@ -96,6 +100,53 @@ export function LyricsWorkspace({
     },
     [sections, onChange],
   );
+
+  const handleImportText = useCallback(() => {
+    const text = importText.trim();
+    if (!text) return;
+    hapticImpact("medium");
+    // Parse pasted text into sections using the shared parser.
+    // Map generate-form LyricSectionType → lyrics-workspace LyricsSection["type"].
+    import("@/components/generate-form/lyricsEditorHelpers")
+      .then(({ parseLyrics }) => {
+        const parsed = parseLyrics(text);
+        if (parsed.length > 0) {
+          const typeMap: Record<string, LyricsSection["type"]> = {
+            intro: "intro",
+            verse: "verse",
+            pre: "prechorus",
+            chorus: "chorus",
+            hook: "hook",
+            bridge: "bridge",
+            drop: "breakdown",
+            breakdown: "breakdown",
+            outro: "outro",
+          };
+          const mapped: LyricsSection[] = parsed.map((s) => ({
+            id: `${s.type}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+            type: typeMap[s.type] || "verse",
+            content: s.content,
+            tags: [],
+          }));
+          onChange(mapped);
+        }
+        setImportText("");
+        setImportOpen(false);
+      })
+      .catch(() => {
+        // Fallback: single verse section with raw text
+        onChange([
+          {
+            id: `verse-${Date.now()}`,
+            type: "verse" as const,
+            content: text,
+            tags: [],
+          },
+        ]);
+        setImportText("");
+        setImportOpen(false);
+      });
+  }, [importText, onChange]);
 
   const updateSection = useCallback(
     (id: string, updates: Partial<LyricsSection>) => {
@@ -156,117 +207,195 @@ export function LyricsWorkspace({
         </div>
       )}
 
-      {/* Sections list */}
-      <ScrollArea className={cn("flex-1", isMobile ? "p-3" : "p-4")}>
-        <div className="space-y-3">
-          <AnimatePresence mode="popLayout">
-            {sections.map((section, index) => {
-              const typeInfo = getSectionTypeInfo(section.type);
-              const hasNotes = section.notes || section.audioNoteUrl || section.referenceAudioUrl;
-
-              return (
-                <motion.div
-                  key={section.id}
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="group"
-                >
-                  <Card className="border-border/50 hover:border-primary/30 transition-colors overflow-hidden">
-                    <div className="flex gap-3 p-3">
-                      {/* Drag handle */}
-                      <div className="flex flex-col items-center gap-1 pt-1">
-                        <GripVertical className="w-4 h-4 text-muted-foreground/50 cursor-grab" />
-                        <span className="text-xs text-muted-foreground">{index + 1}</span>
-                      </div>
-
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        {/* Section type badge + Add tag button */}
-                        <div className="flex items-center gap-2 mb-2 flex-wrap">
-                          <Badge variant="outline" className={cn("text-xs", typeInfo.color, "text-white border-0")}>
-                            {typeInfo.label}
-                          </Badge>
-
-                          {/* Add tag button */}
-                          <SectionTagSelector
-                            selectedTags={section.tags || []}
-                            onTagsChange={(tags) => updateSectionTags(section.id, tags)}
-                          />
-
-                          {hasNotes && (
-                            <Badge variant="outline" className="text-xs gap-1">
-                              <MessageSquare className="w-3 h-3" />
-                              Заметки
-                            </Badge>
-                          )}
-                        </div>
-
-                        {/* Lyrics content - inline editable */}
-                        <EditableLyricsContent
-                          value={section.content}
-                          onChange={(content) => updateSection(section.id, { content })}
-                          placeholder="Нажмите, чтобы ввести текст..."
-                        />
-
-                        {/* Tags display with icons */}
-                        {section.tags && section.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mt-2">
-                            {section.tags.map((tag) => (
-                              <TagBadge
-                                key={tag}
-                                tag={tag}
-                                onRemove={() => {
-                                  updateSectionTags(section.id, section.tags?.filter((t) => t !== tag) || []);
-                                }}
-                              />
-                            ))}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Actions */}
-                      <div className="flex flex-col gap-1">
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => openDetails(section)}>
-                          <ChevronRight className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-destructive/70 hover:text-destructive"
-                          onClick={() => deleteSection(section.id)}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-
-          {/* Add section buttons */}
-          <div className="pt-4 border-t border-border/30">
-            <p className="text-xs text-muted-foreground mb-2">Добавить секцию:</p>
-            <div className="flex flex-wrap gap-2">
-              {SECTION_TYPES.slice(0, 4).map((type) => (
-                <Button
-                  key={type.value}
-                  variant="outline"
-                  size="sm"
-                  onClick={() => addSection(type.value as LyricsSection["type"])}
-                  className="gap-1.5"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  {type.label}
-                </Button>
-              ))}
+      {/* Empty state — no sections yet */}
+      {sections.length === 0 && (
+        <div className="flex-1 flex items-center justify-center p-6">
+          <div className="text-center max-w-md space-y-4">
+            <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
+              <Music2 className="w-8 h-8 text-primary" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold">Начните писать</h3>
+              <p className="text-sm text-muted-foreground mt-1">Создайте новую секцию или вставьте готовый текст</p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Button variant="outline" className="w-full gap-2" onClick={() => setImportOpen(true)}>
+                <ClipboardCopy className="w-4 h-4" />
+                Вставить текст
+              </Button>
+              <div className="flex flex-wrap gap-2 justify-center">
+                {SECTION_TYPES.slice(0, 4).map((type) => (
+                  <Button
+                    key={type.value}
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => addSection(type.value as LyricsSection["type"])}
+                    className="gap-1.5"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    {type.label}
+                  </Button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </ScrollArea>
+      )}
+
+      {/* Sections list */}
+      {sections.length > 0 && (
+        <ScrollArea className={cn("flex-1", isMobile ? "p-3" : "p-4")}>
+          <div className="space-y-3">
+            <AnimatePresence mode="popLayout">
+              {sections.map((section, index) => {
+                const typeInfo = getSectionTypeInfo(section.type);
+                const hasNotes = section.notes || section.audioNoteUrl || section.referenceAudioUrl;
+
+                return (
+                  <motion.div
+                    key={section.id}
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="group"
+                  >
+                    <Card className="border-border/50 hover:border-primary/30 transition-colors overflow-hidden">
+                      <div className="flex gap-3 p-3">
+                        {/* Drag handle */}
+                        <div className="flex flex-col items-center gap-1 pt-1">
+                          <GripVertical className="w-4 h-4 text-muted-foreground/50 cursor-grab" />
+                          <span className="text-xs text-muted-foreground">{index + 1}</span>
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 min-w-0">
+                          {/* Section type badge + Add tag button */}
+                          <div className="flex items-center gap-2 mb-2 flex-wrap">
+                            <Badge variant="outline" className={cn("text-xs", typeInfo.color, "text-white border-0")}>
+                              {typeInfo.label}
+                            </Badge>
+
+                            {/* Add tag button */}
+                            <SectionTagSelector
+                              selectedTags={section.tags || []}
+                              onTagsChange={(tags) => updateSectionTags(section.id, tags)}
+                            />
+
+                            {hasNotes && (
+                              <Badge variant="outline" className="text-xs gap-1">
+                                <MessageSquare className="w-3 h-3" />
+                                Заметки
+                              </Badge>
+                            )}
+                          </div>
+
+                          {/* Lyrics content - inline editable */}
+                          <EditableLyricsContent
+                            value={section.content}
+                            onChange={(content) => updateSection(section.id, { content })}
+                            placeholder="Нажмите, чтобы ввести текст..."
+                          />
+
+                          {/* Tags display with icons */}
+                          {section.tags && section.tags.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-2">
+                              {section.tags.map((tag) => (
+                                <TagBadge
+                                  key={tag}
+                                  tag={tag}
+                                  onRemove={() => {
+                                    updateSectionTags(section.id, section.tags?.filter((t) => t !== tag) || []);
+                                  }}
+                                />
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex flex-col gap-1">
+                          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => openDetails(section)}>
+                            <ChevronRight className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-destructive/70 hover:text-destructive"
+                            onClick={() => deleteSection(section.id)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </Card>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+
+            {/* Add section buttons */}
+            <div className="pt-4 border-t border-border/30 space-y-2">
+              <div className="flex flex-wrap gap-2">
+                {SECTION_TYPES.slice(0, 4).map((type) => (
+                  <Button
+                    key={type.value}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => addSection(type.value as LyricsSection["type"])}
+                    className="gap-1.5"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    {type.label}
+                  </Button>
+                ))}
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setImportOpen(true)}
+                className="gap-1.5 text-muted-foreground"
+              >
+                <ClipboardCopy className="w-3.5 h-3.5" />
+                Вставить текст
+              </Button>
+            </div>
+          </div>
+        </ScrollArea>
+      )}
+
+      {/* Import text dialog */}
+      <Dialog open={importOpen} onOpenChange={setImportOpen}>
+        <DialogContent className="sm:max-w-[560px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <ClipboardCopy className="w-5 h-5 text-primary" />
+              Вставить текст
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3 py-2">
+            <p className="text-sm text-muted-foreground">
+              Вставьте скопированный текст песни. Если есть теги секций ([Verse], [Chorus]…), они будут распознаны
+              автоматически.
+            </p>
+            <Textarea
+              value={importText}
+              onChange={(e) => setImportText(e.target.value)}
+              placeholder={"[Verse 1]\nЗдесь ваш текст...\n\n[Chorus]\nПрипев..."}
+              className="min-h-[200px] resize-none text-sm font-mono"
+              autoFocus
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setImportOpen(false)}>
+              Отмена
+            </Button>
+            <Button onClick={handleImportText} disabled={!importText.trim()}>
+              Вставить
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Section details sheet */}
       <Sheet open={detailsOpen} onOpenChange={setDetailsOpen}>
