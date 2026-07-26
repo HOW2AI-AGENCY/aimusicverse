@@ -665,6 +665,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           }}
           onOpenActions={() => dialogs.setShowActionsSheet(true)}
         />
+      )}
         </>
       )}
 
