@@ -226,44 +226,20 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
 
   const primaryCreated = createdVersions[0];
 
-  const { error: unsetPrimaryError } = await supabase
-    .from("track_versions")
-    .update({ is_primary: false })
-    .eq("track_id", trackId);
-  if (unsetPrimaryError) {
-    logger.error("Failed to unset previous primary versions after replace-section", unsetPrimaryError, {
-      taskId: task.id,
-      trackId,
-    });
-  }
-
-  const { error: setPrimaryError } = await supabase
-    .from("track_versions")
-    .update({ is_primary: true })
-    .eq("id", primaryCreated.id);
-  if (setPrimaryError) {
-    logger.error("Failed to mark replacement version as primary", setPrimaryError, {
-      taskId: task.id,
-      trackId,
-      versionId: primaryCreated.id,
-    });
-  }
-
-  const { error: trackUpdateError } = await supabase
-    .from("tracks")
-    .update({
-      active_version_id: primaryCreated.id,
-      audio_url: primaryCreated.audioUrl,
-      streaming_url: getStreamUrl(primaryCreated.clip) || primaryCreated.audioUrl,
-      cover_url: getImageUrl(primaryCreated.clip) || null,
-      duration_seconds: Math.round(primaryCreated.clip.duration) || null,
-      suno_id: primaryCreated.clip.id,
-      suno_task_id: task.suno_task_id,
-      has_stems: false,
-    })
-    .eq("id", trackId);
-  if (trackUpdateError) {
-    logger.error("Failed to apply replacement version to track", trackUpdateError, {
+  // Atomically apply the replacement version (unset old primary,
+  // set new primary, update track — all in one transaction).
+  const { error: applyError } = await supabase.rpc("apply_replacement_version", {
+    p_track_id: trackId,
+    p_version_id: primaryCreated.id,
+    p_audio_url: primaryCreated.audioUrl,
+    p_streaming_url: getStreamUrl(primaryCreated.clip) || primaryCreated.audioUrl,
+    p_cover_url: getImageUrl(primaryCreated.clip) || null,
+    p_duration_seconds: primaryCreated.clip.duration ? Math.round(primaryCreated.clip.duration) : null,
+    p_suno_id: primaryCreated.clip.id,
+    p_suno_task_id: task.suno_task_id,
+  });
+  if (applyError) {
+    logger.error("Failed to atomically apply replacement version", applyError, {
       taskId: task.id,
       trackId,
       versionId: primaryCreated.id,
