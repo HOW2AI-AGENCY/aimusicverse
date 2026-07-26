@@ -32,6 +32,7 @@ export const StemSeparationProgress = memo(function StemSeparationProgress({
   task,
   progress,
   className,
+  onOpenInStudio,
 }: StemSeparationProgressProps) {
   if (!task) return null;
 

@@ -12,7 +12,7 @@
 import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import {
-  Volume2, VolumeX, ChevronDown, ChevronUp, Headphones, Plus, Loader2, Gauge, Trash2,
+  Volume2, VolumeX, ChevronDown, ChevronUp, Headphones, Plus, Loader2, Gauge, Trash2, Waves,
 } from "@/lib/icons";
 import { TrackStem } from "@/hooks/useTrackStems";
 import type { StemTranscription } from "@/hooks/useStemTranscription";
@@ -89,6 +89,7 @@ export function IntegratedStemTracks({
   const isMobile = useIsMobile();
   const [isExpanded, setIsExpanded] = useState(true);
   const [isHardwareMode, setIsHardwareMode] = useState(false);
+  const [pendingDeleteStem, setPendingDeleteStem] = useState<TrackStem | null>(null);
   const haptic = useHapticFeedback();
 
   const toggleExpand = useCallback(() => {
@@ -100,6 +101,24 @@ export function IntegratedStemTracks({
     haptic.impact();
     setIsHardwareMode((prev) => !prev);
   }, [haptic]);
+
+  // S6 — deleting a stem is destructive and irreversible: require confirmation.
+  const handleStemAction = useCallback<IntegratedStemTracksProps["onStemAction"]>(
+    (stem, action) => {
+      if (action === "delete") {
+        haptic.impact();
+        setPendingDeleteStem(stem);
+        return;
+      }
+      onStemAction(stem, action);
+    },
+    [haptic, onStemAction],
+  );
+
+  const confirmDeleteStem = useCallback(() => {
+    if (pendingDeleteStem) onStemAction(pendingDeleteStem, "delete");
+    setPendingDeleteStem(null);
+  }, [pendingDeleteStem, onStemAction]);
 
   const simulatedLevels = useSimulatedStemLevels(stemStates, masterVolume, masterMuted, isPlaying);
 
@@ -244,7 +263,7 @@ export function IntegratedStemTracks({
                 onStemToggle={onStemToggle}
                 onStemVolumeChange={onStemVolumeChange}
                 onSeek={onSeek}
-                onStemAction={onStemAction}
+                onStemAction={handleStemAction}
                 renderMobileRow={(props) => <StemTrackRowMobile {...props} />}
                 renderDesktopRow={(props) => <StemTrackRowDesktop {...props} />}
               />
@@ -252,6 +271,31 @@ export function IntegratedStemTracks({
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AlertDialog open={!!pendingDeleteStem} onOpenChange={(o) => !o && setPendingDeleteStem(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <Trash2 className="w-4 h-4 text-destructive" />
+              Удалить стем?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {pendingDeleteStem
+                ? `Дорожка «${pendingDeleteStem.stem_type}» будет удалена безвозвратно. Это действие нельзя отменить.`
+                : ""}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Отмена</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDeleteStem}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Удалить
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </motion.div>
   );
 }
