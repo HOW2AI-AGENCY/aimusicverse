@@ -3,6 +3,7 @@ import { corsHeaders } from "../_shared/cors.ts";
 import { getServiceClient } from "../_shared/voice.ts";
 
 const WEBHOOK_SECRET = Deno.env.get("SUNO_WEBHOOK_SECRET");
+const VOICE_CLONE_COST = 30;
 
 async function verifySignature(payload: string, signature: string | null, timestamp: string | null): Promise<boolean> {
   if (!WEBHOOK_SECRET) {
