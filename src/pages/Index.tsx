@@ -150,7 +150,9 @@ const Index = () => {
         density="compact"
       >
         <HomeQuickCreate onCreateClick={handleCreate} />
+        <LyricsStudioBanner className="mt-3" />
         <CreativePresetsSection onTrackPresetSelect={handleQuickGenrePreset} />
+
       </Section>
     ),
     [t, handleCreate, handleQuickGenrePreset],
