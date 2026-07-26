@@ -638,23 +638,20 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           onExtend={() => {
             const t = project.tracks[0];
             if (t) {
-              dialogs.setSelectedExtendTrack(t);
+              dialogs.setExtendingTrackId(t.id);
               dialogs.setShowExtendDialog(true);
             }
           }}
           onCover={() => {
             const t = project.tracks[0];
-            if (t?.audioUrl) navigate(`/create?mode=cover&audioUrl=${encodeURIComponent(t.audioUrl)}`);
-          }}
-          onAddVocals={() => {
-            const inst = project.tracks.find((t) => t.type === "instrumental");
-            if (inst) {
-              dialogs.setSelectedVocalsTrack(inst);
-              dialogs.setShowAddVocalsDrawer(true);
-            } else {
-              toast.info("Сначала разделите трек на стемы");
+            if (t) {
+              dialogs.setCoveringTrackId(t.id);
+              dialogs.setShowCoverDialog(true);
             }
           }}
+          onAddVocals={() => dialogs.setShowAudioActionDialog(true)}
+        />
+      )}
           onSeparateStems={() => dialogs.setShowStemSeparationDialog(true)}
           onSaveAsVersion={() => dialogs.setShowSaveVersionDialog(true)}
           onAddInstrumental={() => {

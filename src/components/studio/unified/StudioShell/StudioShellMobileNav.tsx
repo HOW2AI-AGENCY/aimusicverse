@@ -63,11 +63,6 @@ export const StudioShellMobileNav = React.forwardRef<HTMLDivElement, StudioShell
   ) => {
     return (
       <div ref={ref} className={className}>
-        {/* AI Actions FAB - Mobile only */}
-        {tracks.length > 0 && (
-          <AIActionsFAB onGenerate={onGenerate} onExtend={onExtend} onCover={onCover} onAddVocals={onAddVocals} />
-        )}
-
         {/* Mobile Studio Player Bar - Bottom fixed player for mobile */}
         <MobileStudioPlayerBar
           isPlaying={isPlaying}

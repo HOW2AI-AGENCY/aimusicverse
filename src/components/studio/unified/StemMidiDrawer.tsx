@@ -55,7 +55,8 @@ interface StemMidiDrawerProps {
   stem: TrackStem | null;
   trackId: string;
   trackTitle: string;
-  trackDurationSeconds?: number | null; // For engine auto-selection
+  trackDurationSeconds?: number | null;
+  stemSeparationTaskId?: string;
 }
 
 const modelIcons: Record<string, React.ReactNode> = {
@@ -213,7 +214,28 @@ export function StemMidiDrawer({
     if (!stem) return;
 
     try {
-      // Cast model to the subset supported by the API
+      const isSimpleStem = stem.stem_type === "vocals" || stem.stem_type === "instrumental";
+
+      // Simple stems → SunoAPI (using stem separation taskId)
+      if (isSimpleStem && stemSeparationTaskId) {
+        setStatus("transcribing");
+        const { generateSunoMidi } = await import("@/api/midi-suno.api");
+        const { supabase } = await import("@/integrations/supabase/client");
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error("Not authenticated");
+
+        await generateSunoMidi({
+          taskId: stemSeparationTaskId,
+          userId: user.id,
+        });
+
+        toast.success("MIDI генерация запущена через SunoAPI", {
+          description: "Результат придёт через 30-90 секунд",
+        });
+        return;
+      }
+
+      // Detailed stems → Klangio
       const apiModel = SELECTABLE_MODELS.includes(selectedModel)
         ? (selectedModel as "guitar" | "piano" | "drums" | "vocal" | "bass" | "universal")
         : "universal";
