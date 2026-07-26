@@ -115,10 +115,7 @@ export function SectionEditorSheet({
     executeReplacement,
     reset,
     progress: sectionProgress,
-  // Structure tags ([Verse], **[Chorus]**) must never leak into the lyrics view.
-  const cleanAlignedWords = useMemo(() => filterTagWords(lyricsData?.alignedWords || []), [lyricsData?.alignedWords]);
-
-  const {
+  } = useSectionReplacement({
     trackId,
     trackTags,
     duration: safeDuration,
