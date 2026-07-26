@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { useProjectTracks } from "@/hooks/useProjectTracks";
+import { useTracks } from "@/hooks/useTracks";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
 import { LazyImage } from "@/components/ui/lazy-image";
@@ -33,7 +33,7 @@ interface MashupDialogProps {
 
 export function MashupDialog({ open, onOpenChange, sourceTrack, projectId }: MashupDialogProps) {
   const { user } = useAuth();
-  const { tracks = [] } = useProjectTracks(projectId ?? null);
+  const { tracks = [] } = useTracks({ projectId });
   const [secondTrackId, setSecondTrackId] = useState<string | null>(null);
   const [title, setTitle] = useState(`${sourceTrack.title || "Трек"} (ремикс)`);
   const [style, setStyle] = useState("");

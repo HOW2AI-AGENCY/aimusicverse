@@ -353,14 +353,6 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     priority: 43,
     requiresCompleted: true,
   },
-  cover: {
-    id: "cover",
-    label: "Кавер",
-    icon: Music,
-    category: "create",
-    priority: 44,
-    requiresSunoId: true,
-  },
   mashup: {
     id: "mashup",
     label: "Ремикс (мэшап)",
@@ -404,10 +396,10 @@ export const TRACK_ACTIONS: Record<ActionId, TrackAction> = {
     requiresCompleted: true,
     requiresAudio: true,
   },
-  mashup: {
-    id: "mashup",
-    label: "Mashup с другим треком",
-    icon: Disc,
+  remix: {
+    id: "remix",
+    label: "Ремикс",
+    icon: Shuffle,
     category: "create",
     priority: 48,
     requiresCompleted: true,
