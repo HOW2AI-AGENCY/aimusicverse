@@ -104,7 +104,7 @@ serve(async (req) => {
       mode = "simple",
       instrumental = false,
       model = "V4_5ALL",
-      prompt,
+      prompt: rawPrompt,
       title,
       style,
       negativeTags,
@@ -122,6 +122,15 @@ serve(async (req) => {
       isPublic = true,
     } = body;
     void language;
+
+    // In custom (lyrics) mode the prompt IS the lyrics — Suno ignores Markdown
+    // decoration such as **[Verse]**, so normalize before anything else.
+    const customMode = mode === "custom";
+    const prompt =
+      customMode && !instrumental && typeof rawPrompt === "string" ? normalizeSunoLyrics(rawPrompt) : rawPrompt;
+    if (customMode && !instrumental && didNormalizeLyrics(rawPrompt)) {
+      logger.info("Lyrics normalized for Suno format", { userId: user.id });
+    }
 
     requestedModel = model;
     planTrackIdForCatch = planTrackId || null;
