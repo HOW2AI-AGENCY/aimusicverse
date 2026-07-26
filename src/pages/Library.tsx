@@ -48,6 +48,7 @@ import { gridGap, containerPadding, contentSpacing, sectionGap } from "@/lib/des
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { DesktopLibrarySidebar } from "@/components/library/DesktopLibrarySidebar";
+import { MobileGenerateFab } from "@/components/library/MobileGenerateFab";
 import { TrackDetailPanel } from "@/components/library/TrackDetailPanel";
 
 // Extracted hooks and components
@@ -272,11 +273,13 @@ export default function Library() {
             "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
         }}
       >
-        {/* Generate Sidebar — desktop panel or mobile FAB+sheet */}
-        <DesktopLibrarySidebar
-          isCollapsed={generateSidebarCollapsed}
-          onToggleCollapse={() => setGenerateSidebarCollapsed(!generateSidebarCollapsed)}
-        />
+        {/* Generate Sidebar — desktop panel only (mobile FAB handled inside component) */}
+        {isDesktop && (
+          <DesktopLibrarySidebar
+            isCollapsed={generateSidebarCollapsed}
+            onToggleCollapse={() => setGenerateSidebarCollapsed(!generateSidebarCollapsed)}
+          />
+        )}
 
         {/* Main Content - with master-detail layout on desktop */}
         <div
@@ -502,6 +505,9 @@ export default function Library() {
         deepLinkDialogType={deepLinkDialogType}
         onCloseDeepLinkDialog={closeDeepLinkDialog}
       />
+
+      {/* Mobile FAB + generation sheet */}
+      <MobileGenerateFab />
     </ErrorBoundaryWrapper>
   );
 }
