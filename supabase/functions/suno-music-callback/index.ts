@@ -161,10 +161,14 @@ async function handleFailure(
     })
     .eq("id", task.id);
 
-  await supabase
-    .from("tracks")
-    .update({ status: "failed", error_message: msg || "Generation failed" })
-    .eq("id", trackId);
+  // For non-destructive operations (replace_section), don't mark the track
+  // as failed — the original track is preserved and should remain playable.
+  if (task.generation_mode !== "replace_section") {
+    await supabase
+      .from("tracks")
+      .update({ status: "failed", error_message: msg || "Generation failed" })
+      .eq("id", trackId);
+  }
 
   if (task.telegram_chat_id) {
     try {

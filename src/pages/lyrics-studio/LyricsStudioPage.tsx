@@ -53,7 +53,6 @@ export default function LyricsStudio() {
   // Context handed over from the generate form / other entry points
   const navState = (location.state ?? null) as { initialLyrics?: string; initialTitle?: string } | null;
 
-
   // Project track mode
   const isProjectTrackMode = !!(projectId && trackId);
   const [projectTrack, setProjectTrack] = useState<{
@@ -103,7 +102,6 @@ export default function LyricsStudio() {
     [rawSectionNotes],
   );
 
-
   const [sections, setSections] = useState<LyricsSection[]>([]);
   const [globalTags, setGlobalTags] = useState<string[]>([]);
   const [title, setTitle] = useState("Новый текст");
@@ -125,7 +123,7 @@ export default function LyricsStudio() {
 
   // Telegram back button - return to project details if in project mode
   useTelegramBackButton({
-    visible: true,
+    visible: !aiPanelOpen,
     onClick: () => {
       if (isProjectTrackMode && projectId) {
         navigate(`/projects/${projectId}`);
@@ -215,15 +213,9 @@ export default function LyricsStudio() {
       setSections(parseLyricsToSections(navState.initialLyrics));
       setIsDirty(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navState?.initialLyrics, navState?.initialTitle, isProjectTrackMode, templateId]);
 
-
-  const enrichedTags = useMemo(
-    () => [...new Set(sectionNotes.flatMap((n) => n.tags ?? []))],
-    [sectionNotes],
-  );
-
+  const enrichedTags = useMemo(() => [...new Set(sectionNotes.flatMap((n) => n.tags ?? []))], [sectionNotes]);
 
   const handleSectionsChange = useCallback((newSections: LyricsSection[]) => {
     setSections(newSections);
@@ -288,7 +280,6 @@ export default function LyricsStudio() {
     },
     [selectedSection?.id],
   );
-
 
   const handleLoadTemplate = useCallback(
     (template: { id: string; name: string; lyrics: string }) => {
@@ -471,7 +462,10 @@ export default function LyricsStudio() {
       />
 
       {/* Main Content with AI Panel */}
-      <div className="flex-1 overflow-hidden flex">
+      <div
+        className="flex-1 overflow-hidden flex"
+        style={isMobile && aiPanelOpen ? { pointerEvents: "none" } : undefined}
+      >
         <div className="flex-1 min-w-0 max-w-3xl xl:max-w-5xl 2xl:max-w-6xl mx-auto w-full">
           <LyricsEditor
             sections={sections}

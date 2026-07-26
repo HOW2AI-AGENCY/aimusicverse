@@ -159,7 +159,7 @@ export function MobileAIAgentPanel({
   });
 
   const hasGeneratedLyrics = useMemo(() => {
-    return messages.some((m) => m.role === "assistant" && m.data?.lyrics);
+    return messages.some((m) => m.role === "assistant" && (m.data?.lyrics || m.data?.translation?.translatedLyrics));
   }, [messages]);
 
   const hasAnalysisResults = useMemo(() => {
@@ -423,6 +423,8 @@ export function MobileAIAgentPanel({
         paddingTop:
           "max(var(--tg-content-safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px), 12px)",
         paddingBottom: "max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))",
+        overscrollBehavior: "contain",
+        touchAction: "pan-y",
       }}
     >
       {/* Header with close on RIGHT */}

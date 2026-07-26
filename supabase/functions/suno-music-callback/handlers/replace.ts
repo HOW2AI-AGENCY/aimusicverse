@@ -47,6 +47,21 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
   const skippedClips: SkipReason[] = [];
   const createdVersions: { id: string; label: string; audioUrl: string; clip: any }[] = [];
 
+  // Idempotency guard: check if versions for this task already exist (duplicate callback).
+  const { data: existingVersions } = await supabase
+    .from("track_versions")
+    .select("id")
+    .eq("track_id", trackId)
+    .eq("metadata->>original_task_id", task.id);
+  if (existingVersions && existingVersions.length > 0) {
+    logger.info("Replace-section versions already exist for task, skipping duplicate callback", {
+      taskId: task.id,
+      trackId,
+      existingCount: existingVersions.length,
+    });
+    return { success: true, callbackType: "replace_section_complete", versionsCreated: existingVersions.length };
+  }
+
   // Create new versions for every returned variant (Suno normally returns A/B)
   const { data: latestVersion } = await supabase
     .from("track_versions")

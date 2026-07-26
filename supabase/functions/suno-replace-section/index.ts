@@ -233,15 +233,32 @@ serve(async (req) => {
       tagsLength: effectiveTags.length,
     });
 
-    // Call Suno API
-    const sunoResponse = await fetch(SUNO_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sunoApiKey}`,
-      },
-      body: JSON.stringify(sunoPayload),
-    });
+    // Call Suno API with 15-second timeout
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    let sunoResponse: Response;
+    try {
+      sunoResponse = await fetch(SUNO_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sunoApiKey}`,
+        },
+        body: JSON.stringify(sunoPayload),
+        signal: controller.signal,
+      });
+    } catch (fetchErr) {
+      clearTimeout(timeout);
+      const isTimeout = fetchErr instanceof DOMException && fetchErr.name === "AbortError";
+      logger.error(isTimeout ? "Suno API request timed out" : "Suno API request failed", fetchErr);
+      return new Response(
+        JSON.stringify({
+          error: isTimeout ? "Suno API timeout (15s)" : "Failed to reach Suno API",
+        }),
+        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+    clearTimeout(timeout);
 
     const sunoData = await sunoResponse.json();
 
