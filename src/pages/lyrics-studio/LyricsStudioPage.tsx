@@ -202,7 +202,11 @@ export default function LyricsStudio() {
     }
   }, [templateId, templates, isProjectTrackMode]);
 
-  const enrichedTags = useMemo(() => getAllSuggestedTags(), [getAllSuggestedTags]);
+  const enrichedTags = useMemo(
+    () => [...new Set(sectionNotes.flatMap((n) => n.tags ?? []))],
+    [sectionNotes],
+  );
+
 
   const handleSectionsChange = useCallback((newSections: LyricsSection[]) => {
     setSections(newSections);
