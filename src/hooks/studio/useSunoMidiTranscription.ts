@@ -41,6 +41,10 @@ export interface MidiTranscribeInput {
   trackVersionId: string;
   /** Required for Replicate fallback path. */
   audioUrl: string;
+  /** Suno stem-separation taskId — required to use the Suno MIDI endpoint. */
+  stemTaskId?: string | null;
+  /** Suno clip audioId — optional; omit for MIDI of all tracks in the task. */
+  audioId?: string | null;
   /** Optional — forwarded to Replicate mutation for backfill into its result row. */
   trackId?: string;
   stemId?: string | null;
@@ -69,7 +73,7 @@ export function useSunoMidiTranscription() {
   const transcribe = useCallback(
     async (input: MidiTranscribeInput): Promise<MidiTranscriptionResult | null> => {
       if (!user?.id) throw new Error("User not authenticated");
-      const { trackVersionId, audioUrl, trackId, stemId } = input;
+      const { trackVersionId, audioUrl, trackId, stemId, stemTaskId, audioId } = input;
 
       setState("suno");
       setError(null);
@@ -81,23 +85,27 @@ export function useSunoMidiTranscription() {
       // every 500ms (cheap, no extra TanStack subscription).
       let sunoUrl: string | null = null;
       let sunoReason: string | null = null;
-      try {
-        await suno.generate({ trackVersionId });
-        const startedAt = Date.now();
-        while (Date.now() - startedAt < SUNO_TIMEOUT_MS) {
-          if (suno.midi?.status === "SUCCESS" && suno.midi.midiUrl) {
-            sunoUrl = suno.midi.midiUrl as string;
-            break;
+      if (!stemTaskId) {
+        sunoReason = "no Suno stem-separation taskId available";
+      } else {
+        try {
+          await suno.generate({ taskId: stemTaskId, audioId: audioId ?? undefined });
+          const startedAt = Date.now();
+          while (Date.now() - startedAt < SUNO_TIMEOUT_MS) {
+            if (suno.midi?.status === "SUCCESS" && suno.midi.midiUrl) {
+              sunoUrl = suno.midi.midiUrl as string;
+              break;
+            }
+            if (suno.midi?.status === "FAILED") {
+              sunoReason = "Suno MIDI generation failed";
+              break;
+            }
+            await new Promise((r) => setTimeout(r, 500));
           }
-          if (suno.midi?.status === "FAILED") {
-            sunoReason = "Suno MIDI generation failed";
-            break;
-          }
-          await new Promise((r) => setTimeout(r, 500));
+          if (!sunoUrl && !sunoReason) sunoReason = "Suno MIDI timeout";
+        } catch (err) {
+          sunoReason = err instanceof Error ? err.message : "unknown Suno error";
         }
-        if (!sunoUrl && !sunoReason) sunoReason = "Suno MIDI timeout";
-      } catch (err) {
-        sunoReason = err instanceof Error ? err.message : "unknown Suno error";
       }
 
       if (sunoUrl) {
