@@ -119,6 +119,9 @@ export function CustomVoicePicker({ value, onChange }: Props) {
           onComplete={(voiceId) => select(voiceId)}
         />
       )}
+
+      <VoiceCloneDisclaimerDialog trigger={disclaimerTrigger > 0} />
     </div>
   );
 }
+
