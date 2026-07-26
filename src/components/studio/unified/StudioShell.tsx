@@ -472,6 +472,8 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         className,
       )}
     >
+      {!(replaceOnlyMode && dialogs.showSectionEditor) && (
+        <>
       <StudioShellHeader
         projectName={project.name}
         trackCount={project.tracks.length}
