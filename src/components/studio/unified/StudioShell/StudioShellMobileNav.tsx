@@ -9,7 +9,6 @@
  */
 
 import * as React from "react";
-import { AIActionsFAB } from "../AIActionsFAB";
 import { MobileStudioPlayerBar } from "../MobileStudioPlayerBar";
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
 
