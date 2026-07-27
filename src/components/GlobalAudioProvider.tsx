@@ -14,7 +14,7 @@
 
 import { useEffect, useRef, useCallback } from "react";
 import type { ReactNode } from "react";
-import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { clampPlayerVolume, usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useOptimizedAudioPlayer } from "@/hooks/audio/useOptimizedAudioPlayer";
 import { usePlaybackPosition } from "@/hooks/audio/usePlaybackPosition";
 import { usePlayerAnalytics } from "@/hooks/audio/usePlayerAnalytics";
@@ -34,7 +34,8 @@ export function GlobalAudioProvider({ children }: { children: ReactNode }) {
   const mountTimeRef = useRef(Date.now());
   const isStartupPeriod = useCallback(() => Date.now() - mountTimeRef.current < 2000, []);
 
-  const { activeTrack, isPlaying, volume, pauseTrack } = usePlayerStore();
+  const { activeTrack, isPlaying, volume: storedVolume, pauseTrack } = usePlayerStore();
+  const volume = clampPlayerVolume(storedVolume);
 
   // Stable ref so playback callbacks read current isPlaying without re-subscribing
   const isPlayingRef = useRef(isPlaying);

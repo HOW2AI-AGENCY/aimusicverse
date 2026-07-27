@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import type { RefObject, MutableRefObject } from "react";
-import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { clampPlayerVolume, usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { setGlobalAudioRef } from "@/hooks/audio/useAudioTime";
 import { logAudioDiagnostics } from "@/lib/audioFormatUtils";
 import { logger } from "@/lib/logger";
@@ -42,7 +42,7 @@ export function useAudioInit({ audioRef, initialVolume, isMobileBrowser, mobileB
     if (!audioRef.current) {
       audioRef.current = new Audio();
       audioRef.current.preload = "auto";
-      audioRef.current.volume = initialVolume;
+      audioRef.current.volume = clampPlayerVolume(initialVolume);
       audioRef.current.muted = false;
 
       logger.info("Audio element initialized", {

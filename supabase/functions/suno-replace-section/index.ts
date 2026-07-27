@@ -177,8 +177,8 @@ serve(async (req) => {
     // Create callback URL
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
-    // Suno API requires non-empty prompt and lyrics for replace-section
-    const effectivePrompt = prompt || tags || track.tags || track.style || "Continue in the same style and mood";
+    // Suno replace-section uses `prompt` for the replacement lyrics. Style belongs in `tags`.
+    const replacementPrompt = sectionLyrics || normalizeSunoLyrics(prompt || "") || "Replace the selected section";
     const effectiveTags = tags || track.tags || "";
 
     // Get track lyrics - REQUIRED for replace-section API
@@ -203,7 +203,7 @@ serve(async (req) => {
       lyricsLength: trackLyrics.length,
       sectionLyricsLength: sectionLyrics.length,
       isInstrumental: track.is_instrumental,
-      effectivePrompt: effectivePrompt.substring(0, 100),
+      replacementPromptLength: replacementPrompt.length,
       effectiveTags: effectiveTags.substring(0, 100),
     });
 
@@ -211,7 +211,7 @@ serve(async (req) => {
     const sunoPayload: Record<string, unknown> = {
       taskId,
       audioId,
-      prompt: effectivePrompt,
+      prompt: replacementPrompt,
       tags: effectiveTags,
       title: track.title || "Трек",
       infillStartS: Number(infillStartS),
@@ -229,7 +229,7 @@ serve(async (req) => {
       audioId,
       infillStartS,
       infillEndS,
-      promptLength: effectivePrompt.length,
+      promptLength: replacementPrompt.length,
       tagsLength: effectiveTags.length,
     });
 
@@ -291,7 +291,7 @@ serve(async (req) => {
       .insert({
         user_id: user.id,
         track_id: trackId,
-        prompt: prompt || `Замена секции ${infillStartS}s - ${infillEndS}s`,
+        prompt: sectionLyrics || prompt || `Замена секции ${infillStartS}s - ${infillEndS}s`,
         status: "pending",
         suno_task_id: newTaskId,
         generation_mode: "replace_section",
@@ -323,6 +323,7 @@ serve(async (req) => {
         taskId: newTaskId,
         originalAudioId: audioId,
         sectionLyrics,
+        stylePrompt: prompt,
       },
     });
 

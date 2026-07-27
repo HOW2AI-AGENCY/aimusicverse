@@ -16,7 +16,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
-import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { clampPlayerVolume, usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useGlobalAudioPlayer } from "@/hooks/audio/useGlobalAudioPlayer";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { Track } from "@/types/track";
@@ -67,7 +67,8 @@ export function DesktopFullscreenPlayer({
   });
 
   const { currentTime, duration, buffered, seek } = useAudioTime();
-  const { isPlaying, volume, preservedTime, clearPreservedTime } = usePlayerStore();
+  const { isPlaying, volume: storedVolume, preservedTime, clearPreservedTime } = usePlayerStore();
+  const volume = clampPlayerVolume(storedVolume);
   const { audioElement } = useGlobalAudioPlayer();
 
   // Ensure AudioContext is ready on mount with blob URL recovery

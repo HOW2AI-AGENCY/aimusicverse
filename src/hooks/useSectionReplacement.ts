@@ -31,6 +31,7 @@ export function useSectionReplacement({
   const [localPrompt, setLocalPrompt] = useState("");
   const [localTags, setLocalTags] = useState(trackTags || "");
   const [localLyrics, setLocalLyrics] = useState("");
+  const originalLyricsRef = useRef("");
 
   const { selectedSection, selectedSectionIndex, customRange, setCustomRange, clearSelection, setActiveTask } =
     useSectionEditorStore();
@@ -67,6 +68,7 @@ export function useSectionReplacement({
 
   if (prevSectionLyricsRef.current !== selectedSection?.lyrics && selectedSection?.lyrics) {
     prevSectionLyricsRef.current = selectedSection?.lyrics;
+    originalLyricsRef.current = selectedSection.lyrics;
     setLocalLyrics(selectedSection.lyrics);
   } else if (prevSectionLyricsRef.current !== selectedSection?.lyrics) {
     prevSectionLyricsRef.current = selectedSection?.lyrics;
@@ -85,6 +87,7 @@ export function useSectionReplacement({
       } else {
         setCustomRange(section.startTime, section.endTime);
       }
+      originalLyricsRef.current = section.lyrics;
       setLocalLyrics(section.lyrics);
     },
     [detectedSections, maxDuration, setCustomRange],
@@ -104,6 +107,7 @@ export function useSectionReplacement({
       );
 
       if (matchingSection) {
+        originalLyricsRef.current = matchingSection.lyrics;
         setLocalLyrics(matchingSection.lyrics);
       } else {
         // Try to find overlapping sections and combine their lyrics
@@ -125,6 +129,7 @@ export function useSectionReplacement({
             .join("\n\n");
 
           if (combinedLyrics) {
+            originalLyricsRef.current = combinedLyrics;
             setLocalLyrics(combinedLyrics);
           }
         }
@@ -138,13 +143,17 @@ export function useSectionReplacement({
     setLocalPrompt((prev) => (prev ? `${prev}, ${preset}` : preset));
   }, []);
 
+  const setOriginalLyrics = useCallback((lyrics: string) => {
+    originalLyricsRef.current = lyrics;
+  }, []);
+
   // Execute replacement with progress tracking
   const executeReplacement = useCallback(async () => {
     if (!isValidDuration) return;
 
     // Suno regenerates the infill window from `fullLyrics`, so the edited section
     // text must be spliced INTO the full document (prompt is style-only).
-    const originalSectionLyrics = selectedSection?.lyrics ?? "";
+    const originalSectionLyrics = originalLyricsRef.current || selectedSection?.lyrics || "";
     const { lyrics: mergedFullLyrics, spliced } = spliceSectionLyrics(fullLyrics, originalSectionLyrics, localLyrics);
 
     if (localLyrics && localLyrics.trim() !== originalSectionLyrics.trim() && !spliced) {
@@ -224,6 +233,7 @@ export function useSectionReplacement({
     setTags: setLocalTags,
     lyrics: localLyrics,
     setLyrics: setLocalLyrics,
+    setOriginalLyrics,
 
     // Actions
     selectSection,

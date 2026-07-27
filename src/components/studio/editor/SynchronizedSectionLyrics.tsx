@@ -20,6 +20,7 @@ interface SynchronizedSectionLyricsProps {
   currentTime: number;
   isPlaying: boolean;
   initialLyrics?: string;
+  onBaselineLyricsChange?: (lyrics: string) => void;
   onLyricsChange: (lyrics: string) => void;
   className?: string;
   compact?: boolean;
@@ -32,6 +33,7 @@ export function SynchronizedSectionLyrics({
   currentTime,
   isPlaying,
   initialLyrics,
+  onBaselineLyricsChange,
   onLyricsChange,
   className,
   compact = false,
@@ -72,18 +74,21 @@ export function SynchronizedSectionLyrics({
   // Notify parent when lyrics change due to range change (only once per unique range)
   useEffect(() => {
     const rangeKey = `${startTime.toFixed(2)}-${endTime.toFixed(2)}`;
-    if (sectionWords.length > 0 && rangeKey !== lastSyncedRangeRef.current) {
-      const newLyrics = sectionWords
+    if (rangeKey !== lastSyncedRangeRef.current) {
+      const newLyrics = (sectionWords.length > 0
+        ? sectionWords
         .map((w) => w.word)
         .join(" ")
         .replace(/\s+/g, " ")
-        .trim();
+            .trim()
+        : initialLyrics?.trim()) ?? "";
       if (newLyrics) {
         lastSyncedRangeRef.current = rangeKey;
+        onBaselineLyricsChange?.(newLyrics);
         onLyricsChange(newLyrics);
       }
     }
-  }, [sectionWords, startTime, endTime, onLyricsChange]);
+  }, [sectionWords, startTime, endTime, initialLyrics, onBaselineLyricsChange, onLyricsChange]);
 
   // Update edited text when lyrics change
   useEffect(() => {

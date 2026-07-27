@@ -117,6 +117,8 @@ export function SectionEditorSheet({
     setTags,
     lyrics,
     setLyrics,
+    setOriginalLyrics,
+    updateRange,
     addPreset,
     executeReplacement,
     reset,
@@ -153,6 +155,25 @@ export function SectionEditorSheet({
 
   // Derive UI playing state from the audio hook (single source of truth).
   const isPreviewPlaying = hookIsPlaying;
+
+  const extractLyricsForRange = useCallback(
+    (start: number, end: number, fallback = "") => {
+      const tolerance = 0.3;
+      const wordsInRange = cleanAlignedWords.filter((w) => {
+        const wordMid = (w.startS + w.endS) / 2;
+        return wordMid >= start - tolerance && wordMid <= end + tolerance;
+      });
+
+      const extractedLyrics = wordsInRange
+        .map((w) => w.word)
+        .join(" ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      return extractedLyrics || fallback.trim();
+    },
+    [cleanAlignedWords],
+  );
 
   const togglePreview = useCallback(() => {
     if (!resolvedAudioUrl) return;
@@ -322,24 +343,11 @@ export function SectionEditorSheet({
                     isActive && "ring-2 ring-offset-1 ring-offset-background",
                   )}
                   onClick={() => {
-                    setCustomRange(section.startTime, section.endTime);
-                    // Extract lyrics from aligned words if section has no lyrics
-                    if (section.lyrics) {
-                      setLyrics(section.lyrics);
-                    } else if (lyricsData?.alignedWords) {
-                      const tolerance = 0.5;
-                      const wordsInRange = lyricsData.alignedWords.filter((w) => {
-                        const wordMid = (w.startS + w.endS) / 2;
-                        return wordMid >= section.startTime - tolerance && wordMid <= section.endTime + tolerance;
-                      });
-                      if (wordsInRange.length > 0) {
-                        const extractedLyrics = wordsInRange
-                          .map((w) => w.word)
-                          .join(" ")
-                          .replace(/\s+/g, " ")
-                          .trim();
-                        setLyrics(extractedLyrics);
-                      }
+                    updateRange(section.startTime, section.endTime);
+                    const sectionLyrics = extractLyricsForRange(section.startTime, section.endTime, section.lyrics);
+                    if (sectionLyrics) {
+                      setOriginalLyrics(sectionLyrics);
+                      setLyrics(sectionLyrics);
                     }
                   }}
                 >
@@ -361,21 +369,13 @@ export function SectionEditorSheet({
           endTime={endTime}
           onRangeChange={(start, end) => setCustomRange(start, end)}
           onRangeChangeComplete={(start, end) => {
-            // When range adjustment completes, update lyrics from words in new range
-            if (lyricsData?.alignedWords) {
-              const tolerance = 0.3;
-              const wordsInRange = lyricsData.alignedWords.filter((w) => {
-                const wordMid = (w.startS + w.endS) / 2;
-                return wordMid >= start - tolerance && wordMid <= end + tolerance;
-              });
-              if (wordsInRange.length > 0) {
-                const newLyrics = wordsInRange
-                  .map((w) => w.word)
-                  .join(" ")
-                  .replace(/\s+/g, " ")
-                  .trim();
-                setLyrics(newLyrics);
-              }
+            // When range adjustment completes, freeze the original text for this
+            // exact range before the user edits it. This baseline is what gets
+            // replaced inside fullLyrics during submission.
+            const rangeLyrics = extractLyricsForRange(start, end);
+            if (rangeLyrics) {
+              setOriginalLyrics(rangeLyrics);
+              setLyrics(rangeLyrics);
             }
           }}
           onPreviewSeek={(time) => {
@@ -414,6 +414,7 @@ export function SectionEditorSheet({
         currentTime={previewCurrentTime}
         isPlaying={isPreviewPlaying}
         initialLyrics={selectedSection?.lyrics || lyrics}
+        onBaselineLyricsChange={setOriginalLyrics}
         onLyricsChange={setLyrics}
         compact={isMobile}
       />
