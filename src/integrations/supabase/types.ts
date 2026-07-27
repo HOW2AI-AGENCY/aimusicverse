@@ -1297,6 +1297,7 @@ export type Database = {
           error_message: string | null
           expected_clips: number | null
           generation_mode: string | null
+          generation_params: Json | null
           id: string
           model_used: string | null
           prompt: string
@@ -1319,6 +1320,7 @@ export type Database = {
           error_message?: string | null
           expected_clips?: number | null
           generation_mode?: string | null
+          generation_params?: Json | null
           id?: string
           model_used?: string | null
           prompt: string
@@ -1341,6 +1343,7 @@ export type Database = {
           error_message?: string | null
           expected_clips?: number | null
           generation_mode?: string | null
+          generation_params?: Json | null
           id?: string
           model_used?: string | null
           prompt?: string

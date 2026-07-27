@@ -1,0 +1,1 @@
+ALTER TABLE public.generation_tasks ADD COLUMN IF NOT EXISTS generation_params jsonb;
