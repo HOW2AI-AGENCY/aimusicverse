@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { clampPlayerVolume, usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { getGlobalAudioRef } from "@/hooks/audio/useAudioTime";
 import { AnimatePresence } from "@/lib/motion";
 import { logger } from "@/lib/logger";
@@ -12,7 +12,16 @@ const FullscreenPlayer = React.lazy(() =>
 );
 
 export const ResizablePlayer = () => {
-  const { activeTrack, closePlayer, playerMode, setPlayerMode, preserveTime, volume, isPlaying } = usePlayerStore();
+  const {
+    activeTrack,
+    closePlayer,
+    playerMode,
+    setPlayerMode,
+    preserveTime,
+    volume: storedVolume,
+    isPlaying,
+  } = usePlayerStore();
+  const volume = clampPlayerVolume(storedVolume);
 
   // Preserve current time before mode switch to avoid audio restart
   const preserveCurrentTime = useCallback(() => {

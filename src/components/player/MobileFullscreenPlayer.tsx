@@ -22,7 +22,7 @@ import { DetailsPage } from "./pages/DetailsPage";
 import { useScrollLock } from "@/hooks/useScrollLock";
 import { Track, type TrackVersionRow } from "@/types/track";
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
-import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { clampPlayerVolume, usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useGlobalAudioPlayer } from "@/hooks/audio/useGlobalAudioPlayer";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { usePrefetchTrackCovers } from "@/hooks/audio/usePrefetchTrackCovers";
@@ -87,12 +87,13 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     pauseTrack,
     nextTrack,
     previousTrack,
-    volume,
+    volume: storedVolume,
     preservedTime,
     clearPreservedTime,
     queue,
     currentIndex,
   } = usePlayerStore();
+  const volume = clampPlayerVolume(storedVolume);
   const { audioElement } = useGlobalAudioPlayer();
 
   useKeyboardGestureControls({

@@ -17,6 +17,8 @@
 - Tracks with `tracks.custom_voice_id` render the custom-voice marker in `TrackTypeIcons`; voice cloning UI must state it clones timbre/style, not an exact voice copy.
 - Switching the master version must invalidate every cache mirroring the tracks row (`tracks`, `tracks-infinite`, `user-tracks`, `public-tracks`, `source-track`, `timestamped-lyrics`) plus the version keys — otherwise cover/duration/badge/lyrics stay stale until a reload.
 - Section replacement has exactly one window: `studio/editor/SectionEditorSheet` opened from `StudioShell`/`StudioShellDialogs`. Do not add parallel section editors or panels.
+- Section replacement must freeze the original lyrics for the selected time range before editing, splice edited text into `fullLyrics`, and keep style instructions separate.
+- Player volume must be clamped to `[0, 1]` before persistence or any `HTMLMediaElement.volume` assignment.
 - Model badges must map `V5_5`/`chirp-fenix` to the V5.5 label; the `v5` fallback must be checked after `v55`.
 - Stem separation from track actions must keep user feedback visible until the request is accepted, then open Studio with `useStemSeparationRealtime` progress mounted.
 - Inline/compact version selectors must keep section-replacement variants out of the default card/player controls; detailed selectors may show them.

@@ -20,7 +20,7 @@ vi.mock("sonner", () => ({
   toast: { error: vi.fn(), success: vi.fn() },
 }));
 
-import { usePlayerStore, playerLogic } from "@/hooks/audio/usePlayerState";
+import { clampPlayerVolume, usePlayerStore, playerLogic } from "@/hooks/audio/usePlayerState";
 import type { Track } from "@/types/track";
 
 // ---------- Helpers ----------
@@ -336,6 +336,14 @@ describe("usePlayerStore", () => {
 
       act().setVolume(2);
       expect(act().volume).toBe(1);
+    });
+
+    it("should sanitize non-finite volume", () => {
+      act().setVolume(Number.NaN);
+      expect(act().volume).toBe(1);
+
+      expect(clampPlayerVolume(-0.227833)).toBe(0);
+      expect(clampPlayerVolume(Number.POSITIVE_INFINITY)).toBe(1);
     });
   });
 

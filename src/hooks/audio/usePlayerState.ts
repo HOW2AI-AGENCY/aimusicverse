@@ -12,6 +12,24 @@ import { persist } from "zustand/middleware";
 import { Track } from "@/types/track";
 import { logger } from "@/lib/logger";
 
+export function clampPlayerVolume(volume: unknown, fallback = 1): number {
+  const numericVolume = typeof volume === "number" ? volume : Number(volume);
+  if (!Number.isFinite(numericVolume)) return fallback;
+  return Math.max(0, Math.min(1, numericVolume));
+}
+
+function sanitizePersistedPlayerState(persistedState: unknown): Partial<PlayerState> {
+  if (!persistedState || typeof persistedState !== "object") {
+    return { volume: 1 };
+  }
+
+  const state = persistedState as Partial<PlayerState>;
+  return {
+    ...state,
+    volume: clampPlayerVolume(state.volume),
+  };
+}
+
 /**
  * Repeat mode options for playback
  * - 'off': No repeat, stop at end of queue
@@ -518,7 +536,7 @@ export const usePlayerStore = create<PlayerState>()(
        * Set volume - sets audio volume level
        * @param volume - Volume level 0-1
        */
-      setVolume: (volume) => set({ volume: Math.max(0, Math.min(1, volume)) }),
+      setVolume: (volume) => set({ volume: clampPlayerVolume(volume) }),
 
       // Player UI mode control actions
 
@@ -558,11 +576,19 @@ export const usePlayerStore = create<PlayerState>()(
       name: "player-settings",
       // Only persist user preferences, not playback state
       partialize: (state) => ({
-        volume: state.volume,
+        volume: clampPlayerVolume(state.volume),
         repeat: state.repeat,
         shuffle: state.shuffle,
         versionMode: state.versionMode,
       }),
+      merge: (persistedState, currentState) => {
+        const persisted = sanitizePersistedPlayerState(persistedState);
+        return {
+          ...currentState,
+          ...persisted,
+          volume: clampPlayerVolume(persisted.volume ?? currentState.volume),
+        };
+      },
     },
   ),
 );

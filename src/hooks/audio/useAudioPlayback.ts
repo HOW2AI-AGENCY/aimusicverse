@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import type { MutableRefObject } from "react";
 import type { Track } from "@/types/track";
+import { clampPlayerVolume } from "@/hooks/audio/usePlayerState";
 import { logger } from "@/lib/logger";
 import { toast } from "@/lib/toast";
 import { playerAnalytics } from "@/lib/telemetry";
@@ -61,8 +62,8 @@ export function useAudioPlayback({
         paused: audio.paused,
       });
 
-      if (audio.volume !== volume) audio.volume = volume;
-      if (audio.volume === 0) audio.volume = volume > 0 ? volume : 1.0;
+      const safeVolume = clampPlayerVolume(volume);
+      if (audio.volume !== safeVolume) audio.volume = safeVolume;
       if (audio.muted) audio.muted = false;
 
       try {
