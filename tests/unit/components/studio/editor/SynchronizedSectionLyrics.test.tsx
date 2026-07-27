@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
+import { useState } from "react";
 import { SynchronizedSectionLyrics } from "@/components/studio/editor/SynchronizedSectionLyrics";
 import { AlignedWord } from "@/hooks/useTimestampedLyrics";
 
@@ -10,7 +11,7 @@ const words: AlignedWord[] = [
 
 function ControlledLyricsEditor() {
   const onBaselineLyricsChange = vi.fn();
-  const [lyrics, setLyrics] = React.useState("старый текст");
+  const [lyrics, setLyrics] = useState("старый текст");
 
   return (
     <SynchronizedSectionLyrics
