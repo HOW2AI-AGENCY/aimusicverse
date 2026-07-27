@@ -151,8 +151,9 @@ export function useSectionReplacement({
   const executeReplacement = useCallback(async () => {
     if (!isValidDuration) return;
 
-    // Suno regenerates the infill window from `fullLyrics`, so the edited section
-    // text must be spliced INTO the full document (prompt is style-only).
+    // Suno's `prompt` expects the REPLACED LYRICS (sent via sectionLyrics below).
+    // The user's style direction (localPrompt) is merged into `tags` by the edge function.
+    // fullLyrics must contain the COMPLETE modified lyrics (original + replaced section).
     const originalSectionLyrics = originalLyricsRef.current || selectedSection?.lyrics || "";
     const { lyrics: mergedFullLyrics, spliced } = spliceSectionLyrics(fullLyrics, originalSectionLyrics, localLyrics);
 
