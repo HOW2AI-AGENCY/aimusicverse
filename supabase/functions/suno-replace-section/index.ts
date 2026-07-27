@@ -178,8 +178,11 @@ serve(async (req) => {
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
     // Suno replace-section uses `prompt` for the replacement lyrics. Style belongs in `tags`.
-    const replacementPrompt = sectionLyrics || normalizeSunoLyrics(prompt || "") || "Replace the selected section";
-    const effectiveTags = tags || track.tags || "";
+    // Older clients sent replacement lyrics in `prompt`; keep that fallback only when sectionLyrics is absent.
+    const replacementPrompt =
+      sectionLyrics || normalizeSunoLyrics(prompt || "") || "Replace the selected section while preserving the song structure";
+    const stylePrompt = sectionLyrics && typeof prompt === "string" ? prompt.trim() : "";
+    const effectiveTags = [tags || track.tags || "", stylePrompt].filter(Boolean).join(", ");
 
     // Get track lyrics - REQUIRED for replace-section API
     const trackLyrics = requestFullLyrics || track.lyrics || "";

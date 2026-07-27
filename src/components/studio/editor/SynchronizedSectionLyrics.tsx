@@ -75,13 +75,14 @@ export function SynchronizedSectionLyrics({
   useEffect(() => {
     const rangeKey = `${startTime.toFixed(2)}-${endTime.toFixed(2)}`;
     if (rangeKey !== lastSyncedRangeRef.current) {
-      const newLyrics = (sectionWords.length > 0
-        ? sectionWords
-        .map((w) => w.word)
-        .join(" ")
-        .replace(/\s+/g, " ")
-            .trim()
-        : initialLyrics?.trim()) ?? "";
+      const newLyrics =
+        (sectionWords.length > 0
+          ? sectionWords
+              .map((w) => w.word)
+              .join(" ")
+              .replace(/\s+/g, " ")
+              .trim()
+          : initialLyrics?.trim()) ?? "";
       if (newLyrics) {
         lastSyncedRangeRef.current = rangeKey;
         onBaselineLyricsChange?.(newLyrics);
