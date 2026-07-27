@@ -413,7 +413,7 @@ export function SectionEditorSheet({
         endTime={endTime}
         currentTime={previewCurrentTime}
         isPlaying={isPreviewPlaying}
-        initialLyrics={selectedSection?.lyrics || lyrics}
+        initialLyrics={lyrics || selectedSection?.lyrics || ""}
         onBaselineLyricsChange={setOriginalLyrics}
         onLyricsChange={setLyrics}
         compact={isMobile}

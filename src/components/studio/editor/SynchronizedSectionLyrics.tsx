@@ -13,6 +13,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { AlignedWord } from "@/hooks/useTimestampedLyrics";
 
+const normalizeLyrics = (value: string) => value.replace(/\s+/g, " ").trim();
+
 interface SynchronizedSectionLyricsProps {
   words: AlignedWord[];
   startTime: number;
@@ -57,7 +59,7 @@ export function SynchronizedSectionLyrics({
   }, [words, startTime, endTime]);
 
   // Get lyrics text from words or use initial - update when range changes
-  const lyricsText = useMemo(() => {
+  const timedLyricsText = useMemo(() => {
     if (sectionWords.length > 0) {
       return sectionWords
         .map((w) => w.word)
@@ -65,8 +67,13 @@ export function SynchronizedSectionLyrics({
         .replace(/\s+/g, " ")
         .trim();
     }
-    return initialLyrics || "";
-  }, [sectionWords, initialLyrics]);
+    return "";
+  }, [sectionWords]);
+
+  const lyricsText = initialLyrics?.trim() || timedLyricsText;
+  const hasEditedLyricsOverride = Boolean(
+    initialLyrics?.trim() && timedLyricsText && normalizeLyrics(initialLyrics) !== normalizeLyrics(timedLyricsText),
+  );
 
   // Track if we've already synced lyrics for this range to prevent loops
   const lastSyncedRangeRef = useRef<string>("");
@@ -91,7 +98,7 @@ export function SynchronizedSectionLyrics({
     }
   }, [sectionWords, startTime, endTime, initialLyrics, onBaselineLyricsChange, onLyricsChange]);
 
-  // Update edited text when lyrics change
+  // Update edited text when the parent value or detected baseline changes.
   useEffect(() => {
     setEditedText(lyricsText);
   }, [lyricsText]);
@@ -186,7 +193,7 @@ export function SynchronizedSectionLyrics({
           compact ? "max-h-[80px] p-2" : "max-h-[120px] p-3",
         )}
       >
-        {sectionWords.length > 0 ? (
+        {sectionWords.length > 0 && !hasEditedLyricsOverride ? (
           <div className="flex flex-wrap gap-x-1 gap-y-0.5">
             <AnimatePresence mode="sync">
               {sectionWords.map((word, idx) => {
@@ -222,7 +229,7 @@ export function SynchronizedSectionLyrics({
             </AnimatePresence>
           </div>
         ) : (
-          <p className={cn("text-muted-foreground italic", compact ? "text-xs" : "text-sm")}>
+          <p className={cn("whitespace-pre-wrap", !lyricsText && "text-muted-foreground italic", compact ? "text-xs" : "text-sm")}>
             {lyricsText || "Нет текста для этой секции"}
           </p>
         )}
