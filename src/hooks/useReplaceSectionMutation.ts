@@ -8,6 +8,7 @@ interface ReplaceSectionParams {
   prompt?: string;
   tags?: string;
   fullLyrics?: string;
+  originalSectionLyrics?: string;
   sectionLyrics?: string;
   infillStartS: number;
   infillEndS: number;

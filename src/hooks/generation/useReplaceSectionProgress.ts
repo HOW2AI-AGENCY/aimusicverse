@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
 import { useQueryClient } from "@tanstack/react-query";
+import type { Database } from "@/integrations/supabase/types";
 
 export type ReplaceSectionStatus = "idle" | "submitting" | "pending" | "processing" | "completed" | "error";
 
@@ -193,6 +194,29 @@ export function useReplaceSectionProgress() {
       logger.info("Applying section variant", { trackId: state.trackId, variant: variant.label });
 
       if (variant.versionId) {
+        const { data: versionData, error: versionFetchError } = await supabase
+          .from("track_versions")
+          .select("audio_url, cover_url, duration_seconds, metadata")
+          .eq("id", variant.versionId)
+          .single();
+
+        if (versionFetchError) {
+          logger.error("Failed to fetch replacement variant metadata", versionFetchError, {
+            trackId: state.trackId,
+            versionId: variant.versionId,
+          });
+          setError("Не удалось загрузить данные выбранной версии");
+          return;
+        }
+
+        const versionMetadata = versionData?.metadata as {
+          suno_id?: string;
+          suno_task_id?: string;
+          tags?: string;
+          title?: string;
+          lyrics?: string;
+        } | null;
+
         await supabase.from("track_versions").update({ is_primary: false }).eq("track_id", state.trackId);
         const { error: versionError } = await supabase
           .from("track_versions")
@@ -205,10 +229,19 @@ export function useReplaceSectionProgress() {
           return;
         }
 
-        const { error: trackError } = await supabase
-          .from("tracks")
-          .update({ active_version_id: variant.versionId, audio_url: variant.audioUrl })
-          .eq("id", state.trackId);
+        const trackUpdate: Database["public"]["Tables"]["tracks"]["Update"] = {
+          active_version_id: variant.versionId,
+          audio_url: versionData?.audio_url || variant.audioUrl,
+        };
+        if (versionData?.cover_url) trackUpdate.cover_url = versionData.cover_url;
+        if (versionData?.duration_seconds) trackUpdate.duration_seconds = versionData.duration_seconds;
+        if (versionMetadata?.suno_id) trackUpdate.suno_id = versionMetadata.suno_id;
+        if (versionMetadata?.suno_task_id) trackUpdate.suno_task_id = versionMetadata.suno_task_id;
+        if (versionMetadata?.tags) trackUpdate.tags = versionMetadata.tags;
+        if (versionMetadata?.title) trackUpdate.title = versionMetadata.title;
+        if (versionMetadata?.lyrics) trackUpdate.lyrics = versionMetadata.lyrics;
+
+        const { error: trackError } = await supabase.from("tracks").update(trackUpdate).eq("id", state.trackId);
 
         if (trackError) {
           logger.error("Failed to update active replacement version", trackError, { trackId: state.trackId, versionId: variant.versionId });
@@ -220,6 +253,9 @@ export function useReplaceSectionProgress() {
       queryClient.invalidateQueries({ queryKey: ["tracks"] });
       queryClient.invalidateQueries({ queryKey: ["track", state.trackId] });
       queryClient.invalidateQueries({ queryKey: ["track-versions", state.trackId] });
+      queryClient.invalidateQueries({ queryKey: ["track-versions-unified", state.trackId] });
+      queryClient.invalidateQueries({ queryKey: ["source-track", state.trackId] });
+      queryClient.invalidateQueries({ queryKey: ["timestamped-lyrics"] });
     },
     [state.trackId, state.variants, queryClient, setError],
   );

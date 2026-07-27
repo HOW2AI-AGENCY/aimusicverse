@@ -9,13 +9,13 @@ const words: AlignedWord[] = [
   { word: "текст", startS: 10.5, endS: 11, success: true, palign: 0.99 },
 ];
 
-function ControlledLyricsEditor() {
+function ControlledLyricsEditor({ words: wordsProp = words }: { words?: AlignedWord[] }) {
   const onBaselineLyricsChange = vi.fn();
   const [lyrics, setLyrics] = useState("старый текст");
 
   return (
     <SynchronizedSectionLyrics
-      words={words}
+      words={wordsProp}
       startTime={10}
       endTime={11}
       currentTime={0}
@@ -34,6 +34,19 @@ describe("SynchronizedSectionLyrics", () => {
     fireEvent.click(screen.getByRole("button", { name: /изменить/i }));
     fireEvent.change(screen.getByRole("textbox"), { target: { value: "новый текст секции" } });
     fireEvent.click(screen.getByRole("button", { name: /сохранить/i }));
+
+    expect(screen.getByText("новый текст секции")).toBeInTheDocument();
+    expect(screen.queryByText("старый")).not.toBeInTheDocument();
+  });
+
+  it("does not overwrite saved lyrics when timestamped words arrive later", () => {
+    const { rerender } = render(<ControlledLyricsEditor words={[]} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /изменить/i }));
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: "новый текст секции" } });
+    fireEvent.click(screen.getByRole("button", { name: /сохранить/i }));
+
+    rerender(<ControlledLyricsEditor words={words} />);
 
     expect(screen.getByText("новый текст секции")).toBeInTheDocument();
     expect(screen.queryByText("старый")).not.toBeInTheDocument();
