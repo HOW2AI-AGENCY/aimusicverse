@@ -8,6 +8,8 @@ import { useSectionEditorStore } from "@/stores/useSectionEditorStore";
 import { useReplaceSectionMutation } from "@/hooks/useReplaceSectionMutation";
 import { useReplaceSectionProgress } from "@/hooks/generation/useReplaceSectionProgress";
 import { DetectedSection } from "@/hooks/useSectionDetection";
+import { spliceSectionLyrics } from "@/lib/lyrics/spliceSectionLyrics";
+import { logger } from "@/lib/logger";
 
 interface UseSectionReplacementOptions {
   trackId: string;
@@ -140,10 +142,16 @@ export function useSectionReplacement({
   const executeReplacement = useCallback(async () => {
     if (!isValidDuration) return;
 
-    // Build prompt with lyrics if changed
-    let finalPrompt = localPrompt;
-    if (localLyrics && localLyrics !== selectedSection?.lyrics) {
-      finalPrompt = localLyrics + (localPrompt ? `\n\n${localPrompt}` : "");
+    // Suno regenerates the infill window from `fullLyrics`, so the edited section
+    // text must be spliced INTO the full document (prompt is style-only).
+    const originalSectionLyrics = selectedSection?.lyrics ?? "";
+    const { lyrics: mergedFullLyrics, spliced } = spliceSectionLyrics(fullLyrics, originalSectionLyrics, localLyrics);
+
+    if (localLyrics && localLyrics.trim() !== originalSectionLyrics.trim() && !spliced) {
+      logger.warn("Edited section lyrics could not be spliced into full lyrics", {
+        trackId,
+        hasFullLyrics: Boolean(fullLyrics),
+      });
     }
 
     sectionProgress.setSubmitting();
@@ -151,10 +159,10 @@ export function useSectionReplacement({
     try {
       const result = await replaceMutation.mutateAsync({
         trackId,
-        prompt: finalPrompt || undefined,
+        prompt: localPrompt || undefined,
         tags: localTags || undefined,
-        fullLyrics: fullLyrics || undefined,
-        sectionLyrics: localLyrics || selectedSection?.lyrics || undefined,
+        fullLyrics: mergedFullLyrics || fullLyrics || undefined,
+        sectionLyrics: localLyrics || originalSectionLyrics || undefined,
         infillStartS: Math.round(startTime * 10) / 10,
         infillEndS: Math.round(endTime * 10) / 10,
       });
