@@ -8,6 +8,8 @@ import { useSectionEditorStore } from "@/stores/useSectionEditorStore";
 import { useReplaceSectionMutation } from "@/hooks/useReplaceSectionMutation";
 import { useReplaceSectionProgress } from "@/hooks/generation/useReplaceSectionProgress";
 import { DetectedSection } from "@/hooks/useSectionDetection";
+import { spliceSectionLyrics } from "@/lib/lyrics/spliceSectionLyrics";
+import { logger } from "@/lib/logger";
 
 interface UseSectionReplacementOptions {
   trackId: string;
