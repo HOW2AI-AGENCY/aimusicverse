@@ -144,7 +144,7 @@ export function useGenerateSheetValidation(
     }
 
     return r;
-  }, [form.title, form.style, form.lyrics, form.hasVocals, balance, cost]);
+  }, [form.mode, form.title, form.style, form.description, form.lyrics, form.hasVocals, balance, cost]);
 
   const canGenerate = reasons.every((reason) => reason.severity !== "error");
   const hasWarnings = reasons.some((reason) => reason.severity === "warning");
