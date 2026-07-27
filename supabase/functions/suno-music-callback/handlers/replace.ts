@@ -200,7 +200,7 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
         status: "failed",
         error_message: `No playable replace-section clips: ${skippedClips.map((s) => s.code).join(", ")}`,
         callback_received_at: new Date().toISOString(),
-        audio_clips: JSON.stringify(clips),
+        audio_clips: clips,
         received_clips: 0,
       })
       .eq("id", task.id);
@@ -214,7 +214,7 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
       status: "completed",
       completed_at: new Date().toISOString(),
       callback_received_at: new Date().toISOString(),
-      audio_clips: JSON.stringify(clips),
+      audio_clips: clips,
       received_clips: createdVersions.length,
       error_message:
         skippedClips.length > 0
