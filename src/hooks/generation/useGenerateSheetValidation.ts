@@ -90,15 +90,20 @@ export function useGenerateSheetValidation(
       });
     }
 
-    // ── style ────────────────────────────────────────────────────────
-    if (!form.style.trim()) {
+    // ── prompt / style ───────────────────────────────────────────────
+    // Simple mode generates from the description; custom mode from style.
+    const isSimple = form.mode === "simple";
+    const promptValue = isSimple ? form.description : form.style;
+    const promptField: ValidationField = isSimple ? "style" : "style";
+
+    if (!promptValue.trim()) {
       r.push({
-        field: "style",
+        field: promptField,
         severity: "error",
-        message: "style.empty",
-        messageRu: "Опишите стиль трека",
+        message: isSimple ? "description.empty" : "style.empty",
+        messageRu: isSimple ? "Опишите песню" : "Опишите стиль трека",
       });
-    } else if (form.style.length > 200) {
+    } else if (!isSimple && promptValue.length > 200) {
       r.push({
         field: "style",
         severity: "warning",
@@ -106,6 +111,7 @@ export function useGenerateSheetValidation(
         messageRu: "Слишком длинное описание стиля (>200 символов)",
       });
     }
+
 
     // ── lyrics ───────────────────────────────────────────────────────
     if (form.lyrics.length > 5000) {
