@@ -17,6 +17,39 @@ import { logAuditAction } from "../utils/audit-log.ts";
 
 const logger = createLogger("replace-callback");
 
+function parseObject(value: unknown): Record<string, unknown> {
+  if (!value) return {};
+  if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value);
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed as Record<string, unknown> : {};
+    } catch (_) {
+      return {};
+    }
+  }
+
+  return typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : {};
+}
+
+function pickString(...values: unknown[]): string | null {
+  for (const value of values) {
+    if (typeof value === "string" && value.trim().length > 0) {
+      return value.trim();
+    }
+  }
+  return null;
+}
+
+function getReplacementFullLyrics(task: any, clip: any): string | null {
+  const params = parseObject(task.generation_params);
+  return pickString(params.fullLyrics, params.full_lyrics, clip?.prompt);
+}
+
+function getReplacementTags(task: any, clip: any): string | null {
+  const params = parseObject(task.generation_params);
+  return pickString(clip?.tags, params.tags);
+}
+
 export async function handleReplaceSection(payload: any, task: any, supabaseUrl: string, supabaseServiceKey: string) {
   const { data } = payload;
   const audioData = data?.data;
@@ -90,6 +123,8 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
     const audioUrl = getAudioUrl(clip) as string;
     const streamUrl = getStreamUrl(clip);
     const coverUrl = getImageUrl(clip);
+    const replacementFullLyrics = getReplacementFullLyrics(task, clip);
+    const replacementTags = getReplacementTags(task, clip);
     const versionLabel = String.fromCharCode(baseLabelCode + createdVersions.length);
     logger.info("Replace section clip received", {
       clipIndex: i,
@@ -135,6 +170,9 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
           original_task_id: task.id,
           source_audio_url: audioUrl,
           stream_audio_url: streamUrl,
+          title: pickString(clip.title) || undefined,
+          tags: replacementTags || undefined,
+          lyrics: replacementFullLyrics || undefined,
           local_storage: { audio: localAudioUrl },
         },
       })
@@ -244,6 +282,28 @@ export async function handleReplaceSection(payload: any, task: any, supabaseUrl:
       trackId,
       versionId: primaryCreated.id,
     });
+  }
+
+  const primaryLyrics = getReplacementFullLyrics(task, primaryCreated.clip);
+  const primaryTags = getReplacementTags(task, primaryCreated.clip);
+  const trackContentUpdate: Record<string, unknown> = {};
+  if (primaryLyrics) trackContentUpdate.lyrics = primaryLyrics;
+  if (primaryTags) trackContentUpdate.tags = primaryTags;
+
+  if (Object.keys(trackContentUpdate).length > 0) {
+    const { error: contentUpdateError } = await supabase
+      .from("tracks")
+      .update(trackContentUpdate)
+      .eq("id", trackId);
+
+    if (contentUpdateError) {
+      logger.error("Failed to persist replacement lyrics/tags on track", contentUpdateError, {
+        taskId: task.id,
+        trackId,
+        hasLyrics: Boolean(primaryLyrics),
+        hasTags: Boolean(primaryTags),
+      });
+    }
   }
 
   // Audit log

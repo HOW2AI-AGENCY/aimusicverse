@@ -335,6 +335,16 @@ serve(async (req) => {
         model_used: track.model_name || "chirp-v4",
         telegram_chat_id: profile?.telegram_id,
         expected_clips: 2,
+        generation_params: {
+          fullLyrics: trackLyrics,
+          originalSectionLyrics,
+          sectionLyrics,
+          stylePrompt: prompt || "",
+          tags: effectiveTags,
+          infillStartS,
+          infillEndS,
+          originalAudioId: audioId,
+        },
       })
       .select()
       .single();
