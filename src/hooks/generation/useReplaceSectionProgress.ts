@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
 import { useQueryClient } from "@tanstack/react-query";
+import type { Database } from "@/integrations/supabase/types";
 
 export type ReplaceSectionStatus = "idle" | "submitting" | "pending" | "processing" | "completed" | "error";
 
@@ -228,7 +229,7 @@ export function useReplaceSectionProgress() {
           return;
         }
 
-        const trackUpdate: Record<string, unknown> = {
+        const trackUpdate: Database["public"]["Tables"]["tracks"]["Update"] = {
           active_version_id: variant.versionId,
           audio_url: versionData?.audio_url || variant.audioUrl,
         };
