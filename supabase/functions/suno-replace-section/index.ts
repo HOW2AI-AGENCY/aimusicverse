@@ -5,6 +5,7 @@ import { isSunoSuccessCode } from "../_shared/suno.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { ECONOMY } from "../_shared/economy.ts";
 import { normalizeSunoLyrics, didNormalizeLyrics } from "../_shared/lyrics-normalize.ts";
+import { spliceSectionLyrics } from "../_shared/splice-section-lyrics.ts";
 
 const logger = createLogger("suno-replace-section");
 const REPLACE_SECTION_COST = ECONOMY.REPLACE_SECTION_COST;
@@ -53,10 +54,12 @@ serve(async (req) => {
     const rawFullLyrics =
       typeof body.fullLyrics === "string" ? body.fullLyrics : typeof body.lyrics === "string" ? body.lyrics : "";
     const rawSectionLyrics = typeof body.sectionLyrics === "string" ? body.sectionLyrics : "";
+    const rawOriginalSectionLyrics = typeof body.originalSectionLyrics === "string" ? body.originalSectionLyrics : "";
     // Suno ignores Markdown decoration (**[Verse]**) — normalize before sending
     const requestFullLyrics = normalizeSunoLyrics(rawFullLyrics);
     const sectionLyrics = normalizeSunoLyrics(rawSectionLyrics);
-    if (didNormalizeLyrics(rawFullLyrics) || didNormalizeLyrics(rawSectionLyrics)) {
+    const originalSectionLyrics = normalizeSunoLyrics(rawOriginalSectionLyrics);
+    if (didNormalizeLyrics(rawFullLyrics) || didNormalizeLyrics(rawSectionLyrics) || didNormalizeLyrics(rawOriginalSectionLyrics)) {
       logger.info("Lyrics normalized for Suno", { trackId });
     }
 
@@ -185,7 +188,38 @@ serve(async (req) => {
     const effectiveTags = [tags || track.tags || "", stylePrompt].filter(Boolean).join(", ");
 
     // Get track lyrics - REQUIRED for replace-section API
-    const trackLyrics = requestFullLyrics || track.lyrics || "";
+    let trackLyrics = requestFullLyrics || normalizeSunoLyrics(track.lyrics || "");
+
+    const containsReplacementLyrics = (full: string, section: string): boolean => {
+      const normalizedFull = full.replace(/\s+/g, " ").trim().toLowerCase();
+      const normalizedSection = section.replace(/\s+/g, " ").trim().toLowerCase();
+      return Boolean(normalizedSection && normalizedFull.includes(normalizedSection));
+    };
+
+    if (sectionLyrics && trackLyrics && !containsReplacementLyrics(trackLyrics, sectionLyrics)) {
+      const spliced = spliceSectionLyrics(trackLyrics, originalSectionLyrics, sectionLyrics);
+      if (spliced.spliced) {
+        trackLyrics = normalizeSunoLyrics(spliced.lyrics);
+        logger.info("Server spliced replacement lyrics into fullLyrics", { trackId });
+      }
+    }
+
+    if (sectionLyrics && trackLyrics && !containsReplacementLyrics(trackLyrics, sectionLyrics)) {
+      logger.warn("Replacement lyrics are missing from fullLyrics; refusing no-op Suno request", {
+        trackId,
+        hasOriginalSectionLyrics: Boolean(originalSectionLyrics),
+        fullLyricsLength: trackLyrics.length,
+        sectionLyricsLength: sectionLyrics.length,
+      });
+      return new Response(
+        JSON.stringify({
+          error:
+            "Не удалось встроить изменённый текст в полную лирику. Выберите секцию заново или расширьте диапазон.",
+          code: "FULL_LYRICS_NOT_UPDATED",
+        }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
 
     // Validate lyrics exist for non-instrumental tracks
     if (!track.is_instrumental && (!trackLyrics || trackLyrics.trim().length < 10)) {
@@ -325,6 +359,7 @@ serve(async (req) => {
         infillEndS,
         taskId: newTaskId,
         originalAudioId: audioId,
+        originalSectionLyrics,
         sectionLyrics,
         stylePrompt: prompt,
       },

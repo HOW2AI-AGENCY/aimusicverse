@@ -161,6 +161,13 @@ export function useSectionReplacement({
         trackId,
         hasFullLyrics: Boolean(fullLyrics),
       });
+
+      if (fullLyrics?.trim()) {
+        sectionProgress.setError(
+          "Не удалось сопоставить выбранный фрагмент с полным текстом. Выберите секцию заново или расширьте диапазон.",
+        );
+        return;
+      }
     }
 
     sectionProgress.setSubmitting();
@@ -171,6 +178,7 @@ export function useSectionReplacement({
         prompt: localPrompt || undefined,
         tags: localTags || undefined,
         fullLyrics: mergedFullLyrics || fullLyrics || undefined,
+        originalSectionLyrics: originalSectionLyrics || undefined,
         sectionLyrics: localLyrics || originalSectionLyrics || undefined,
         infillStartS: Math.round(startTime * 10) / 10,
         infillEndS: Math.round(endTime * 10) / 10,

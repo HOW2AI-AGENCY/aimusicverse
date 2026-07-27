@@ -74,29 +74,29 @@ export function SynchronizedSectionLyrics({
   const hasEditedLyricsOverride = Boolean(
     initialLyrics?.trim() && timedLyricsText && normalizeLyrics(initialLyrics) !== normalizeLyrics(timedLyricsText),
   );
+  const rangeKey = `${startTime.toFixed(2)}-${endTime.toFixed(2)}`;
 
   // Track if we've already synced lyrics for this range to prevent loops
   const lastSyncedRangeRef = useRef<string>("");
+  const userEditedRangeRef = useRef<string | null>(null);
 
-  // Notify parent when lyrics change due to range change (only once per unique range)
+  // Notify parent when detected baseline lyrics change due to range change.
+  // Important: `initialLyrics` is the editable value from the parent, not the
+  // immutable baseline. Never use it to reset the baseline after the user saves,
+  // otherwise a remount can make the edited text look like the "original" text
+  // and the replace-section payload becomes a no-op.
   useEffect(() => {
-    const rangeKey = `${startTime.toFixed(2)}-${endTime.toFixed(2)}`;
-    if (rangeKey !== lastSyncedRangeRef.current) {
-      const newLyrics =
-        (sectionWords.length > 0
-          ? sectionWords
-              .map((w) => w.word)
-              .join(" ")
-              .replace(/\s+/g, " ")
-              .trim()
-          : initialLyrics?.trim()) ?? "";
-      if (newLyrics) {
-        lastSyncedRangeRef.current = rangeKey;
-        onBaselineLyricsChange?.(newLyrics);
-        onLyricsChange(newLyrics);
-      }
+    if (rangeKey === lastSyncedRangeRef.current || !timedLyricsText) {
+      return;
     }
-  }, [sectionWords, startTime, endTime, initialLyrics, onBaselineLyricsChange, onLyricsChange]);
+
+    lastSyncedRangeRef.current = rangeKey;
+    onBaselineLyricsChange?.(timedLyricsText);
+
+    if (!initialLyrics?.trim() && userEditedRangeRef.current !== rangeKey) {
+      onLyricsChange(timedLyricsText);
+    }
+  }, [rangeKey, timedLyricsText, initialLyrics, onBaselineLyricsChange, onLyricsChange]);
 
   // Update edited text when the parent value or detected baseline changes.
   useEffect(() => {
@@ -128,6 +128,7 @@ export function SynchronizedSectionLyrics({
   };
 
   const handleSaveEdit = () => {
+    userEditedRangeRef.current = rangeKey;
     onLyricsChange(editedText);
     setIsEditing(false);
   };
@@ -153,11 +154,11 @@ export function SynchronizedSectionLyrics({
           autoFocus
         />
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={handleCancelEdit} className="h-7 text-xs">
+          <Button type="button" variant="ghost" size="sm" onClick={handleCancelEdit} className="h-7 text-xs">
             <X className="w-3 h-3 mr-1" />
             Отмена
           </Button>
-          <Button size="sm" onClick={handleSaveEdit} className="h-7 text-xs">
+          <Button type="button" size="sm" onClick={handleSaveEdit} className="h-7 text-xs">
             <Check className="w-3 h-3 mr-1" />
             Сохранить
           </Button>
@@ -177,6 +178,7 @@ export function SynchronizedSectionLyrics({
         <Button
           variant="ghost"
           size="sm"
+          type="button"
           onClick={handleStartEdit}
           className="h-6 px-2 text-xs gap-1 text-muted-foreground hover:text-foreground"
         >
