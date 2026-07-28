@@ -30,7 +30,33 @@
       "tracksMustDiffer": "Треки должны различаться",
       "specifyStyle": "Укажите стиль",
       "specifyTitle": "Укажите название",
-      "promptOrInstrumental": "Добавьте описание или выберите инструментальный режим"
+      "promptOrInstrumental": "Добавьте описание или выберите инструментальный режим",
+      "fallback": "Без названия"
+    },
+    "persona": {
+      "footerButtonLabel": "Персона",
+      "dialogTitle": "Обучить персону",
+      "dialogDescription": "Suno создаст переиспользуемую персону на основе этого трека — её можно будет выбрать в будущих генерациях.",
+      "nameLabel": "Название персоны *",
+      "namePlaceholder": "Например: мой голос",
+      "descriptionLabel": "Описание (необязательно)",
+      "descriptionPlaceholder": "Тёплый женский вокал, поп-стиль",
+      "cancel": "Отмена",
+      "submit": "Обучить",
+      "submitting": "Запускаем…",
+      "successToastReady": "Персона готова к использованию.",
+      "successToastPending": "Персона обучается",
+      "validation": {
+        "specifyName": "Укажите название персоны",
+        "nameTooLong": "Название персоны — максимум 80 символов",
+        "trainingFailed": "Не удалось запустить обучение персоны"
+      }
+    },
+    "generationResult": {
+      "fallbackTrackTitle": "Новый трек",
+      "versionSwitchError": "Не удалось переключить версию",
+      "playButtonLabel": "Воспроизвести",
+      "pauseButtonLabel": "Пауза"
     }
   },
   "generation": {
@@ -156,7 +182,6 @@
       "riffDesc": "Инструментал",
       "coverDesc": "Переделка",
       "remixDesc": "Новый звук",
-      "createLabel": "Создать ${label.toLowerCase()}: ${description}",
       "optionTrack": "Создать трек",
       "optionRiff": "Создать рифф",
       "optionCover": "Создать кавер",
@@ -234,7 +259,7 @@
     }
   },
   "common": {
-    "loading": "Загрузка...",
+    "loading": "Не удалось загрузить",
     "error": "Ошибка",
     "cancel": "Отмена",
     "save": "Сохранить",
@@ -244,7 +269,6 @@
     "back": "Назад",
     "next": "Далее",
     "finish": "Завершить",
-    "refresh": "Обновить страницу",
-    "loading": "Не удалось загрузить"
+    "refresh": "Обновить страницу"
   }
 }
