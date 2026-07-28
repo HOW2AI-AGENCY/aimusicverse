@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         timeoutWarningLogged = true;
       }
       setLoading(false);
-    }, 2000); // Reduced from 5s to 2s for faster fallback
+    }, 8000); // Safety net only: must exceed a slow token refresh (~5s) to avoid a false logged-out flash
 
     // Set up auth state listener FIRST
     const {
