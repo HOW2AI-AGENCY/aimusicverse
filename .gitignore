@@ -137,7 +137,6 @@ site/
 
 .claude/settings.local.json
 .claude/cache/
-.claude\cache\
 
 # =============================================================================
 # Local IDE / agent tool artifacts (don't track)
