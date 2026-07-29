@@ -196,21 +196,27 @@ export const OptimizedTransport = memo(function OptimizedTransport({
 
         <div className="flex items-center gap-1">
           {!compact && (
-            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleSkipBack}>
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleSkipBack} aria-label="Назад на 5 секунд">
               <SkipBack className="w-4 h-4" />
             </Button>
           )}
 
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleStop}>
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleStop} aria-label="Стоп">
             <Square className="w-4 h-4" />
           </Button>
 
-          <Button variant="default" size="icon" className="h-10 w-10 rounded-full" onClick={handlePlayPause}>
+          <Button
+            variant="default"
+            size="icon"
+            className="h-10 w-10 rounded-full"
+            onClick={handlePlayPause}
+            aria-label={isPlaying ? "Пауза" : "Воспроизвести"}
+          >
             {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
           </Button>
 
           {!compact && (
-            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleSkipForward}>
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleSkipForward} aria-label="Вперёд на 5 секунд">
               <SkipForward className="w-4 h-4" />
             </Button>
           )}
@@ -222,6 +228,8 @@ export const OptimizedTransport = memo(function OptimizedTransport({
             size="icon"
             className={cn("h-8 w-8", loopMode !== "none" && "text-primary")}
             onClick={handleLoopToggle}
+            aria-label="Режим повтора"
+            aria-pressed={loopMode !== "none"}
           >
             <LoopIcon className="w-4 h-4" />
           </Button>
