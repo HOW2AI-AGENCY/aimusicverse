@@ -33,7 +33,6 @@ export {
 } from "@/components/ui/skeleton-components";
 
 // Unified Mobile Components (new unified DAW interface - NO tabs)
-export { UnifiedStudioMobile } from "./UnifiedStudioMobile";
 export { UnifiedDAWLayout } from "./UnifiedDAWLayout";
 export { MobileStudioPlayerBar } from "./MobileStudioPlayerBar";
 export { StudioActionsSheet } from "./StudioActionsSheet";
@@ -84,7 +83,6 @@ export { OptimizedTransport } from "./OptimizedTransport";
 export { OptimizedStemTrack } from "./OptimizedStemTrack";
 
 // Type exports — type-only imports do not create chunk eval edges
-export type { UnifiedStudioMobileProps } from "./UnifiedStudioMobile";
 export type { StemAction, StemType } from "@/hooks/studio/stemActionsConfig";
 export type { MixPreset, StemMixSettings } from "@/hooks/studio/mixPresetsConfig";
 export type { MixerTrack, UseStudioMixerReturn } from "@/hooks/studio/useStudioMixer";
