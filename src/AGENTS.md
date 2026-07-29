@@ -13,7 +13,7 @@
 
 - Track version UI must treat `track_versions` rows as the source of truth for selectable/generated variants; raw callback clips are only a fallback while rows are not yet available.
 - Applying a generated replacement variant must update both `track_versions.is_primary` and `tracks.active_version_id` together.
-- Any `track_versions` realtime change must invalidate every version cache key (`track-versions`, `track-versions-unified`, `version-count`, `master-version`, `track-counts`); missing a key leaves selectors stuck on one version.
+- All version caches share the `["track-versions", trackId, ...scope]` prefix (`queryKeys.tracks.versionsScoped`); never introduce a sibling namespace like `track-versions-unified`. A `track_versions` realtime change invalidates `track-versions`, `version-count`, `master-version`, `track-counts`.
 - Tracks with `tracks.custom_voice_id` render the custom-voice marker in `TrackTypeIcons`; voice cloning UI must state it clones timbre/style, not an exact voice copy.
 - Switching the master version must invalidate every cache mirroring the tracks row (`tracks`, `tracks-infinite`, `user-tracks`, `public-tracks`, `source-track`, `timestamped-lyrics`) plus the version keys — otherwise cover/duration/badge/lyrics stay stale until a reload.
 - Section replacement has exactly one window: `studio/editor/SectionEditorSheet` opened from `StudioShell`/`StudioShellDialogs`. Do not add parallel section editors or panels.

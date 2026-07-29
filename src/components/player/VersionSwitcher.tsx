@@ -8,6 +8,7 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getTrackVersionsForSwitcher } from "@/services/generation/track-versions.service";
+import { queryKeys } from "@/lib/queryKeys";
 import { Button } from "@/components/ui/button";
 import type { Track } from "@/types/track";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
@@ -50,7 +51,7 @@ export function VersionSwitcher({ track, size = "medium", className }: VersionSw
 
   // Fetch versions for this track with optimized loading
   const { data: versions, isLoading } = useQuery({
-    queryKey: ["track-versions-switcher", originalTrackId],
+    queryKey: queryKeys.tracks.versionsScoped(originalTrackId, "switcher"),
     queryFn: async () => {
       return getTrackVersionsForSwitcher(originalTrackId);
     },
@@ -101,7 +102,7 @@ export function VersionSwitcher({ track, size = "medium", className }: VersionSw
         });
       }
 
-      queryClient.invalidateQueries({ queryKey: ["track-versions-switcher", originalTrackId] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.tracks.versions(originalTrackId) });
     } catch {
       setPendingActiveId(null);
       toast.error("Не удалось переключить версию");

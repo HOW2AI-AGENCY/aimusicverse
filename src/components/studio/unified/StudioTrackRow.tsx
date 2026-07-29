@@ -187,12 +187,12 @@ const MidiNotesPreview = memo(function MidiNotesPreview({
 
         <div className="flex items-center gap-1 shrink-0">
           {onDownloadMidi && (
-            <Button variant="ghost" size="sm" onClick={onDownloadMidi} className="h-5 w-5 p-0" title="Скачать MIDI">
+            <Button variant="ghost" size="sm" onClick={onDownloadMidi} className="h-5 w-5 p-0" title="Скачать MIDI" aria-label="Скачать MIDI">
               <Download className="w-3 h-3" />
             </Button>
           )}
           {onDownloadPdf && (
-            <Button variant="ghost" size="sm" onClick={onDownloadPdf} className="h-5 w-5 p-0" title="Скачать PDF">
+            <Button variant="ghost" size="sm" onClick={onDownloadPdf} className="h-5 w-5 p-0" title="Скачать PDF" aria-label="Скачать PDF">
               <FileMusic className="w-3 h-3" />
             </Button>
           )}
@@ -440,6 +440,8 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                 variant="ghost"
                 size="sm"
                 onClick={() => handleToggle("mute")}
+                aria-label={track.muted ? "Включить звук дорожки" : "Заглушить дорожку"}
+                aria-pressed={!!track.muted}
                 className={cn(
                   "h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg font-mono text-xs md:text-[0.625rem] font-bold transition-all touch-manipulation",
                   track.muted
@@ -455,6 +457,8 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                 variant="ghost"
                 size="sm"
                 onClick={() => handleToggle("solo")}
+                aria-label={track.solo ? "Выключить соло" : "Соло дорожки"}
+                aria-pressed={!!track.solo}
                 className={cn(
                   "h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg font-mono text-xs md:text-[0.625rem] font-bold transition-all touch-manipulation",
                   track.solo
@@ -480,6 +484,8 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowVolume(!showVolume)}
+                aria-label="Громкость дорожки"
+                aria-expanded={showVolume}
                 className={cn(
                   "h-9 md:h-7 px-2 rounded-lg text-xs md:text-[0.625rem] font-mono touch-manipulation",
                   showVolume ? "bg-muted" : "",
@@ -494,6 +500,7 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                 size="sm"
                 className="h-9 w-9 md:h-7 md:w-7 p-0 rounded-lg touch-manipulation"
                 onClick={() => setShowActionSheet(true)}
+                aria-label="Действия с дорожкой"
               >
                 <MoreHorizontal className="w-4 h-4" />
               </Button>
@@ -510,7 +517,13 @@ export const StudioTrackRow = memo(function StudioTrackRow({
                 className="px-3 pb-2 overflow-hidden"
               >
                 <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={onToggleMute}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6"
+                    onClick={onToggleMute}
+                    aria-label={track.muted ? "Включить звук" : "Заглушить"}
+                  >
                     {track.muted ? <VolumeX className="w-3 h-3" /> : <Volume2 className="w-3 h-3" />}
                   </Button>
                   <Slider

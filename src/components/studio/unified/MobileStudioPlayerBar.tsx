@@ -79,7 +79,7 @@ export const MobileStudioPlayerBar = memo(function MobileStudioPlayerBar({
       animate={{ y: 0 }}
       transition={{ type: "spring", damping: 25, stiffness: 400 }}
       className={cn(
-        "fixed bottom-0 left-0 right-0 z-50",
+        "fixed bottom-0 left-0 right-0 z-player",
         glass.player,
         "pb-[calc(max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px))+0.75rem)]",
         className,
@@ -101,7 +101,13 @@ export const MobileStudioPlayerBar = memo(function MobileStudioPlayerBar({
 
         {/* Main controls */}
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation" onClick={handleSkipBack}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-10 w-10 touch-manipulation"
+            onClick={handleSkipBack}
+            aria-label="Назад"
+          >
             <SkipBack className="h-5 w-5" />
           </Button>
 
@@ -110,18 +116,31 @@ export const MobileStudioPlayerBar = memo(function MobileStudioPlayerBar({
             size="icon"
             className="h-12 w-12 rounded-full touch-manipulation"
             onClick={handlePlayPause}
+            aria-label={isPlaying ? "Пауза" : "Воспроизвести"}
           >
             {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
           </Button>
 
-          <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation" onClick={handleSkipForward}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-10 w-10 touch-manipulation"
+            onClick={handleSkipForward}
+            aria-label="Вперёд"
+          >
             <SkipForward className="h-5 w-5" />
           </Button>
         </div>
 
         {/* Right controls */}
         <div className="flex items-center gap-1 min-w-[80px] justify-end">
-          <Button variant="ghost" size="icon" className="h-9 w-9 touch-manipulation" onClick={handleMasterMute}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9 touch-manipulation"
+            onClick={handleMasterMute}
+            aria-label={masterVolume === 0 ? "Включить общий звук" : "Заглушить общий звук"}
+          >
             {masterVolume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
           </Button>
 
@@ -133,6 +152,7 @@ export const MobileStudioPlayerBar = memo(function MobileStudioPlayerBar({
               haptic.tap();
               onOpenActions();
             }}
+            aria-label="Действия студии"
           >
             <MoreHorizontal className="h-5 w-5" />
           </Button>

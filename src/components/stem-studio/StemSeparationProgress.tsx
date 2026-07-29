@@ -9,6 +9,8 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { stemColors } from "@/lib/design-colors";
+import { getStemLabel } from "@/lib/stemLabels";
 import type { SeparationProgress } from "@/hooks/useStemSeparationRealtime";
 
 interface StemSeparationProgressProps {
@@ -18,14 +20,16 @@ interface StemSeparationProgressProps {
   onOpenInStudio?: () => void;
 }
 
+// Colors and labels come from the shared stem tokens so the progress card
+// matches the stem rows rendered in the studio after separation.
 const STEM_ICONS = {
-  vocals: { icon: Mic2, color: "text-pink-500", label: "Вокал" },
-  drums: { icon: Drum, color: "text-orange-500", label: "Ударные" },
-  bass: { icon: Waves, color: "text-purple-500", label: "Бас" },
-  piano: { icon: Piano, color: "text-emerald-500", label: "Пианино" },
-  guitar: { icon: Guitar, color: "text-amber-500", label: "Гитара" },
-  other: { icon: Music, color: "text-cyan-500", label: "Другое" },
-  instrumental: { icon: Music, color: "text-blue-500", label: "Инструментал" },
+  vocals: { icon: Mic2, color: stemColors.vocals.text, label: getStemLabel("vocals") },
+  drums: { icon: Drum, color: stemColors.drums.text, label: getStemLabel("drums") },
+  bass: { icon: Waves, color: stemColors.bass.text, label: getStemLabel("bass") },
+  piano: { icon: Piano, color: stemColors.piano.text, label: getStemLabel("piano") },
+  guitar: { icon: Guitar, color: stemColors.guitar.text, label: getStemLabel("guitar") },
+  other: { icon: Music, color: stemColors.other.text, label: getStemLabel("other") },
+  instrumental: { icon: Music, color: stemColors.instrumental.text, label: getStemLabel("instrumental") },
 };
 
 export const StemSeparationProgress = memo(function StemSeparationProgress({

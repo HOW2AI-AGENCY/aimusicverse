@@ -163,9 +163,9 @@ export function useVersionSwitcher() {
       if (!data) return;
       const { trackId } = data;
       const keys: unknown[][] = [
+        // Prefix key: covers every scoped version cache
+        // (unified/switcher/detailed) — see queryKeys.tracks.versionsScoped.
         ["track-versions", trackId],
-        ["track-versions-unified", trackId],
-        ["track-versions-switcher", trackId],
         ["track-versions-batch"],
         ["version-count", trackId],
         ["master-version", trackId],

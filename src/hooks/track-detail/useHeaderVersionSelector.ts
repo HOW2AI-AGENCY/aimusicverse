@@ -5,11 +5,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchTrackVersionsForSelector, type TrackVersionDetail } from "@/services/track-detail/track-detail.service";
 
+import { queryKeys } from "@/lib/queryKeys";
+
 export type { TrackVersionDetail };
 
 export function useHeaderVersionSelector(trackId: string) {
   return useQuery<TrackVersionDetail[]>({
-    queryKey: ["track-versions-detailed", trackId],
+    queryKey: queryKeys.tracks.versionsScoped(trackId, "detailed"),
     queryFn: () => fetchTrackVersionsForSelector(trackId),
     enabled: !!trackId,
     staleTime: 30_000,

@@ -2,7 +2,7 @@
  * UnifiedVersionSelector
  *
  * A unified component for A/B version selection across the app.
- * Replaces: InlineVersionToggle, VersionSwitcher, VersionsSection, StudioVersionSelector
+ * Replaces: InlineVersionToggle, VersionSwitcher, VersionsSection
  *
  * Variants:
  * - inline: Compact A/B buttons for track cards
@@ -24,6 +24,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Check, Star, Play, Pause, Loader2 } from "@/lib/icons";
 import { getTrackVersionsForUnifiedSelector } from "@/services/generation/track-versions.service";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { queryKeys } from "@/lib/queryKeys";
 import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { toast } from "sonner";
@@ -81,7 +82,7 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
     isLoading: isQueryLoading,
     isFetched,
   } = useQuery({
-    queryKey: ["track-versions-unified", trackId],
+    queryKey: queryKeys.tracks.versionsScoped(trackId, "unified"),
     queryFn: () => getTrackVersionsForUnifiedSelector(trackId),
     enabled,
     staleTime: 5 * 60 * 1000,

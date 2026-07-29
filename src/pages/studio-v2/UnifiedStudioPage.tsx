@@ -54,12 +54,23 @@ export default function UnifiedStudioPage() {
 
   if (error || !project) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center bg-background gap-4">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold mb-2">Проект не найден</h2>
-          <p className="text-muted-foreground mb-4">{error || "Не удалось загрузить проект студии"}</p>
+      <div className="flex h-screen flex-col items-center justify-center gap-4 bg-background px-6">
+        <div className="text-center" role="alert">
+          <h2 className="mb-2 text-xl font-semibold">Проект не найден</h2>
+          <p className="mb-4 text-sm text-muted-foreground">{error || "Не удалось загрузить проект студии"}</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap justify-center gap-2">
+          {projectId && (
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setInitialized(false);
+                void loadProject(projectId).finally(() => setInitialized(true));
+              }}
+            >
+              Повторить
+            </Button>
+          )}
           <Button variant="outline" onClick={() => navigate("/studio-v2")}>
             К списку проектов
           </Button>
@@ -68,6 +79,7 @@ export default function UnifiedStudioPage() {
       </div>
     );
   }
+
 
   return (
     <>
