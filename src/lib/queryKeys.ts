@@ -31,6 +31,12 @@ export const queryKeys = {
   tracks: {
     ...createKeys("tracks"),
     versions: (trackId: string) => ["track-versions", trackId] as const,
+    /**
+     * Scoped version cache. All scopes share the ["track-versions", trackId]
+     * prefix so a single invalidation refreshes every version consumer.
+     */
+    versionsScoped: (trackId: string, scope: "unified" | "switcher" | "detailed") =>
+      ["track-versions", trackId, scope] as const,
     versionsBatch: (trackIds: string[]) => ["track-versions-batch", trackIds] as const,
     stems: (trackId: string) => ["track-stems", trackId] as const,
     stemsBatch: (trackIds: string[]) => ["track-stems-batch", trackIds] as const,
