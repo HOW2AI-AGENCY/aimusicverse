@@ -253,7 +253,6 @@ export function useReplaceSectionProgress() {
       queryClient.invalidateQueries({ queryKey: ["tracks"] });
       queryClient.invalidateQueries({ queryKey: ["track", state.trackId] });
       queryClient.invalidateQueries({ queryKey: ["track-versions", state.trackId] });
-      queryClient.invalidateQueries({ queryKey: ["track-versions-unified", state.trackId] });
       queryClient.invalidateQueries({ queryKey: ["source-track", state.trackId] });
       queryClient.invalidateQueries({ queryKey: ["timestamped-lyrics"] });
     },

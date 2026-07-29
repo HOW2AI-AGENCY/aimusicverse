@@ -5,6 +5,7 @@
 
 import { memo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "@/lib/queryKeys";
 import { getTrackVersionsForUnifiedSelector } from "@/services/generation/track-versions.service";
 import { Track } from "@/types/track";
 import { Play, Pause, Heart, Share2, ListPlus, Music2 } from "@/lib/icons";
@@ -39,7 +40,7 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({ track, onCl
   // Обложка/длительность берутся из активной версии — иначе при переключении
   // A/B в шапке остаются данные предыдущей версии (или пустые значения).
   const { data: versionsData } = useQuery({
-    queryKey: ["track-versions-unified", track.id],
+    queryKey: queryKeys.tracks.versionsScoped(track.id, "unified"),
     queryFn: () => getTrackVersionsForUnifiedSelector(track.id),
     enabled: !!track.id,
     staleTime: 5 * 60 * 1000,

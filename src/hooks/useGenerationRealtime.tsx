@@ -115,12 +115,11 @@ export const useGenerationRealtime = () => {
               log.debug("track_versions change");
               const row = (payload.new ?? payload.old) as { track_id?: string } | null;
               const trackId = row?.track_id;
-              // All caches that hold version data — keys must stay in sync with:
-              // UnifiedVersionSelector (track-versions-unified), useTrackVersions
-              // (track-versions), queryKeys.tracks.versions, useTrackCounts.
+              // Every version consumer lives under the ["track-versions", ...]
+              // prefix (see queryKeys.tracks.versionsScoped), so one prefix
+              // invalidation covers all of them.
               queryClient.invalidateQueries({ queryKey: ["track_versions"] });
               queryClient.invalidateQueries({ queryKey: ["track-versions"] });
-              queryClient.invalidateQueries({ queryKey: ["track-versions-unified"] });
               queryClient.invalidateQueries({ queryKey: ["track-counts"] });
               queryClient.invalidateQueries({ queryKey: ["version-count"] });
               queryClient.invalidateQueries({ queryKey: ["master-version"] });

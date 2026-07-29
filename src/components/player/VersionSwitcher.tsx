@@ -102,7 +102,7 @@ export function VersionSwitcher({ track, size = "medium", className }: VersionSw
         });
       }
 
-      queryClient.invalidateQueries({ queryKey: ["track-versions-switcher", originalTrackId] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.tracks.versions(originalTrackId) });
     } catch {
       setPendingActiveId(null);
       toast.error("Не удалось переключить версию");
