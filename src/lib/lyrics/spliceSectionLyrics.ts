@@ -56,8 +56,18 @@ function findFuzzyWindow(full: string, original: string): { start: number; end: 
   const maxWindowSize = Math.min(fullTokens.length, originalTokens.length + 3);
   let best: { start: number; end: number; score: number } | null = null;
 
-  for (let windowSize = minWindowSize; windowSize <= maxWindowSize; windowSize += 1) {
+  // Each candidate costs an O(originalTokens × windowSize) LCS pass, so the
+  // naive sweep is cubic on long documents. Cap the total work and stop early
+  // on a near-perfect match to keep this bounded for full-song lyrics.
+  const MAX_LCS_CELLS = 20_000_000;
+  const NEAR_PERFECT_SCORE = 0.98;
+  let spentCells = 0;
+
+  outer: for (let windowSize = minWindowSize; windowSize <= maxWindowSize; windowSize += 1) {
     for (let index = 0; index <= fullTokens.length - windowSize; index += 1) {
+      spentCells += originalTokens.length * windowSize;
+      if (spentCells > MAX_LCS_CELLS) break outer;
+
       const window = fullTokens.slice(index, index + windowSize);
       const windowTokens = window.map((item) => item.token);
       const common = lcsLength(originalTokens, windowTokens);
@@ -70,6 +80,8 @@ function findFuzzyWindow(full: string, original: string): { start: number; end: 
           best = { start: first.start, end: last.end, score };
         }
       }
+
+      if (best && best.score >= NEAR_PERFECT_SCORE) break outer;
     }
   }
 
