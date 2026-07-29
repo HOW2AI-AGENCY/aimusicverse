@@ -79,7 +79,7 @@ export const MobileStudioPlayerBar = memo(function MobileStudioPlayerBar({
       animate={{ y: 0 }}
       transition={{ type: "spring", damping: 25, stiffness: 400 }}
       className={cn(
-        "fixed bottom-0 left-0 right-0 z-50",
+        "fixed bottom-0 left-0 right-0 z-player",
         glass.player,
         "pb-[calc(max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px))+0.75rem)]",
         className,

@@ -368,7 +368,7 @@ export const StudioShellDialogs = memo(function StudioShellDialogs(props: Studio
       {props.selectedVocalsTrack && (
         <Suspense
           fallback={
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/50">
+            <div className="fixed inset-0 z-dialog flex items-center justify-center bg-background/50">
               <Loader2 className="h-8 w-8 animate-spin" />
             </div>
           }

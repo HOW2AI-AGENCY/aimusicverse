@@ -387,7 +387,7 @@ export const AIActionsFAB = memo(function AIActionsFAB({
       </AnimatePresence>
 
       {/* FAB Container */}
-      <div className={cn("fixed bottom-24 right-4 z-50 flex flex-col-reverse items-end gap-3", className)}>
+      <div className={cn("fixed bottom-24 right-4 z-contextual flex flex-col-reverse items-end gap-3", className)}>
         {/* Action buttons */}
         <AnimatePresence>{isOpen && actions.map((action, index) => renderActionButton(action, index))}</AnimatePresence>
 
