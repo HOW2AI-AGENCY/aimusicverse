@@ -59,11 +59,11 @@ export function useSectionReplacement({
   // actually changes (mirrors the old effect semantics).
   const prevTrackTagsRef = useRef<string | null | undefined>(trackTags);
   const prevSectionLyricsRef = useRef<string | undefined>(selectedSection?.lyrics);
-  if (prevTrackTagsRef.current !== trackTags && trackTags && !localTags) {
+  if (prevTrackTagsRef.current !== trackTags) {
     prevTrackTagsRef.current = trackTags;
-    setLocalTags(trackTags);
-  } else if (prevTrackTagsRef.current !== trackTags) {
-    prevTrackTagsRef.current = trackTags;
+    // Re-seed on every external change, including clearing: the previous
+    // asymmetric guard left stale tags behind when the track dropped them.
+    setLocalTags(trackTags ?? "");
   }
 
   if (prevSectionLyricsRef.current !== selectedSection?.lyrics && selectedSection?.lyrics) {
