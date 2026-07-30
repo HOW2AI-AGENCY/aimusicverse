@@ -59,8 +59,6 @@ export function MashupDialog({ open, onOpenChange, sourceTrack, projectId }: Mas
         instrumental: false,
         model: "V4_5ALL",
       });
-      if (error) throw new Error(error.message || "Mashup failed");
-      return data;
     },
   });
 
