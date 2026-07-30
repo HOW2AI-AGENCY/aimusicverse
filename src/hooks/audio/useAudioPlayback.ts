@@ -14,6 +14,8 @@ interface AudioPlaybackOptions {
   isPlaying: boolean;
   activeTrack: Track | null;
   volume: number;
+  /** Bumped when the same track must be reloaded (e.g. A/B version switch) */
+  loadNonce?: number;
   pauseTrack: () => void;
   isStartupPeriod: () => boolean;
 }
@@ -26,6 +28,7 @@ export function useAudioPlayback({
   isPlaying,
   activeTrack,
   volume,
+  loadNonce = 0,
   pauseTrack,
   isStartupPeriod,
 }: AudioPlaybackOptions) {
@@ -136,5 +139,5 @@ export function useAudioPlayback({
       isCleanedUp = true;
       if (playTimeoutId) clearTimeout(playTimeoutId);
     };
-  }, [isPlaying, activeTrack?.id, volume, pauseTrack, isStartupPeriod]);
+  }, [isPlaying, activeTrack?.id, loadNonce, volume, pauseTrack, isStartupPeriod]);
 }

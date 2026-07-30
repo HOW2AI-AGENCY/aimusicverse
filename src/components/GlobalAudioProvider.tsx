@@ -73,6 +73,7 @@ export function GlobalAudioProvider({ children }: { children: ReactNode }) {
     isPlaying,
     activeTrack,
     volume,
+    loadNonce,
     pauseTrack,
     isStartupPeriod,
   });
