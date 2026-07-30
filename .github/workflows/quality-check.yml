@@ -19,14 +19,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: pnpm install --frozen-lockfile
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -34,13 +36,13 @@ jobs:
           bun-version: latest
 
       - name: Lint
-        run: npm run lint
+        run: pnpm lint
 
       - name: Swipe-hint guard
         run: node scripts/check-no-swipe-hints.mjs
 
       - name: TypeScript check (npm)
-        run: npm run typecheck
+        run: pnpm typecheck
         env:
           CI: true
 
@@ -50,7 +52,7 @@ jobs:
           CI: true
 
       - name: Unit tests
-        run: npm test
+        run: pnpm test
 
   build:
     name: Build & Bundle Size
@@ -61,31 +63,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: pnpm install --frozen-lockfile
 
       - name: Pre-build type check
-        run: npm run typecheck:app
+        run: pnpm typecheck:app
         env:
           CI: true
 
       - name: Validate CSS @import order
-        run: npm run check:css-imports
+        run: pnpm check:css-imports
 
       - name: Validate Section design tokens
-        run: npm run check:section-tokens
+        run: pnpm check:section-tokens
 
       - name: Build
-        run: npm run build
+        run: pnpm build
 
       - name: Bundle size check
-        run: npm run size
+        run: pnpm size
 
   visual-home:
     name: Visual Regression (Home)
@@ -95,25 +99,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
       - name: Run Home visual regression
-        run: npm run test:visual:home
+        run: pnpm test:visual:home
         env:
           CI: true
 
       - name: Run responsive audit (320-420px + 768px+)
-        run: npm run test:responsive
+        run: pnpm test:responsive
         env:
           CI: true
 
@@ -136,17 +142,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: npm run build
+        run: pnpm build
 
       - name: Run Lighthouse CI
         run: npx lhci autorun

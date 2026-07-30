@@ -29,21 +29,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+          cache: pnpm
 
-      # Storybook peer conflict tracked in Sprint 066 — install with
-      # --legacy-peer-deps until vite@8 ↔ @storybook/react-vite is resolved.
+      # pnpm resolves peer deps without a legacy flag; lockfile is frozen in CI.
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers (chromium)
         run: npx playwright install --with-deps chromium
 
       - name: Run release preflight
-        run: npm run release:preflight
+        run: pnpm release:preflight
         env:
           CI: "true"
 
