@@ -357,7 +357,16 @@ export const usePlayerStore = create<PlayerState>()(
         const { activeTrack, queue, currentIndex, loadNonce } = get();
         if (!activeTrack) return;
 
-        const updatedTrack = { ...activeTrack, ...patch } as Track;
+        // Stale sources of the PREVIOUS version must be dropped, otherwise the
+        // source resolver (local_audio_url > streaming_url > audio_url) keeps
+        // playing the old version even after audio_url changed.
+        const normalizedPatch: Partial<Track> = {
+          local_audio_url: null,
+          ...(patch.audio_url && !("streaming_url" in patch) ? { streaming_url: patch.audio_url } : {}),
+          ...patch,
+        };
+
+        const updatedTrack = { ...activeTrack, ...normalizedPatch } as Track;
 
         // Keep the queue entry for the same track in sync so next/prev and the
         // queue UI reflect the newly selected version.
