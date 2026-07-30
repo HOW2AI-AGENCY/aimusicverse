@@ -10,7 +10,7 @@
  * - T067: Rate limiting
  */
 
-import { describe, it, expect, beforeAll, afterAll } from '@jest/globals';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 describe('Stars Payment Integration Tests', () => {
