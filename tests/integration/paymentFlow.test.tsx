@@ -5,10 +5,10 @@
  * Test: BuyCredits page → select package → pay → balance updated
  */
 
-import { describe, it, expect, beforeEach, vi } from '@jest/globals';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { BuyCredits } from '@/pages/payments/BuyCredits';
 
 describe('Payment Flow Integration Test', () => {
