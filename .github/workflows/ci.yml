@@ -19,23 +19,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: pnpm install --frozen-lockfile
 
       - name: Lint check
-        run: npm run lint
+        run: pnpm lint
 
       - name: Format check
-        run: npm run format:check
+        run: pnpm format:check
 
       - name: TypeScript Type Check
-        run: npm run typecheck
+        run: pnpm typecheck
         env:
           CI: true
         # Fails the build if any TypeScript errors are found.
@@ -43,7 +45,7 @@ jobs:
         # To suppress pre-existing errors temporarily, see docs/QUALITY_GATES.md
 
       - name: Unit tests
-        run: npm run test:coverage
+        run: pnpm test:coverage
 
       - name: Upload coverage
         uses: actions/upload-artifact@v4
@@ -61,25 +63,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: pnpm install --frozen-lockfile
 
       - name: Pre-build type check
-        run: npm run typecheck:app
+        run: pnpm typecheck:app
         # Guard: fail fast if TypeScript errors exist before bundling.
         # This catches type errors that vite build might skip.
 
       - name: Validate CSS @import order (src/index.css)
-        run: npm run check:css-imports
+        run: pnpm check:css-imports
 
       - name: Validate Section design tokens (no saturated brand washes)
-        run: npm run check:section-tokens
+        run: pnpm check:section-tokens
         # Mirror of the ESLint hard-block on src/components/layout/Section.tsx.
         # Fails CI loudly with path:line + a suggested replacement.
 
@@ -87,7 +91,7 @@ jobs:
         id: vite_build
         run: |
           set -o pipefail
-          npm run build 2>&1 | tee vite-build.log
+          pnpm build 2>&1 | tee vite-build.log
         # Capture the FULL stdout+stderr of `vite build` so PR reviewers
         # see every warning/error without re-running locally.
 
@@ -109,10 +113,10 @@ jobs:
           path: vite-build.log
 
       - name: SEO check (meta / canonical / OG / sitemap / robots)
-        run: npm run seo:check
+        run: pnpm seo:check
 
       - name: Check bundle size
-        run: npm run size
+        run: pnpm size
 
       - name: Lighthouse CI
         run: npx lhci autorun
@@ -135,14 +139,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
@@ -154,7 +160,7 @@ jobs:
           path: dist
 
       - name: Run desktop E2E tests
-        run: npm run test:e2e:chromium
+        run: pnpm test:e2e:chromium
         env:
           CI: true
 
@@ -186,14 +192,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers (chromium + webkit)
         run: npx playwright install --with-deps chromium webkit
@@ -245,14 +253,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browser (${{ matrix.browser }})
         run: npx playwright install --with-deps ${{ matrix.browser }}
@@ -333,8 +343,8 @@ jobs:
               '2. Inspect `boot-log.json` + `failed-requests.log` first — they explain 90% of failures.',
               '3. Reproduce locally with the same trace/video:',
               '   ```',
-              '   npm run e2e:smoke:rerun        # parallel matrix, auto-reruns only the failed browser',
-              '   npm run test:visual            # visual regression for Section + cards',
+              '   pnpm e2e:smoke:rerun        # parallel matrix, auto-reruns only the failed browser',
+              '   pnpm test:visual            # visual regression for Section + cards',
               '   ```',
               '',
               `<sub>Run: [\`${context.runId}\`](${runUrl}) · commit \`${context.sha.substring(0,7)}\`</sub>`,
