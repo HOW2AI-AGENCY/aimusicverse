@@ -37,7 +37,7 @@ export default function VoiceLibraryPage() {
   const [wizardOpen, setWizardOpen] = useState(false);
   const navigate = useNavigate();
 
-  const useVoice = (v: CustomVoice) => {
+  const handleUseVoice = (v: CustomVoice) => {
     if (!v.voice_id) return;
     rememberLastVoice(v.voice_id);
     toast.success(`Голос «${v.voice_name}» подключён к генерации`);
@@ -99,7 +99,7 @@ export default function VoiceLibraryPage() {
             {v.error_message && <p className="text-xs text-destructive">{v.error_message}</p>}
             <div className="flex items-center gap-2 pt-1">
               {v.status === "ready" && v.voice_id && v.is_available && (
-                <Button size="sm" className="flex-1" onClick={() => useVoice(v)} data-testid="voice-use-button">
+                <Button size="sm" className="flex-1" onClick={() => handleUseVoice(v)} data-testid="voice-use-button">
                   <Sparkles className="mr-2 h-3 w-3" />
                   Использовать
                 </Button>
