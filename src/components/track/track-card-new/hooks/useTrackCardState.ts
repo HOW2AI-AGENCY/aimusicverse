@@ -62,6 +62,13 @@ export function useTrackCardState({ track, onPlay, isPlaying: isPlayingProp }: U
       e?.stopPropagation();
       hapticImpact("medium");
 
+      // Pause always wins, even when the list supplies its own play handler —
+      // otherwise the card's pause button is a no-op while the track plays.
+      if (isCurrentTrack && storeIsPlaying) {
+        pauseTrack();
+        return;
+      }
+
       if (onPlay) {
         onPlay();
         return;

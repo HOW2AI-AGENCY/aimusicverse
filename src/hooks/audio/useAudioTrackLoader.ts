@@ -24,20 +24,23 @@ const truncateUrl = (s: string, max = 200): string => (s.length > max ? `${s.sli
  * Fade audio volume from current to target over `durationMs`.
  * Returns a promise that resolves when the transition window has elapsed.
  */
+const clamp01 = (v: number): number => (Number.isFinite(v) ? Math.min(1, Math.max(0, v)) : 1);
+
 function fadeVolume(audio: HTMLAudioElement, target: number, durationMs = 150): Promise<void> {
-  const start = audio.volume;
-  const diff = target - start;
+  const start = clamp01(audio.volume);
+  const safeTarget = clamp01(target);
+  const diff = safeTarget - start;
   const startTime = performance.now();
   return new Promise((resolve) => {
     const step = (now: number) => {
       const elapsed = now - startTime;
       const t = Math.min(elapsed / durationMs, 1);
       // cubic ease-out
-      audio.volume = start + diff * (1 - Math.pow(1 - t, 3));
+      audio.volume = clamp01(start + diff * (1 - Math.pow(1 - t, 3)));
       if (t < 1) {
         requestAnimationFrame(step);
       } else {
-        audio.volume = target;
+        audio.volume = safeTarget;
         resolve();
       }
     };
@@ -91,7 +94,7 @@ export function useAudioTrackLoader({
     playPromiseRef.current = null;
 
     // --- Crossfade: fade out before changing source ---
-    const prevVolume = audio.volume;
+    const prevVolume = clamp01(audio.volume);
     restoreVolumeRef.current = prevVolume;
 
     (async () => {
@@ -125,7 +128,7 @@ export function useAudioTrackLoader({
         audio.removeEventListener("canplaythrough", handleCanPlayThrough);
         // Fade volume back to previous level when playback is ready
         audio.volume = 0;
-        fadeVolume(audio, restoreVolumeRef.current, 200);
+        fadeVolume(audio, clamp01(restoreVolumeRef.current), 200);
       };
       audio.addEventListener("canplaythrough", handleCanPlayThrough);
 
