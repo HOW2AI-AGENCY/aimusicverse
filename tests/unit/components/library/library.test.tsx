@@ -5,7 +5,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { UnifiedTrackCard } from '@/components/track/track-card-new/UnifiedTrackCard';
 import type { Track } from '@/types/track';
