@@ -16,7 +16,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Shuffle, Loader2, Music, Plus, Check } from "@/lib/icons";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { createMashup } from "@/services/mashup.service";
 import { useAuth } from "@/hooks/useAuth";
 import { useTracks } from "@/hooks/useTracks";
 import { logger } from "@/lib/logger";
