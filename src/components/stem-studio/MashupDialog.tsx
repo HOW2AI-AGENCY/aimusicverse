@@ -16,7 +16,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Shuffle, Loader2, Music, Plus, Check } from "@/lib/icons";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { createMashup } from "@/services/mashup.service";
 import { useAuth } from "@/hooks/useAuth";
 import { useTracks } from "@/hooks/useTracks";
 import { logger } from "@/lib/logger";
@@ -50,19 +50,15 @@ export function MashupDialog({ open, onOpenChange, sourceTrack, projectId }: Mas
       const secondTrack = tracks.find((t) => t.id === secondTrackId);
       if (!secondTrack?.audio_url) throw new Error("Second track has no audio");
 
-      const { data, error } = await supabase.functions.invoke("suno-mashup", {
-        body: {
-          uploadUrlList: [sourceTrack.audio_url, secondTrack.audio_url],
-          customMode: !!style,
-          prompt: prompt || undefined,
-          style: style || undefined,
-          title,
-          instrumental: false,
-          model: "V4_5ALL",
-        },
+      return await createMashup({
+        uploadUrlList: [sourceTrack.audio_url!, secondTrack.audio_url],
+        customMode: !!style,
+        prompt: prompt || undefined,
+        style: style || undefined,
+        title,
+        instrumental: false,
+        model: "V4_5ALL",
       });
-      if (error) throw new Error(error.message || "Mashup failed");
-      return data;
     },
   });
 

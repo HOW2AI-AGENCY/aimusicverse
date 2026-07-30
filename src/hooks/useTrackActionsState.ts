@@ -261,9 +261,6 @@ export function useTrackActionsState({
         case "cover":
           openDialog("cover");
           break;
-        case "mashup":
-          openDialog("mashup");
-          break;
         case "extend":
           openDialog("extend");
           break;
