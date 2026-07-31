@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * Accessibility utilities and hooks
  * Components only — non-component exports live in a11y-utils.ts
