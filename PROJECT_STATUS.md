@@ -8,8 +8,8 @@
   <img alt="Сессия" src="https://img.shields.io/badge/session-2026--07--25_Sprint_065%2B-10B981?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-99.7%25-10B981?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
-  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-1857_passing-10B981?style=for-the-badge"/>
-  <img alt="ESLint" src="https://img.shields.io/badge/eslint-0_errors_%2F_525_warnings-10B981?style=for-the-badge"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-1871_passing-10B981?style=for-the-badge"/>
+  <img alt="ESLint" src="https://img.shields.io/badge/eslint-0_errors_%2F_426_warnings-10B981?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/eager_load-508KB_gzip-10B981?style=for-the-badge"/>
   <img alt="Any" src="https://img.shields.io/badge/any-0%2F50_budget-10B981?style=for-the-badge"/>
 </p>
@@ -75,16 +75,16 @@
 ### Проверенные метрики (2026-07-25)
 
 - **TypeScript:** 0 errors (`npx tsgo --noEmit`)
-- **ESLint:** 0 errors / 525 warnings (было 1744)
-- **Unit-тесты:** 1857 passed / 4 skipped / 31 todo (176 файлов, vitest 4.1.10)
+- **ESLint:** 0 errors / 426 warnings (было 1744; 408 `react-hooks/*`, 84 `react-refresh/only-export-components`)
+- **Unit-тесты:** 1871 passed / 4 skipped / 31 todo (176 файлов, vitest 4.1.10)
 - **Build:** ✅
-- **Components:** 1048 · **Hooks:** 446 · **API files:** 34 · **Services:** 37 · **E2E specs:** 59
+- **Components:** 1039 · **Hooks:** 424 · **API files:** 28 · **Services:** 13 · **E2E specs:** 59
 - **Files >800 LOC в `src/`:** 0
 
 ### Следующие шаги
 
-- **Sprint 066** — прогресс по 408 `react-hooks/*` warnings, начиная с `set-state-in-effect` (152).
-- **Sprint 067** — рефакторинг `supabase/functions/` (≥10 файлов >800 LOC).
+- **Sprint 066** — в работе: исправление 426 ESLint warnings (408 `react-hooks/*` + 84 `react-refresh/only-export-components`).
+- **Sprint 067** — в работе: Edge Functions Decomposition.
 - Продолжить трекинг: `react-refresh/only-export-components` (84) — разделение утилит и компонентов по файлам.
 
 ---
@@ -97,7 +97,7 @@
 
 Бейджи и трекеры разошлись между собой и с `git`: `PROJECT_STATUS` заявлял «Sprint 063 / 1803 тестов», `ROADMAP` — «Sprint 057 / 1497», `SPRINT-PROGRESS` — «062 в работе / 1489», `FUTURE_WORK_PLAN` — «063+064 done / 1691». Фактически последние коммиты содержат **не задокументированную ни в одном спринте** работу (Generate v2 + Home Redesign). Она зафиксирована как **Sprint 065**; бэклог переопределён (066–069).
 
-### Sprint 065 — Generate v2 + Home Redesign + Visual Regression (в `main`)
+### Sprint 065 — Generate v2 + Home Redesign + Visual Regression ✅ (в `main`)
 
 1. **Generate v2** ✅ — редизайн формы: `GenerateFormSimple`, `CollapsibleFormHeader`, `generate-sheet/GenerateSheetFooter`, `ReferenceChipsRow`.
 2. **Home Redesign** ✅ — мобильный synth-hero `home/HomeMobileSynthHero.tsx` (+190), `pages/Index.tsx`.

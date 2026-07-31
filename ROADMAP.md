@@ -6,8 +6,8 @@
 
 <p>
   <img alt="Progress" src="https://img.shields.io/badge/2026-99.6%25_complete-10B981?style=for-the-badge"/>
-  <img alt="Sprint" src="https://img.shields.io/badge/sprint-067-26A5E4?style=for-the-badge"/>
-  <img alt="Unit Tests" src="https://img.shields.io/badge/unit--tests-1810_passing-10B981?style=for-the-badge"/>
+  <img alt="Sprint" src="https://img.shields.io/badge/sprint-066-26A5E4?style=for-the-badge"/>
+  <img alt="Unit Tests" src="https://img.shields.io/badge/unit--tests-1871_passing-10B981?style=for-the-badge"/>
   <img alt="Health" src="https://img.shields.io/badge/health-99%2F100-9333EA?style=for-the-badge"/>
 </p>
 
@@ -46,8 +46,8 @@ gantt
     UI/UX Audit Fixes (062-064)  :done, 2026-07, 2026-07
     section In progress
     Generate v2 + Home (065)     :done, 2026-07, 2026-07
-    Dependency Health (066)      :done, 2026-07, 2026-07
-    UI/Logic Audit (067)         :done, 2026-07, 2026-07
+    Dependency Health (066)      :active, 2026-07, 2026-08
+    Edge Fn Decomposition (067)  :active, 2026-07, 2026-08
     section Planned
     Edge Fn Decomposition (068)  : 2026-07, 2026-08
     Bundle + Perf Budgets (069)  : 2026-08, 2026-08
@@ -62,12 +62,12 @@ gantt
 
 ### Q3 2026 — Collaboration
 
-|  #  | Epic                                                 |                             Progress                              |
-| :-: | ---------------------------------------------------- | :---------------------------------------------------------------: |
-|  1  | Realtime sessions (presence, cursors, waveform sync) | ![](https://img.shields.io/badge/45%25-F59E0B?style=flat-square)  |
-|  2  | Marketplace MVP (beats / loops / voices)             | ![](https://img.shields.io/badge/30%25-F59E0B?style=flat-square)  |
-|  3  | A/B testing framework rollout                        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-|  4  | Lyrics co-editing                                    | ![](https://img.shields.io/badge/10%25-475569?style=flat-square)  |
+|  #  | Epic                                                 |                             Progress                             |
+| :-: | ---------------------------------------------------- | :--------------------------------------------------------------: |
+|  1  | Realtime sessions (presence, cursors, waveform sync) | ![](https://img.shields.io/badge/45%25-F59E0B?style=flat-square) |
+|  2  | Marketplace MVP (beats / loops / voices)             | ![](https://img.shields.io/badge/30%25-F59E0B?style=flat-square) |
+|  3  | A/B testing framework rollout                        | ![](https://img.shields.io/badge/50%25-F59E0B?style=flat-square) |
+|  4  | Lyrics co-editing                                    | ![](https://img.shields.io/badge/10%25-475569?style=flat-square) |
 
 ### Q4 2026 — Platform
 
@@ -114,10 +114,12 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 
 ### In Progress
 
-- **Sprint 065 — Generate v2 + Home Redesign + Visual Regression** — форма генерации v2, мобильный synth-hero, `BrandEmptyState`, инфраструктура визуальной регрессии уже в `main`; остаётся closure (эталонные снимки, Storybook, docs sync). План: [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md)
-- **Sprint 066 — Dependency Health** — конфликт `vite@8` ↔ `@storybook/react-vite@8.6` (peer ≤6) требует `--legacy-peer-deps`; это ломает peer `@testing-library/dom` при локальной установке. Приоритет №1.
+- **Sprint 066 — Dependency Health + ESLint burn-down** 🔄 — ESLint no-undef исправлен (globals), 426 warnings остаётся (408 `react-hooks/*`, 84 `react-refresh/only-export-components`). Dependency Health не начат.
+- **Sprint 067 — Edge Functions Decomposition** 🔄 — не начат.
 
 ### Completed (recent)
+
+- **Sprint 065 — Generate v2 + Home Redesign + Visual Regression** ✅ — все изменения в `main`. Generate v2 форма, мобильный synth-hero, BrandEmptyState, инфраструктура визуальной регрессии. Closure выполнен.
 
 - **Sprint 050 — Main Green + Mobile Audit F1–F12** ✅ Phase A+B Complete (2026-07-06)
 - **Sprint 051 Phase A-C** ✅ Decomposition complete (2026-07-06): studio.service 1137→4 modules, studio.api 953→4 modules, LyricsParser types extraction, 103 new tests
@@ -174,6 +176,6 @@ See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/co
 | :-----------------------------: | :------------------------: | :-------------------------: | :-----------------------: | :----------------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Status](PROJECT_STATUS.md) | [Changelog](CHANGELOG.md) | [Issues](docs/KNOWN_ISSUES.md) |
 
-<sub>Last updated: 2026-07-14 (Sprint 065 зафиксирован, бэклог 066–069 переопределён; сверка расхождений планов — [WORKPLAN-2026-07-14.md](WORKPLAN-2026-07-14.md))</sub>
+<sub>Last updated: 2026-07-31 (post-audit sync — metrics corrected, Sprint 065/066/067 statuses)</sub>
 
 </div>
