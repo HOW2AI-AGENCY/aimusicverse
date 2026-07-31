@@ -22,6 +22,8 @@
 - Model badges must map `V5_5`/`chirp-fenix` to the V5.5 label; the `v5` fallback must be checked after `v55`.
 - Stem separation from track actions must keep user feedback visible until the request is accepted, then open Studio with `useStemSeparationRealtime` progress mounted.
 - Inline/compact version selectors must keep section-replacement variants out of the default card/player controls; detailed selectors may show them.
+- Auth route guards must go through `hooks/useAuthGate` (or `ProtectedRoute`), which honours guest mode, dev/preview access, and `isTelegramAuthPending`. Never redirect to `/auth` on `!isAuthenticated` alone — the Telegram `initData` handshake resolves after `getSession()` and the redirect drops the session.
+- `ProtectedRoute` passes the intended path as `state.from`; `/auth` restores it via `next` or `state.from` (same-origin relative paths only).
 
 
 ## Work Guidance
