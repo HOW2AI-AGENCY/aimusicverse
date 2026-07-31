@@ -1,4 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
+import { useAuthGate } from "@/hooks/useAuthGate";
 import { Navigate } from "react-router";
 import { Card } from "@/components/ui/card";
 import { BarChart3, Music, Play, Heart, TrendingUp, Calendar, CheckCircle2, XCircle, Clock } from "@/lib/icons";
@@ -15,7 +16,7 @@ export default function Analytics() {
   const { data: stats, isLoading } = useUserStats();
   const isMobile = useIsMobile();
 
-  if (authLoading) {
+  if (authGate.isResolving) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -23,7 +24,7 @@ export default function Analytics() {
     );
   }
 
-  if (!isAuthenticated) {
+  if (!authGate.canAccess) {
     return <Navigate to="/auth" replace />;
   }
 

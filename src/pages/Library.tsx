@@ -12,6 +12,7 @@
 
 import { useState, useEffect, useCallback, lazy, Suspense, useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useAuthGate } from "@/hooks/useAuthGate";
 import { Navigate, useNavigate, useSearchParams } from "react-router";
 import { Input } from "@/components/ui/input";
 import {
@@ -249,7 +250,7 @@ export default function Library() {
   );
 
   // Auth loading state
-  if (authLoading) {
+  if (authGate.isResolving) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -258,7 +259,7 @@ export default function Library() {
   }
 
   // Redirect if not authenticated
-  if (!isAuthenticated) {
+  if (!authGate.canAccess) {
     return <Navigate to="/auth" replace />;
   }
 

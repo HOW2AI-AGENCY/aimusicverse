@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useAuthGate } from "@/hooks/useAuthGate";
 import { useGuestMode } from "@/contexts/GuestModeContext";
 import { PageSkeleton } from "@/components/ui/skeleton/PageSkeleton";
 import { Navigate, useNavigate, useSearchParams } from "react-router";
@@ -64,11 +65,11 @@ export default function Projects() {
     fallbackPath: "/",
   });
 
-  if (authLoading) {
+  if (authGate.isResolving) {
     return <PageSkeleton variant="list" />;
   }
 
-  if (!isAuthenticated && !isGuestMode) {
+  if (!authGate.canAccess) {
     return <Navigate to="/auth" replace />;
   }
 

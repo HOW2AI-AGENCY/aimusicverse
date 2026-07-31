@@ -1,3 +1,4 @@
+import { useAuthGate } from "@/hooks/useAuthGate";
 /**
  * ProjectDetail — страница проекта (музыкальный проект со списком треков).
  *
@@ -102,7 +103,7 @@ export default function ProjectDetail() {
   });
 
   // Loading state
-  if (authLoading || isLoading) {
+  if (authGate.isResolving || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
@@ -111,7 +112,7 @@ export default function ProjectDetail() {
   }
 
   // Auth redirect
-  if (!isAuthenticated) {
+  if (!authGate.canAccess) {
     return <Navigate to="/auth" replace />;
   }
 
