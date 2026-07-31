@@ -55,9 +55,11 @@ describe("ProtectedRoute", () => {
     authState.isTelegramAuthPending = false;
     guestMode = false;
     // Simulate a real Telegram Mini App so the dev-preview bypass is inactive.
-    (window as unknown as { Telegram?: unknown }).Telegram = {
-      WebApp: { initData: "user=%7B%22id%22%3A1%7D&hash=abc" },
-    };
+    Object.defineProperty(window, "Telegram", {
+      configurable: true,
+      writable: true,
+      value: { WebApp: { initData: "user=%7B%22id%22%3A1%7D&hash=abc" } },
+    });
     Object.defineProperty(window, "location", {
       value: { ...window.location, hostname: "aimusicverse.lovable.app", search: "" },
       writable: true,
@@ -66,7 +68,7 @@ describe("ProtectedRoute", () => {
 
   afterEach(() => {
     cleanup();
-    delete (window as unknown as { Telegram?: unknown }).Telegram;
+    Object.defineProperty(window, "Telegram", { configurable: true, writable: true, value: undefined });
   });
 
   it("waits instead of redirecting while the Telegram handshake is pending", () => {
