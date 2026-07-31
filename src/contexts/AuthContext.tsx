@@ -274,7 +274,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const autoDevAuthRef = React.useRef(false);
   useEffect(() => {
     const isAutomatedBrowser = typeof navigator !== "undefined" && navigator.webdriver === true;
-    if (!isDevelopmentMode || isAutomatedBrowser || loading || session || autoDevAuthRef.current) return;
+    const insideTelegram = typeof window !== "undefined" && !!window.Telegram?.WebApp?.initData;
+    if (!isDevelopmentMode || isAutomatedBrowser || insideTelegram || loading || session || autoDevAuthRef.current)
+      return;
 
     autoDevAuthRef.current = true;
     authLogger.info("Dev mode: auto sign-in");
