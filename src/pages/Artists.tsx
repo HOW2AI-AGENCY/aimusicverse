@@ -24,6 +24,7 @@ const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Classica
 
 export default function Artists() {
   const { isAuthenticated, loading: authLoading } = useAuth();
+  const authGate = useAuthGate();
   const isMobile = useIsMobile();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();

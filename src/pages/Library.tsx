@@ -70,6 +70,7 @@ type GenerationExtras = { description?: string | null; model_used?: string | nul
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
+  const authGate = useAuthGate();
   const isMobile = useIsMobile();
   // Desktop mode must match NavigationShell's ≥1024px breakpoint. Between 768–1023 the
   // app already renders a mobile bottom nav — showing the desktop split-form sidebar too

@@ -13,6 +13,7 @@ import { DesktopDashboardLayout } from "@/components/layout/desktop";
 
 export default function Analytics() {
   const { isAuthenticated, loading: authLoading } = useAuth();
+  const authGate = useAuthGate();
   const { data: stats, isLoading } = useUserStats();
   const isMobile = useIsMobile();
 

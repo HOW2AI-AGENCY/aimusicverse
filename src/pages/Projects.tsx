@@ -35,6 +35,7 @@ const typeLabels: Record<string, string> = {
 
 export default function Projects() {
   const { isAuthenticated, loading: authLoading } = useAuth();
+  const authGate = useAuthGate();
   const { isGuestMode } = useGuestMode();
   const isMobile = useIsMobile();
   const navigate = useNavigate();

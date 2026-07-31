@@ -52,6 +52,7 @@ export default function ProjectDetail() {
     generateTracklist,
     updateTrack,
   } = useProjectDetailData();
+    const authGate = useAuthGate();
 
   // Dialogs hook
   const dialogs = useProjectDetailDialogs();
