@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Radio, Sliders, Zap, Music2, Settings2, Sparkles, ChevronRight, ChevronLeft, X } from "@/lib/icons";

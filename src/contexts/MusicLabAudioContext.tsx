@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useRef, ReactNode } from "react";
 import { createAudioContext } from "@/lib/audio/audioContextHelper";
 

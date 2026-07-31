@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { User, Camera, Globe, Bell, Shield, ChevronRight, CheckCircle, X, Upload, Sparkles } from "@/lib/icons";

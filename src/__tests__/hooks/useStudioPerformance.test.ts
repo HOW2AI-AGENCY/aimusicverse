@@ -109,7 +109,7 @@ describe("useStudioPerformance", () => {
       expect(result.current.metrics.memoryUsageMB).toBe(160);
 
       // Cleanup
-      // @ts-ignore
+      // @ts-expect-error
       delete (performance as Record<string, unknown>).memory;
     });
 
@@ -127,7 +127,7 @@ describe("useStudioPerformance", () => {
 
       expect(result.current.isMemoryWarning).toBe(false);
 
-      // @ts-ignore
+      // @ts-expect-error
       delete (performance as Record<string, unknown>).memory;
     });
   });

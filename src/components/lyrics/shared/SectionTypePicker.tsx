@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Plus } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { SECTION_TYPES, type SectionType } from "@/lib/lyrics/constants";

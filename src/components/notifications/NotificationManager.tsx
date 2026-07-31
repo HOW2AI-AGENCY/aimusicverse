@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { memo, useState, useCallback } from "react";
 import { AnimatePresence, motion } from "@/lib/motion";
 import { NotificationBanner } from "./NotificationBanner";

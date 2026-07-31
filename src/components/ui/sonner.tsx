@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useTheme } from "@/contexts/ThemeContext";
 import { Toaster as Sonner } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";

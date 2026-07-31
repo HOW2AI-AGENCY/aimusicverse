@@ -1,5 +1,3 @@
-// @ts-nocheck - Telegram WebApp API types are dynamic
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Home, Check, X } from "@/lib/icons";

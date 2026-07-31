@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useEffect } from "react";
 import { useSearchParams } from "react-router";
 import { QUICK_CREATE_PRESETS, QuickCreatePreset } from "@/constants/quickCreatePresets";

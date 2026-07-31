@@ -107,7 +107,7 @@ export interface ChordDetectionData {
 /**
  * Chord detection results response
  */
-export interface ChordDetectionResultsResponse extends ChordDetectionData {}
+export type ChordDetectionResultsResponse = ChordDetectionData;
 
 /**
  * Error response structure

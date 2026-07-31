@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { motion } from "@/lib/motion";
 
 interface IllustrationProps {

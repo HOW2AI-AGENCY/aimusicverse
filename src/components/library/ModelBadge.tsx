@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Crown, Sparkles, LucideIcon } from "@/lib/icons";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";

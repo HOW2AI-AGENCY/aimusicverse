@@ -103,7 +103,7 @@ Text.displayName = "Text";
 // DISPLAY COMPONENT
 // ============================================================================
 
-export interface DisplayProps extends React.HTMLAttributes<HTMLHeadingElement> {}
+export type DisplayProps = React.HTMLAttributes<HTMLHeadingElement>;
 
 /**
  * Display Component - For hero sections and large titles

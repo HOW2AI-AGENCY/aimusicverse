@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Sparkles } from "@/lib/icons";
 import { Progress } from "@/components/ui/progress";
 

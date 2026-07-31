@@ -1,5 +1,3 @@
-// @ts-nocheck - Telegram WebApp API types are dynamic
- 
 /**
  * Telegram QR Scanner Hook
  *

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { logger } from "@/lib/logger";
 import { mockProfile } from "@/lib/screenshotMockData";

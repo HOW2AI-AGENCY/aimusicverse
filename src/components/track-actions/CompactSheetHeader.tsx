@@ -60,7 +60,8 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({ track, onCl
   const handlePlay = () => {
     hapticImpact("light");
     if (isCurrentTrack) {
-      isPlaying ? pauseTrack() : playTrack();
+      if (isPlaying) pauseTrack();
+      else playTrack();
     } else {
       playTrack(track);
     }

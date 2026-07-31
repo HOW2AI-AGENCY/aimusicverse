@@ -16,6 +16,7 @@
  * @see src/contexts/telegram/index.ts - Main entry point
  */
 
+/* eslint-disable react-refresh/only-export-components */
 // Re-export everything from the modular structure
 export {
   TelegramProvider,
@@ -25,6 +26,7 @@ export {
   useTelegramActions,
   createMockWebApp,
 } from "./telegram";
+/* eslint-enable react-refresh/only-export-components */
 
 export type {
   TelegramWebApp,
