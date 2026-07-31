@@ -223,7 +223,8 @@ function HistoryItem({
               className="h-7 w-7"
               onClick={(e) => {
                 e.stopPropagation();
-                isPlaying ? onStop() : onPlay();
+                if (isPlaying) onStop();
+                else onPlay();
               }}
             >
               {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 ml-0.5" />}
@@ -257,7 +258,8 @@ function HistoryItem({
                     size="sm"
                     className="h-7 text-xs gap-1 flex-1"
                     onClick={() => {
-                      isPlaying ? onStop() : onPlay();
+                      if (isPlaying) onStop();
+                      else onPlay();
                     }}
                   >
                     {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}

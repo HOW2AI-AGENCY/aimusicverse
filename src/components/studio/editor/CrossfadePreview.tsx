@@ -195,7 +195,8 @@ export function CrossfadePreview({
   }, [pause, sectionStart, play]);
 
   const togglePlay = useCallback(() => {
-    isPlaying ? pause() : play();
+    if (isPlaying) pause();
+    else play();
   }, [isPlaying, pause, play]);
 
   // Progress calculation
