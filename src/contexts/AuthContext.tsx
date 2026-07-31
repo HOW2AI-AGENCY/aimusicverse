@@ -170,8 +170,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const hasProfile = signInData.user ? await checkProfile(signInData.user.id) : false;
 
         authLogger.info("Development authentication successful", { hasProfile });
-        toast.success("Режим разработки: вход выполнен!");
         return { user: signInData.user, session: signInData.session, hasProfile };
+
       }
 
       // Production mode: Use Telegram authentication
