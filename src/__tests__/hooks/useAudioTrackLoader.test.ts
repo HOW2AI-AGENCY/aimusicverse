@@ -8,7 +8,7 @@
  * - A bumped `loadNonce` forces re-load of the same track (retry path).
  */
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { renderHook } from "@testing-library/react";
+import { renderHook, act, waitFor } from "@testing-library/react";
 import { useAudioTrackLoader } from "@/hooks/audio/useAudioTrackLoader";
 import type { Track } from "@/types/track";
 
@@ -103,14 +103,14 @@ describe("useAudioTrackLoader — empty / invalid src", () => {
     expect(isLoadingRef.current).toBe(false);
   });
 
-  it("loads valid https source on active track change", () => {
+  it("loads valid https source on active track change", async () => {
     const { audio, lastTrackIdRef } = setup("https://cdn.example/song.mp3", track("t3"));
-    expect(audio.src).toBe("https://cdn.example/song.mp3");
+    await waitFor(() => expect(audio.src).toBe("https://cdn.example/song.mp3"));
     expect(audio.load).toHaveBeenCalled();
     expect(lastTrackIdRef.current).toBe("t3");
   });
 
-  it("does not crash when audio.src setter throws (records telemetry)", () => {
+  it("does not crash when audio.src setter throws (records telemetry)", async () => {
     const audio = makeAudio();
     Object.defineProperty(audio, "src", {
       set() {
@@ -126,20 +126,20 @@ describe("useAudioTrackLoader — empty / invalid src", () => {
     const isLoadingRef = { current: false };
     const playPromiseRef = { current: null as Promise<void> | null };
 
-    expect(() =>
-      renderHook(() =>
-        useAudioTrackLoader({
-          audioRef,
-          lastTrackIdRef,
-          isLoadingRef,
-          playPromiseRef,
-          activeTrack: track("t4"),
-          getAudioSource: () => "https://cdn.example/x.mp3",
-          loadNonce: 0,
-        }),
-      ),
-    ).not.toThrow();
-    expect(logger.error).toHaveBeenCalled();
+    renderHook(() =>
+      useAudioTrackLoader({
+        audioRef,
+        lastTrackIdRef,
+        isLoadingRef,
+        playPromiseRef,
+        activeTrack: track("t4"),
+        getAudioSource: () => "https://cdn.example/x.mp3",
+        loadNonce: 0,
+      }),
+    );
+    await waitFor(() => {
+      expect(logger.error).toHaveBeenCalled();
+    });
     expect(recordError).toHaveBeenCalledWith(
       "audio:load:set_src_failed",
       expect.any(String),
