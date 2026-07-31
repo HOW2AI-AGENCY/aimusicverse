@@ -1,5 +1,7 @@
-import { supabase } from "../../_shared/supabase-client.ts";
-import { logger } from "../../_shared/logger.ts";
+import { getSupabaseClient } from "../../_shared/supabase-client.ts";
+import { createLogger } from "../../_shared/logger.ts";
+
+const supabase = getSupabaseClient();
 
 export type SkipReason = {
   code: string;

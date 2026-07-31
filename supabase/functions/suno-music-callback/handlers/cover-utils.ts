@@ -1,5 +1,8 @@
-import { supabaseUrl, supabaseServiceKey } from "../../_shared/supabase-client.ts";
-import { logger } from "../../_shared/logger.ts";
+import { createLogger } from "../../_shared/logger.ts";
+
+const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const logger = createLogger("cover-utils");
 
 export async function generateTrackCover(
   trackId: string,

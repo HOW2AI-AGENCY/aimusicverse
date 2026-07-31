@@ -1,5 +1,8 @@
-import { supabase } from "../../_shared/supabase-client.ts";
-import { logger } from "../../_shared/logger.ts";
+import { getSupabaseClient } from "../../_shared/supabase-client.ts";
+import { createLogger } from "../../_shared/logger.ts";
+
+const supabase = getSupabaseClient();
+const logger = createLogger("studio-utils");
 
 export async function handleStudioInstrumental(
   task: any,

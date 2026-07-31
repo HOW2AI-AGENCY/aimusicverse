@@ -12,14 +12,12 @@ import { getGenerationCost } from "../../_shared/economy.ts";
 import { VERSION_LABELS, getVersionType } from "../utils/version-types.ts";
 import { fetchWithRetry } from "../utils/fetch-retry.ts";
 import { logAuditAction } from "../utils/audit-log.ts";
-import {
-  extractClipFields,
-  getAudioUrl,
-  getModelName,
-  validateClip,
-  type SkipReason,
-  type SkipReasonCode,
-} from "../../_shared/suno-clip-fields.ts";
+import { extractClipFields, getAudioUrl, getModelName, validateClip } from "../../_shared/suno-clip-fields.ts";
+import { makePersistenceFailure, findExistingVersion, getSourceType } from "./version-utils.ts";
+import { generateTrackCover } from "./cover-utils.ts";
+import { handleStudioInstrumental, createStudioProject } from "./studio-utils.ts";
+import { sendTelegramResults } from "./notification-utils.ts";
+import { completeGenerationTask, createGenerationNotification } from "./task-completion-utils.ts";
 
 const logger = createLogger("complete-callback");
 
@@ -118,7 +116,7 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       },
     };
 
-    const existing = await findExistingVersion(supabase, trackId, versionLabel, i, fields.id);
+    const existing = await findExistingVersion(trackId, versionLabel, i, fields.id);
     if (existing.error) {
       persistenceFailures.push(
         makePersistenceFailure("version_lookup_failed", existing.error.message, i, fields.id, Object.keys(clip)),
@@ -264,7 +262,10 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       .update({ active_version_id: primaryVersionId })
       .eq("id", trackId);
     if (activeVersionError) {
-      logger.error("Failed to set active version after complete callback", activeVersionError, { trackId, primaryVersionId });
+      logger.error("Failed to set active version after complete callback", activeVersionError, {
+        trackId,
+        primaryVersionId,
+      });
     }
   }
 
@@ -311,13 +312,13 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
   const studioProjectId = taskMeta?.studio_project_id;
   const pendingTrackId = taskMeta?.pending_track_id;
   if (studioProjectId && pendingTrackId && task.generation_mode === "add_instrumental") {
-    await handleStudioInstrumental(supabase, task, clips, studioProjectId, pendingTrackId);
+    await handleStudioInstrumental(task, clips, studioProjectId, pendingTrackId);
   }
 
   const openInStudio = taskMeta?.open_in_studio;
   const originalTrackId = taskMeta?.original_track_id;
   if (openInStudio && !studioProjectId && task.generation_mode === "add_instrumental" && originalTrackId) {
-    await createStudioProject(supabase, task, clips, trackId, originalTrackId, trackTitle);
+    await createStudioProject(task, clips, trackId, originalTrackId, trackTitle);
   }
 
   // ── Task completion ──
@@ -340,9 +341,10 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
       callback_received_at: new Date().toISOString(),
       audio_clips: JSON.stringify(clips),
       received_clips: createdClips,
-      error_message: allSkippedClips.length > 0
-        ? `${allSkippedClips.length}/${clips.length} clips skipped: ${allSkippedClips.map((s) => s.code).join(", ")}`
-        : null,
+      error_message:
+        allSkippedClips.length > 0
+          ? `${allSkippedClips.length}/${clips.length} clips skipped: ${allSkippedClips.map((s) => s.code).join(", ")}`
+          : null,
     })
     .eq("id", task.id);
   if (taskCompleteError) {
@@ -431,12 +433,15 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
     read: false,
   });
   if (notificationError) {
-    logger.error("Failed to create generation completion notification", notificationError, { taskId: task.id, trackId });
+    logger.error("Failed to create generation completion notification", notificationError, {
+      taskId: task.id,
+      trackId,
+    });
   }
 
   // ── Telegram notification ──
   if (task.telegram_chat_id && clips.length > 0) {
-    await sendTelegramResults(supabase, task, clips, trackId, trackTitle);
+    await sendTelegramResults(task, clips, trackId, trackTitle);
   }
 
   // ── Auto MIDI ──
@@ -467,329 +472,3 @@ export async function handleCompleteCallback(payload: any, task: any, supabaseUr
 }
 
 // ── Inline helpers (ponytail: single-caller, inline until second caller) ──
-
-async function findExistingVersion(
-  supabase: any,
-  trackId: string,
-  versionLabel: string,
-  clipIndex: number,
-  clipId: string | null,
-): Promise<{ version: { id: string } | null; error: Error | null }> {
-  const byClipIndex = await supabase
-    .from("track_versions")
-    .select("id")
-    .eq("track_id", trackId)
-    .eq("clip_index", clipIndex)
-    .limit(1);
-  if (byClipIndex.error) return { version: null, error: byClipIndex.error };
-  if (byClipIndex.data?.[0]) return { version: byClipIndex.data[0], error: null };
-
-  if (clipId) {
-    const bySunoId = await supabase
-      .from("track_versions")
-      .select("id")
-      .eq("track_id", trackId)
-      .eq("metadata->>suno_id", clipId)
-      .limit(1);
-    if (bySunoId.error) return { version: null, error: bySunoId.error };
-    if (bySunoId.data?.[0]) return { version: bySunoId.data[0], error: null };
-  }
-
-  const byLabel = await supabase
-    .from("track_versions")
-    .select("id")
-    .eq("track_id", trackId)
-    .eq("version_label", versionLabel)
-    .limit(1);
-  if (byLabel.error) return { version: null, error: byLabel.error };
-  return { version: byLabel.data?.[0] ?? null, error: null };
-}
-
-function makePersistenceFailure(
-  code: SkipReasonCode,
-  message: string,
-  clipIndex: number,
-  clipId: string | null,
-  availableKeys: string[],
-): SkipReason {
-  return { code, message, clipIndex, clipId, availableKeys };
-}
-
-function getSourceType(mode: string | null): string {
-  switch (mode) {
-    case "extend":
-      return "extended";
-    case "remix":
-      return "remix";
-    case "cover":
-      return "cover";
-    case "add_vocals":
-    case "add_instrumental":
-      return "studio";
-    default:
-      return "generated";
-  }
-}
-
-async function handleStudioInstrumental(
-  supabase: any,
-  task: any,
-  clips: any[],
-  studioProjectId: string,
-  pendingTrackId: string,
-) {
-  try {
-    const { data: project } = await supabase
-      .from("studio_projects")
-      .select("tracks")
-      .eq("id", studioProjectId)
-      .single();
-    if (!project) return;
-
-    const versions = clips.slice(0, 2).map((c: any, i: number) => ({
-      label: ["A", "B"][i] || `V${i + 1}`,
-      audioUrl: getAudioUrl(c),
-      duration: Math.round(c.duration) || 180,
-    }));
-
-    const tracks = (project.tracks as any[]) || [];
-    const updated = tracks.map((t: any) => {
-      if (t.id !== pendingTrackId || t.status !== "pending") return t;
-      return {
-        ...t,
-        status: "ready",
-        versions,
-        audioUrl: versions[0]?.audioUrl,
-        activeVersionLabel: versions[0]?.label || "A",
-        clips: versions[0]
-          ? [
-              {
-                id: `clip-${Date.now()}`,
-                trackId: t.id,
-                audioUrl: versions[0].audioUrl,
-                name: t.name.replace(" (генерация...)", ""),
-                startTime: 0,
-                duration: versions[0].duration,
-                trimStart: 0,
-                trimEnd: 0,
-                fadeIn: 0,
-                fadeOut: 0,
-              },
-            ]
-          : [],
-        name: t.name.replace(" (генерация...)", ""),
-      };
-    });
-
-    await supabase
-      .from("studio_projects")
-      .update({ tracks: updated, updated_at: new Date().toISOString() })
-      .eq("id", studioProjectId);
-  } catch (e) {
-    logger.error("Studio instrumental update error", e);
-  }
-}
-
-async function createStudioProject(
-  supabase: any,
-  task: any,
-  clips: any[],
-  trackId: string,
-  originalTrackId: string,
-  trackTitle: string,
-) {
-  try {
-    const { data: orig } = await supabase
-      .from("tracks")
-      .select("id, title, audio_url, duration_seconds, style")
-      .eq("id", originalTrackId)
-      .single();
-    const { data: next } = await supabase
-      .from("tracks")
-      .select("id, title, audio_url, duration_seconds, style")
-      .eq("id", trackId)
-      .single();
-    if (!orig || !next) return;
-
-    const now = Date.now();
-    const studioTracks = [
-      {
-        id: `track-vocal-${now}`,
-        name: orig.title || "Вокал",
-        type: "vocals",
-        audioUrl: orig.audio_url,
-        sourceTrackId: orig.id,
-        volume: 0.8,
-        pan: 0,
-        mute: false,
-        solo: false,
-        status: "ready",
-        clips: [
-          {
-            id: `clip-vocal-${now}`,
-            trackId: `track-vocal-${now}`,
-            audioUrl: orig.audio_url,
-            name: orig.title || "Вокал",
-            startTime: 0,
-            duration: orig.duration_seconds || 180,
-            trimStart: 0,
-            trimEnd: 0,
-            fadeIn: 0,
-            fadeOut: 0,
-          },
-        ],
-      },
-      {
-        id: `track-instrumental-${now + 1}`,
-        name: next.title || "Инструментал",
-        type: "instrumental",
-        audioUrl: next.audio_url,
-        sourceTrackId: next.id,
-        volume: 0.7,
-        pan: 0,
-        mute: false,
-        solo: false,
-        status: "ready",
-        clips: [
-          {
-            id: `clip-instrumental-${now + 1}`,
-            trackId: `track-instrumental-${now + 1}`,
-            audioUrl: next.audio_url,
-            name: next.title || "Инструментал",
-            startTime: 0,
-            duration: next.duration_seconds || 180,
-            trimStart: 0,
-            trimEnd: 0,
-            fadeIn: 0,
-            fadeOut: 0,
-          },
-        ],
-      },
-    ];
-
-    const { data: newProject } = await supabase
-      .from("studio_projects")
-      .insert({
-        user_id: task.user_id,
-        source_track_id: orig.id,
-        name: `${orig.title || "Трек"} + Инструментал`,
-        description: "Автоматически создано из добавления инструментала",
-        status: "draft",
-        stems_mode: "simple",
-        tracks: studioTracks,
-        duration_seconds: Math.max(orig.duration_seconds || 180, next.duration_seconds || 180),
-      })
-      .select("id")
-      .single();
-
-    if (newProject) {
-      await supabase.from("notifications").insert({
-        user_id: task.user_id,
-        type: "studio_ready",
-        title: "Инструментал готов! 🎸",
-        message: `Инструментал для "${orig.title || "трека"}" готов. Открыть студию для сведения?`,
-        action_url: `/studio-v2/project/${newProject.id}`,
-        metadata: {
-          studio_project_id: newProject.id,
-          original_track_id: originalTrackId,
-          instrumental_track_id: trackId,
-        },
-      });
-    }
-  } catch (e) {
-    logger.error("Studio project creation error", e);
-  }
-}
-
-async function sendTelegramResults(supabase: any, task: any, clips: any[], trackId: string, trackTitle: string) {
-  // Delete progress message
-  if (task.telegram_message_id) {
-    try {
-      await supabase.functions.invoke("send-telegram-notification", {
-        body: { type: "delete_progress", chatId: task.telegram_chat_id, messageId: task.telegram_message_id },
-      });
-    } catch (e) {
-      /* best-effort */
-    }
-  }
-
-  // Wait for cover
-  await new Promise((r) => setTimeout(r, 6000));
-
-  const { data: fresh } = await supabase
-    .from("tracks")
-    .select("title, style, cover_url, local_cover_url, tags")
-    .eq("id", trackId)
-    .single();
-  const cover = fresh?.local_cover_url || fresh?.cover_url;
-  let title = fresh?.title || clips[0]?.title;
-  if (!title || title === "Untitled" || title === "Трек") {
-    title =
-      (task.prompt || "")
-        .split("\n")
-        .filter((l: string) => l.trim())[0]
-        ?.substring(0, 60)
-        .trim()
-        .replace(/^(create|generate|make)\s+/i, "") || "AI Music Track";
-  }
-
-  const maxClips = Math.min(clips.length, 2);
-  const audioClipsData = [];
-  for (let i = 0; i < maxClips; i++) {
-    const c = clips[i];
-    const lyrics = (c.prompt || task.prompt || "")
-      .split("\n")
-      .filter((l: string) => l.trim() && !l.trim().startsWith("["))
-      .slice(0, 2)
-      .join("\n")
-      .substring(0, 150);
-    audioClipsData.push({
-      audioUrl: getAudioUrl(c),
-      title: `${title} (${["A", "B"][i]})`,
-      duration: c.duration,
-      versionLabel: ["A", "B"][i],
-      lyricsPreview: lyrics,
-      coverUrl: cover,
-    });
-  }
-
-  try {
-    const { error } = await supabase.functions.invoke("send-telegram-notification", {
-      body: {
-        type: "generation_complete_multi",
-        chatId: task.telegram_chat_id,
-        trackId,
-        coverUrl: cover,
-        title,
-        audioClips: audioClipsData,
-        tags: fresh?.tags || clips[0]?.tags,
-        style: fresh?.style || task.tracks?.style,
-        versionsCount: clips.length,
-      },
-    });
-    if (error) {
-      // Fallback: single notifications
-      for (let i = 0; i < maxClips; i++) {
-        await supabase.functions.invoke("send-telegram-notification", {
-          body: {
-            type: "generation_complete",
-            chatId: task.telegram_chat_id,
-            trackId,
-            audioUrl: audioClipsData[i].audioUrl,
-            coverUrl: cover,
-            title: audioClipsData[i].title,
-            duration: audioClipsData[i].duration,
-            tags: fresh?.tags || clips[0]?.tags,
-            style: fresh?.style,
-            versionLabel: audioClipsData[i].versionLabel,
-            currentVersion: i + 1,
-            totalVersions: maxClips,
-          },
-        });
-        if (i < maxClips - 1) await new Promise((r) => setTimeout(r, 1000));
-      }
-    }
-  } catch (e) {
-    logger.error("Telegram notification error", e);
-  }
-}
