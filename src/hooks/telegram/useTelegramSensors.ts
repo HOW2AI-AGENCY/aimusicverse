@@ -105,7 +105,7 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
 
     return new Promise((resolve) => {
       try {
-        webApp.Accelerometer!.start(refreshRate, (started) => {
+        webApp.Accelerometer!.start(refreshRate, (started: unknown) => {
           if (started) {
             setIsAccelerometerActive(true);
             log.info("Accelerometer started", { refreshRate });
@@ -145,7 +145,7 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
 
     return new Promise((resolve) => {
       try {
-        webApp.Gyroscope!.start(refreshRate, (started) => {
+        webApp.Gyroscope!.start(refreshRate, (started: unknown) => {
           if (started) {
             setIsGyroscopeActive(true);
             log.info("Gyroscope started", { refreshRate });
@@ -185,7 +185,7 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
 
     return new Promise((resolve) => {
       try {
-        webApp.DeviceOrientation!.start(needAbsoluteOrientation, (started) => {
+        webApp.DeviceOrientation!.start(needAbsoluteOrientation, (started: unknown) => {
           if (started) {
             setIsOrientationActive(true);
             log.info("DeviceOrientation started", { needAbsolute: needAbsoluteOrientation });

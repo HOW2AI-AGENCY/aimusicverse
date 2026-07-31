@@ -17,7 +17,7 @@ export const AddToHomeScreen = () => {
     }
 
     try {
-      webApp.checkHomeScreenStatus((result) => {
+      webApp.checkHomeScreenStatus((result: HomeScreenStatus) => {
         setStatus(result);
       });
     } catch (error) {
@@ -43,7 +43,7 @@ export const AddToHomeScreen = () => {
     // Check status after a delay
     setTimeout(() => {
       try {
-        webApp.checkHomeScreenStatus?.((result) => {
+        webApp.checkHomeScreenStatus?.((result: HomeScreenStatus) => {
           setStatus(result);
           if (result === "added") {
             toast.success("Приложение добавлено на главный экран!");

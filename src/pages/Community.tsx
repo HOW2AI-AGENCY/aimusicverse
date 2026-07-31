@@ -408,7 +408,7 @@ export default function Community() {
                     style={{ height: "100vh", minHeight: "400px" }}
                     data={filteredTracks}
                     components={{
-                      // @ts-expect-error - VirtuosoGrid custom components prop type mismatch - VirtuosoGrid has correct type, but TS inference is confused
+
                       List: forwardRef((props, ref) => (
                         <GridContainer {...props} ref={ref} className="grid-cols-2 md:grid-cols-3 lg:grid-cols-4" />
                       )),
@@ -423,7 +423,7 @@ export default function Community() {
                     style={{ height: "100vh", minHeight: "400px" }}
                     data={filteredTracks}
                     components={{
-                      // @ts-expect-error - VirtuosoGrid custom components prop type mismatch - VirtuosoGrid component types mismatch with custom List/Item
+
                       List: ListContainer,
                       Item: GridItemWrapper,
                     }}
@@ -484,7 +484,7 @@ export default function Community() {
                       style={{ height: "100vh", minHeight: "400px" }}
                       data={popularTracks}
                       components={{
-                        // @ts-expect-error - VirtuosoGrid custom components prop type mismatch
+
                         List: forwardRef((props, ref) => (
                           <GridContainer {...props} ref={ref} className="grid-cols-2 md:grid-cols-3 lg:grid-cols-4" />
                         )),
@@ -499,7 +499,7 @@ export default function Community() {
                       style={{ height: "100vh", minHeight: "400px" }}
                       data={popularTracks}
                       components={{
-                        // @ts-expect-error - VirtuosoGrid custom components prop type mismatch
+
                         List: ListContainer,
                         Item: GridItemWrapper,
                       }}

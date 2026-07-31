@@ -70,7 +70,7 @@ export function useTelegramQRScanner(): UseTelegramQRScannerReturn {
         try {
           setIsScanning(true);
 
-          webApp.showScanQrPopup!({ text: text || "Отсканируйте QR-код" }, (data) => {
+          webApp.showScanQrPopup!({ text: text || "Отсканируйте QR-код" }, (data: string) => {
             // Validation callback - return true to close scanner
             if (validate) {
               const isValid = validate(data);
