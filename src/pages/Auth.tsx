@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router";
+import { useLocation, useNavigate, useSearchParams } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useGuestMode } from "@/contexts/GuestModeContext";
@@ -11,17 +11,24 @@ import { AppLogo } from "@/components/branding/AppLogo";
 import { logger } from "@/lib/logger";
 import { LazyImage } from "@/components/ui/lazy-image";
 
+const isSafeRelativePath = (value: string | null | undefined): value is string =>
+  !!value && value.startsWith("/") && !value.startsWith("//");
+
 const Auth = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { isAuthenticated, loading, authenticateWithTelegram } = useAuth();
+  const { isAuthenticated, loading, isTelegramAuthPending, authenticateWithTelegram } = useAuth();
   const { webApp, user, isInitialized, isDevelopmentMode } = useTelegram();
   const { enableGuestMode } = useGuestMode();
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
-  // Preserve `next` for OAuth consent round-trips. Only same-origin relative paths.
+  // Preserve `next` for OAuth consent round-trips, and `state.from` for the
+  // route the ProtectedRoute guard bounced us out of. Same-origin paths only.
   const rawNext = searchParams.get("next");
-  const nextPath = rawNext && rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/";
+  const rawFrom = (location.state as { from?: string } | null)?.from;
+  const nextPath = isSafeRelativePath(rawNext) ? rawNext : isSafeRelativePath(rawFrom) ? rawFrom : "/";
+
 
   const handleAuth = async () => {
     setIsAuthenticating(true);
