@@ -324,6 +324,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     user,
     session,
     loading,
+    isTelegramAuthPending,
+
     authenticateWithTelegram,
     logout,
     isAuthenticated: !!user,
