@@ -18,10 +18,17 @@ interface AuthContextValue {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  /**
+   * True while the Telegram Mini App initData handshake (`telegram-auth` edge
+   * function -> setSession) is still in flight. Consumers must not treat the
+   * user as logged out (or redirect to /auth) while this is true.
+   */
+  isTelegramAuthPending: boolean;
   authenticateWithTelegram: () => Promise<AuthResult>;
   logout: () => Promise<void>;
   isAuthenticated: boolean;
 }
+
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
