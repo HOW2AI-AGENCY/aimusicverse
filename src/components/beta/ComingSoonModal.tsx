@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * ComingSoonModal - Beautiful modal for features not yet available
  */

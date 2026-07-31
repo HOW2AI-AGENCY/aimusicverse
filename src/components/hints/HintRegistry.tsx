@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * HintRegistry - Single source of truth for in-app hints/tooltips.
  *

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * Comment Suggestions Component
  * Feature: Sprint 32 - US-006 Comment Prompt Suggestions

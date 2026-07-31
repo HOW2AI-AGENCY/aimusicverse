@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * Like Encouragement Toast - Shows contextual hints to encourage engagement
  */

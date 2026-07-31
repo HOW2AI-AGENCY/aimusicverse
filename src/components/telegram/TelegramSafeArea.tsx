@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * Telegram Safe Area Container
  * Feature: 032-professional-ui

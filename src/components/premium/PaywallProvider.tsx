@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * PaywallProvider - Global paywall state and trigger management
  * Wraps app to provide paywall context

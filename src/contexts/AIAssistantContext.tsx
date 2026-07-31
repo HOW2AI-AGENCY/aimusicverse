@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * AI Assistant Context for global AI state management
  * Sprint 010 - Phase 2: Foundational context

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * Telegram Theme Provider
  * Feature: 032-professional-ui

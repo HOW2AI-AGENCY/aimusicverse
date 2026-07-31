@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * Reference Mode Selector Component
  * Allows switching between Cover/Extend/Reference modes inline

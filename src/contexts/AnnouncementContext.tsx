@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * Unified Announcement System
  * - Shows only ONE announcement at a time

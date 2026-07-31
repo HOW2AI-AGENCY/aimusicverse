@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * Touch-friendly interactive components
  * Ensures minimum 44x44px touch targets for mobile accessibility

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * First Comment CTA Component
  * Feature: Sprint 32 - US-005 First Comment CTA

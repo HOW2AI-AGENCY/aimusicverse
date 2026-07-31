@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * Gamification Onboarding
  * 5-step tour explaining the gamification system

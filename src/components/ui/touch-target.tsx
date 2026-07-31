@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * Touch Target Wrapper Component
  * Feature: 032-professional-ui

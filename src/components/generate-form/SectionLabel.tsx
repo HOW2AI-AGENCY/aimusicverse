@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * SectionLabel - Unified label component with optional help popover
  * Provides consistent styling and help icons across all form sections

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * WorkflowVisualizer - Visual representation of professional workflows
  * Shows step-by-step process with real-time status updates

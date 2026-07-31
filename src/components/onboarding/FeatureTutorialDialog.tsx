@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * FeatureTutorialDialog - Interactive tutorial popup with carousel
  *

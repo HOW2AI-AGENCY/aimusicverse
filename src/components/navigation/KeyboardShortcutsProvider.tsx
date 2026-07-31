@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * KeyboardShortcutsProvider
  * Global keyboard shortcuts for the application

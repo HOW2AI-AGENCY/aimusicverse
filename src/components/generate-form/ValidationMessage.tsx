@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * ValidationMessage - Inline validation message component
  * Provides WCAG AA compliant error/warning messages with proper contrast
