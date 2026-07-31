@@ -3,89 +3,51 @@ import { authorize } from "../_shared/auth.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { createLogger } from "../_shared/logger.ts";
 import { corsHeaders } from "../_shared/cors.ts";
-import { getAudioUrl, getImageUrl, getModelName, getStreamUrl, validateClip, type SkipReason } from "../_shared/suno-clip-fields.ts";
+import {
+  getAudioUrl,
+  getImageUrl,
+  getModelName,
+  getStreamUrl,
+  validateClip,
+  type SkipReason,
+} from "../_shared/suno-clip-fields.ts";
+import {
+  type TaskRecoveryStats,
+  type RecoveryTask,
+  type StaleTask,
+  type StemTask,
+  type TrackVersion,
+} from "./types.ts";
+import {
+  getLyrics,
+  STEM_TYPE_MAP,
+  getStemInfoFromResponse,
+  isProviderSuccess,
+  isProviderFailure,
+  getRecoveredVersionType,
+  getRecoveredSourceType,
+  VERSION_LABELS,
+  downloadAndUpload,
+  downloadTrackFiles,
+} from "./utils.ts";
+import {
+  findRecoveryTasks,
+  findStaleTasks,
+  findStaleStemTasks,
+  expireStaleGenerations,
+  updateTrackVersion,
+  insertTrackVersion,
+  updateTrack,
+  updateGenerationTask,
+  updateStemSeparationTask,
+  insertTrackStems,
+  logTrackChange,
+  insertNotification,
+  invokeTelegramNotification,
+  calculateRecoveryStats,
+} from "./queries.ts";
 
 const logger = createLogger("sync-stale-tasks");
-
-const getLyrics = (clip: any) => clip?.prompt || clip?.lyrics || clip?.lyric || ""; // Suno uses 'prompt' for lyrics
-
-const STEM_TYPE_MAP: Record<string, string> = {
-  vocal_url: "vocal",
-  instrumental_url: "instrumental",
-  vocals_url: "vocal",
-  backing_vocals_url: "backing_vocals",
-  drums_url: "drums",
-  bass_url: "bass",
-  guitar_url: "guitar",
-  keyboard_url: "keyboard",
-  strings_url: "strings",
-  brass_url: "brass",
-  woodwinds_url: "woodwinds",
-  percussion_url: "percussion",
-  synth_url: "synth",
-  fx_url: "fx",
-  other_url: "other",
-};
-
-function getStemInfoFromResponse(data: any): Record<string, unknown> | null {
-  return (
-    data?.response?.vocal_removal_info ||
-    data?.response?.vocalRemovalInfo ||
-    data?.vocal_removal_info ||
-    data?.vocalRemovalInfo ||
-    data?.data?.vocal_removal_info ||
-    data?.data?.vocalRemovalInfo ||
-    data ||
-    null
-  );
-}
-
-function isProviderSuccess(status: string | null | undefined): boolean {
-  const normalized = (status || "").toUpperCase();
-  return normalized === "SUCCESS" || normalized === "COMPLETED" || normalized === "COMPLETE";
-}
-
-function isProviderFailure(status: string | null | undefined): boolean {
-  const normalized = (status || "").toUpperCase();
-  return normalized.includes("FAILED") || normalized.includes("ERROR");
-}
-
-function getRecoveredVersionType(mode: string | null): string {
-  switch (mode) {
-    case "extend":
-      return "extension";
-    case "remix":
-      return "remix";
-    case "cover":
-      return "cover";
-    case "replace_section":
-      return "replace_section";
-    case "inpaint":
-      return "inpaint";
-    case "add_vocals":
-      return "vocal_add";
-    case "add_instrumental":
-      return "instrumental_add";
-    default:
-      return "initial";
-  }
-}
-
-function getRecoveredSourceType(mode: string | null): string {
-  switch (mode) {
-    case "extend":
-      return "extended";
-    case "remix":
-      return "remix";
-    case "cover":
-      return "cover";
-    case "add_vocals":
-    case "add_instrumental":
-      return "studio";
-    default:
-      return "generated";
-  }
-}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -180,7 +142,8 @@ serve(async (req) => {
               .limit(1)
               .single();
 
-            const baseLabelCode = latestVersion?.version_label?.length === 1 ? latestVersion.version_label.charCodeAt(0) + 1 : 65;
+            const baseLabelCode =
+              latestVersion?.version_label?.length === 1 ? latestVersion.version_label.charCodeAt(0) + 1 : 65;
             const skippedClips: SkipReason[] = [];
             const createdVersions: { id: string; label: string; audioUrl: string; clip: any }[] = [];
 
@@ -221,25 +184,29 @@ serve(async (req) => {
               const versionOffset = i - existingCount;
               const nextLabel = String.fromCharCode(baseLabelCode + versionOffset);
               const finalAudioUrl = localAudioUrl || audioUrl;
-              const { data: insertedVersion, error: insertVersionError } = await supabase.from("track_versions").insert({
-                track_id: task.track_id,
-                audio_url: finalAudioUrl,
-                cover_url: getImageUrl(clip),
-                duration_seconds: Math.round(clip.duration) || null,
-                version_type: "replace_section",
-                version_label: nextLabel,
-                clip_index: (latestVersion?.clip_index ?? 0) + versionOffset + 1,
-                is_primary: false,
-                metadata: {
-                  suno_id: clip.id,
-                  suno_task_id: task.suno_task_id,
-                  replace_section: true,
-                  original_task_id: task.id,
-                  source_audio_url: audioUrl,
-                  stream_audio_url: getStreamUrl(clip),
-                  recovered: true,
-                },
-              }).select("id").single();
+              const { data: insertedVersion, error: insertVersionError } = await supabase
+                .from("track_versions")
+                .insert({
+                  track_id: task.track_id,
+                  audio_url: finalAudioUrl,
+                  cover_url: getImageUrl(clip),
+                  duration_seconds: Math.round(clip.duration) || null,
+                  version_type: "replace_section",
+                  version_label: nextLabel,
+                  clip_index: (latestVersion?.clip_index ?? 0) + versionOffset + 1,
+                  is_primary: false,
+                  metadata: {
+                    suno_id: clip.id,
+                    suno_task_id: task.suno_task_id,
+                    replace_section: true,
+                    original_task_id: task.id,
+                    source_audio_url: audioUrl,
+                    stream_audio_url: getStreamUrl(clip),
+                    recovered: true,
+                  },
+                })
+                .select("id")
+                .single();
 
               if (insertVersionError || !insertedVersion) {
                 logger.error("Failed to create recovered replace-section version", insertVersionError, {
@@ -258,7 +225,9 @@ serve(async (req) => {
             if (skippedClips.length > 0) {
               await supabase
                 .from("generation_tasks")
-                .update({ error_message: `${skippedClips.length}/${clips.length} clips skipped: ${skippedClips.map((s) => s.code).join(", ")}` })
+                .update({
+                  error_message: `${skippedClips.length}/${clips.length} clips skipped: ${skippedClips.map((s) => s.code).join(", ")}`,
+                })
                 .eq("id", task.id);
             }
 
@@ -587,7 +556,11 @@ serve(async (req) => {
         logger.info("Task status", { taskId: task.id, status: taskData.status });
 
         // Check if generation is complete
-        if (isProviderSuccess(taskData.status) && taskData.response?.sunoData && taskData.response.sunoData.length > 0) {
+        if (
+          isProviderSuccess(taskData.status) &&
+          taskData.response?.sunoData &&
+          taskData.response.sunoData.length > 0
+        ) {
           const clips = taskData.response.sunoData;
           const firstClip = clips[0];
           logger.info("Task completed, processing clips", { taskId: task.id, clipCount: clips.length });
@@ -657,7 +630,6 @@ serve(async (req) => {
               trackId: task.track_id,
             });
           }
-
 
           // Update generation task
           await supabase
@@ -807,7 +779,6 @@ serve(async (req) => {
             }
 
             logger.info("Version saved", { versionLabel });
-
 
             // Log version creation
             await supabase.from("track_change_log").insert({
@@ -1001,7 +972,12 @@ serve(async (req) => {
         }
 
         const stemInfo = getStemInfoFromResponse(providerData);
-        const stemsToInsert: Array<{ track_id: string; stem_type: string; audio_url: string; separation_mode: string }> = [];
+        const stemsToInsert: Array<{
+          track_id: string;
+          stem_type: string;
+          audio_url: string;
+          separation_mode: string;
+        }> = [];
 
         for (const [key, stemType] of Object.entries(STEM_TYPE_MAP)) {
           const url = stemInfo?.[key];
@@ -1050,7 +1026,9 @@ serve(async (req) => {
           .select("stem_type")
           .eq("track_id", stemTask.track_id);
         if (existingStemsError) {
-          logger.error("Failed to lookup existing stems during recovery", existingStemsError, { trackId: stemTask.track_id });
+          logger.error("Failed to lookup existing stems during recovery", existingStemsError, {
+            trackId: stemTask.track_id,
+          });
           continue;
         }
 
@@ -1122,7 +1100,6 @@ serve(async (req) => {
       stemFailed: stemFailedCount,
       expired,
     });
-
 
     return new Response(
       JSON.stringify({
