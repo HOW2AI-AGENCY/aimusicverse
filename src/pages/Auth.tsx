@@ -84,10 +84,13 @@ const Auth = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDevelopmentMode, isAuthenticated, loading, isAuthenticating]);
 
-  // Show loading while initializing
-  if (!isInitialized || loading) {
+  // Show loading while initializing, or while the Telegram initData handshake
+  // is still in flight (otherwise we'd flash the manual login card and let the
+  // user start a second, competing auth attempt).
+  if (!isInitialized || loading || isTelegramAuthPending) {
     return <LoadingScreen message="Инициализация..." />;
   }
+
 
   // In development mode, always show test user login option
   if (isDevelopmentMode) {
