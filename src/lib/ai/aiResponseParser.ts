@@ -217,7 +217,7 @@ export function parseAIResponse(
   type: string;
   message: string;
   lyrics?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Returned passthrough of caller-supplied payload
+   
   data?: unknown;
   expandedAnalysis?: ExpandedAnalysisData;
   keyInsights?: string[];

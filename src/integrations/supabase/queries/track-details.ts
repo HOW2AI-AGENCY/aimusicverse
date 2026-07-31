@@ -49,7 +49,7 @@ export async function fetchTrackDetails({
     cover_url: activeVersion?.cover_url || track.cover_url,
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Response shape varies with includeVersions; downstream consumers narrow via TrackDetailsResponse
+   
   const response: Record<string, unknown> = { track: resolvedTrack };
 
   if (includeVersions) {

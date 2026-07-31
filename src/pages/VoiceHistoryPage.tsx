@@ -80,7 +80,7 @@ export default function VoiceHistoryPage() {
         toast.error("Невозможно повторить: нет задачи валидации");
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Catch-all unknown error from retry RPC
+       
     } catch (e) {
       logger.error("Retry failed", e);
       toast.error(e instanceof Error ? e.message : "Ошибка повтора");
