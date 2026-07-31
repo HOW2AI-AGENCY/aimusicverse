@@ -301,7 +301,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     if (!insideTelegram || session) return;
-    setTelegramHandshakeTimedOut(false);
     // Safety net: never block the UI forever if telegram-auth fails/hangs.
     const timer = setTimeout(() => {
       authLogger.warn("Telegram auth handshake timed out - releasing route guard");
