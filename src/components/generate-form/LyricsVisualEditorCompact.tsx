@@ -40,7 +40,6 @@ import {
 import { SectionCard, EmptyState } from "./lyrics-editor";
 
 // Re-export for backward compatibility with tests
-// eslint-disable-next-line react-refresh/only-export-components
 export { parseLyrics, sectionsToLyrics, sectionsEqual, applyTemplateToSections };
 
 export type { LyricSectionType, LyricSection };
