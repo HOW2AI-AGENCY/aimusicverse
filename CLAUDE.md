@@ -110,7 +110,6 @@ Every generation creates **2 versions**. Schema: `tracks.active_version_id` FK â
 
 ## Testing
 
-<<<<<<< Updated upstream
 - **Unit (Vitest):** jsdom, globals on, `@/`â†’`src/`. Setup mocks in `src/__tests__/vitest.setup.ts`. Patterns: `src/__tests__/**` and `tests/unit/**`. Libs: `@testing-library/react`, `jest-dom`, `fast-check`, `axe-core`, `fake-indexeddb`.
 - **E2E (Playwright):** `tests/e2e`, baseURL `:5173`, auto-starts dev server. Desktop Chrome/Firefox/Safari/Edge + mobile Pixel 5 / iPhone 12.
 - Run `npm test` and `npm run test:e2e` before pushing.
@@ -127,7 +126,7 @@ Every generation creates **2 versions**. Schema: `tracks.active_version_id` FK â
 ## graphify
 
 Knowledge graph at `graphify-out/`. For codebase questions run `graphify query "<question>"` (falls back to `graphify path "<A>" "<B>"` and `graphify explain "<concept>"`) before broad grepping â€” it returns a scoped subgraph. Use `graphify-out/wiki/index.md` for navigation, `GRAPH_REPORT.md` only for broad architecture review. After modifying code, run `graphify update .` (AST-only, no API cost).
-=======
+
 **Database Schema:**
 
 - `tracks` table has `active_version_id` (FK to track_versions)
@@ -234,6 +233,7 @@ This is a **native Telegram Mini App**, not a web app with Telegram login:
 ### Working with Audio
 
 **Always use the global audio player:** `useGlobalAudioPlayer()` from `@/contexts/GlobalAudioContext`
+
 - Play: `play(track)` | Pause: `pause()` | State: `isPlaying`, `currentTrack`
 - For UI preview audio (versions, stems, recordings): `usePreviewAudio()` from `src/hooks/audio/usePreviewAudio.ts`
 
@@ -369,8 +369,6 @@ Logger persists to sessionStorage and integrates with Sentry.
 - **Post-Gen:** Use `GenerationResultSheet` in `MainLayout`. Call `expectGenerationResult()` before generation.
 - **Telegram Bot:** Parse `startapp` params. Show `BotContextBanner`. User must know why they navigated from bot.
 
-
-
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
@@ -381,8 +379,6 @@ Rules:
 - If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
 - Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
 - After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
-
->>>>>>> Stashed changes
 
 <!-- BEGIN sqz-claude-guidance (auto-installed by sqz init; remove this block to disable) -->
 

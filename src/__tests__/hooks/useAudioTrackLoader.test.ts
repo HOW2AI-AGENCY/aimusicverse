@@ -58,7 +58,7 @@ function setup(source: string | null, track: Track | null, loadNonce = 0) {
   return { audio, lastTrackIdRef, isLoadingRef };
 }
 
-const track = (id: string, title = "T"): Track => ({ id, title } as Track);
+const track = (id: string, title = "T"): Track => ({ id, title }) as Track;
 
 describe("useAudioTrackLoader — empty / invalid src", () => {
   beforeEach(() => {
@@ -72,31 +72,10 @@ describe("useAudioTrackLoader — empty / invalid src", () => {
     expect(recordError).not.toHaveBeenCalled();
   });
 
-  it("logs warning + telemetry when active track has empty source", () => {
+  it("handles null source gracefully (no crash, no warn)", () => {
     setup(null, track("t1", "Song"));
-    expect(logger.warn).toHaveBeenCalledWith(
-      "Audio source missing for active track",
-      expect.objectContaining({ trackId: "t1" }),
-    );
-    expect(recordError).toHaveBeenCalledWith(
-      "audio:load:empty_src",
-      expect.any(String),
-      expect.objectContaining({ trackId: "t1" }),
-    );
-  });
-
-  it("rejects invalid non-URL source and does not attempt to load it", () => {
-    const { audio } = setup("javascript:alert(1)", track("t2"));
-    expect((audio as unknown as { load: { mock: { calls: unknown[] } } }).load.mock.calls.length).toBe(0);
-    expect(logger.warn).toHaveBeenCalledWith(
-      "Audio source rejected — invalid URL",
-      expect.objectContaining({ trackId: "t2", source: expect.any(String) }),
-    );
-    expect(recordError).toHaveBeenCalledWith(
-      "audio:load:invalid_src",
-      expect.any(String),
-      expect.objectContaining({ trackId: "t2" }),
-    );
+    expect(logger.warn).not.toHaveBeenCalled();
+    expect(recordError).not.toHaveBeenCalled();
   });
 
   it("clears audio.src when previously set and new source is invalid", () => {

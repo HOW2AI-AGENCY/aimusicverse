@@ -237,6 +237,7 @@ export function useGenerateSheetController({
       negativeTags: form.negativeTags,
       vocalGender: form.vocalGender,
     });
+    notify.success("Черновик сохранён");
     trackAction("form_save_draft", "generation", "complete", { source: "controller" });
   }, [form, hapticFeedback, trackAction]);
 

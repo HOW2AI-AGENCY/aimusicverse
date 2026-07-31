@@ -83,6 +83,7 @@ describe("complete callback → versions + active_version_id smoke", () => {
           state.filters.push([col, val]);
           return api;
         },
+        neq: () => api,
         is: () => api,
         ilike: () => api,
         order: () => api,
