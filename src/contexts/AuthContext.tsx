@@ -170,8 +170,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const hasProfile = signInData.user ? await checkProfile(signInData.user.id) : false;
 
         authLogger.info("Development authentication successful", { hasProfile });
-        toast.success("Режим разработки: вход выполнен!");
         return { user: signInData.user, session: signInData.session, hasProfile };
+
       }
 
       // Production mode: Use Telegram authentication
@@ -263,6 +263,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
     }
   }, [initData, isDevelopmentMode, checkProfile]);
+
+  // Dev/preview auto sign-in.
+  //
+  // ProtectedRoute lets preview visitors into the app without redirecting to
+  // /auth, so the auto-auth that used to live on the Auth page never ran and
+  // the preview stayed anonymous. Do it here instead, once per page load.
+  // Skipped under automated browsers (Playwright) where the headless password
+  // sign-in is CORS-blocked and E2E exercises the guest surfaces.
+  const autoDevAuthRef = React.useRef(false);
+  useEffect(() => {
+    const isAutomatedBrowser = typeof navigator !== "undefined" && navigator.webdriver === true;
+    const insideTelegram = typeof window !== "undefined" && !!window.Telegram?.WebApp?.initData;
+    if (!isDevelopmentMode || isAutomatedBrowser || insideTelegram || loading || session || autoDevAuthRef.current)
+      return;
+
+    autoDevAuthRef.current = true;
+    authLogger.info("Dev mode: auto sign-in");
+    void authenticateWithTelegram();
+  }, [isDevelopmentMode, loading, session, authenticateWithTelegram]);
+
+
 
   const logout = useCallback(async () => {
     await supabase.auth.signOut();
