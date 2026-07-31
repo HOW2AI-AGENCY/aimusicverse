@@ -1,5 +1,5 @@
 import { ReactNode, memo } from "react";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { useGuestMode } from "@/contexts/GuestModeContext";
 import { PageSkeleton } from "@/components/skeletons/PageSkeleton";
@@ -30,21 +30,27 @@ const isDevEnvironment = () => {
  * Uses unified PageSkeleton to prevent layout shifts during loading
  */
 export const ProtectedRoute = memo(function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, isTelegramAuthPending } = useAuth();
   const { isGuestMode } = useGuestMode();
+  const location = useLocation();
 
   // In dev environment, always allow access (guest mode is auto-enabled)
   const isDevMode = isDevEnvironment();
 
   // Use PageSkeleton for consistent loading state - matches MainLayout structure
-  if (loading && !isDevMode) {
+  // `isTelegramAuthPending` covers the window where getSession() already resolved
+  // as anonymous but the Telegram initData handshake is still landing a session:
+  // redirecting here would drop the session and the deep-link target.
+  if ((loading || isTelegramAuthPending) && !isDevMode) {
     return <PageSkeleton variant="default" />;
   }
 
   // Allow access if: authenticated, guest mode, or dev environment
   if (!isAuthenticated && !isGuestMode && !isDevMode) {
-    return <Navigate to="/auth" replace />;
+    // Preserve where the user was heading so /auth can return them after login.
+    return <Navigate to="/auth" replace state={{ from: `${location.pathname}${location.search}` }} />;
   }
 
   return <>{children}</>;
 });
+

@@ -12,6 +12,7 @@
 
 import { useState, useEffect, useCallback, lazy, Suspense, useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useAuthGate } from "@/hooks/useAuthGate";
 import { Navigate, useNavigate, useSearchParams } from "react-router";
 import { Input } from "@/components/ui/input";
 import {
@@ -69,6 +70,7 @@ type GenerationExtras = { description?: string | null; model_used?: string | nul
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
+  const authGate = useAuthGate();
   const isMobile = useIsMobile();
   // Desktop mode must match NavigationShell's ≥1024px breakpoint. Between 768–1023 the
   // app already renders a mobile bottom nav — showing the desktop split-form sidebar too
@@ -249,7 +251,7 @@ export default function Library() {
   );
 
   // Auth loading state
-  if (authLoading) {
+  if (authGate.isResolving) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -258,7 +260,7 @@ export default function Library() {
   }
 
   // Redirect if not authenticated
-  if (!isAuthenticated) {
+  if (!authGate.canAccess) {
     return <Navigate to="/auth" replace />;
   }
 

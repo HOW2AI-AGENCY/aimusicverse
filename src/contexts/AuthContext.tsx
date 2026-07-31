@@ -18,10 +18,17 @@ interface AuthContextValue {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  /**
+   * True while the Telegram Mini App initData handshake (`telegram-auth` edge
+   * function -> setSession) is still in flight. Consumers must not treat the
+   * user as logged out (or redirect to /auth) while this is true.
+   */
+  isTelegramAuthPending: boolean;
   authenticateWithTelegram: () => Promise<AuthResult>;
   logout: () => Promise<void>;
   isAuthenticated: boolean;
 }
+
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
@@ -283,6 +290,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     void authenticateWithTelegram();
   }, [isDevelopmentMode, loading, session, authenticateWithTelegram]);
 
+  // Real Telegram Web/Mini App: `useTelegramInit` fires the initData handshake
+  // in parallel with our getSession() probe. getSession() resolves `null` first
+  // and flips `loading` to false, so a naive consumer would see "logged out"
+  // and redirect away, destroying the session that lands moments later.
+  // Keep an explicit pending flag for that window.
+  const insideTelegram =
+    !isDevelopmentMode && typeof window !== "undefined" && !!window.Telegram?.WebApp?.initData && !!initData;
+  const [telegramHandshakeTimedOut, setTelegramHandshakeTimedOut] = useState(false);
+
+  useEffect(() => {
+    if (!insideTelegram || session) return;
+    // Safety net: never block the UI forever if telegram-auth fails/hangs.
+    const timer = setTimeout(() => {
+      authLogger.warn("Telegram auth handshake timed out - releasing route guard");
+      setTelegramHandshakeTimedOut(true);
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, [insideTelegram, session]);
+
+  const isTelegramAuthPending = insideTelegram && !session && !telegramHandshakeTimedOut;
 
 
   const logout = useCallback(async () => {
@@ -296,6 +323,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     user,
     session,
     loading,
+    isTelegramAuthPending,
+
     authenticateWithTelegram,
     logout,
     isAuthenticated: !!user,

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useAuthGate } from "@/hooks/useAuthGate";
 import { Navigate, useSearchParams, useNavigate } from "react-router";
 import { Users, Search, Plus, User, Sparkles, TrendingUp, Music2, Mic2 } from "@/lib/icons";
 import { Input } from "@/components/ui/input";
@@ -23,6 +24,7 @@ const GENRES = ["Pop", "Rock", "Hip-Hop", "Electronic", "R&B", "Jazz", "Classica
 
 export default function Artists() {
   const { isAuthenticated, loading: authLoading } = useAuth();
+  const authGate = useAuthGate();
   const isMobile = useIsMobile();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -43,7 +45,7 @@ export default function Artists() {
   const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
   const [detailsPanelOpen, setDetailsPanelOpen] = useState(false);
 
-  if (authLoading) {
+  if (authGate.isResolving) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <motion.div
@@ -58,7 +60,7 @@ export default function Artists() {
     );
   }
 
-  if (!isAuthenticated) {
+  if (!authGate.canAccess) {
     return <Navigate to="/auth" replace />;
   }
 
