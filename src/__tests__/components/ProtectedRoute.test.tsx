@@ -7,7 +7,7 @@
  * the deep-link target.
  */
 
-import { render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -65,6 +65,7 @@ describe("ProtectedRoute", () => {
   });
 
   afterEach(() => {
+    cleanup();
     delete (window as unknown as { Telegram?: unknown }).Telegram;
   });
 
