@@ -392,3 +392,44 @@ sqz compresses tool output. Prefer its MCP tools over the built-ins for anything
 
 Keep `Read`/`Grep`/`Glob` for tiny files, byte-exact reads, and globbing. Bash output is auto-piped through `sqz compress` by a hook. To expand a token: `sqz expand <HASH>` (or the `expand` MCP tool). If refs get in the way, call the `passthrough` MCP tool for raw text.
 <!-- END sqz-claude-guidance -->
+
+## Project Management Rules
+
+- [project-management.md](.claude/rules/project-management.md) — статусы задач, прогресс, документация
+- [ACTIVE.md](.claude/ACTIVE.md) — текущая задача
+- [CHANGELOG.md](CHANGELOG.md) — версии проекта
+
+## Versioning
+
+- Версии в `CHANGELOG.md` — `## [version] - YYYY-MM-DD`
+- Каждая версия содержит: **Features**, **Design Rationale**, **Notes & Caveats**
+
+## Commit Rules
+
+- Формат коммитов: `<type>: <description>`
+- Типы: feat, fix, refactor, docs, test, chore, perf, ci
+
+## Task Statuses
+
+| Status           | Emoji | Когда ставить                |
+| ---------------- | ----- | ---------------------------- |
+| Планируется      | 📋    | В начале спринта             |
+| В работе         | 🔧    | Начал реализацию             |
+| Требует внимания | ⚠️    | Баг, ревью, вопрос           |
+| Ошибка           | 🐛    | Найден баг при тесте         |
+| Заблокировано    | 🔒    | Есть зависимость/препятствие |
+| Выполнено        | ✅    | Прошло ревью и тесты         |
+
+## Файлы
+
+- `ACTIVE.md` — **единственный** файл текущей задачи. Содержит: заголовок, статус, описание, ссылки. Каждая сессия читает его при старте и обновляет при завершении.
+- `SPRINTS/SPRINT-PROGRESS.md` — общий прогресс спринта (все задачи).
+- `CHANGELOG.md` — версии и изменения.
+
+## Процесс
+
+1. Начало спринта — создать задачи в `SPRINT-PROGRESS.md`
+2. Взял задачу — `ACTIVE.md` + пометить `🔧`
+3. Нашёл баг/блокер — `⚠️`/`🔒`, записать в `ACTIVE.md`
+4. Сделал — `✅`, коммит `feat/fix: ...`
+5. Новая сессия — прочитать `ACTIVE.md`, продолжить

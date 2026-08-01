@@ -57,6 +57,12 @@
 
 ## 🔄 ТЕКУЩИЙ: Q3 2026 Development Plan
 
+### Sprint 065+ — Hardening & Cleanup
+
+- [ ] Реализация UI компонентов
+- [ ] Исправление ESLint warnings
+- [ ] Декомпозиция Edge Functions
+
 ### Phase 1: Critical Business Metrics ✅ COMPLETE
 
 #### 1.1 Failure Rate Reduction
