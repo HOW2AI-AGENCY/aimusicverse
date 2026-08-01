@@ -235,61 +235,83 @@ npm run build            # production build
 
 ## 📊 Прогресс проекта
 
-| Метрика | Значение                |              Статус              |
-| ------- | ----------------------- | :------------------------------: |
-| Unit тесты              | 1826 passing (176 test files)          |   ✅   |
-| TypeScript              | 0 errors (`--noEmit`)                  |   ✅   |
-| E2E specs               | 59                                      |   ✅   |
-| Components              | 1050+                                   |   ✅   |
-| Hooks                   | 448+                                    |   ✅   |
-| API files               | 35                                      |   ✅   |
-| Services                | 38 `*.service.ts`                       |   ✅   |
-| Stores                  | 25                                      |   ✅   |
-| Suno edge functions     | 46 (25/44 с AbortSignal timeout)        |   ✅   |
-| Files >800 LOC в `src/` | 0                                       |   ✅   |
-| `any` budget            | 0/50                                    |   ✅   |
-| ESLint warnings         | 525 (было 1744, −70%)                   |   ✅   |
-| Bundle eager JS         | ~508 KB gzip                            |   ✅   |
-| Bundle total            | 2.11 MB gzip                            |   🟡   |
-| Branch Protection       | активна                                 |   ✅   |
-| Спринтов завершено      | 51+                                     |   ✅   |
+| Метрика                 | Значение                         | Статус |
+| ----------------------- | -------------------------------- | :----: |
+| Unit тесты              | 1826 passing (176 test files)    |   ✅   |
+| TypeScript              | 0 errors (`--noEmit`)            |   ✅   |
+| E2E specs               | 59                               |   ✅   |
+| Components              | 1050+                            |   ✅   |
+| Hooks                   | 448+                             |   ✅   |
+| API files               | 35                               |   ✅   |
+| Services                | 38 `*.service.ts`                |   ✅   |
+| Stores                  | 25                               |   ✅   |
+| Suno edge functions     | 46 (25/44 с AbortSignal timeout) |   ✅   |
+| Files >800 LOC в `src/` | 0                                |   ✅   |
+| `any` budget            | 0/50                             |   ✅   |
+| ESLint warnings         | 525 (было 1744, −70%)            |   ✅   |
+| Bundle eager JS         | ~508 KB gzip                     |   ✅   |
+| Bundle total            | 2.11 MB gzip                     |   🟡   |
+| Branch Protection       | активна                          |   ✅   |
+| Спринтов завершено      | 51+                              |   ✅   |
 
 ### Последние спринты
 
-| Спринт | Фокус                                     | Статус |
-| ------ | ----------------------------------------- | :----: |
-| 059    | Bundle optimization + API/Service tests   |   ✅   |
-| 060    | Design polish (search, search box)        |   ✅   |
-| 061    | Vendor splits + barrel cleanup            |   ✅   |
-| 062    | UI/UX Audit P0/P1/P2 (A+B+C)              |   ✅   |
-| 063    | Homepage UX fixes + card refinement       |   ✅   |
-| 064    | P2 polish: tablet cols, error, More       |   ✅   |
-|| 065    | Generate v2 + Home Redesign + Visual Regr |   ✅   |
-|| 066    | Epic bugfix + stem studio + MIDI SunoAPI + Cover/Mashup split + Notifications |   ✅   |
+| Спринт | Фокус                                   |                                    Статус                                     |
+| ------ | --------------------------------------- | :---------------------------------------------------------------------------: |
+| 059    | Bundle optimization + API/Service tests |                                      ✅                                       |
+| 060    | Design polish (search, search box)      |                                      ✅                                       |
+| 061    | Vendor splits + barrel cleanup          |                                      ✅                                       |
+| 062    | UI/UX Audit P0/P1/P2 (A+B+C)            |                                      ✅                                       |
+| 063    | Homepage UX fixes + card refinement     |                                      ✅                                       |
+| 064    | P2 polish: tablet cols, error, More     |                                      ✅                                       |
+|        | 065                                     |                   Generate v2 + Home Redesign + Visual Regr                   | ✅  |
+|        | 066                                     | Epic bugfix + stem studio + MIDI SunoAPI + Cover/Mashup split + Notifications | ✅  |
 
 <sub><a href="#🚀-быстрый-старт">← Назад: Быстрый старт</a> · <a href="#top">↑ К началу</a> · <a href="#🛠-технический-стек">Далее: Технический стек →</a></sub>
 
 ---
 
+### 🤖 Готовность к AI-разработке
+
+Проект полностью готов к работе с AI-агентами. Система памяти хранит профиль пользователя (Honcho primary) и проектные решения (file-based secondary), handoff-хуки передают контекст между сессиями, а встроенный MCP-сервер позволяет AI-ассистентам управлять MusicVerse прямо из чата.
+
+**Что сделано:**
+
+- MCP-сервер — поиск треков, генерация Suno, управление библиотекой, OAuth 2.1
+- Двухуровневая память — Honcho (cross-session) + file-based (проектные решения)
+- Handoff-система — `stop-handoff.ps1` + `startup-handoff.ps1` через SessionStart/Stop хуки
+- Zero tech debt — 0 any, 0 files >800 LOC, 0 tsc errors
+- 1826 unit + 59 E2E тестов, активная branch protection
+
+**Документация:**
+
+- [docs/MCP.md](docs/MCP.md) — справочник MCP-инструментов и гайд по добавлению новых
+- [ARCHITECTURE_HUB.md](ARCHITECTURE_HUB.md) — ADR, диаграммы, слои
+- [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) — полный каталог
+
+<sub><a href="#📊-прогресс-проекта">← Назад: Прогресс</a> · <a href="#top">↑ К началу</a> · <a href="#🛠-технический-стек">Далее: Технический стек →</a></sub>
+
+---
+
 ## 🛠 Технический стек
 
-| Слой                     | Технология                                        |
-| ------------------------ | ------------------------------------------------- |
-| **Фреймворк**            | React 19.2, TypeScript 5.9, Vite 6.4.3            |
-| **Стилизация**           | Tailwind CSS 3.4, shadcn/ui, Radix UI             |
-| **Глобальное состояние** | Zustand 5.0 (25 stores)                           |
-| **Серверное состояние**  | TanStack Query 5.90                               |
-| **Бэкенд**               | Supabase (PostgreSQL + RLS + Realtime + Storage)  |
-| **Serverless**           | 120+ Edge Functions (Deno/TypeScript)             |
-| **Аудио**                | Tone.js 14.9, Wavesurfer.js 7.8                   |
+| Слой                     | Технология                                                               |
+| ------------------------ | ------------------------------------------------------------------------ |
+| **Фреймворк**            | React 19.2, TypeScript 5.9, Vite 6.4.3                                   |
+| **Стилизация**           | Tailwind CSS 3.4, shadcn/ui, Radix UI                                    |
+| **Глобальное состояние** | Zustand 5.0 (25 stores)                                                  |
+| **Серверное состояние**  | TanStack Query 5.90                                                      |
+| **Бэкенд**               | Supabase (PostgreSQL + RLS + Realtime + Storage)                         |
+| **Serverless**           | 120+ Edge Functions (Deno/TypeScript)                                    |
+| **Аудио**                | Tone.js 14.9, Wavesurfer.js 7.8                                          |
 | **MIDI**                 | SunoAPI (vocal/instrumental) + Klang.io (6 моделей для детальных стемов) |
-| **Формы**                | React Hook Form + Zod                             |
-| **Тесты unit**           | Vitest 4.x (jsdom)                                |
-| **Тесты e2e**            | Playwright 1.61 (Chrome, Firefox, Safari, Mobile) |
-| **Анимации**             | Framer Motion (через tree-shaking обёртку)        |
-| **CI/CD**                | GitHub Actions (5 jobs, 3 браузера)               |
-| **Платформа**            | Telegram Mini App (@twa-dev/sdk 8.0.2)            |
-| **Локализация**          | react-i18next, i18next-browser-languagedetector   |
+| **Формы**                | React Hook Form + Zod                                                    |
+| **Тесты unit**           | Vitest 4.x (jsdom)                                                       |
+| **Тесты e2e**            | Playwright 1.61 (Chrome, Firefox, Safari, Mobile)                        |
+| **Анимации**             | Framer Motion (через tree-shaking обёртку)                               |
+| **CI/CD**                | GitHub Actions (5 jobs, 3 браузера)                                      |
+| **Платформа**            | Telegram Mini App (@twa-dev/sdk 8.0.2)                                   |
+| **Локализация**          | react-i18next, i18next-browser-languagedetector                          |
 
 <sub><a href="#📊-прогресс-проекта">← Назад: Прогресс</a> · <a href="#top">↑ К началу</a> · <a href="#📁-структура-проекта">Далее: Структура →</a></sub>
 
