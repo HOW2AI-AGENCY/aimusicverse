@@ -1,55 +1,34 @@
 #!/usr/bin/env bash
-# =============================================================================
-# PostToolUse Hook: Fast TypeScript Check
-# =============================================================================
-# After editing a .ts/.tsx file, runs a fast tsc --noEmit to surface type
-# errors immediately. Only reports the first 3 errors to avoid noise.
-# Caches a pass/fail status so SessionStart dashboard can report it.
-#
-# Matcher: Edit|Write
-# Hook type: command
-# =============================================================================
+# PostToolUse: tsc check on TS edits. Throttled: runs max every 5s.
 set -euo pipefail
 
+THROTTLE="${TMPDIR:-/tmp}/.tsc-check-throttle"
+NOW=$(date +%s)
+
+# skip if ran in last 5 seconds
+[ -f "$THROTTLE" ] && [ $(($(cat "$THROTTLE") + 5)) -gt "$NOW" ] && exit 0
+
 TOOL_RESULT=$(cat)
-
-FILE=$(python3 -c "
-import json, sys
+FILE=$(echo "$TOOL_RESULT" | python3 -c "
+import json,sys
 try:
-    d = json.loads(sys.stdin.read())
-    t = d.get('tool_input', d)
-    fp = str(t.get('file_path', ''))
-    print(fp)
-except Exception:
-    print('')
-" <<< "$TOOL_RESULT" 2>/dev/null || true)
+    t=json.loads(sys.stdin.read()).get('tool_input',{})
+    print(t.get('file_path',''))
+except: print('')
+" 2>/dev/null || true)
 
-# Only check TypeScript files
 case "$FILE" in
   *.ts|*.tsx)
-    # Must have tsc available
-    if ! command -v npx &>/dev/null; then
-      exit 0
-    fi
-
-    # Run tsc and capture output
+    command -v npx &>/dev/null || exit 0
+    echo "$NOW" > "$THROTTLE"
     TSC_OUT=$(npx tsc --noEmit --pretty 2>&1 || true)
-
+    mkdir -p node_modules/.cache
     if [ -z "$TSC_OUT" ]; then
-      # Cache pass
-      mkdir -p node_modules/.cache
       echo "✓ passing" > node_modules/.cache/test-status
     else
-      # Show first 3 errors
       ERROR_COUNT=$(echo "$TSC_OUT" | grep -c "error TS" || true)
-      echo ""
-      echo "  ⚠ TypeScript: $ERROR_COUNT errors (first 3 shown)"
-      echo "$TSC_OUT" | grep "error TS" | head -3 | while read -r line; do
-        echo "    $line"
-      done
-      echo ""
-      # Cache fail
-      mkdir -p node_modules/.cache
+      echo "  ⚠ TypeScript: $ERROR_COUNT errors (showing first 3)"
+      echo "$TSC_OUT" | grep "error TS" | head -3 | sed 's/^/    /'
       echo "⚠ $ERROR_COUNT TS errors" > node_modules/.cache/test-status
     fi
     ;;
