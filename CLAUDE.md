@@ -55,7 +55,7 @@ npm run storybook        # Storybook on :6006
 1. **Global UI state → Zustand** (`playerStore`, `useUnifiedStudioStore`, `useLyricsHistoryStore`, `useMixerHistoryStore`). Never use Context API for global state.
 2. **Server state → TanStack Query** (`staleTime: 30s`, `gcTime: 10min`). Optimistic updates for likes/plays/version switches. Never raw `fetch`/`axios` for server state.
 3. **Form state → React Hook Form + Zod.** Drafts auto-save to localStorage.
-4. **Component state → `useState`/`useReducer`.**
+4. **Component state → `useState`/`useReducer`.
 
 ### Audio system — single source pattern
 

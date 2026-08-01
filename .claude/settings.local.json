@@ -18,12 +18,21 @@
       "Read(//c/**)",
       "Read(//d/**)",
       "Read(//tmp/**)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(yarn graphify *)",
+      "Bash(corepack enable *)",
+      "Bash(pnpm graphify *)",
+      "mcp__sqz__sqz_list_dir",
+      "Bash(sqz compress *)",
+      "Bash(rm -rf .claude/commands && echo \"done\")"
     ],
     "additionalDirectories": [
       "D:\\.MUSICVERSE\\aimusicverse",
       "D:\\.MUSICVERSE\\aimusicverse\\.husky",
-      "d:\\d\\.MUSICVERSE\\aimusicverse\\graphify-out"
+      "d:\\d\\.MUSICVERSE\\aimusicverse\\graphify-out",
+      "D:\\.MUSICVERSE\\aimusicverse\\.claude\\agents\\consensus",
+      "D:\\.MUSICVERSE\\aimusicverse\\.claude\\agents\\testing",
+      "D:\\.MUSICVERSE\\aimusicverse\\.claude\\commands"
     ]
   },
   "enabledMcpjsonServers": [
