@@ -17,7 +17,7 @@
   <img alt="License MIT" src="https://shieldcn.dev/badge/license-MIT-green.svg?variant=outline"/>
   <img alt="Version" src="https://shieldcn.dev/badge/version-v1.0.0-blue.svg?variant=outline"/>
   <img alt="Quality & Build" src="https://shieldcn.dev/github/ci/vercel/next.js.svg?variant=outline"/>
-  <img alt="Unit Tests" src="https://shieldcn.dev/badge/unit%20tests-1826%20passing-green.svg?variant=outline"/>
+
   <img alt="Bundle" src="https://shieldcn.dev/badge/bundle-508KB%20gzip-blue.svg?variant=outline"/>
   <img alt="Telegram" src="https://shieldcn.dev/badge/Telegram-24A1DE.svg?font=geist-mono&amp;logo=telegram&amp;logoColor=ffffff"/>
   <img alt="TypeScript" src="https://shieldcn.dev/badge/TypeScript.svg?variant=branded&amp;brand=typescript"/>
@@ -67,6 +67,12 @@
 | ![Главная](https://aimusicverse.lovable.app/__l5e/assets-v1/403b3246-5427-4e1b-b4ae-0f040cbb13f9/home.png) | ![Библиотека](https://aimusicverse.lovable.app/__l5e/assets-v1/ee33a97f-b38a-4237-b4dd-7570cf20d1f3/library.png) | ![Проекты](https://aimusicverse.lovable.app/__l5e/assets-v1/4ed69732-610c-48d3-9c97-758de4f636a4/projects.png) | ![Студия](https://aimusicverse.lovable.app/__l5e/assets-v1/c73682a9-7b3c-487f-919a-e926941d119b/studio.png) |
 
 <sub>Реальные скриншоты приложения на мобильном viewport 390×844 (iPhone-class). Сгенерированы автоматически через Playwright из живого preview.</sub>
+<p>
+  <img alt="Playwright" src="https://img.shields.io/badge/Playwright-1.61-5C2D91?style=for-the-badge&logo=playwright"/>
+  <img alt="Docs: Up to Date" src="https://shieldcn.dev/badge/docs-up%20to%20date-brightgreen.svg?variant=outline"/>
+  <img alt="Telegram" src="https://shieldcn.dev/badge/Telegram-24A1DE.svg?font=geist-mono&amp;logo=telegram&amp;logoColor=ffffff"/>
+  <img alt="Beta" src="https://shieldcn.dev/badge/status-beta-blue.svg?variant=outline"/>
+</p>
 
 </div>
 
@@ -92,6 +98,21 @@
 | ♿ Доступность    | WCAG AA, 14px min, клавиатурная навигация                                                  |   ✅   |
 | 📱 Telegram       | MainButton, BackButton, Haptic, CloudStorage                                               |   ✅   |
 | 🌐 Локализация    | i18n EN/RU (react-i18next)                                                                 |   ✅   |
+
+<div align="center">
+<p>
+  <img alt="Tone.js" src="https://img.shields.io/badge/Tone.js-14.9-EC4A3F?style=for-the-badge&logo=tonejs"/>
+  <img alt="Wavesurfer.js" src="https://img.shields.io/badge/Wavesurfer.js-7.8-4F46E5?style=for-the-badge&logo=wavesurfer"/>
+  <img alt="Framer Motion" src="https://img.shields.io/badge/Framer_Motion-10.0.5-EC4A3F?style=for-the-badge&logo=framer"/>
+  <img alt="Vite" src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"/>
+  <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss"/>
+  <img alt="Zustand" src="https://img.shields.io/badge/Zustand-5.0-3178C6?style=for-the-badge&logo=zustand"/>
+  <img alt="TanStack Query" src="https://img.shields.io/badge/TanStack_Query-5.90-EC4A3F?style=for-the-badge&logo=reactquery"/>
+  <img alt="i18next" src="https://img.shields.io/badge/i18next-22.4-26A5E4?style=for-the-badge&logo=i18next"/>
+  <img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub_Actions-181717?style=for-the-badge&logo=githubactions&logoColor=white"/>
+  <img alt="Fire" src="https://shieldcn.dev/badge/on-fire-ff0844.svg?gradient=ff0844%2Cffb199&amp;logoColor=fff&amp;logo=ri%3AGoFlame"/>
+</p>
+</div>
 
 <sub><a href="#📱-скриншоты">← Назад: Скриншоты</a> · <a href="#top">↑ К началу</a> · <a href="#🏛-архитектура">Далее: Архитектура →</a></sub>
 
@@ -208,6 +229,11 @@ erDiagram
 
 Ключевые сущности и связи: профиль владеет треками, каждый трек имеет версии (A/B) и стемы; к профилю привязаны кредиты и роли; треки накапливают комментарии и лайки; проекты и плейлисты объединяют треки через связующие таблицы.
 
+<p>
+  <img alt="PostgreSQL" src="https://shieldcn.dev/badge/PostgreSQL.svg?variant=branded&amp;brand=postgresql"/>
+  <img alt="Supabase" src="https://shieldcn.dev/badge/Supabase.svg?variant=branded&amp;brand=supabase"/>
+</p>
+
 > Подробнее: [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md) · [`docs/DATABASE.md`](docs/DATABASE.md) · [`docs/SUNO_API.md`](docs/SUNO_API.md)
 
 <sub><a href="#✨-возможности">← Назад: Возможности</a> · <a href="#top">↑ К началу</a> · <a href="#🚀-быстрый-старт">Далее: Быстрый старт →</a></sub>
@@ -232,6 +258,17 @@ npm run build            # production build
 
 > **Требования**: Node.js 22+, npm 11+. Приложение оптимизировано под мобильные устройства (375×812 Telegram WebView).
 
+<p>
+  <img alt="Vitest" src="https://img.shields.io/badge/Vitest-4.x-FF6600?style=for-the-badge&logo=vitest"/>
+  <img alt="Monitored by Sentry" src="https://shieldcn.dev/badge/monitored%20by-Sentry-362D59.svg?logo=sentry&logoColor=fff&variant=branded&brand=sentry"/>
+  <img alt="TypeScript" src="https://shieldcn.dev/badge/TypeScript.svg?variant=branded&amp;brand=typescript"/>
+  <img alt="React" src="https://shieldcn.dev/badge/React.svg?variant=branded&amp;brand=react"/>
+  <img alt="Supabase" src="https://shieldcn.dev/badge/Supabase.svg?variant=branded&amp;brand=supabase"/>
+  <img alt="Tailwind CSS" src="https://shieldcn.dev/badge/Tailwind%20CSS.svg?variant=branded&amp;brand=tailwindcss"/>
+  <img alt="ESLint" src="https://shieldcn.dev/badge/ESLint.svg?variant=branded&amp;brand=eslint"/>
+  <img alt="npm" src="https://shieldcn.dev/badge/npm.svg?variant=branded&amp;brand=npm"/>
+</p>
+
 <sub><a href="#🏛-архитектура">← Назад: Архитектура</a> · <a href="#top">↑ К началу</a> · <a href="#📊-прогресс-проекта">Далее: Прогресс →</a></sub>
 
 ---
@@ -240,9 +277,9 @@ npm run build            # production build
 
 | Метрика                 | Значение                                                                       | Статус |
 | ----------------------- | ------------------------------------------------------------------------------ | :----: |
-| Unit тесты              | 1826 passing (176 test files)                                                  |   ✅   |
+| Unit тесты              |  <img alt="Unit Tests" src="https://shieldcn.dev/badge/unit%20tests-1826%20passing-green.svg?variant=outline"/>                                                  |   ✅   |
 | Coverage                | ![Coverage 95%](https://shieldcn.dev/badge/coverage-95%25-blue.svg?theme=blue) |   ✅   |
-| TypeScript              | 0 errors (`--noEmit`)                                                          |   ✅   |
+| TypeScript              |   <img alt="Type Safety" src="https://shieldcn.dev/badge/type%20safety-eventual-orange.svg?variant=outline"/>                                                          |   ✅   |
 | E2E specs               | 59                                                                             |   ✅   |
 | Components              | 1050+                                                                          |   ✅   |
 | Hooks                   | 448+                                                                           |   ✅   |
@@ -277,14 +314,14 @@ npm run build            # production build
 
 ### 🤖 Готовность к AI-разработке
 
+Проект полностью готов к работе с AI-агентами. Система памяти хранит профиль пользователя (Honcho primary) и проектные решения (file-based secondary), handoff-хуки передают контекст между сессиями, а встроенный MCP-сервер позволяет AI-ассистентам управлять MusicVerse прямо из чата.
+
 <p>
   <img alt="Agentic workflows" src="https://shieldcn.dev/badge/Agentic-workflows-D97757.svg?logo=anthropic&variant=secondary"/>
   <img alt="Tool Use Ready" src="https://shieldcn.dev/badge/tool%20use-ready-D97757.svg?logo=anthropic&variant=outline"/>
   <img alt="Claude Code" src="https://shieldcn.dev/badge/Claude-Code-D97757.svg?logo=anthropic&variant=outline"/>
   <img alt="Fire" src="https://shieldcn.dev/badge/on-fire-ff0844.svg?gradient=ff0844%2Cffb199&amp;logoColor=fff&amp;logo=ri%3AGoFlame"/>
 </p>
-
-Проект полностью готов к работе с AI-агентами. Система памяти хранит профиль пользователя (Honcho primary) и проектные решения (file-based secondary), handoff-хуки передают контекст между сессиями, а встроенный MCP-сервер позволяет AI-ассистентам управлять MusicVerse прямо из чата.
 
 **Что сделано:**
 
@@ -306,26 +343,23 @@ npm run build            # production build
 
 ## 🛠 Технический стек
 
-| Слой                     | Технология                                                               | Бейдж                                                                                                                                                                                                                                                                                                                     |
-| ------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Фреймворк**            | React 19.2, TypeScript 5.9, Vite 6.4.3                                   | <img alt="TypeScript" src="https://shieldcn.dev/badge/TypeScript.svg?variant=branded&amp;brand=typescript"/> <img alt="React" src="https://shieldcn.dev/badge/React.svg?variant=branded&amp;brand=react"/> <img alt="Vite" src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"/> |
-| **Стилизация**           | Tailwind CSS 3.4, shadcn/ui, Radix UI                                    | <img alt="Tailwind CSS" src="https://shieldcn.dev/badge/Tailwind%20CSS.svg?variant=branded&amp;brand=tailwindcss"/>                                                                                                                                                                                                       |
-| **Глобальное состояние** | Zustand 5.0 (25 stores)                                                  | <img alt="Zustand" src="https://img.shields.io/badge/Zustand-5.0-3178C6?style=for-the-badge&logo=zustand"/>                                                                                                                                                                                                               |
-| **Серверное состояние**  | TanStack Query 5.90                                                      | <img alt="TanStack Query" src="https://img.shields.io/badge/TanStack_Query-5.90-EC4A3F?style=for-the-badge&logo=reactquery"/>                                                                                                                                                                                             |
-| **Бэкенд**               | Supabase (PostgreSQL + RLS + Realtime + Storage)                         | <img alt="Supabase" src="https://shieldcn.dev/badge/Supabase.svg?variant=branded&amp;brand=supabase"/> <img alt="PostgreSQL" src="https://shieldcn.dev/badge/PostgreSQL.svg?variant=branded&amp;brand=postgresql"/>                                                                                                       |
-| **Serverless**           | 120+ Edge Functions (Deno/TypeScript)                                    | <img alt="Type Safety" src="https://shieldcn.dev/badge/type%20safety-eventual-orange.svg?variant=outline"/>                                                                                                                                                                                                               |
-| **Аудио**                | Tone.js 14.9, Wavesurfer.js 7.8                                          | <img alt="Tone.js" src="https://img.shields.io/badge/Tone.js-14.9-EC4A3F?style=for-the-badge&logo=tonejs"/> <img alt="Wavesurfer.js" src="https://img.shields.io/badge/Wavesurfer.js-7.8-4F46E5?style=for-the-badge&logo=wavesurfer"/>                                                                                    |
-| **MIDI**                 | SunoAPI (vocal/instrumental) + Klang.io (6 моделей для детальных стемов) |                                                                                                                                                                                                                                                                                                                           |
-| **Формы**                | React Hook Form + Zod                                                    |                                                                                                                                                                                                                                                                                                                           |
-| **Тесты unit**           | Vitest 4.x (jsdom)                                                       | <img alt="Vitest" src="https://img.shields.io/badge/Vitest-4.x-FF6600?style=for-the-badge&logo=vitest"/>                                                                                                                                                                                                                  |
-| **Тесты e2e**            | Playwright 1.61 (Chrome, Firefox, Safari, Mobile)                        | <img alt="Playwright" src="https://img.shields.io/badge/Playwright-1.61-5C2D91?style=for-the-badge&logo=playwright"/>                                                                                                                                                                                                     |
-| **Анимации**             | Framer Motion (через tree-shaking обёртку)                               | <img alt="Framer Motion" src="https://img.shields.io/badge/Framer_Motion-10.0.5-EC4A3F?style=for-the-badge&logo=framer"/>                                                                                                                                                                                                 |
-| **CI/CD**                | GitHub Actions (5 jobs, 3 браузера)                                      | <img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub_Actions-181717?style=for-the-badge&logo=githubactions&logoColor=white"/>                                                                                                                                                                               |
-| **Мониторинг**           | Sentry                                                                   | <img alt="Monitored by Sentry" src="https://shieldcn.dev/badge/monitored%20by-Sentry-362D59.svg?logo=sentry&logoColor=fff&variant=branded&brand=sentry"/>                                                                                                                                                                 |
-| **Линтинг**              | ESLint                                                                   | <img alt="ESLint" src="https://shieldcn.dev/badge/ESLint.svg?variant=branded&amp;brand=eslint"/>                                                                                                                                                                                                                          |
-| **Платформа**            | Telegram Mini App (@twa-dev/sdk 8.0.2)                                   | <img alt="Telegram" src="https://shieldcn.dev/badge/Telegram-24A1DE.svg?font=geist-mono&amp;logo=telegram&amp;logoColor=ffffff"/>                                                                                                                                                                                         |
-| **Локализация**          | react-i18next, i18next-browser-languagedetector                          | <img alt="i18next" src="https://img.shields.io/badge/i18next-22.4-26A5E4?style=for-the-badge&logo=i18next"/>                                                                                                                                                                                                              |
-| **Пакетный менеджер**    | npm                                                                      | <img alt="npm" src="https://shieldcn.dev/badge/npm.svg?variant=branded&amp;brand=npm"/>                                                                                                                                                                                                                                   |
+| Слой                     | Технология                                                               |
+| ------------------------ | ------------------------------------------------------------------------ |
+| **Фреймворк**            | React 19.2, TypeScript 5.9, Vite 6.4.3                                   |
+| **Стилизация**           | Tailwind CSS 3.4, shadcn/ui, Radix UI                                    |
+| **Глобальное состояние** | Zustand 5.0 (25 stores)                                                  |
+| **Серверное состояние**  | TanStack Query 5.90                                                      |
+| **Бэкенд**               | Supabase (PostgreSQL + RLS + Realtime + Storage)                         |
+| **Serverless**           | 120+ Edge Functions (Deno/TypeScript)                                    |
+| **Аудио**                | Tone.js 14.9, Wavesurfer.js 7.8                                          |
+| **MIDI**                 | SunoAPI (vocal/instrumental) + Klang.io (6 моделей для детальных стемов) |
+| **Формы**                | React Hook Form + Zod                                                    |
+| **Тесты unit**           | Vitest 4.x (jsdom)                                                       |
+| **Тесты e2e**            | Playwright 1.61 (Chrome, Firefox, Safari, Mobile)                        |
+| **Анимации**             | Framer Motion (через tree-shaking обёртку)                               |
+| **CI/CD**                | GitHub Actions (5 jobs, 3 браузера)                                      |
+| **Платформа**            | Telegram Mini App (@twa-dev/sdk 8.0.2)                                   |
+| **Локализация**          | react-i18next, i18next-browser-languagedetector                          |
 
 <sub><a href="#📊-прогресс-проекта">← Назад: Прогресс</a> · <a href="#top">↑ К началу</a> · <a href="#📁-структура-проекта">Далее: Структура →</a></sub>
 
