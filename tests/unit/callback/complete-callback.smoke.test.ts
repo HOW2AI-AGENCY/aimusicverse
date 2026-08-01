@@ -27,7 +27,7 @@ function loadHandler() {
     "../utils/version-types.ts": `exports.VERSION_LABELS = ["A","B"]; exports.getVersionType = () => "initial";`,
     "../utils/fetch-retry.ts": `exports.fetchWithRetry = async () => ({ blob: async () => ({ size: 1 }) });`,
     "../utils/audit-log.ts": `exports.logAuditAction = async () => {};`,
-    "./version-utils.ts": `exports.VERSION_LABELS = ["A","B"]; exports.findExistingVersion = () => null; exports.makePersistenceFailure = (m) => ({ ok: false, error: m }); exports.getSourceType = () => "initial";`,
+    "./version-utils.ts": `exports.VERSION_LABELS = ["A","B"]; exports.findExistingVersion = () => Promise.resolve({error: null, version: null}); exports.makePersistenceFailure = (code, msg) => ({ code, clipIndex: -1, message: msg, availableKeys: [] }); exports.getSourceType = () => "initial";`,
     "./studio-utils.ts": `exports.handleStudioInstrumental = async () => {}; exports.createStudioProject = async () => {};`,
     "./cover-utils.ts": `exports.generateTrackCover = async () => null;`,
     "./notification-utils.ts": `exports.sendTelegramResults = async () => {};`,
@@ -40,9 +40,11 @@ function loadHandler() {
   }).outputText;
   const sharedMod: any = { exports: {} };
   new Function("exports", sharedOut)(sharedMod.exports);
-  stubs["../../_shared/suno-clip-fields.ts"] = Object.keys(sharedMod.exports)
-    .map((k) => `exports.${k} = ${JSON.stringify(null)};`)
-    .join("\n"); // placeholder; replaced below
+  // Types are erased during transpile; keep only callable keys.
+  // The critical fields below are real no-op proxies so the handler can
+  // destructure and call them without crashing. The remaining exports
+  // (type-only) are absent from sharedMod.exports anyway.
+  stubs["../../_shared/suno-clip-fields.ts"] = `exports.getAudioUrl = (c) => (c && (c.sourceAudioUrl||c.source_audio_url||c.audioUrl||c.audio_url))||null; exports.getStreamUrl = () => null; exports.getImageUrl = (c) => (c && (c.imageUrl||c.image_url||c.coverUrl||c.cover_url))||null; exports.getModelName = (c) => (c && (c.modelName||c.model_name))||null; exports.extractClipFields = (c) => ({audioUrl:c?.audioUrl||c?.audio_url,imageUrl:c?.imageUrl||c?.image_url}); exports.validateClip = () => null; exports.SkipReasonCode = {}; exports.SkipReason = {}; exports.ValidateOpts = {};`;
 
   const handlerSrc = fs.readFileSync(
     path.join(root, "supabase/functions/suno-music-callback/handlers/complete.ts"),
