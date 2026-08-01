@@ -30,7 +30,10 @@
       "Bash(echo \"EXIT: $?\")",
       "Bash(rm -f .claude/test.ts)",
       "Bash(echo '#!/usr/bin/env bash *)",
-      "Bash(chmod +x .claude/statusline.sh)"
+      "Bash(chmod +x .claude/statusline.sh)",
+      "mcp__plugin_honcho_honcho__get_config",
+      "mcp__plugin_honcho_honcho__chat",
+      "mcp__plugin_honcho_honcho__create_conclusion"
     ],
     "additionalDirectories": [
       "D:\\.MUSICVERSE\\aimusicverse",
@@ -38,7 +41,8 @@
       "d:\\d\\.MUSICVERSE\\aimusicverse\\graphify-out",
       "D:\\.MUSICVERSE\\aimusicverse\\.claude\\agents\\consensus",
       "D:\\.MUSICVERSE\\aimusicverse\\.claude\\agents\\testing",
-      "D:\\.MUSICVERSE\\aimusicverse\\.claude\\commands"
+      "D:\\.MUSICVERSE\\aimusicverse\\.claude\\commands",
+      "C:\\Users\\oat70\\.claude\\hooks"
     ]
   },
   "enabledMcpjsonServers": [
