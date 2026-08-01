@@ -27,6 +27,11 @@ function loadHandler() {
     "../utils/version-types.ts": `exports.VERSION_LABELS = ["A","B"]; exports.getVersionType = () => "initial";`,
     "../utils/fetch-retry.ts": `exports.fetchWithRetry = async () => ({ blob: async () => ({ size: 1 }) });`,
     "../utils/audit-log.ts": `exports.logAuditAction = async () => {};`,
+    "./version-utils.ts": `exports.VERSION_LABELS = ["A","B"]; exports.findExistingVersion = () => null; exports.makePersistenceFailure = (m) => ({ ok: false, error: m }); exports.getSourceType = () => "initial";`,
+    "./studio-utils.ts": `exports.handleStudioInstrumental = async () => {}; exports.createStudioProject = async () => {};`,
+    "./cover-utils.ts": `exports.generateTrackCover = async () => null;`,
+    "./notification-utils.ts": `exports.sendTelegramResults = async () => {};`,
+    "./task-completion-utils.ts": `exports.completeGenerationTask = async () => {}; exports.createGenerationNotification = async () => {};`,
   };
 
   const sharedSrc = fs.readFileSync(path.join(root, files.get("suno-clip-fields")!), "utf8");
