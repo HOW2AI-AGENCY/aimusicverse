@@ -59,41 +59,38 @@ export function LyricsAssistantSheet({
         >
           <Drawer.Handle className="mx-auto w-12 h-1.5 rounded-full bg-muted-foreground/30 mb-3" />
 
-          <div className="flex items-center justify-between mb-3">
-            <Drawer.Title className="text-base font-semibold">🤖 AI-помощник</Drawer.Title>
-            <Button variant="ghost" size="sm" onClick={() => onOpenChange(false)}>
+          <div className="flex items-center justify-between gap-2 mb-3">
+            <Drawer.Title className="flex min-w-0 items-center gap-2 text-base font-semibold">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <Bot className="h-4 w-4" />
+              </span>
+              <span className="truncate">ИИ-агент лирики</span>
+            </Drawer.Title>
+            <Button variant="ghost" size="sm" onClick={() => onOpenChange(false)} className="shrink-0">
               Готово
             </Button>
           </div>
 
-          {!previewCollapsed && currentText && (
-            <div className="rounded-xl border bg-muted/30 p-3 mb-3">
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-semibold text-muted-foreground">Ваш текущий текст</span>
-                <button
-                  type="button"
-                  aria-label="скрыть превью"
-                  onClick={() => setPreviewCollapsed(true)}
-                  className="min-w-[44px] min-h-[44px] flex items-center justify-center"
-                >
-                  <ChevronUp className="w-4 h-4" />
-                </button>
-              </div>
-              <pre className={cn("text-xs whitespace-pre-wrap font-sans", "max-h-24 overflow-y-auto")}>
-                {currentText}
-              </pre>
+          {currentText && (
+            <div className="rounded-xl border bg-muted/30 mb-3">
+              <button
+                type="button"
+                aria-label={previewCollapsed ? "показать превью" : "скрыть превью"}
+                aria-expanded={!previewCollapsed}
+                onClick={() => setPreviewCollapsed((v) => !v)}
+                className="flex min-h-[44px] w-full items-center justify-between gap-2 px-3"
+              >
+                <span className="truncate text-xs font-semibold text-muted-foreground">
+                  Ваш текущий текст · {currentText.length} симв.
+                </span>
+                {previewCollapsed ? <ChevronDown className="h-4 w-4" /> : <ChevronUp className="h-4 w-4" />}
+              </button>
+              {!previewCollapsed && (
+                <pre className={cn("px-3 pb-3 text-xs whitespace-pre-wrap font-sans", "max-h-24 overflow-y-auto")}>
+                  {currentText}
+                </pre>
+              )}
             </div>
-          )}
-
-          {previewCollapsed && currentText && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setPreviewCollapsed(false)}
-              className="mb-3 self-start min-h-[44px]"
-            >
-              <ChevronDown className="w-4 h-4 mr-1" /> Показать превью
-            </Button>
           )}
 
           <div className="flex-1 overflow-hidden">
