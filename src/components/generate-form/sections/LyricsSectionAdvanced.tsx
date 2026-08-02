@@ -376,8 +376,8 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
               >
                 <div className="flex items-center justify-between gap-2">
                   {/* Character count with progress bar */}
-                  <div className="flex items-center gap-2">
-                    <div className="h-1 w-16 rounded-full bg-muted overflow-hidden">
+                  <div className="flex shrink-0 items-center gap-2">
+                    <div className="h-1 w-12 sm:w-16 rounded-full bg-muted overflow-hidden">
                       <motion.div
                         className={cn(
                           "h-full rounded-full transition-colors",
@@ -395,21 +395,36 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
                     <span className={cn("text-[0.625rem] font-mono", charCountColor)}>{lyrics.length}/5000</span>
                   </div>
 
-                  {/* Action buttons */}
-                  <div className="flex items-center gap-1">
-                    <FormFieldActions
-                      value={lyrics}
-                      onClear={() => onLyricsChange("")}
-                      onVoiceInput={onLyricsChange}
-                      voiceContext="lyrics"
-                      appendMode
-                      onAIAssist={onOpenLyricsAssistant}
-                      onOpenTemplates={() => setTemplateSelectorOpen(true)}
-                      onOpenStudio={() => navigate("/lyrics-studio", { state: { initialLyrics: lyrics } })}
-                      onSave={async () => setSaveDialogOpen(true)}
-                      showSave
-                      size="lg"
-                    />
+                  {/* Action buttons — secondary actions scroll, AI stays pinned */}
+                  <div className="flex min-w-0 flex-1 items-center justify-end gap-1">
+                    <div className="min-w-0 flex-1 overflow-x-auto scrollbar-none">
+                      <FormFieldActions
+                        className="justify-end"
+                        value={lyrics}
+                        onClear={() => onLyricsChange("")}
+                        onVoiceInput={onLyricsChange}
+                        voiceContext="lyrics"
+                        appendMode
+                        onOpenTemplates={() => setTemplateSelectorOpen(true)}
+                        onOpenStudio={() => navigate("/lyrics-studio", { state: { initialLyrics: lyrics } })}
+                        onSave={async () => setSaveDialogOpen(true)}
+                        showSave
+                        size="default"
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      size="sm"
+                      onClick={() => {
+                        hapticFeedback("light");
+                        onOpenLyricsAssistant();
+                      }}
+                      aria-label="ИИ-агент написания текста"
+                      className="h-8 shrink-0 gap-1.5 rounded-lg px-2.5 shadow-sm"
+                    >
+                      <Bot className="h-4 w-4" />
+                      <span className="text-xs font-semibold">ИИ</span>
+                    </Button>
                   </div>
                 </div>
               </div>
