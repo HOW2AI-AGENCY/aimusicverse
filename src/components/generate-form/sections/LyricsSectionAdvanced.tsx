@@ -31,7 +31,7 @@ import {
   normalizeSectionType,
   type LyricSectionType,
 } from "../lyricsSectionMeta";
-import { LayoutGrid, AlignLeft, Eye, Music2 } from "@/lib/icons";
+import { LayoutGrid, AlignLeft, Eye, Music2, Bot } from "@/lib/icons";
 import { LyricsProsodyPanel } from "../lyrics/LyricsProsodyPanel";
 import { useProsodyReport } from "@/hooks/lyrics/useProsodyReport";
 
