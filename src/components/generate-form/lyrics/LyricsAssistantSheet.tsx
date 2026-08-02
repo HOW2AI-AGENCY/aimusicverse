@@ -11,7 +11,7 @@
 import { useState } from "react";
 import { Drawer } from "vaul";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp } from "@/lib/icons";
+import { ChevronDown, ChevronUp, Bot } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { LyricsAssistantChat } from "./LyricsAssistantChat";
 import { useScrollLock } from "@/hooks/useScrollLock";
