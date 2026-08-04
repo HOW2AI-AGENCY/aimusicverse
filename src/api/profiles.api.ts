@@ -79,3 +79,21 @@ export async function fetchProfileCountInRange(params: { startDate: Date; endDat
   if (error) throw new Error(error.message);
   return count ?? 0;
 }
+
+export interface ProfileBriefRow {
+  user_id: string;
+  username: string | null;
+  photo_url: string | null;
+  first_name: string | null;
+}
+
+/** Batch fetch minimal profile info for a list of user ids. */
+export async function fetchProfileBriefs(userIds: string[]): Promise<ProfileBriefRow[]> {
+  if (userIds.length === 0) return [];
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("user_id, username, photo_url, first_name")
+    .in("user_id", userIds);
+  if (error) throw new Error(error.message);
+  return (data ?? []) as ProfileBriefRow[];
+}

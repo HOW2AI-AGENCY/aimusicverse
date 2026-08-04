@@ -19,7 +19,7 @@ import {
   Clock,
   Zap,
   Gift,
-  Infinity,
+  Infinity as InfinityIcon,
 } from "@/lib/icons";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserRole } from "@/hooks/useUserRole";
@@ -169,7 +169,7 @@ export default function Subscription() {
   const showExpirationWarning = isActive && daysRemaining !== undefined && daysRemaining !== null && daysRemaining < 7;
 
   const benefits = [
-    { icon: Infinity, title: "Безлимитная генерация", description: "Создавай музыку без ограничений по количеству" },
+    { icon: InfinityIcon, title: "Безлимитная генерация", description: "Создавай музыку без ограничений по количеству" },
     { icon: Zap, title: "Приоритетная очередь", description: "Твои запросы обрабатываются первыми" },
     { icon: Star, title: "HD качество аудио", description: "Экспорт в максимальном качестве 320kbps" },
     { icon: Gift, title: "Эксклюзивные модели", description: "Доступ к премиальным AI-моделям" },
