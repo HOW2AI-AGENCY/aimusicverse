@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { listStudioProjects } from "@/api/studio";
+import { listStudioProjects, type StudioProjectListRow } from "@/api/studio";
 import { queryKeys } from "@/lib/queryKeys";
 
 import { Button } from "@/components/ui/button";
@@ -32,17 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Section, sectionTokens } from "@/components/layout/Section";
 
-interface StudioProjectRow {
-  id: string;
-  name: string;
-  description: string | null;
-  bpm: number | null;
-  tracks: StudioTrack[] | null;
-  status: string | null;
-  created_at: string | null;
-  updated_at: string | null;
-  opened_at: string | null;
-}
+type StudioProjectRow = StudioProjectListRow;
 
 const STATUS_META = {
   draft: { label: "Черновик", dot: "bg-slate-400", className: "border-slate-400/30 text-slate-300 bg-slate-400/10" },
