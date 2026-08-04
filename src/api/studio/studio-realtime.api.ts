@@ -160,3 +160,25 @@ export function subscribeToTrackStemsInsert(
     },
   };
 }
+
+export interface StudioProjectListRow {
+  id: string;
+  name: string;
+  description: string | null;
+  bpm: number | null;
+  tracks: unknown[] | null;
+  status: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+  opened_at: string | null;
+}
+
+/** List studio projects of the current user (RLS-scoped), most recently opened first. */
+export async function listStudioProjects(): Promise<StudioProjectListRow[]> {
+  const { data, error } = await supabase
+    .from("studio_projects")
+    .select("id, name, description, bpm, tracks, status, created_at, updated_at, opened_at")
+    .order("opened_at", { ascending: false, nullsFirst: false });
+  if (error || !data) return [];
+  return data as unknown as StudioProjectListRow[];
+}
