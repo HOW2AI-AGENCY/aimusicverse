@@ -30,7 +30,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { StudioTrack } from "@/stores/useUnifiedStudioStore";
 import { Section, sectionTokens } from "@/components/layout/Section";
 
 interface StudioProjectRow {
@@ -109,7 +108,7 @@ export default function StudioHubPage() {
   };
 
 
-  const getTrackCount = (tracks: StudioTrack[] | null) => {
+  const getTrackCount = (tracks: unknown[] | null) => {
     if (!tracks || !Array.isArray(tracks)) return 0;
     return tracks.length;
   };
