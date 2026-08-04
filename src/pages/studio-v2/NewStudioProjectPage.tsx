@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Loader2, Music2, FileAudio, Upload } from "@/lib/icons";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchRecentTrackOptions } from "@/api/tracks.api";
 import { toast } from "sonner";
 
 interface TrackOption {
@@ -38,14 +38,12 @@ export default function NewStudioProjectPage() {
 
   const loadUserTracks = async () => {
     setLoadingTracks(true);
-    const { data } = await supabase
-      .from("tracks")
-      .select("id, title, audio_url, duration_seconds")
-      .order("created_at", { ascending: false })
-      .limit(20);
-
-    setTracks((data as TrackOption[]) || []);
-    setLoadingTracks(false);
+    try {
+      const data = await fetchRecentTrackOptions(20);
+      setTracks(data as TrackOption[]);
+    } finally {
+      setLoadingTracks(false);
+    }
   };
 
   const handleModeChange = (newMode: "empty" | "from-track") => {

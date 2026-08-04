@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
-import { supabase } from "@/integrations/supabase/client";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { listStudioProjects, type StudioProjectListRow } from "@/api/studio";
+import { queryKeys } from "@/lib/queryKeys";
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -27,20 +30,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { StudioTrack } from "@/stores/useUnifiedStudioStore";
 import { Section, sectionTokens } from "@/components/layout/Section";
 
-interface StudioProjectRow {
-  id: string;
-  name: string;
-  description: string | null;
-  bpm: number | null;
-  tracks: StudioTrack[] | null;
-  status: string | null;
-  created_at: string | null;
-  updated_at: string | null;
-  opened_at: string | null;
-}
+type StudioProjectRow = StudioProjectListRow;
 
 const STATUS_META = {
   draft: { label: "Черновик", dot: "bg-slate-400", className: "border-slate-400/30 text-slate-300 bg-slate-400/10" },
@@ -77,8 +69,7 @@ function hashIndex(s: string, mod: number): number {
 
 export default function StudioHubPage() {
   const navigate = useNavigate();
-  const [projects, setProjects] = useState<StudioProjectRow[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const queryClient = useQueryClient();
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const { deleteProject, isLoading: isDeleting } = useStudioProject();
 
@@ -88,31 +79,26 @@ export default function StudioHubPage() {
     fallbackPath: "/",
   });
 
-  const loadProjects = async () => {
-    setIsLoading(true);
-    const { data } = await supabase
-      .from("studio_projects")
-      .select("id, name, description, bpm, tracks, status, created_at, updated_at, opened_at")
-      .order("opened_at", { ascending: false, nullsFirst: false });
-
-    setProjects((data as StudioProjectRow[]) || []);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    loadProjects();
-  }, []);
+  const { data: projects = [], isLoading } = useQuery({
+    queryKey: queryKeys.studio.projects,
+    queryFn: listStudioProjects,
+    staleTime: 30_000,
+  });
 
   const handleDelete = async () => {
     if (!deleteId) return;
     const success = await deleteProject(deleteId);
     if (success) {
-      setProjects((prev) => prev.filter((p) => p.id !== deleteId));
+      queryClient.setQueryData<StudioProjectRow[]>(queryKeys.studio.projects, (prev) =>
+        (prev ?? []).filter((p) => p.id !== deleteId),
+      );
+      void queryClient.invalidateQueries({ queryKey: queryKeys.studio.projects });
     }
     setDeleteId(null);
   };
 
-  const getTrackCount = (tracks: StudioTrack[] | null) => {
+
+  const getTrackCount = (tracks: unknown[] | null) => {
     if (!tracks || !Array.isArray(tracks)) return 0;
     return tracks.length;
   };

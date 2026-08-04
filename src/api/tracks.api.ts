@@ -396,3 +396,21 @@ export async function fetchParentTrack(parentTrackId: string): Promise<ParentTra
   if (error) return null;
   return (data ?? null) as ParentTrackRow | null;
 }
+
+export interface TrackOptionRow {
+  id: string;
+  title: string;
+  audio_url: string;
+  duration_seconds: number | null;
+}
+
+/** Recent tracks of the current user (RLS-scoped) for pickers/selects. */
+export async function fetchRecentTrackOptions(limit = 20): Promise<TrackOptionRow[]> {
+  const { data, error } = await supabase
+    .from("tracks")
+    .select("id, title, audio_url, duration_seconds")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) throw new Error(error.message);
+  return (data ?? []) as TrackOptionRow[];
+}

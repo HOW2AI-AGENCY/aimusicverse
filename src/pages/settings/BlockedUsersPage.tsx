@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useBlockedUsers, useBlockUser } from "@/hooks/social/useBlockUser";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchProfileBriefs } from "@/api/profiles.api";
 import { motion } from "@/lib/motion";
 
 export default function BlockedUsersPage() {
@@ -18,14 +18,7 @@ export default function BlockedUsersPage() {
   const blockedUserIds = blockedUsers?.map((b) => b.blocked_id) || [];
   const { data: profiles } = useQuery({
     queryKey: ["blocked-profiles", blockedUserIds],
-    queryFn: async () => {
-      if (blockedUserIds.length === 0) return [];
-      const { data } = await supabase
-        .from("profiles")
-        .select("user_id, username, photo_url, first_name")
-        .in("user_id", blockedUserIds);
-      return data || [];
-    },
+    queryFn: () => fetchProfileBriefs(blockedUserIds),
     enabled: blockedUserIds.length > 0,
   });
 

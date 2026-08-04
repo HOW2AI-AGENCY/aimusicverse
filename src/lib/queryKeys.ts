@@ -148,6 +148,7 @@ export const queryKeys = {
     all: ["studio"] as const,
     data: (projectId: string) => ["studio-data", projectId] as const,
     changelog: (projectId: string) => ["studio-change-log", projectId] as const,
+    projects: ["studio-projects"] as const,
     transcription: (trackId: string) => ["studio-transcription", trackId] as const,
     sourceTrack: (trackId: string) => ["source-track", trackId] as const,
     replacedSections: (trackId: string) => ["replaced-sections", trackId] as const,
