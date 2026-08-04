@@ -77,8 +77,7 @@ function hashIndex(s: string, mod: number): number {
 
 export default function StudioHubPage() {
   const navigate = useNavigate();
-  const [projects, setProjects] = useState<StudioProjectRow[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const queryClient = useQueryClient();
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const { deleteProject, isLoading: isDeleting } = useStudioProject();
 
@@ -88,29 +87,24 @@ export default function StudioHubPage() {
     fallbackPath: "/",
   });
 
-  const loadProjects = async () => {
-    setIsLoading(true);
-    const { data } = await supabase
-      .from("studio_projects")
-      .select("id, name, description, bpm, tracks, status, created_at, updated_at, opened_at")
-      .order("opened_at", { ascending: false, nullsFirst: false });
-
-    setProjects((data as StudioProjectRow[]) || []);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    loadProjects();
-  }, []);
+  const { data: projects = [], isLoading } = useQuery({
+    queryKey: queryKeys.studio.projects,
+    queryFn: listStudioProjects,
+    staleTime: 30_000,
+  });
 
   const handleDelete = async () => {
     if (!deleteId) return;
     const success = await deleteProject(deleteId);
     if (success) {
-      setProjects((prev) => prev.filter((p) => p.id !== deleteId));
+      queryClient.setQueryData<StudioProjectRow[]>(queryKeys.studio.projects, (prev) =>
+        (prev ?? []).filter((p) => p.id !== deleteId),
+      );
+      void queryClient.invalidateQueries({ queryKey: queryKeys.studio.projects });
     }
     setDeleteId(null);
   };
+
 
   const getTrackCount = (tracks: StudioTrack[] | null) => {
     if (!tracks || !Array.isArray(tracks)) return 0;
