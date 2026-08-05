@@ -42,8 +42,13 @@ async function openLyricsEditor(page: Page) {
     await skipOnboarding.click({ timeout: 15_000 }).catch(() => undefined);
   }
 
-  await page.getByLabel("Открыть форму создания трека").click({ timeout: 20_000 });
+  // Mobile shell exposes the FAB; desktop/tablet shell uses the sidebar CTA.
+  const mobileOpener = page.getByLabel("Открыть форму создания трека");
+  const desktopOpener = page.getByLabel("Create a new music track with AI").first();
+  const opener = (await mobileOpener.count()) ? mobileOpener : desktopOpener;
+  await opener.click({ timeout: 20_000 });
   await page.getByLabel("Полный — Все настройки").click({ timeout: 20_000 });
+
 
   const aiButton = page.getByLabel(AI_BUTTON_LABEL);
   await aiButton.waitFor({ state: "visible", timeout: 20_000 });
