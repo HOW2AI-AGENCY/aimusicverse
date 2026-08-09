@@ -86,6 +86,7 @@ export default defineConfig(({ mode }) => ({
     mode === "development" && componentTagger(),
     mode === "production" && reactPriorityPlugin(),
     mode === "production" &&
+      process.env.ANALYZE === "1" &&
       visualizer?.({
         filename: "./dist/stats.html",
         open: false,
