@@ -231,7 +231,7 @@ export function DesktopFullscreenPlayer({
       exit={{ y: "100%" }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className={cn(
-        "fixed inset-0 z-fullscreen bg-background/95 backdrop-blur-xl",
+        "fixed inset-0 z-fullscreen bg-background/95 backdrop-blur-2xl",
         isMaximized ? "p-0" : "p-4 md:p-8 xl:p-10 2xl:p-12",
       )}
       data-testid="desktop-fullscreen-player"

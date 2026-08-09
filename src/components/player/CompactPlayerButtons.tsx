@@ -113,7 +113,7 @@ export const NextBtn = memo(function NextBtn({ onClick, disabled }: NavProps) {
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "h-10 w-10",
+        "h-11 w-11",
         TOUCH,
         ROUND,
         "hover:scale-105 motion-reduce:hover:scale-100",
@@ -133,7 +133,7 @@ export const PrevBtn = memo(function PrevBtn({ onClick }: NavProps) {
       variant="ghost"
       size="icon"
       onClick={onClick}
-      className={cn("h-10 w-10", TOUCH, ROUND, "hover:scale-105 motion-reduce:hover:scale-100")}
+      className={cn("h-11 w-11", TOUCH, ROUND, "hover:scale-105 motion-reduce:hover:scale-100")}
       aria-label={t("player.buttons.prevLabel")}
     >
       <SkipBack className="h-4 w-4" aria-hidden="true" />
@@ -149,7 +149,7 @@ export const CloseBtn = memo(function CloseBtn({ onClick }: NavProps) {
       size="icon"
       onClick={onClick}
       className={cn(
-        "h-10 w-10 rounded-full hover:bg-destructive/15 hover:text-destructive active:scale-95 transition-all motion-reduce:transition-none motion-reduce:active:scale-100",
+        "h-11 w-11 rounded-full hover:bg-destructive/15 hover:text-destructive active:scale-95 transition-all motion-reduce:transition-none motion-reduce:active:scale-100",
         TOUCH,
       )}
       aria-label={t("player.buttons.closeLabel")}
@@ -171,7 +171,7 @@ export const LikeBtn = memo(function LikeBtn({ onClick, isLiked }: LikeProps) {
       variant="ghost"
       size="icon"
       onClick={onClick}
-      className={cn("h-10 w-10", TOUCH, ROUND)}
+      className={cn("h-11 w-11", TOUCH, ROUND)}
       aria-label={isLiked ? t("player.buttons.unlikeLabel") : t("player.buttons.likeLabel")}
       aria-pressed={isLiked}
     >
@@ -187,7 +187,7 @@ export const ExpandBtn = memo(function ExpandBtn({ onClick }: NavProps) {
       variant="ghost"
       size="icon"
       onClick={onClick}
-      className={cn("h-10 w-10", TOUCH, ROUND)}
+      className={cn("h-11 w-11", TOUCH, ROUND)}
       aria-label={t("player.buttons.expandLabel")}
     >
       <ChevronUp className="h-4 w-4" aria-hidden="true" />
@@ -212,7 +212,7 @@ export const VolumeControl = memo(function VolumeControl({ volume, setVolume, va
         <Button
           variant="ghost"
           size="icon"
-          className={cn("h-10 w-10 rounded-full hover:bg-muted/50 transition-all motion-reduce:transition-none", TOUCH)}
+          className={cn("h-11 w-11 rounded-full hover:bg-muted/50 transition-all motion-reduce:transition-none", TOUCH)}
           aria-label={t("player.buttons.volumeLabel")}
         >
           <Icon className="h-4 w-4" aria-hidden="true" />
@@ -247,7 +247,7 @@ export const VolumeControl = memo(function VolumeControl({ volume, setVolume, va
           variant="ghost"
           size="icon"
           onClick={(e) => e.stopPropagation()}
-          className={cn("h-10 w-10 rounded-full hover:bg-muted/50 transition-all motion-reduce:transition-none", TOUCH)}
+          className={cn("h-11 w-11 rounded-full hover:bg-muted/50 transition-all motion-reduce:transition-none", TOUCH)}
           aria-label={t("player.buttons.volumeLabel")}
         >
           <Icon className="h-4 w-4" aria-hidden="true" />

@@ -69,7 +69,6 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
   const { toggleLike } = useTracks();
   const [showExpandHint, setShowExpandHint] = useState(false);
 
-  const isMobile = useMediaQuery("(max-width: 639px)");
   const isMidRange = useMediaQuery("(min-width: 640px) and (max-width: 1023px)");
   const isDesktop = useMediaQuery("(min-width: 1024px)");
   const isMobileLandscape = useMediaQuery("(max-width: 1023px) and (orientation: landscape) and (max-height: 500px)");
@@ -190,7 +189,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               aspectRatio="1/1"
               containerClassName={cn(
                 "rounded-xl bg-muted/40 ring-1 ring-border/40 group-hover:ring-primary/30 transition-all",
-                variant === "desktop" ? "w-[72px] h-[72px]" : variant === "mid" ? "w-12 h-12" : "w-12 h-12",
+                variant === "desktop" ? "w-[72px] h-[72px]" : variant === "mid" ? "w-12 h-12" : "w-11 h-11",
               )}
               className="h-full w-full rounded-xl object-cover"
               width={variant === "desktop" ? 72 : 48}
@@ -201,7 +200,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
             <div
               className={cn(
                 "rounded-xl bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-1 ring-border/30 group-hover:ring-primary/30 transition-all",
-                variant === "desktop" ? "w-[72px] h-[72px]" : variant === "mid" ? "w-12 h-12" : "w-12 h-12",
+                variant === "desktop" ? "w-[72px] h-[72px]" : variant === "mid" ? "w-12 h-12" : "w-11 h-11",
               )}
             >
               <Music2 className="w-5 h-5 text-primary/60" aria-hidden="true" />
@@ -365,7 +364,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
             {TitleBlock}
             <Waveform heightClass="h-5" isLoading={isLoading} />
           </div>
-          <div className="flex items-center gap-0.5 flex-shrink-0">
+          <div className="flex items-center gap-1 flex-shrink-0">
             {PlayButton}
             {NextButton}
             {CloseButton}
