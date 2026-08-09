@@ -134,7 +134,7 @@ export default defineConfig(({ mode }) => ({
             drop_console: mode === "production",
             drop_debugger: true,
             pure_funcs: mode === "production" ? ["console.log", "console.info", "console.debug", "console.trace"] : [],
-            passes: 3,
+            passes: 2,
             unsafe: false,
             unsafe_comps: false,
             unsafe_math: false,
