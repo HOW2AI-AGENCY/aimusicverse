@@ -33,7 +33,10 @@
       "Bash(chmod +x .claude/statusline.sh)",
       "mcp__plugin_honcho_honcho__get_config",
       "mcp__plugin_honcho_honcho__chat",
-      "mcp__plugin_honcho_honcho__create_conclusion"
+      "mcp__plugin_honcho_honcho__create_conclusion",
+      "mcp__tokensave__tokensave_context",
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "mcp__plugin_context7_context7__query-docs"
     ],
     "additionalDirectories": [
       "D:\\.MUSICVERSE\\aimusicverse",

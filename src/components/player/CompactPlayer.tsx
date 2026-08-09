@@ -32,7 +32,6 @@ import { usePlayerTransition } from "./PlayerTransitionProvider";
 import { PlayBtn, NextBtn, PrevBtn, CloseBtn, LikeBtn, ExpandBtn, VolumeControl } from "./CompactPlayerButtons";
 import { StemBatchStatusBadge } from "./StemBatchStatusBadge";
 
-
 interface CompactPlayerProps {
   track: Track;
   onExpand: () => void;
@@ -50,8 +49,18 @@ const formatTime = (s: number) => {
 export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: CompactPlayerProps) {
   const { t } = useTranslation();
   const reducedMotion = useReducedMotion();
-  const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, closePlayer, queue, volume, setVolume, retryPlayback } =
-    usePlayerStore();
+  const {
+    isPlaying,
+    playTrack,
+    pauseTrack,
+    nextTrack,
+    previousTrack,
+    closePlayer,
+    queue,
+    volume,
+    setVolume,
+    retryPlayback,
+  } = usePlayerStore();
   const playbackStatus = usePlayerStore((s) => s.playbackStatus);
   const playbackError = usePlayerStore((s) => s.playbackError);
   const isLoading = playbackStatus === "loading" || playbackStatus === "buffering";
@@ -181,11 +190,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               aspectRatio="1/1"
               containerClassName={cn(
                 "rounded-xl bg-muted/40 ring-1 ring-border/40 group-hover:ring-primary/30 transition-all",
-                variant === "desktop"
-                  ? "w-14 h-14 xl:w-16 xl:h-16 2xl:w-[72px] 2xl:h-[72px]"
-                  : variant === "mid"
-                    ? "w-11 h-11"
-                    : "w-12 h-12",
+                variant === "desktop" ? "w-[72px] h-[72px]" : variant === "mid" ? "w-12 h-12" : "w-12 h-12",
               )}
               className="h-full w-full rounded-xl object-cover"
               width={variant === "desktop" ? 72 : 48}
@@ -196,11 +201,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
             <div
               className={cn(
                 "rounded-xl bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-1 ring-border/30 group-hover:ring-primary/30 transition-all",
-                variant === "desktop"
-                  ? "w-14 h-14 xl:w-16 xl:h-16 2xl:w-[72px] 2xl:h-[72px]"
-                  : variant === "mid"
-                    ? "w-11 h-11"
-                    : "w-12 h-12",
+                variant === "desktop" ? "w-[72px] h-[72px]" : variant === "mid" ? "w-12 h-12" : "w-12 h-12",
               )}
             >
               <Music2 className="w-5 h-5 text-primary/60" aria-hidden="true" />
