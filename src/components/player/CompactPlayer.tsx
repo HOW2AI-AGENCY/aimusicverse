@@ -189,7 +189,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
               aspectRatio="1/1"
               containerClassName={cn(
                 "rounded-xl bg-muted/40 ring-1 ring-border/40 group-hover:ring-primary/30 transition-all",
-                variant === "desktop" ? "w-[72px] h-[72px]" : variant === "mid" ? "w-12 h-12" : "w-11 h-11",
+                variant === "desktop" ? "w-[72px] h-[72px]" : variant === "mid" ? "w-12 h-12" : "w-12 h-12",
               )}
               className="h-full w-full rounded-xl object-cover"
               width={variant === "desktop" ? 72 : 48}
@@ -200,7 +200,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
             <div
               className={cn(
                 "rounded-xl bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center ring-1 ring-border/30 group-hover:ring-primary/30 transition-all",
-                variant === "desktop" ? "w-[72px] h-[72px]" : variant === "mid" ? "w-12 h-12" : "w-11 h-11",
+                variant === "desktop" ? "w-[72px] h-[72px]" : variant === "mid" ? "w-12 h-12" : "w-12 h-12",
               )}
             >
               <Music2 className="w-5 h-5 text-primary/60" aria-hidden="true" />
@@ -347,7 +347,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
           <div className="flex-1 min-w-0">{TitleBlock}</div>
           <div className="flex items-center gap-1 flex-shrink-0 ml-auto">
             {PlayButton}
-            {NextButton}
+            <span className="mr-1">{NextButton}</span>
             {CloseButton}
           </div>
         </div>
@@ -366,7 +366,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
           </div>
           <div className="flex items-center gap-1 flex-shrink-0">
             {PlayButton}
-            {NextButton}
+            <span className="mr-1">{NextButton}</span>
             {CloseButton}
           </div>
         </div>
