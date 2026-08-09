@@ -20,8 +20,7 @@ const SAMPLE_TRACK = {
 };
 
 async function mountFullscreen(page: Page) {
-  await page.goto("/");
-  await page.waitForLoadState("domcontentloaded");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
   await page.evaluate((track) => {
     const store = (window as any).__playerStore;
     if (store?.setState) {

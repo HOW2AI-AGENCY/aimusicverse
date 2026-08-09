@@ -23,7 +23,7 @@ const SAMPLE_TRACK = {
 };
 
 async function mountPlayer(page: Page) {
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
   await page.waitForLoadState("domcontentloaded");
   // Inject a track via the global store
   await page.evaluate((track) => {

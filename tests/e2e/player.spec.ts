@@ -12,7 +12,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Audio Player Display", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
@@ -25,9 +25,8 @@ test.describe("Audio Player Display", () => {
     
     const playerCount = await compactPlayer.count();
     console.log(`Found ${playerCount} compact player elements`);
-    
-    // May not be visible if no track is playing
-    expect(playerCount).toBeGreaterThanOrEqual(0);
+
+    if (playerCount === 0) test.skip(true, "No compact player — no track loaded");
   });
 
   test("should have play/pause button", async ({ page }) => {
@@ -37,8 +36,12 @@ test.describe("Audio Player Display", () => {
     
     const buttonCount = await playPauseButton.count();
     console.log(`Found ${buttonCount} play/pause buttons`);
-    
-    expect(buttonCount).toBeGreaterThanOrEqual(0);
+
+    if (buttonCount > 0) {
+      await expect(playPauseButton.first()).toBeVisible();
+    } else {
+      test.skip(true, "No play/pause button — no track loaded");
+    }
   });
 
   test("should have volume control", async ({ page }) => {
@@ -48,8 +51,12 @@ test.describe("Audio Player Display", () => {
     
     const volumeCount = await volumeControl.count();
     console.log(`Found ${volumeCount} volume controls`);
-    
-    expect(volumeCount).toBeGreaterThanOrEqual(0);
+
+    if (volumeCount > 0) {
+      await expect(volumeControl.first()).toBeVisible();
+    } else {
+      test.skip(true, "No volume control — no track loaded");
+    }
   });
 
   test("should have progress bar", async ({ page }) => {
@@ -59,14 +66,18 @@ test.describe("Audio Player Display", () => {
     
     const progressCount = await progressBar.count();
     console.log(`Found ${progressCount} progress bars`);
-    
-    expect(progressCount).toBeGreaterThanOrEqual(0);
+
+    if (progressCount > 0) {
+      await expect(progressBar.first()).toBeVisible();
+    } else {
+      test.skip(true, "No progress bar — no track loaded");
+    }
   });
 });
 
 test.describe("Player Controls Interaction", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/library");
+    await page.goto("/library", { waitUntil: "domcontentloaded" });
     await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
@@ -99,14 +110,18 @@ test.describe("Player Controls Interaction", () => {
     
     const navCount = await navButtons.count();
     console.log(`Found ${navCount} navigation buttons`);
-    
-    expect(navCount).toBeGreaterThanOrEqual(0);
+
+    if (navCount > 0) {
+      await expect(navButtons.first()).toBeVisible();
+    } else {
+      test.skip(true, "No navigation buttons — no track loaded");
+    }
   });
 });
 
 test.describe("Full Screen Player", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
@@ -118,8 +133,12 @@ test.describe("Full Screen Player", () => {
     
     const expandCount = await expandButton.count();
     console.log(`Found ${expandCount} expand buttons`);
-    
-    expect(expandCount).toBeGreaterThanOrEqual(0);
+
+    if (expandCount > 0) {
+      await expect(expandButton.first()).toBeVisible();
+    } else {
+      test.skip(true, "No expand button — not in fullscreen mode");
+    }
   });
 
   test("should display track info", async ({ page }) => {
@@ -130,8 +149,12 @@ test.describe("Full Screen Player", () => {
     
     const infoCount = await trackInfo.count();
     console.log(`Found ${infoCount} track info elements`);
-    
-    expect(infoCount).toBeGreaterThanOrEqual(0);
+
+    if (infoCount > 0) {
+      await expect(trackInfo.first()).toBeVisible();
+    } else {
+      test.skip(true, "No track info — no track loaded");
+    }
   });
 
   test("should display track artwork if available", async ({ page }) => {
@@ -141,14 +164,18 @@ test.describe("Full Screen Player", () => {
     
     const artworkCount = await artwork.count();
     console.log(`Found ${artworkCount} artwork elements`);
-    
-    expect(artworkCount).toBeGreaterThanOrEqual(0);
+
+    if (artworkCount > 0) {
+      await expect(artwork.first()).toBeVisible();
+    } else {
+      test.skip(true, "No artwork — no track loaded or cover missing");
+    }
   });
 });
 
 test.describe("Player Accessibility", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
@@ -191,14 +218,14 @@ test.describe("Player Accessibility", () => {
     
     console.log(`Focused elements after 3 Tabs: ${hasFocus}`);
     
-    expect(hasFocus).toBeGreaterThanOrEqual(0);
+    if (hasFocus > 0) { await expect(focusedElement.first()).toBeVisible(); } else { test.skip(true, "No focusable elements found"); }
   });
 });
 
 test.describe("Player Responsive Design", () => {
   test("should adapt to mobile viewport", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
     
@@ -212,7 +239,7 @@ test.describe("Player Responsive Design", () => {
 
   test("should have touch-friendly controls on mobile", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(2000);
 
     // Check button sizes for touch
@@ -227,7 +254,7 @@ test.describe("Player Responsive Design", () => {
 
 test.describe("Player Mode Switching", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
@@ -287,7 +314,7 @@ test.describe("Player Mode Switching", () => {
 
 test.describe("Queue Management", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/library");
+    await page.goto("/library", { waitUntil: "domcontentloaded" });
     await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
@@ -360,7 +387,7 @@ test.describe("Queue Management", () => {
 test.describe("Mobile Gestures", () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
@@ -411,7 +438,7 @@ test.describe("Mobile Gestures", () => {
 
 test.describe("Lyrics Display", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
@@ -466,7 +493,7 @@ test.describe("Lyrics Display", () => {
 
 test.describe("Karaoke Mode", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });
@@ -501,7 +528,7 @@ test.describe("Karaoke Mode", () => {
 
 test.describe("Player Error Handling", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(2000);
   });

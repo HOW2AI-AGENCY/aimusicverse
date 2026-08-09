@@ -28,9 +28,11 @@ import { getErrorScope } from "./lib/errorContext";
 import { initTelemetry } from "./lib/telemetry";
 import { migrateQueueFromPlayerStore } from "./lib/migration";
 import { perfMark, perfMeasure } from "./lib/perfMarks";
+// Eager-init player store so Playwright can inject tracks via __playerStore
+import { usePlayerStore } from "./hooks/audio/usePlayerState";
+void usePlayerStore; // keep live
 
 perfMark("app:scriptStart");
-
 
 // === CRITICAL: Early error logging for black screen debugging ===
 const BOOT_LOG: string[] = [];
@@ -220,8 +222,6 @@ try {
   } else {
     window.addEventListener("load", () => setTimeout(logNavTimings, 0));
   }
-
-
 } catch (e) {
   bootLog(`CRITICAL: React render failed: ${e}`);
   captureError(e);
