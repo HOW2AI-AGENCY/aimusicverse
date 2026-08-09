@@ -86,6 +86,7 @@ export default defineConfig(({ mode }) => ({
     mode === "development" && componentTagger(),
     mode === "production" && reactPriorityPlugin(),
     mode === "production" &&
+      process.env.ANALYZE === "1" &&
       visualizer?.({
         filename: "./dist/stats.html",
         open: false,
@@ -133,7 +134,7 @@ export default defineConfig(({ mode }) => ({
             drop_console: mode === "production",
             drop_debugger: true,
             pure_funcs: mode === "production" ? ["console.log", "console.info", "console.debug", "console.trace"] : [],
-            passes: 3,
+            passes: 2,
             unsafe: false,
             unsafe_comps: false,
             unsafe_math: false,
