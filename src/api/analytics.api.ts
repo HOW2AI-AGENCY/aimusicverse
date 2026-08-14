@@ -90,9 +90,16 @@ export interface FunnelDropoffData {
  * Track an analytics event
  */
 export async function trackAnalyticsEvent(event: AnalyticsEvent): Promise<void> {
+  // Analytics rows must always be bound to the authenticated user (RLS requires user_id = auth.uid()).
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return;
+
   const { error } = await supabase.from("user_analytics_events").insert([
     {
-      user_id: event.userId || null,
+      user_id: user.id,
       session_id: event.sessionId,
       event_type: event.eventType,
       event_name: event.eventName || null,
